@@ -7,3 +7,5 @@ Entorno de desarrollo: VSCode,
 Sistema Operativo: Windows 11
 
 Figma: https://www.figma.com/file/XKGX9Ru2A00yJzaIg28TDR/LMJR(Chiv)---TPI(PAW)?type=design&node-id=11%3A223&mode=design&t=Hns7pwIfRCSFOq5a-1
+
+Diagramas: https://drive.google.com/file/d/11eeG-HcdYVZ5bG-VZjLCpFYsAhSQwbeX/view?usp=sharing
