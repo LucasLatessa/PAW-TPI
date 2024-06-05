@@ -22,10 +22,19 @@
     /*Letras*/
     --color-letras: #000;
     --color-letras-blanco: #fff;
+
+    /*Fondo*/
+    --color-fondo:#D9D9D9;
     
 
     /*Fuentes*/
     font-family: "Montserrat", sans-serif;
     font-size: 16px;
 
+}
+
+/* Para que el footer no quede flotando */
+main {
+    min-height: 60vh;
+    background-color: var(--color-fondo);
 }
