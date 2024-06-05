@@ -28,3 +28,6 @@ vendor/
 
 #Logs
 logs/
+
+#.env
+.env
