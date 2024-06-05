@@ -22,4 +22,10 @@ class Request{
     public function getRequest($valores){
         return $_POST[$valores] ?? $_GET[$valores] ?? null;
     }
+
+    public function get($key){
+        return  $_POST[$key] ?? $_GET[$key] ?? null;
+        
+    }
+
 }

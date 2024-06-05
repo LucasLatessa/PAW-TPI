@@ -1,0 +1,46 @@
+.header{
+    background-color: var(--color-secundario);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.headerTitulo{
+    overflow: hidden;
+}
+
+.headerLogo{
+    width: 25rem;
+    transition: transform 0.2s;
+}
+
+.headerLogo:hover{
+    transform: scale(1.2);
+}
+
+.listaDesplegable{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.listaDesplegable li{
+    padding: 0 1.5rem;
+}
+
+.listaDesplegable li a {
+    text-decoration: none;
+    color: var(--color-letras);
+    text-transform: uppercase;
+    font-weight: bold;
+    font-size: 1.2rem;
+}
+
+.listaDesplegable li a:hover{
+    font-size: 1.3rem;
+    color: var(--color-principal);
+    border-bottom: 5px solid var(--color-principal);
+    transition: all 0.5s ease-in-out;
+
+}
+
