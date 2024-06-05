@@ -2,19 +2,16 @@
 <html lang="en">
 
 <head>
-    <?php require __DIR__ . '/parts/head.view.php'; ?>
+    {% include 'parts/head.view.twig' %}
     <link rel="stylesheet" href="/assets/styles/global.css" />
 </head>
 
 <body>
-
     <!--HEADER-->
-    <?php require __DIR__ . '/parts/header.view.php' ?>
+    {% include 'parts/header.view.twig' %}
     <h1 class="titulo-promociones">Pagina no encontrada</h1>
-    
     <!--FOOTER-->
-    <?php require __DIR__ . '/parts/footer.view.php' ?>
-    
+    {% include 'parts/footer.view.twig' %}
 </body>
 
 </html>

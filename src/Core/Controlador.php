@@ -2,64 +2,116 @@
 
 namespace Paw\Core;
 
+use Paw\Core\Model;
+use Paw\Core\Database\QueryBuilder;
+use Paw\Core\Traits\Loggable;
+
 class Controlador
 {
-    public string $viewsDir; #Direccion a la vista indicada
-    public function __construct(){
+    public string $viewsDir; 
+    public ?string $modelName = null;
+    public array $rutasMenuBurger;
+    public array $rutasFooter;
+    public array $rutasHeaderDer;
+    public array $rutasLogoHeader;
+    protected $model;
 
-        
+    use Loggable;
+
+    public $qb;
+
+    public function __construct()
+    {
+        global $connection, $log;
+
         $this->viewsDir = __DIR__ . "/../App/views/";
 
         $this->rutasMenuBurger = [
-            
             [
-                "href" => '../',
-                "name" => "",
+                "href" => '../compra/menu',
+                "name" => "Menu",
             ],
             [
-                "href" => '../',
-                "name" => "",
+                "href" => '../compra/reserva',
+                "name" => "Reserva mesa",
             ],
             [
-                "href" => '../',
-                "name" => ""
+                "href" => '../cuenta/perfil',
+                "name" => "Perfil"
             ]
-            ];
-        $this->rutasLogoHeader =
-            /*Logo header 3*/
-            [
-                "href" => '../',
-                "name" => "Home",
-            ];
+        ];
+
+        $this->rutasLogoHeader = [
+            "href" => '../',
+            "name" => "Home",
+        ];
+
         $this->rutasHeaderDer = [
-            /*Header parte derecha 4-5*/
             [
-                "href" => '../',
-                "name" => "ingresar",
+                "href" => '../compra/carrito',
+                "name" => "carrito",
             ],
             [
-                "href" => '../',
-                "name" => ""
+                "href" => '../cuenta/login',
+                "name" => "usuario"
             ],
         ];
+
         $this->rutasFooter = [
-            /*Footer 6-*/
             [
-                "href" => '../',
-                "name" => ""
+                "href" => '../institucional/locales',
+                "name" => "Locales"
             ],
             [
-                "href" => '../',
-                "name" => ""
+                "href" => '../institucional/servCliente',
+                "name" => "Servicio al Cliente"
             ],
             [
-                "href" => '../',
-                "name" => ""
+                "href" => '../institucional/nosotros',
+                "name" => "Sobre nosotros"
             ],
             [
-                "href" => '../',
-                "name" => ""
+                "href" => '../cuenta/consumos',
+                "name" => "Consumos"
             ]
-            ];
+        ];
+
+        $qb = new QueryBuilder($connection, $log);
+
+        if (!is_null($this->modelName)) {
+            
+            $model = new $this->modelName;
+            $model->setQueryBuilder($qb);
+            $this->setModel($model);
+        }
+    }
+
+    public function setModel(Model $model)
+    {
+        $this->model = $model;
+    }
+
+    public function getQb(){
+        return $this->qb;
+    }
+
+    public function getRutasMenuBurger()
+    {
+        return $this->rutasMenuBurger;
+    }
+
+    public function getRutasFooter()
+    {
+        return $this->rutasFooter;
+    }
+
+    public function getRutasHeaderDer()
+    {
+        return $this->rutasHeaderDer;
+    }
+
+    public function getRutasLogoHeader()
+    {
+        return $this->rutasLogoHeader;
     }
 }
