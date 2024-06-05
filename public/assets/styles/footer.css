@@ -1,0 +1,36 @@
+.footer{
+    background-color: var(--color-terciario);
+}
+
+.navegation{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.footerContenedorImagen{
+    padding: 1rem 2rem;
+}
+
+.footerContenedorImagen img {
+    width: 10rem;
+}
+
+.contacto{
+
+}
+
+.contacto ul li{
+    padding: 1rem 0;
+}
+
+.contacto ul li a{
+    color: var(--color-letras-blanco);
+    text-decoration: none;
+    padding: 2rem;
+    text-transform: uppercase;
+}
+
+#copyright {
+
+}
