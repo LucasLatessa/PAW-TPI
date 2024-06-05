@@ -21,6 +21,8 @@
 
     /*Letras*/
     --color-letras: #000;
+    --color-letras-blanco: #fff;
+    
 
     /*Fuentes*/
     font-family: "Montserrat", sans-serif;
