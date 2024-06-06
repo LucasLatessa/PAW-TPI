@@ -39,7 +39,13 @@ class PageController extends Controlador
     }
 
     public function noticias(){
-
+        $title = 'Tabla - LigaCF';
+        echo $this->twig->render('institucional/noticias.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
     }
 
     public function partidos(){
