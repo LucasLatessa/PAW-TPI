@@ -11,7 +11,7 @@ class PageController extends Controlador
     public function __construct()
     {
         parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/views');
+        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
         $this->twig = new Environment($loader);
     }
 
@@ -38,5 +38,20 @@ class PageController extends Controlador
         ]);
     }
 
+    public function noticias(){
+
+    }
+
+    public function partidos(){
+        
+    }
+
+    public function equipos(){
+        
+    }
+
+    public function reglamento(){
+        
+    }
 
 }

@@ -23,7 +23,7 @@ class Controlador
     {
         global $connection, $log;
 
-        $this->viewsDir = __DIR__ . "/../App/views/";
+        $this->viewsDir = __DIR__ . "/../App/Views/";
 
         $this->rutasLogoHeader = [
             "href" => '../',
@@ -54,7 +54,7 @@ class Controlador
             [
                 "href" => '../cuenta/login',
                 "name" => "Login"
-            ],
+            ]
         ];
 
         $this->rutasFooter = [

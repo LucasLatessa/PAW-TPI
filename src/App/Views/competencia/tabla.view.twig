@@ -2,13 +2,56 @@
 <html lang="en">
 <head>
     {% include 'parts/head.view.twig' %}
+      <link rel="stylesheet" href="/assets/styles/tabla.css" />
 </head>
 <body>
     <!--HEADER-->
     {% include 'parts/header.view.twig' %}
     
-    <main>Funciona</main>
+    <main>
+    
+    <header class="header-menu">
+        <h1>CLASIFICACIÓN</h1>
+    </header>
 
+    <table class="tabla-clasificacion">
+        <caption>
+            Tabla de Clasificación
+        </caption>
+        <thead>
+            <tr>
+                <th>POS</th>
+                <th>EQUIPO</th>
+                <th>PTS</th>
+                <th>PJ</th>
+                <th>V</th>
+                <th>E</th>
+                <th>D</th>
+                <th>GF</th>
+                <th>GC</th>
+                <th>DG</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipo in equipos %} <!-- aca se pueden pasar los datos desde un controller Equipo ---->
+            <tr>
+                <td>{{ equipo.pos }}</td>
+                <td class="team-name"><img src="{{ equipo.logo }}" alt="Logo" class="team-logo">{{ equipo.nombre }}</td>
+                <td>{{ equipo.pts }}</td>
+                <td>{{ equipo.pj }}</td>
+                <td>{{ equipo.v }}</td>
+                <td>{{ equipo.e }}</td>
+                <td>{{ equipo.d }}</td>
+                <td>{{ equipo.gf }}</td>
+                <td>{{ equipo.gc }}</td>
+                <td>{{ equipo.dg }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</main>
+
+  
 
     <!--FOOTER-->
     {% include 'parts/footer.view.twig' %}

@@ -14,7 +14,7 @@ use Twig\Environment;
 use Twig\Loader\FilesystemLoader;
 
 // Configuro Twig
-$loader = new FilesystemLoader(__DIR__ . '/App/views'); // Ruta a vistas Twig
+$loader = new FilesystemLoader(__DIR__ . '/App/Views'); // Ruta a vistas Twig
 $twig = new Environment($loader, [
     'cache' => __DIR__ . '/App/cache',
 ]);
@@ -50,4 +50,4 @@ $router->setLoggeable($log); #Agrego el log
 
 $router->get('/', 'PageController@index'); #Clase y metodo que procesa la peticion
 
-$router->get('/competencia/tabla', 'PedidoController@tabla');
+$router->get('/tabla', 'PageController@tabla');

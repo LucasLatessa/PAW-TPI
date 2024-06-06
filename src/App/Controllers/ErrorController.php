@@ -13,7 +13,7 @@ class ErrorController extends Controlador
     public function __construct()
     {
         parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/views');
+        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
         $this->twig = new Environment($loader);
 }
 
