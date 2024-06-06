@@ -1,0 +1,42 @@
+.header-menu {
+    background-color: lightskyblue ;
+    color: white;
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 2em;
+}
+
+.tabla-clasificacion {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}
+
+.team-name {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.team-logo {
+    width: 20px;
+    height: 20px;
+    margin-right: 10px;
+}
+
+/* ver de corregir px a em o rem si es necesario*/
