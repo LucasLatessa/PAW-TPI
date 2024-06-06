@@ -2,13 +2,67 @@
 <html lang="en">
 <head>
     {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/index.css" />
+    
 </head>
 <body>
     <!--HEADER-->
     {% include 'parts/header.view.twig' %}
     
-    <main>Funciona</main>
+    <main>
+        <!-- Resultados Header -->
+        <header class="resultados-header">
+            <div class="carousel-arrow left">‹</div>
+            <div class="resultados-carousel">
+                <h2>Resultados de Partidos</h2>
+                <!-- Aquí irán los resultados del carrusel -->
+            </div>
+            <div class="carousel-arrow right">›</div>
+        </header>
 
+        <!-- Layout con tabla de puntajes y noticias -->
+        <div class="layout">
+            <!-- Tabla de Puntajes -->
+            <table class="tabla-puntaje">
+                <thead>
+                    <tr>
+                        <th>POS</th>
+                        <th>Nombre Club</th>
+                        <th>Puntajes</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ejemplo de filas, estas deberían ser generadas dinámicamente -->
+                    <tr>
+                        <td>1</td>
+                        <td>22 Octubre</td>
+                        <td>45</td>
+                    </tr>
+                    <tr>
+                        <td>2</td>
+                        <td>Deportivo Azul</td>
+                        <td>43</td>
+                    </tr>
+                    <!-- Añadir más filas -->
+                </tbody>
+            </table>
+
+            <!-- Sección de Noticias -->
+            <section class="noticias-section">
+                <h2>NOTICIAS</h2>
+                <!-- Ejemplo de artículos de noticias -->
+                <article class="noticia">
+                    <h3>Noticia 1</h3>
+                    <p>Descripción de la noticia 1.</p>
+                </article>
+                <article class="noticia">
+                    <h3>Noticia 2</h3>
+                    <p>Descripción de la noticia 2.</p>
+                </article>
+                <!-- Añadir más artículos -->
+            </section>
+        </div>
+    </main>
 
     <!--FOOTER-->
     {% include 'parts/footer.view.twig' %}
