@@ -10,7 +10,6 @@ class Controlador
 {
     public string $viewsDir; 
     public ?string $modelName = null;
-    public array $rutasMenuBurger;
     public array $rutasFooter;
     public array $rutasHeaderDer;
     public array $rutasLogoHeader;
@@ -26,21 +25,6 @@ class Controlador
 
         $this->viewsDir = __DIR__ . "/../App/views/";
 
-        $this->rutasMenuBurger = [
-            [
-                "href" => '../compra/menu',
-                "name" => "Menu",
-            ],
-            [
-                "href" => '../compra/reserva',
-                "name" => "Reserva mesa",
-            ],
-            [
-                "href" => '../cuenta/perfil',
-                "name" => "Perfil"
-            ]
-        ];
-
         $this->rutasLogoHeader = [
             "href" => '../',
             "name" => "Home",
@@ -48,31 +32,39 @@ class Controlador
 
         $this->rutasHeaderDer = [
             [
-                "href" => '../compra/carrito',
-                "name" => "carrito",
+                "href" => '../competencia/tabla',
+                "name" => "Tabla",
+            ],
+            [
+                "href" => '../institucional/noticias',
+                "name" => "Noticias"
+            ],
+            [
+                "href" => '../competencia/partidos',
+                "name" => "Partidos"
+            ],
+            [
+                "href" => '../competencia/equipos',
+                "name" => "Equipos"
+            ],
+            [
+                "href" => '../competencia/reglamento',
+                "name" => "Reglamento"
             ],
             [
                 "href" => '../cuenta/login',
-                "name" => "usuario"
+                "name" => "Login"
             ],
         ];
 
         $this->rutasFooter = [
             [
-                "href" => '../institucional/locales',
-                "name" => "Locales"
-            ],
-            [
-                "href" => '../institucional/servCliente',
-                "name" => "Servicio al Cliente"
-            ],
-            [
                 "href" => '../institucional/nosotros',
                 "name" => "Sobre nosotros"
             ],
             [
-                "href" => '../cuenta/consumos',
-                "name" => "Consumos"
+                "href" => '../institucional/contacto',
+                "name" => "Contacto"
             ]
         ];
 
@@ -93,11 +85,6 @@ class Controlador
 
     public function getQb(){
         return $this->qb;
-    }
-
-    public function getRutasMenuBurger()
-    {
-        return $this->rutasMenuBurger;
     }
 
     public function getRutasFooter()
