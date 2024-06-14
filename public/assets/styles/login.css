@@ -4,7 +4,7 @@ body, html {
     font-family: Arial, sans-serif;
 }
 
-.main-login {
+.main-login{
     background: url('/assets/login-background.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;

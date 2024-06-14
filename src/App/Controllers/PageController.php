@@ -39,7 +39,7 @@ class PageController extends Controlador
     }
 
     public function noticias(){
-        $title = 'Tabla - LigaCF';
+        $title = 'Noticias - LigaCF';
         echo $this->twig->render('institucional/noticias.view.twig', [
             'title' =>  $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
@@ -49,7 +49,7 @@ class PageController extends Controlador
     }
 
     public function partidos(){
-        $title = 'Tabla - LigaCF';
+        $title = 'Partidos - LigaCF';
         echo $this->twig->render('competencia/partidos.view.twig', [
             'title' =>  $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
@@ -59,7 +59,7 @@ class PageController extends Controlador
     }
 
     public function equipos(){
-        $title = 'Tabla - LigaCF';
+        $title = 'Equipos - LigaCF';
         echo $this->twig->render('competencia/equipos.view.twig', [
             'title' =>  $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
@@ -69,7 +69,7 @@ class PageController extends Controlador
     }
 
     public function reglamento(){
-        $title = 'Tabla - LigaCF';
+        $title = 'Reglamento - LigaCF';
         echo $this->twig->render('competencia/reglamento.view.twig', [
             'title' =>  $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
@@ -79,8 +79,18 @@ class PageController extends Controlador
     }
 
     public function ingresar(){
-        $title = 'Tabla - LigaCF';
+        $title = 'Ingresar - LigaCF';
         echo $this->twig->render('cuenta/login.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
+    }
+
+    public function contacto(){
+        $title = 'Contacto - LigaCF';
+        echo $this->twig->render('institucional/contacto.view.twig', [
             'title' =>  $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
