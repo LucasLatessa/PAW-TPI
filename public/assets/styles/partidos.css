@@ -1,0 +1,39 @@
+.header-menu {
+    background-color: lightskyblue;
+    color: white;
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 2em;
+}
+
+.fecha-partidos {
+    margin: 20px;
+}
+
+.fecha-partidos h2 {
+    text-align: center;
+    color: #333;
+    font-size: 1.5em;
+    margin-bottom: 1rem;
+}
+
+.tabla-partidos {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 20px 0;
+}
+
+th, td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+}
+
+th {
+    background-color: #333;
+    color: white;
+}
+
+tr:nth-child(even) {
+    background-color: #f2f2f2;
+}

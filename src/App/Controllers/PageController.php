@@ -49,15 +49,42 @@ class PageController extends Controlador
     }
 
     public function partidos(){
-        
+        $title = 'Tabla - LigaCF';
+        echo $this->twig->render('competencia/partidos.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
     }
 
     public function equipos(){
-        
+        $title = 'Tabla - LigaCF';
+        echo $this->twig->render('competencia/equipos.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
     }
 
     public function reglamento(){
-        
+        $title = 'Tabla - LigaCF';
+        echo $this->twig->render('competencia/reglamento.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
     }
 
+    public function ingresar(){
+        $title = 'Tabla - LigaCF';
+        echo $this->twig->render('cuenta/login.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
+    }
 }

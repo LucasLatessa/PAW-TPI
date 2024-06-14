@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/reglamento.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+    
+    <main>
+        <header class="header-menu">
+            <h1>REGLAMENTO</h1>
+        </header>
+
+        <section class="contenido-reglamento">
+            <article class="section-generalidades">
+                <h2>Generalidades</h2>
+                <p>Este reglamento rige para todas las competiciones organizadas por la Liga de Fútbol Interregional. Todo equipo, jugador y oficial debe cumplir con las normas aquí estipuladas.</p>
+            </article>
+            
+            <article class="section-torneos">
+                <h2>Torneos</h2>
+                <h3>Formato de Competición</h3>
+                <p>La liga se divide en dos torneos por año: Apertura y Clausura. Cada torneo consta de una fase de grupos y una fase eliminatoria.</p>
+                <h3>Inscripción de Equipos</h3>
+                <p>Los equipos deben inscribirse en cada torneo antes de la fecha límite establecida por la liga. La inscripción incluye la presentación de una plantilla de jugadores y el pago de la cuota de inscripción.</p>
+            </article>
+            
+            <article class="section-partidos">
+                <h2>Partidos</h2>
+                <h3>Duración</h3>
+                <p>Los partidos se juegan en dos tiempos de 45 minutos cada uno, con un descanso de 15 minutos entre ambos tiempos.</p>
+                <h3>Reglas de Juego</h3>
+                <p>Los partidos se regirán por las reglas de juego de la FIFA, con adaptaciones específicas aprobadas por la liga.</p>
+            </article>
+            
+            <article class="section-sanciones">
+                <h2>Sanciones y Disciplina</h2>
+                <h3>Tarjetas y Suspensiones</h3>
+                <p>El sistema de tarjetas amarillas y rojas se aplicará según las reglas de la FIFA. Acumulación de tarjetas amarillas resultará en suspensiones automáticas.</p>
+                <h3>Conducta Antideportiva</h3>
+                <p>Cualquier acto de conducta antideportiva será sancionado según la gravedad de la falta, pudiendo incluir multas, suspensiones y expulsión de la liga.</p>
+            </article>
+            
+            <article class="section-organizacion">
+                <h2>Organización</h2>
+                <h3>Comité Organizador</h3>
+                <p>El Comité Organizador está compuesto por representantes de los equipos y se encarga de la administración de la liga, resolución de conflictos y aplicación del reglamento.</p>
+                <h3>Reuniones y Decisiones</h3>
+                <p>El Comité se reunirá periódicamente para evaluar el desarrollo de la liga y tomar decisiones sobre asuntos relevantes.</p>
+            </article>
+        </section>
+    </main>
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>

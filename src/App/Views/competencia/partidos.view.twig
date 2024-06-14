@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/partidos.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+    
+    <main>
+        <header class="header-menu">
+            <h1>PARTIDOS</h1>
+        </header>
+
+        <section class="fecha-partidos">
+            <h2>FECHA X</h2>
+            <table class="tabla-partidos">
+                <thead>
+                    <tr>
+                        <th>DIA</th>
+                        <th>HORA</th>
+                        <th>PARTIDO</th>
+                        <th>ESTADIO</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for partido in partidos %} <!-- aca se pueden pasar los datos desde un controller Partido ---->
+                    <tr>
+                        <td>{{ partido.dia }}</td>
+                        <td>{{ partido.hora }}</td>
+                        <td>{{ partido.equipoA }} {{ partido.golesA }} vs {{ partido.golesB }} {{ partido.equipoB }}</td>
+                        <td>{{ partido.estadio }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </section>
+    </main>
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>
