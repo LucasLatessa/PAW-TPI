@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/contacto.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+    
+    <main class="main-contacto">
+        <header class="header-menu">
+            <h1>CONTACTO</h1>
+        </header>
+        <section class="contacto-container">
+            <p> Para comunicarse con nosotros, a continuación complete el formulario</p>
+            <form action="/contacto" method="post" class="contacto-form">
+                <label for="nombre">Nombre</label>
+                <input type="nombre" id="nombre" name="nombre" required>
+               
+                <label for="email">Correo</label>
+                <input type="email" id="email" name="email" required>
+                
+                <label for="asunto">Asunto</label>
+                <input type="asunto" id="asunto" name="asunto" required>
+                
+                <label for="contenido">Contenido</label>
+                    <textarea id="contenido" name="contenido" rows="4" required></textarea>
+                
+                <button type="submit">ENVIAR</button>
+            
+            </form>
+        </section>
+    </main>
+
+       <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>
