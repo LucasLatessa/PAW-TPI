@@ -56,7 +56,9 @@ $router->get('/noticias', 'PageController@noticias');
 
 $router->get('/partidos', 'PageController@partidos');
 
-$router->get('/equipos', 'PageController@equipos');
+$router->get('/listaEquipos', 'PageController@listaEquipos');
+
+$router->get('/equipos', 'PageController@equipos'); 
 
 $router->get('/reglamento', 'PageController@reglamento');
 

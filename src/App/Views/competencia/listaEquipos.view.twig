@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/listaEquipos.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+
+    <main>
+        <!-- Header del Main -->
+        <header class="header-equipos">
+            <h1>EQUIPOS</h1>
+        </header>
+
+        <!-- Grilla de Equipos -->
+        <section class="equipos-grid">
+            <!-- Ejemplo de artículos de equipos -->
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/22Octubre.jpg" alt="22 de Octubre">
+                    <h3>22 de Octubre</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/ciclon.jpg" alt="Club Atlético Ciclón">
+                    <h3>Club Atlético Ciclón</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/independiente.jpg" alt="Independiente">
+                    <h3>Independiente</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/trocha.jpg" alt="Trocha">
+                    <h3>Trocha</h3>
+                </a>
+            </article>
+
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/bragado.jpg" alt="bragado">
+                    <h3>Bragado Club</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/huracan.jpg" alt="huracan">
+                    <h3>Club Atlético Huracán</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/ceramica.jpg" alt="ceramica">
+                    <h3>Club Cerámica</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/villarino.png" alt="villarino">
+                    <h3>Club Atlético Villarino</h3>
+                </a>
+            </article>
+
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/pelegrini.jpg" alt="pelegrini">
+                    <h3>Club Deportivo Pellegrini</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/alsina.jpg" alt="alsina">
+                    <h3>Club Deportivo Alsina</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/once_tigres.jpg" alt="once-tigres">
+                    <h3>Club Social y Deportivo Once Tigres</h3>
+                </a>
+            </article>
+            <article class="equipo">
+                <a href="/equipos">
+                    <img src="/assets/las-parejas.jpg" alt="las-parejas">
+                    <h3>Sportivo Las Parejas</h3>
+                </a>
+            </article>
+            <!-- Añadir más equipos según sea necesario -->
+        </section>
+    </main>
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>
