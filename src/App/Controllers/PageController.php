@@ -117,4 +117,14 @@ class PageController extends Controlador
             'rutasFooter' => $this->rutasFooter, 
         ]);
     }
+
+    public function cargarEquipo(){
+        $title = 'Cargar - LigaCF';
+        echo $this->twig->render('liga/cargarEquipo.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
+    }
 }
