@@ -63,3 +63,5 @@ $router->get('/reglamento', 'PageController@reglamento');
 $router->get('/login', 'PageController@ingresar');
 
 $router->get('/contacto', 'PageController@contacto');
+
+$router->get('/nosotros', 'PageController@nosotros');
