@@ -58,7 +58,7 @@ $router->get('/partidos', 'PageController@partidos');
 
 $router->get('/listaEquipos', 'PageController@listaEquipos');
 
-$router->get('/equipos', 'PageController@equipos'); 
+$router->get('/listaEquipos/equipos', 'PageController@equipos'); 
 
 $router->get('/reglamento', 'PageController@reglamento');
 
@@ -67,3 +67,7 @@ $router->get('/login', 'PageController@ingresar');
 $router->get('/contacto', 'PageController@contacto');
 
 $router->get('/nosotros', 'PageController@nosotros');
+
+
+$router->get('/liga/cargarEquipo', 'PageController@cargarEquipo');
+
