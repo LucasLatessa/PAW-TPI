@@ -83,3 +83,7 @@ $router->post('/cuenta/registrarse', 'UsuarioController@registrarse');
 
 $router->get('/cuenta/perfil', 'PageController@perfil');
 $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
+
+
+$router->get('/liga/crearTorneo', 'PageController@crearTorneo');
+

@@ -1,0 +1,61 @@
+/* Estilos para la creación de torneos */
+.torneo-header {
+    background-color: #0066cc; /* DodgerBlue */
+    color: white;
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 2em;
+}
+
+.creacion-torneo{
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 40px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.crear-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.crear-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.crear-form input,
+.crear-form textarea {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.crear-form input:focus,
+.crear-form textarea:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.crear-form button {
+    padding: 10px;
+    background-color: #28a853;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.crear-form button:hover {
+    background-color: #0056b3;
+}
+
