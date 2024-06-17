@@ -27,6 +27,36 @@ final class PrimerasTablasMigration extends AbstractMigration
         ->addColumn('descripcion','string', ['limit' => 200])
         ->addColumn('escudo','string', ['limit' => 100]) #esto es imagen
         ->create();
+
+        /* ESTA GENERACIÓN DE TABLAS NO LAS PROBE TODAVIA :) pero
+        creeria que así deberian armarse las tablas con sus fk entre torneo y partido
+        y partido con equipo  
+
+        $partido = $this->table('partido');
+        $partido
+        ->addColumn('id_torneo', 'integer', ['signed' => false]) #corrobar si esto es fk contra la tabla torneo
+        ->addColumn('id_equipo_local','integer', ['signed' => false]) #corrobar si esto es fk contra la tabla equipo
+        ->addColumn('id_equipo_visitante','integer', ['signed' => false]) #corrobar si esto es fk contra la tabla equipo
+        ->addColumn('fecha', 'integer') #ver que tipo de fecha seria 
+        ->addColumn('golesLocal', 'integer') 
+        ->addColumn('golesVisitante', 'integer') 
+        ->create();
+     
+        #revisar esto, ver si ponemos id_torneo ya generado por nosotros o no 
+        $torneo = $this->table('torneo');
+        $torneo
+        ->addColumn('id_partido', 'integer', ['signed' => false]) #corrobar si esto es fk contra la tabla partido 
+        ->addColumn('nombre','string', ['limit' => 100]) 
+        ->addColumn('fecha_inicio', 'datetime')
+        ->addColumn('fecha_fin', 'datetime')
+        ->addColumn('categoria','string', ['limit' => 100]) 
+        ->addColumn('cantidadEquipos', 'integer')
+        ->addColumn('cantidadFechas', 'integer')
+        ->addColumn('descripcion','string', ['limit' => 200])
+        ->create();
+
+        */
+
     }
 
 

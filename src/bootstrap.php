@@ -92,3 +92,5 @@ $router->get('/liga/crearTorneo', 'PageController@crearTorneo');
 
 $router->get('/torneos', 'LigaController@torneos');
 $router->get('/competencia/partidos', 'PageController@partidos');
+
+$router->post('/liga/crearTorneo', 'LigaController@crearTorneo');
