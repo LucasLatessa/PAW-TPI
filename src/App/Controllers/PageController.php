@@ -127,4 +127,24 @@ class PageController extends Controlador
             'rutasFooter' => $this->rutasFooter, 
         ]);
     }
+
+    public function registrarse(){
+        $title = 'Registrarse - LigaCF';
+        echo $this->twig->render('cuenta/registrarse.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
+    }
+
+    public function perfil(){
+        $title = 'Perfil - LigaCF';
+        echo $this->twig->render('cuenta/perfil.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
+    }
 }

@@ -16,7 +16,7 @@
         
         <section class="section-carga">
             <h1>Carga de Equipo</h1>
-            <form action="" method="post" class="carga-form">
+            <form method="POST" enctype="multipart/form-data" class="carga-form" action="">
 
                 <label for="equipo">Nombre del equipo</label>
                 <input id="equipo" name="equipo" required>
@@ -32,8 +32,8 @@
                 <label for="estadio">Nombre estadio</label>
                 <input id="estadio" name="equipo" required>
 
-                <label for="contenido">Contenido</label>
-                <textarea id="contenido" name="contenido" rows="4" required></textarea>
+                <label for="descripcion">Descripcion</label>
+                <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
 
                 <button type="submit">Enviar</button>
             </form>
