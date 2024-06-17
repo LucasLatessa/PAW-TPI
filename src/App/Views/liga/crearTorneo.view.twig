@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  {% include 'parts/head.view.twig' %}
+  <link rel="stylesheet" href="/assets/styles/creartorneo.css">
+</head>
+
+<body>
+  <!--HEADER-->
+  {% include 'parts/header.view.twig' %}
+
+  <main>
+    <header class="torneo-header">
+      <h1>Creación de Torneo</h1>
+    </header>
+
+    <section class="creacion-torneo">
+      <form method="POST" action="" class="crear-form">
+        <label for="nombre-torneo">Nombre del Torneo</label>
+        <input type="text" id="nombre-torneo" name="nombre_torneo" required>
+
+        <label for="cantidad-equipos">Cantidad de Equipos</label>
+        <input type="number" id="cantidad-equipos" name="cantidad_equipos" required>
+
+        <label for="cantidad-fechas">Cantidad de Fechas</label>
+        <input type="number" id="cantidad-fechas" name="cantidad_fechas" required>
+
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+
+        <button type="submit">Crear Torneo</button>
+      </form>
+    </section>
+  </main>
+
+  <!--FOOTER-->
+  {% include 'parts/footer.view.twig' %}
+</body>
+
+</html>

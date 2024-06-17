@@ -147,4 +147,15 @@ class PageController extends Controlador
             'rutasFooter' => $this->rutasFooter, 
         ]);
     }
+    
+    public function crearTorneo(){
+        $title = 'Crear Torneo - LigaCF';
+        echo $this->twig->render('liga/crearTorneo.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+        ]);
+    }
+
 }

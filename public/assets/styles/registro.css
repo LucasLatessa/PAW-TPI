@@ -62,6 +62,19 @@ main{
 }
 
 
+
+
+
+
+/* PERFIL 
+
+
+
+
+*/
+
+
+
 .perfil-header {
     background-color: #ffffff;
     border-bottom: 1px solid #e6ecf0;
@@ -135,7 +148,6 @@ main{
 .btn-logout:hover {
     background-color: #ff2e44;
 }
-
 
 
 .section-perfil {
@@ -232,3 +244,10 @@ main{
 .enlaces-rapidos a:hover {
     text-decoration: underline;
 }
+
+
+
+
+
+
+  
