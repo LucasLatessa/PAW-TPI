@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/partidos.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+    
+    <main>
+        <header class="header-menu">
+            <h1>{{torneo.nombre}}</h1>
+        </header>
+
+        <section>
+            Tabla del torneo
+        </section>
+
+        <section>
+            Resultados
+            <a href=""> Cargar resultados </a> 
+        </section>
+
+
+        <section>
+            Resultados
+            <a href=""> Cargar equipo </a> 
+        </section>
+    </main>
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>

@@ -48,6 +48,7 @@ $router->setLoggeable($log); #Agrego el log
 #      RUTEO
 # ----------------
 
+
 $router->get('/', 'PageController@index'); #Clase y metodo que procesa la peticion
 
 $router->get('/tabla', 'PageController@tabla');
@@ -87,11 +88,15 @@ $router->post('/login', 'UsuarioController@login');
 $router->get('/cuenta/perfil', 'PageController@perfil');
 $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
 
+/* TORNEO */
 
-$router->get('/liga/crearTorneo', 'PageController@crearTorneo');
+$router->get('/torneos/crearTorneo', 'PageController@crearTorneo');
+$router->post('/torneos/crearTorneo', 'TorneoController@crearTorneo');
+$router->get('/torneos', 'TorneoController@torneos');
+$router->get('/torneo', 'TorneoController@torneo');
 
 
-$router->get('/torneos', 'LigaController@torneos');
+
+
 $router->get('/competencia/partidos', 'PageController@partidos');
 
-$router->post('/liga/crearTorneo', 'LigaController@crearTorneo');

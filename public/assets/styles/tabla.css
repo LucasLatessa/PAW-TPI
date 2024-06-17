@@ -1,4 +1,4 @@
-/* .header-menu {
+.header-menu {
     background-color: #0066cc ;
     color: white;
     text-align: center;
@@ -38,5 +38,3 @@ tr:nth-child(even) {
     height: 20px;
     margin-right: 10px;
 }
-
-ver de corregir px a em o rem si es necesario*/

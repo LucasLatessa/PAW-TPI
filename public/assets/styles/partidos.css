@@ -1,4 +1,4 @@
-/* .header-menu {
+.header-menu {
     background-color: #0066cc;
     color: white;
     text-align: center;
@@ -45,13 +45,14 @@ tr:nth-child(even) {
 .lista-torneos{
     padding: 4rem;
 }
-/* TORNEOS prueba 
+
+
 .article-torneo {
     position: relative;
     display: block;
     width: 100%;
     height: 200px; 
-    margin-bottom: 20px; /* Espacio entre cada artículo
+    margin-bottom: 20px; 
     overflow: hidden;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
@@ -60,25 +61,25 @@ tr:nth-child(even) {
     display: block;
     width: 100%;
     height: 100%;
-    color: #070707; /* Color del texto 
+    color: #070707;
     text-decoration: none;
     background-size: cover;
     background-position: center;
     transition: transform 0.3s ease;
 }
 .article-torneo a:hover {
-    transform: scale(1.05); /* Efecto de zoom al pasar el mouse 
+    transform: scale(1.05);
 }
 .article-torneo a h3 {
     position: absolute;
-    bottom: 10px; /* Distancia del título al fondo 
-    left: 10px; /* Distancia del título al borde izquierdo 
+    bottom: 10px; 
+    left: 10px; 
     margin: 0;
     padding: 10px;
-    background-color: #ffffff; /* Fondo semi-transparente para el título 
+    background-color: #ffffff;
 }
 
 .lista-torneos li article  {
     background-image: url('/assets/ligaligax.jpg');
 
-} */
+} 
