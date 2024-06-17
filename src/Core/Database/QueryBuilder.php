@@ -13,28 +13,40 @@ class QueryBuilder
     }
 
     public function selectViejo($table, $params = []) {
-        $where = "1 = 1";
+        $where = [];
         $bindParams = [];
     
-        // Construir la cláusula WHERE basada en los parámetros recibidos
-        if (isset($params['id'])) {
-            $where .= " AND id = :id";
-            $bindParams[':id'] = $params['id'];
+        foreach ($params as $key => $value) {
+            switch ($key) {
+                case 'id':
+                case 'idUsuario':
+                case 'idSesion':
+                case 'correo':
+                    $where[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+                case 'id_pedido':
+                    $where[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+                // Añadir más casos según los parámetros que necesites manejar
+            }
         }
     
-        // Construir la consulta SQL
-        $query = "SELECT * FROM {$table} WHERE {$where}";
+        $whereClause = '';
+        if (!empty($where)) {
+            $whereClause = 'WHERE ' . implode(' AND ', $where);
+        }
+    
+        $query = "SELECT * FROM {$table} {$whereClause}";
         $sentencia = $this->pdo->prepare($query);
     
-        // Vincular los parámetros
         foreach ($bindParams as $param => $value) {
             $sentencia->bindValue($param, $value);
         }
+        //var_dump($query);
     
-        // Configurar el modo de recuperación de resultados
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
-    
-        // Ejecutar la consulta y devolver los resultados
         $sentencia->execute();
         return $sentencia->fetchAll();
     }

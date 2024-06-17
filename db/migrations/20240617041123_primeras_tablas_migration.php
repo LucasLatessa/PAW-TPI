@@ -28,6 +28,14 @@ final class PrimerasTablasMigration extends AbstractMigration
         ->addColumn('escudo','string', ['limit' => 100]) #esto es imagen
         ->create();
 
+        $usuario = $this->table('usuario');
+        $usuario
+        ->addColumn('nombre', 'string', ['limit' => 60])
+        ->addColumn('apellido', 'string', ['limit' => 60])
+        ->addColumn('correo', 'string', ['limit' => 60])
+        ->addColumn('contraseña', 'string')
+        ->create();
+
         /* ESTA GENERACIÓN DE TABLAS NO LAS PROBE TODAVIA :) pero
         creeria que así deberian armarse las tablas con sus fk entre torneo y partido
         y partido con equipo  
