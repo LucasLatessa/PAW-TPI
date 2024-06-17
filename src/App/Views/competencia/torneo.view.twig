@@ -3,6 +3,7 @@
 <head>
     {% include 'parts/head.view.twig' %}
     <link rel="stylesheet" href="/assets/styles/partidos.css" />
+    <link rel="stylesheet" href="/assets/styles/tabla.css" />
 </head>
 <body>
     <!--HEADER-->
@@ -13,9 +14,41 @@
             <h1>{{torneo.nombre}}</h1>
         </header>
 
-        <section>
-            Tabla del torneo
-        </section>
+            <table class="tabla-clasificacion">
+        <caption>
+            Tabla de Clasificación
+        </caption>
+        <thead>
+            <tr>
+                <th>POS</th>
+                <th>EQUIPO</th>
+                <th>PTS</th>
+                <th>PJ</th>
+                <th>V</th>
+                <th>E</th>
+                <th>D</th>
+                <th>GF</th>
+                <th>GC</th>
+                <th>DG</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for equipoTorneo in equipos %} <!-- aca se pueden pasar los datos desde un controller Equipo ---->
+            <tr>
+                <td>{{ loop.index }}</td>
+                <td class="team-name">{{equipoTorneo.equipo.nombre}}</td>
+                <td>{{ equipoTorneo.puntos }}</td>
+                <td>{{ equipoTorneo.partidosJugados }}</td>
+                <td>{{ equipoTorneo.partidosGanados }}</td>
+                <td>{{ equipoTorneo.partidosEmpatados }}</td>
+                <td>{{ equipoTorneo.partidosPerdidos }}</td>
+                <td>{{ equipoTorneo.golesAFavor }}</td>
+                <td>{{ equipoTorneo.golesContra }}</td>
+                <td>{{ equipoTorneo.dg }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
 
         <section>
             Resultados

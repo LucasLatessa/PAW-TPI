@@ -21,6 +21,11 @@ class Equipo extends Model{
         return $this->id;
     }
 
+    public function setId($id)
+    {
+        $this->id = $id;
+    }
+
     public function getNombre() {
         return $this->nombre;
     }
