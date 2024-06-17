@@ -1,0 +1,57 @@
+body, html {
+    height: 100%;
+    margin: 0;
+    font-family: Arial, sans-serif;
+}
+
+.main-nosotros {
+    background: url('/assets/nosotros-background.jpg') no-repeat center center fixed;
+    background-size: cover;
+    padding: 2rem;
+    box-sizing: border-box;
+}
+
+.main-nosotros h1 {
+    text-align: center;
+    margin-top: 4rem ;
+    margin-bottom: 4rem;
+    color: white;
+    font-size: 3em;
+}
+
+section {
+    background-color: whitesmoke;
+    padding: 2rem;
+    border-radius: 10px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    margin-bottom: 2rem;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+h2 {
+    font-size: 2.5em;
+    color: #333;
+}
+
+h3 {
+    font-size: 1.8em;
+    color: #333;
+    margin-top: 1rem;
+}
+
+p {
+    font-size: 1.5em;
+    color: #666;
+}
+
+
+.map-container {
+    margin-top: 2rem;
+    height: 450px;
+    width: 100%;
+    box-sizing: border-box;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}

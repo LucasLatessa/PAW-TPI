@@ -1,0 +1,77 @@
+/* Estilos para la sección de carga */
+.section-carga {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    padding: 2rem;
+    background-color: #f9f9f9;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 50%;
+    margin: 2rem auto;
+}
+
+.section-carga h1 {
+    font-size: 2rem;
+    margin-bottom: 1.5rem;
+    color: #333;
+}
+
+.carga-form {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+}
+
+.carga-form label {
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
+}
+
+.carga-form input,
+.carga-form textarea,
+.carga-form button {
+    font-size: 1rem;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.carga-form input[type="file"] {
+    padding: 0;
+}
+
+.carga-form button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carga-form button:hover {
+    background-color: #0056b3;
+}
+
+.carga-form input:focus,
+.carga-form textarea:focus,
+.carga-form button:focus {
+    border-color: #007BFF;
+    outline: none;
+}
+
+.carga-form textarea {
+    resize: vertical;
+}
+
+.article-equipo > img{
+        align-items: center;
+}
+
+
+

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/liga.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+
+   <main>
+    <section class="section-carga">
+        <h1>EQUIPO AGREGADO</h1>
+        
+        {% if equipo is defined %}
+        <article class="article-equipo">
+            <h2>{{ equipo.nombre }}</h2>
+            <figure class="figura-escudo">
+                <img class="equipo-escudo" src="/assets/equipos/{{ equipo.escudo }}" alt="Escudo del equipo" width="300">
+            </figure>
+            <p class="fecha-creacion">Fecha de Creación: {{ equipo.fecha_creacion }}</p>
+            <p class="nombre-estadio">Estadio: {{ equipo.estadio }}</p>
+            <p class="descripcion-equipo">{{ equipo.descripcion }}</p>
+        </article>
+        {% endif %}
+        
+    </section>
+</main>
+
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>

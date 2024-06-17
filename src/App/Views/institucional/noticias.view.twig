@@ -2,53 +2,7 @@
 <html lang="en">
 <head>
     {% include 'parts/head.view.twig' %}
-    <style>
-        /* General body styles */
-        body {
-            font-family: Arial, sans-serif;
-            margin: 0;
-            padding: 0;
-            background-color: #f5f5f5;
-        }
-
-        /* Main header styles */
-        .header-noticias {
-            background-color: #0066cc; /* Color de fondo */
-            color: white;
-            text-align: center;
-            padding: 20px 0;
-            font-size: 2.5em;
-        }
-
-        /* Main content styles */
-        main {
-            padding: 20px;
-        }
-
-        /* Grid styles */
-        .noticias-grid {
-            display: flex;
-            flex-wrap: wrap;
-            gap: 20px;
-        }
-
-        .noticia {
-            background-color: #fff;
-            border: 1px solid #ddd;
-            padding: 15px;
-            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-            width: calc(33.333% - 20px); /* 3 columnas con espacio entre ellas */
-            box-sizing: border-box;
-        }
-
-        .noticia h3 {
-            margin-top: 0;
-        }
-
-        .noticia p {
-            margin-bottom: 0;
-        }
-    </style>
+    <link rel="stylesheet" href="/assets/styles/noticias.css" />
 </head>
 <body>
     <!--HEADER-->
@@ -63,29 +17,29 @@
         <!-- Grilla de Noticias -->
         <section class="noticias-grid">
             <!-- Ejemplo de artículos de noticias -->
-            <article class="noticia">
-                <h3>Noticia 1</h3>
-                <p>Descripción de la noticia 1.</p>
+            <article class="noticia noticia1">
+                <h3>INDEPENDIENTE CAMPEÓN</h3>
+                <p>Final del Torneo Apertura de 1ra. División 2024. </p>
             </article>
-            <article class="noticia">
-                <h3>Noticia 2</h3>
-                <p>Descripción de la noticia 2.</p>
+            <article class="noticia noticia2">
+                <h3>Remodelación 2023</h3>
+                <p>Se comenzó a realizar los arreglos en el frente de la Liga Chivilcoyana de Fútbol</p>
             </article>
-            <article class="noticia">
+            <article class="noticia noticia3">
                 <h3>Noticia 3</h3>
                 <p>Descripción de la noticia 3.</p>
             </article>
-            <article class="noticia">
-                <h3>Noticia 4</h3>
-                <p>Descripción de la noticia 4.</p>
+            <article class="noticia noticia4">
+                <h3>Copa oro femenino</h3>
+                <p>Cerámica se impuso en la final de la copa oro femenino</p>
             </article>
-            <article class="noticia">
-                <h3>Noticia 5</h3>
-                <p>Descripción de la noticia 5.</p>
+            <article class="noticia noticia5">
+                <h3>PRODE LCF</h3>
+                <p>Ya podes solicitar el prode en tu club, te esperamos</p>
             </article>
-            <article class="noticia">
-                <h3>Noticia 6</h3>
-                <p>Descripción de la noticia 6.</p>
+            <article class="noticia noticia6">
+                <h3>Aniversario CLUB ONCE TIGRES</h3>
+                <p>Saludamos a sus hinchas, socios, jugadores, cuerpo técnico y directivos del club</p>
             </article>
             <!-- Añadir más artículos según sea necesario -->
         </section>

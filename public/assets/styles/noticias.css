@@ -1,0 +1,79 @@
+/* Main header styles */
+.header-noticias {
+    background-color: #0066cc; /* Color de fondo */
+    color: white;
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 2em;
+}
+
+/* Grid styles */
+.noticias-grid {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin-top: 2em;
+    padding: 4em;
+}
+
+.noticia {
+    position: relative;
+    background-size: cover;
+    background-position: center;
+    color: white;
+    width: calc(33.333% - 1rem); /* 3 columnas con espacio entre ellas */
+    height: 60vh; /* Altura fija para los artículos */
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end; /* Alinear contenido al final del artículo */
+    padding: 15px;
+    box-sizing: border-box;
+    border-radius: 8px; /* Bordes redondeados */
+    overflow: hidden;
+}
+
+.noticia h3, .noticia p {
+    margin: 0;
+    z-index: 1;
+}
+
+.noticia::after {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.3); /* Fondo semitransparente */
+    z-index: 0;
+}
+
+.noticia * {
+    position: relative;
+    z-index: 1;
+}
+
+/* Estilos específicos para cada noticia */
+.noticia1 {
+    background-image: url('/assets/noticia-1.jpg');
+}
+
+.noticia2 {
+    background-image: url('/assets/noticia-2.jpg');
+}
+
+.noticia3 {
+    background-image: url('/assets/noticia-3.jpg');
+}
+
+.noticia4 {
+    background-image: url('/assets/noticia-4.jpg');
+}
+
+.noticia5 {
+    background-image: url('/assets/noticia-5.jpg');
+}
+
+.noticia6 {
+    background-image: url('/assets/noticia-6.jpg');
+}

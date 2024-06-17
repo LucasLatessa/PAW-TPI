@@ -1,0 +1,65 @@
+Ver como comtemplar el tema del puntaje para cada equipo en función de los torneos que juega
+ya que de eso depende las tablas del index por ej. Muy probablemente dentro de equipo
+se deba tener objetos relaciones a sus competencias: torneo, y ahi los puntaje por torneo y posicion
+
+
+Nombre: Club atletico independiente de Chivilcoy
+Fecha Creación: 11/11/1930
+Nombre Estadio: Raúl Orlando Lungarzo
+Descripción: Fundado en el año 1930 en la ciudad de Chivilcoy
+
+
+Nombre: Club Atletico Ciclón de Chivilcoy
+Fecha Creación: 27/11/1941
+Nombre Estadio: Jorge Ramón Leva
+Descripción: Fundado en el año 1941 en la ciudad de Chivilcoy
+
+
+
+Nombre: Club Social y Deportivo Cerámica
+Fecha Creación: 14/07/1926
+Nombre Estadio: Club Ceramica Argentina
+Descripción: Fundado en el año 1926 en la ciudad de Chivilcoy
+
+
+
+Nombre: Huracán (Chivilcoy)
+Fecha Creación: 24/11/1944
+Nombre Estadio: Jorge Ramón Leva
+Descripción: Fundado en el año 1944 en la ciudad de Chivilcoy
+
+
+Nombre: Club Atlético Villarino
+Fecha Creación: 18/04/1940
+Nombre Estadio:  Club Atlético Villarino
+Descripción: Fundado en el año 1940 en la ciudad de Chivilcoy
+
+
+Nombre: Club Atlético Trocha
+Fecha Creación: 01/03/1925
+Nombre Estadio:  Club Atlético Trocha
+Descripción: Fundado en el año 1925 en la ciudad de Mercedes
+
+
+Nombre: Club Social y Deportivo 22 de Octubre
+Fecha Creación: 01/08/1949
+Nombre Estadio:  Club 22 De Octubre
+Descripción: Fundado en el año 1949 en la ciudad de Chivilcoy
+
+
+Nombre: Club Deportivo Pellegrini
+Fecha Creación: 10/03/1927
+Nombre Estadio:  CDP
+Descripción: Fundado en el año 1927 en la ciudad de Chivilcoy
+
+
+Nombre: Club Social y Deportivo Once Tigres
+Fecha Creación: 10/10/1958
+Nombre Estadio:  CDOnce
+Descripción: Fundado en el año 1958 en la ciudad de Chivilcoy
+
+
+Nombre: Club Deportivo Alsina Chivilcoy
+Fecha Creación: 24/03/1976
+Nombre Estadio:  CDAC
+Descripción: Fundado en el año 1976 en la ciudad de Chivilcoy

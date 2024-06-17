@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/equipos.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+    
+    <main>
+        <header class="header-equipo">
+            <div class="header-content">
+                <div class="info-equipo">
+                    <h1>NOMBRE EQUIPO{{ equipo.nombre }}</h1>
+                    <p>Creación: {{ equipo.fecha_creacion }}</p>
+                </div>
+                <div class="escudo-equipo">
+                    <img src="{{ equipo.escudo }}" alt="Escudo de {{ equipo.nombre }}">
+                </div>
+            </div>
+        </header>
+
+        <section class="descripcion-equipo">
+            <h2>Descripción</h2>
+            <p>{{ equipo.descripcion }}</p>
+        </section>
+
+        <section class="puntaje-equipo">
+            <div class="barra-puntaje">
+                <span>{{ equipo.nombre }}</span>
+                <span>{{ equipo.puntaje }}</span>
+            </div>
+        </section>
+
+        <section class="detalles-equipo">
+            <div class="fixture">
+                <h3>FIXTURE</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DIA</th>
+                            <th>HORA</th>
+                            <th>PARTIDO</th>
+                            <th>ESTADIO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for partido in equipo.fixture %}
+                        <tr>
+                            <td>{{ partido.dia }}</td>
+                            <td>{{ partido.hora }}</td>
+                            <td>{{ partido.equipoA }} vs {{ partido.equipoB }}</td>
+                            <td>{{ partido.estadio }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+
+            <div class="resultados">
+                <h3>RESULTADO</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>DIA</th>
+                            <th>HORA</th>
+                            <th>PARTIDO</th>
+                            <th>ESTADIO</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for resultado in equipo.resultados %}
+                        <tr>
+                            <td>{{ resultado.dia }}</td>
+                            <td>{{ resultado.hora }}</td>
+                            <td>{{ resultado.equipoA }} {{ resultado.golesA }} vs {{ resultado.golesB }} {{ resultado.equipoB }}</td>
+                            <td>{{ resultado.estadio }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </section>
+    </main>
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>
