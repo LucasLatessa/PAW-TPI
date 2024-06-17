@@ -79,7 +79,18 @@ class PageController extends Controlador
     }
 
     public function ingresar(){
+        session_start();
         $title = 'Ingresar - LigaCF';
+        if (!isset($_SESSION['login'])) {
+             $_SESSION['login'] = "";
+        }
+
+        $hayLogin = $_SESSION['login'];
+
+        if ($hayLogin) {
+            header('Location: /cuenta/perfil');
+            exit();
+        }
         echo $this->twig->render('cuenta/login.view.twig', [
             'title' =>  $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
@@ -142,12 +153,23 @@ class PageController extends Controlador
     }
 
     public function perfil(){
-        $title = 'Perfil - LigaCF';
+        session_start();
+        $title = 'Ingresar - LigaCF';
+        if (!isset($_SESSION['login'])) {
+             $_SESSION['login'] = "";
+        }
+
+        $hayLogin = $_SESSION['login'];
+
+        if ($hayLogin) {
+            $usuario = $_SESSION['username'];
+        }
         echo $this->twig->render('cuenta/perfil.view.twig', [
             'title' =>  $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter, 
+            'usuario' =>  $usuario, 
         ]);
     }
     
