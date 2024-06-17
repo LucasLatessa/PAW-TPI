@@ -1,12 +1,11 @@
-.main-contacto {
+/* .main-contacto {
     background: url('/assets/edificioLCF.jpg') no-repeat center center fixed;
     background-size: cover;
     display: flex;
-    flex-direction: column; /* Asegura que los elementos hijos se dispongan en columna */
+    flex-direction: column;
     align-items: center;
-    justify-content: flex-start; /* Alinea los elementos al inicio del contenedor principal */
-    height: 100%;
-   /* Asegura un poco de espacio en la parte superior */
+    justify-content: flex-start; 
+    height: 100%; 
 }
 
 .header-menu {
@@ -24,7 +23,7 @@
     border-radius: 10px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     text-align: center;
-    margin-top: 5rem; /* Añadí margin-top para espaciar después del header-menu */
+    margin-top: 5rem; 
     margin-bottom: 5rem;
 }
 
@@ -45,13 +44,13 @@
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 5px;
-    width: 100%; /* Asegura que los inputs ocupen el 100% del contenedor */
+    width: 100%; 
 }
 
 
 .contacto-form textarea {
-    resize: vertical; /* Permite que el usuario ajuste la altura */
-    min-height: 100px; /* Altura mínima */
+    resize: vertical; 
+    min-height: 100px; 
 }
 
 .contacto-form button {
@@ -68,4 +67,4 @@
 .contacto-form button:hover {
     background-color: #1c86ee;
 }
-
+ */

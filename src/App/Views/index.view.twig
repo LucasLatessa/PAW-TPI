@@ -9,60 +9,92 @@
     <!--HEADER-->
     {% include 'parts/header.view.twig' %}
     
-    <main class="main-login">
+    <main class="mainIndex">
         <!-- Resultados Header -->
-        <header class="resultados-header">
+        {# <header class="resultados-header">
             <div class="carousel-arrow left">‹</div>
             <div class="resultados-carousel">
                 <h2>Resultados de Partidos</h2>
                 <!-- Aquí irán los resultados del carrusel -->
             </div>
             <div class="carousel-arrow right">›</div>
-        </header>
+        </header> #}
 
         <!-- Layout con tabla de puntajes y noticias -->
-        <div class="layout">
+        <section class="tablaPuntajes">
             <!-- Tabla de Puntajes -->
-            <table class="tabla-puntaje">
+            <h2 class="tituloTablaPuntajes"> Primera division </h2>
+            <table class="tabla">
                 <thead>
                     <tr>
-                        <th>POS</th>
-                        <th>Nombre Club</th>
-                        <th>Puntajes</th>
+                        <th class="pos">POS</th>
+                        <th class="equipo">Equipo</th>
+                        <th class="pj">PJ</th>
+                        <th class="gd">GD</th>
+                        <th class="pts">PTS</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <!-- Ejemplo de filas, estas deberían ser generadas dinámicamente -->
                     <tr>
                         <td>1</td>
                         <td>22 Octubre</td>
-                        <td>45</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
                     </tr>
                     <tr>
                         <td>2</td>
-                        <td>Deportivo Azul</td>
-                        <td>43</td>
+                        <td>INDEPENDIENTE</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
                     </tr>
-                    <!-- Añadir más filas -->
+                    <tr>
+                        <td>3</td>
+                        <td>ONCE TIGRES</td>
+                        <td>0</td>
+                        <td>0</td>
+                        <td>0</td>
+                    </tr>
                 </tbody>
             </table>
+        </section>
 
-            <!-- Sección de Noticias --> <!--Ver si estas serian las mismas noticias que en la sección noticias, o bien alguna información diferente 
-            que solo se vea en el index y llame la atención->
-            <section class="noticias-section">
-                <h2>NOTICIAS</h2>
-                <!-- Ejemplo de artículos de noticias -->
+        <section class="seccionNoticias">
+            <h2 class="tituloNoticias">Noticias</h2>
+            <section class="todasLasNoticias"> <!--Aca se agregaria con JS-->
                 <article class="noticia">
                     <h3>Noticia 1</h3>
-                    <p>Descripción de la noticia 1.</p>
+                    <figure>
+                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
+                        <figcaption>Descripcion de la noticia.</figcaption>
+                    </figure>
                 </article>
                 <article class="noticia">
-                    <h3>Noticia 2</h3>
-                    <p>Descripción de la noticia 2.</p>
+                    <h3>Noticia 1</h3>
+                    <figure>
+                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
+                        <figcaption>Descripcion de la noticia.</figcaption>
+                    </figure>
                 </article>
-                <!-- Añadir más artículos -->
+                <article class="noticia">
+                    <h3>Noticia 1</h3>
+                    <figure>
+                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
+                        <figcaption>Descripcion de la noticia.</figcaption>
+                    </figure>
+                </article>
+                <article class="noticia">
+                    <h3>Noticia 1</h3>
+                    <figure>
+                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
+                        <figcaption>Descripcion de la noticia.</figcaption>
+                    </figure>
+                </article>
             </section>
-        </div>
+                <!-- Añadir más artículos -->
+        </section>
+
     </main>
 
     <!--FOOTER-->
