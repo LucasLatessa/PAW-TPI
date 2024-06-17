@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  {% include 'parts/head.view.twig' %}
+  <link rel="stylesheet" href="/assets/styles/creartorneo.css">
+</head>
+
+<body>
+  <!--HEADER-->
+  {% include 'parts/header.view.twig' %}
+
+  <main>
+    <header class="torneo-header">
+      <h1>Cargar equipo</h1>
+    </header>
+
+    <section class="cargar-equipo">
+      <form method="POST" action="" class="crear-form">
+        
+        <label for="id-torneo">Torneo</label>
+        <select name="id-torneo" id="id-torneo">
+            {% for torneo in listaTorneos %}
+                <option value={{torneo.id}}>{{torneo.nombre}}</option>
+            {% endfor %}
+        </select>
+
+        <label for="id-equipo">Equipo</label>
+        <select name="id-equipo" id="id-equipo">
+            {% for equipo in listaEquipos %}
+                <option value={{equipo.id}}>{{equipo.nombre}}</option>
+            {% endfor %}
+        </select>
+
+        <button type="submit">Crear Torneo</button>
+      </form>
+
+    </section>
+  </main>
+
+  <!--FOOTER-->
+  {% include 'parts/footer.view.twig' %}
+</body>
+
+</html>

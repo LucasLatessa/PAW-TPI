@@ -112,7 +112,63 @@ class LigaController extends Controlador
             'hayLogin' => $hayLogin
         ]);
     }
+    
+    
+    public function torneos() {
+        $title = 'Torneos - LigaCF';
+        #$listaTorneos = $this->model->getAllTorneos(); 
+    
+        echo $this->twig->render('competencia/torneos.view.twig', [
+            'title' => $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter,
+            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+        ]);
+    }
 
+    public function crearTorneo() {
+        global $request;
+        $modelTorneo = TorneoCollections::class; #ver si esto esta bien de usar otro modelo para TorneoColelctiones 
+        // Obtener los datos del formulario
+        $nombreTorneo = $request->getRequest('nombre_torneo');
+        $fechaInicio = $request->getRequest('fechaInicio');
+        $fechaFin = $request->getRequest('fechaFin');
+        $categoria = $request->getRequest('categoria');
+        $cantidadEquipos = $request->getRequest('cantidad_equipos');
+        $cantidadFechas = $request->getRequest('cantidad_fechas');
+        $descripcion = $request->getRequest('descripcion');
 
+        // Aca deberiamos validar los datos 
+
+        // Crear instancia de Torneo y guardar en la base de datos
+            // Lógica para guardar el torneo en la base de datos
+
+            #falta probar esta logica de crear
+      #  $torneo = $modelTorneo->create($nombreTorneo,$fechaInicio, $fechaFin,$categoria, $cantidadEquipos, $cantidadFechas, $descripcion);
+
+        // Verificar si el torneo se guardó correctamente
+        /*if ($torneo) {
+            $title = "Torneo Creado - Liga";
+            echo $this->twig->render('liga/torneoCreado.view.twig', [
+                'title' => $title,
+                #'torneo' => $torneo 
+            ]);
+        } else {
+            // Manejar errores si no se pudo guardar el torneo en la base de datos
+            $errorMessage = "No se pudo crear el torneo. Por favor, intenta nuevamente.";
+            $title = "Crear Torneo - Liga";
+            echo $this->twig->render('liga/crearTorneo.view.twig', [
+                'title' => $title,
+                'errorMessage' => $errorMessage
+            ]);
+        }*/
+
+        $title = "Torneo Creado - Liga";
+            echo $this->twig->render('liga/torneoCreado.view.twig', [
+                'title' => $title,
+            ]);           
+    }
+    
 
 }

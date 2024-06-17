@@ -13,6 +13,7 @@ class EquipoCollections extends Model{
         // Obtener todos los equipos usando el método selectViejo de QueryBuilder
         $equipos = $this->queryBuilder->selectViejo($this->table);
         
+        
         // Crear una colección de objetos Equipo
         $equiposCollection = [];
         foreach ($equipos as $equipoData) {
@@ -48,6 +49,11 @@ class EquipoCollections extends Model{
  
    public function get($nombre){
       $equipo = $this->queryBuilder->selectNombreEquipo($this->table, $nombre);
+      return $equipo;
+   }
+
+   public function getXid($idEquipo){
+      $equipo = $this->queryBuilder->selectViejo($this->table, ["id" => $idEquipo]);
       return $equipo;
    }
 
