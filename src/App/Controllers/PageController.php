@@ -108,7 +108,7 @@ class PageController extends Controlador
         ]);
     }
 
-    public function listaEquipos(){
+    /*public function listaEquipos(){
         $title = 'Equipos - LigaCF';
         echo $this->twig->render('competencia/listaEquipos.view.twig', [
             'title' =>  $title,
@@ -116,7 +116,10 @@ class PageController extends Controlador
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter, 
         ]);
-    }
+    }*/
+
+   
+    
 
     public function cargarEquipo(){
         $title = 'Cargar - LigaCF';

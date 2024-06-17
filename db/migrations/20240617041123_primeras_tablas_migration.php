@@ -23,9 +23,9 @@ final class PrimerasTablasMigration extends AbstractMigration
         $equipo
         ->addColumn('nombre','string', ['limit' => 100]) 
         ->addColumn('fecha_creacion', 'datetime')
-        ->addColumn('escudo','string', ['limit' => 100]) #esto es imagen
         ->addColumn('estadio','string', ['limit' => 100]) 
         ->addColumn('descripcion','string', ['limit' => 200])
+        ->addColumn('escudo','string', ['limit' => 100]) #esto es imagen
         ->create();
     }
 

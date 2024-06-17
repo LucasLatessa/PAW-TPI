@@ -14,7 +14,25 @@
             <h1>EQUIPOS</h1>
         </header>
 
+        <section class="equipos-grid">
+            {% if listaEquipos|length > 0 %}
+                {% for equipo in listaEquipos %}
+                <article class="equipo">
+                    <a href="/listaEquipos/equipos">
+                        <img src="/assets/equipos/{{ equipo.escudo }}" alt="{{ equipo.nombre }}">
+                        <h3>{{ equipo.nombre }}</h3>
+                    </a>
+                </article>
+                {% endfor %}
+            {% else %}
+                <p>No hay equipos disponibles.</p>
+            {% endif %}
+        </section>
+
+
         <!-- Grilla de Equipos -->
+        {# ESTO ANDA PERFECTO- pero era sin la base datos, es decir a mano 
+        
         <section class="equipos-grid">
             <!-- Ejemplo de artículos de equipos -->
             <article class="equipo">
@@ -92,7 +110,7 @@
                 </a>
             </article>
             <!-- Añadir más equipos según sea necesario -->
-        </section>
+        </section> #}
 
         
         <a href="../liga/cargarEquipo"> Cargar equipo </a>    
