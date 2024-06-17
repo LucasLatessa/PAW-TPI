@@ -64,6 +64,7 @@ $router->get('/reglamento', 'PageController@reglamento');
 
 $router->get('/login', 'PageController@ingresar');
 
+
 $router->get('/contacto', 'PageController@contacto');
 
 $router->get('/nosotros', 'PageController@nosotros');
@@ -71,3 +72,14 @@ $router->get('/nosotros', 'PageController@nosotros');
 
 $router->get('/liga/cargarEquipo', 'PageController@cargarEquipo');
 
+
+$router->post('/liga/cargarEquipo', 'LigaController@cargarEquipo');
+
+
+
+$router->get('/cuenta/registrarse', 'PageController@registrarse');
+$router->post('/cuenta/registrarse', 'UsuarioController@registrarse');
+
+
+$router->get('/cuenta/perfil', 'PageController@perfil');
+$router->post('/cuenta/perfil', 'UsuarioController@updateperfil');

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  {% include 'parts/head.view.twig' %}
+  <link rel="stylesheet" href="/assets/styles/registro.css">
+</head>
+
+<body>
+  <!--HEADER-->
+  {% include 'parts/header.view.twig' %}
+
+  <main>
+  <header class="perfil-header">
+  <div class="perfil-header-contenedor">
+    <div class="perfil-header-arriba">
+      <h1>Perfil de Usuario</h1>
+    </div>
+    <div class="perfil-header-abajo">
+      <div class="perfil-imagen">
+        <img src="/assets/logo-perfil.jpg" alt="Imagen de perfil">
+      </div>
+      <div class="perfil-info">
+        <span class="nombre-usuario">Nombre del Usuario</span>
+        <a class="btn-logout" href="./logout">Cerrar sesión</a>
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <section class="section-perfil">
+      <form method="POST" id="infoUsuario" class="perfil-form" action="">
+        <label for="email">Correo Electrónico</label>
+        <input type="email" id="email" name="email" value="{{ email|default('') }}" required />
+
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="{{ nombre|default('') }}" required />
+
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="apellido" value="{{ apellido|default('') }}" required />
+
+        <label for="equipoFavorito">Equipo Favorito</label>
+        <input type="text" id="equipoFavorito" name="equipoFavorito" value="{{ equipoFavorito|default('') }}" />
+
+        <label for="rol">Rol</label>
+        <select id="rol" name="rol">
+          <option value="aficionado" {{ rol == 'aficionado' ? 'selected' : '' }}>Aficionado</option>
+          <option value="jugador" {{ rol == 'jugador' ? 'selected' : '' }}>Jugador</option>
+          <option value="entrenador" {{ rol == 'entrenador' ? 'selected' : '' }}>Entrenador</option>
+        </select>
+
+        <button type="submit" value="Actualizar">Actualizar</button>
+
+        <div class="perfil-botones">
+          <button type="button" onclick="window.location.href='/crearTorneo'">Crear Torneo</button>
+          <button type="button" onclick="window.location.href='/crearEquipo'">Crear Equipo</button>
+          <button type="button" onclick="window.location.href='/crearPartido'">Crear Partido</button>
+        </div>
+      </form>
+
+      {# <h2>Enlaces Rápidos</h2>
+      <ul class="enlaces-rapidos">
+        <li><a href="/tabla">Ver Tabla de Posiciones</a></li>
+        <li><a href="/noticias">Noticias de la Liga</a></li>
+        <li><a href="/listaEquipos">Equipos</a></li>
+        <li><a href="/partidos">Partidos</a></li>
+      </ul> #}
+    </section>
+  </main>
+
+  <!--FOOTER-->
+  {% include 'parts/footer.view.twig' %}
+</body>
+
+</html>
