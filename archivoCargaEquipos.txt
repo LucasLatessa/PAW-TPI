@@ -1,3 +1,8 @@
+Ver como comtemplar el tema del puntaje para cada equipo en función de los torneos que juega
+ya que de eso depende las tablas del index por ej. Muy probablemente dentro de equipo
+se deba tener objetos relaciones a sus competencias: torneo, y ahi los puntaje por torneo y posicion
+
+
 Nombre: Club atletico independiente de Chivilcoy
 Fecha Creación: 11/11/1930
 Nombre Estadio: Raúl Orlando Lungarzo
