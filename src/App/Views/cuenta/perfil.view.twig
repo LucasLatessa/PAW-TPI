@@ -21,7 +21,7 @@
         <img src="/assets/logo-perfil.jpg" alt="Imagen de perfil">
       </div>
       <div class="perfil-info">
-        <span class="nombre-usuario">Nombre del Usuario</span>
+        <span class="nombre-usuario">{{ usuario }}</span>
         <a class="btn-logout" href="./logout">Cerrar sesión</a>
       </div>
     </div>
@@ -31,8 +31,6 @@
 
     <section class="section-perfil">
       <form method="POST" id="infoUsuario" class="perfil-form" action="">
-        <label for="email">Correo Electrónico</label>
-        <input type="email" id="email" name="email" value="{{ email|default('') }}" required />
 
         <label for="nombre">Nombre</label>
         <input type="text" id="nombre" name="nombre" value="{{ nombre|default('') }}" required />
@@ -42,13 +40,6 @@
 
         <label for="equipoFavorito">Equipo Favorito</label>
         <input type="text" id="equipoFavorito" name="equipoFavorito" value="{{ equipoFavorito|default('') }}" />
-
-        <label for="rol">Rol</label>
-        <select id="rol" name="rol">
-          <option value="aficionado" {{ rol == 'aficionado' ? 'selected' : '' }}>Aficionado</option>
-          <option value="jugador" {{ rol == 'jugador' ? 'selected' : '' }}>Jugador</option>
-          <option value="entrenador" {{ rol == 'entrenador' ? 'selected' : '' }}>Entrenador</option>
-        </select>
 
         <button type="submit" value="Actualizar">Actualizar</button>
 

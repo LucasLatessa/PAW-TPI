@@ -45,7 +45,6 @@ class UsuariosCollections extends Model
 
         $this->queryBuilder->insert($this->table, $data);
         return $newUsuario;
-
     }
 
 }
