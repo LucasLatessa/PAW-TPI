@@ -57,10 +57,15 @@ body, html {
 .register-link {
     color: #1e90ff;
     text-decoration: none;
-    margin-top: 1rem;
+    margin-top: 0.2rem;
     display: inline-block;
 }
 
 .register-link:hover {
     text-decoration: underline;
+}
+
+.registro-selec{
+    font-size: 80%;
+    color: yellow;
 }

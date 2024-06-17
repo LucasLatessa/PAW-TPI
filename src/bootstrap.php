@@ -58,6 +58,7 @@ $router->get('/noticias', 'PageController@noticias');
 
 #$router->get('/listaEquipos', 'PageController@listaEquipos');
 
+
 $router->get('/listaEquipos', 'LigaController@listaEquipos');
 
 $router->get('/listaEquipos/equipos', 'PageController@equipos'); 
@@ -77,11 +78,10 @@ $router->get('/liga/cargarEquipo', 'PageController@cargarEquipo');
 
 $router->post('/liga/cargarEquipo', 'LigaController@cargarEquipo');
 
-
-
 $router->get('/cuenta/registrarse', 'PageController@registrarse');
+$router->get('/cuenta/logout', 'UsuarioController@logout');
 $router->post('/cuenta/registrarse', 'UsuarioController@registrarse');
-
+$router->post('/login', 'UsuarioController@login');
 
 $router->get('/cuenta/perfil', 'PageController@perfil');
 $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
