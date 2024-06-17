@@ -13,10 +13,10 @@ class Torneo extends Model {
     private $nombre;
     private $fechaInicio;
     private $fechaFin;
-    private $categoria;
-    private $cantidadEquipos;
-    private $cantidadFechas;
-    private $descripcion;
+    // private $categoria;
+    // private $cantidadEquipos;
+    // private $cantidadFechas;
+    // private $descripcion;
 
     private $partidos = [];
 
@@ -68,37 +68,37 @@ class Torneo extends Model {
         $this->fechaFin = $fechaFin;
     }
 
-    public function getCategoria() {
-        return $this->categoria;
-    }
+    // public function getCategoria() {
+    //     return $this->categoria;
+    // }
 
-    public function setCategoria($categoria) {
-        $this->categoria = $categoria;
-    }
+    // public function setCategoria($categoria) {
+    //     $this->categoria = $categoria;
+    // }
 
-    public function getCantidadEquipos() {
-        return $this->cantidadEquipos;
-    }
+    // public function getCantidadEquipos() {
+    //     return $this->cantidadEquipos;
+    // }
 
-    public function setCantidadEquipos($cantidadEquipos) {
-        $this->cantidadEquipos = $cantidadEquipos;
-    }
+    // public function setCantidadEquipos($cantidadEquipos) {
+    //     $this->cantidadEquipos = $cantidadEquipos;
+    // }
 
-    public function getCantidadFechas() {
-        return $this->cantidadFechas;
-    }
+    // public function getCantidadFechas() {
+    //     return $this->cantidadFechas;
+    // }
 
-    public function setCantidadFechas($cantidadFechas) {
-        $this->cantidadFechas = $cantidadFechas;
-    }
+    // public function setCantidadFechas($cantidadFechas) {
+    //     $this->cantidadFechas = $cantidadFechas;
+    // }
 
-    public function getDescripcion() {
-        return $this->descripcion;
-    }
+    // public function getDescripcion() {
+    //     return $this->descripcion;
+    // }
 
-    public function setDescripcion($descripcion) {
-        $this->descripcion = $descripcion;
-    }
+    // public function setDescripcion($descripcion) {
+    //     $this->descripcion = $descripcion;
+    // }
 
     // Método para cargar datos de un torneo desde la base de datos
     public function load($id) {
@@ -128,4 +128,3 @@ class Torneo extends Model {
     // Por ejemplo, guardar, actualizar, eliminar, etc.
 }
 
-?>

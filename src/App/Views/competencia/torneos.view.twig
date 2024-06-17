@@ -16,69 +16,18 @@
       <section class="section-torneos">
    
         <ul class="lista-torneos">
+            {% for torneo in listaTorneos %}
             <li>
                 <article class="article-torneo">
-                    <a href="/competencia/partidos"> <!----que esto te lleve a la URL de ese Torneo-->
-                     <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
-                                        <h3>{{ equipo.nombre }}</h3>-->
-                        <h3> Torneo 1 </h3>                
+                    <a href="./torneo?id={{torneo.id}}">
+                        <h3> {{torneo.nombre}} </h3>                
                     </a>
                 </article>
             </li>
-            <li>
-                <article class="article-torneo">
-                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
-                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
-                                        <h3>{{ equipo.nombre }}</h3>-->
-                        <h3> Torneo 2 </h3>                
-                    </a>
-                </article>
-            </li>
-             <li>
-                 <article class="article-torneo">
-                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
-                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
-                                        <h3>{{ equipo.nombre }}</h3>-->
-                        <h3> Torneo 3 </h3>                
-                    </a>
-                </article>
-            </li>
-
-               </li>
-             <li>
-                 <article class="article-torneo">
-                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
-                       <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
-                                        <h3>{{ equipo.nombre }}</h3>-->
-                        <h3> Torneo 4 </h3>                
-                    </a>
-                </article>
-            </li>
-
-
-               </li>
-             <li>
-                 <article class="article-torneo">
-                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
-                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
-                                        <h3>{{ equipo.nombre }}</h3>-->
-                        <h3> Torneo 5 </h3>                
-                    </a>
-                </article>
-            </li>
-
-               </li>
-             <li>
-                 <article class="article-torneo">
-                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
-                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
-                                        <h3>{{ equipo.nombre }}</h3>-->
-                        <h3> Torneo 6 </h3>                
-                    </a>
-                </article>
-            </li>
-            <!-- Puedes agregar más <li> según los torneos disponibles -->
+            {% endfor %}
         </ul>
+
+        <a href="./torneos/crearTorneo"> Crear torneo </a>
     </section>
     </main>
 

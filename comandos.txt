@@ -1,3 +1,6 @@
+Crear migrate 
+
+phinx create "Nombre"
 
 Correr migrate en un entorno
 
