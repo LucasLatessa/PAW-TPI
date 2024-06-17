@@ -112,8 +112,10 @@
             <!-- Añadir más equipos según sea necesario -->
         </section> #}
 
-        
-        <a href="../liga/cargarEquipo"> Cargar equipo </a>    
+        {% if hayLogin %}
+            <a href="../liga/cargarEquipo"> Cargar equipo </a>  
+        {% endif %}
+  
     </main>
 
     <!--FOOTER-->
