@@ -97,7 +97,6 @@ class LigaController extends Controlador
     public function listaEquipos() {
         $title = 'Equipos - LigaCF';
         $listaEquipos = $this->model->getAllEquipos(); 
-    
         echo $this->twig->render('competencia/listaEquipos.view.twig', [
             'title' => $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 

@@ -44,7 +44,6 @@ class QueryBuilder
         foreach ($bindParams as $param => $value) {
             $sentencia->bindValue($param, $value);
         }
-        //var_dump($query);
     
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
@@ -210,5 +209,18 @@ class QueryBuilder
         }
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
+    }
+
+    public function selectNombreEquipo($table, $nombre){
+        $whereClause = 'WHERE nombre = :nombre';
+        $query = "SELECT * FROM {$table} {$whereClause}";
+
+        $sentencia = $this->pdo->prepare($query);
+        $sentencia->bindValue(':nombre', $nombre);
+            
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        return $sentencia->fetchAll();
+
     }
 }
