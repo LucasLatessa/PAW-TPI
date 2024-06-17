@@ -54,7 +54,7 @@ $router->get('/tabla', 'PageController@tabla');
 
 $router->get('/noticias', 'PageController@noticias');
 
-$router->get('/partidos', 'PageController@partidos');
+#$router->get('/partidos', 'PageController@partidos');
 
 #$router->get('/listaEquipos', 'PageController@listaEquipos');
 
@@ -89,3 +89,6 @@ $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
 
 $router->get('/liga/crearTorneo', 'PageController@crearTorneo');
 
+
+$router->get('/torneos', 'LigaController@torneos');
+$router->get('/competencia/partidos', 'PageController@partidos');

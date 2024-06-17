@@ -107,6 +107,19 @@ class LigaController extends Controlador
         ]);
     }
     
-
+    
+    public function torneos() {
+        $title = 'Torneos - LigaCF';
+        #$listaTorneos = $this->model->getAllTorneos(); 
+    
+        echo $this->twig->render('competencia/torneos.view.twig', [
+            'title' => $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter,
+            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+        ]);
+    }
+    
 
 }

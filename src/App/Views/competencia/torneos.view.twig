@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/partidos.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+    
+    <main>
+        <header class="header-menu">
+            <h1>TORNEOS</h1>
+        </header>
+
+      <section class="section-torneos">
+   
+        <ul class="lista-torneos">
+            <li>
+                <article class="article-torneo">
+                    <a href="/competencia/partidos"> <!----que esto te lleve a la URL de ese Torneo-->
+                     <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
+                                        <h3>{{ equipo.nombre }}</h3>-->
+                        <h3> Torneo 1 </h3>                
+                    </a>
+                </article>
+            </li>
+            <li>
+                <article class="article-torneo">
+                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
+                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
+                                        <h3>{{ equipo.nombre }}</h3>-->
+                        <h3> Torneo 2 </h3>                
+                    </a>
+                </article>
+            </li>
+             <li>
+                 <article class="article-torneo">
+                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
+                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
+                                        <h3>{{ equipo.nombre }}</h3>-->
+                        <h3> Torneo 3 </h3>                
+                    </a>
+                </article>
+            </li>
+
+               </li>
+             <li>
+                 <article class="article-torneo">
+                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
+                       <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
+                                        <h3>{{ equipo.nombre }}</h3>-->
+                        <h3> Torneo 4 </h3>                
+                    </a>
+                </article>
+            </li>
+
+
+               </li>
+             <li>
+                 <article class="article-torneo">
+                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
+                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
+                                        <h3>{{ equipo.nombre }}</h3>-->
+                        <h3> Torneo 5 </h3>                
+                    </a>
+                </article>
+            </li>
+
+               </li>
+             <li>
+                 <article class="article-torneo">
+                    <a href=""> <!----que esto te lleve a la URL de ese Torneo-->
+                         <!---{{ equipo.escudo }}" alt="{{ equipo.nombre }}
+                                        <h3>{{ equipo.nombre }}</h3>-->
+                        <h3> Torneo 6 </h3>                
+                    </a>
+                </article>
+            </li>
+            <!-- Puedes agregar más <li> según los torneos disponibles -->
+        </ul>
+    </section>
+    </main>
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>
