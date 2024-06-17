@@ -61,7 +61,8 @@ $router->get('/noticias', 'PageController@noticias');
 
 $router->get('/listaEquipos', 'LigaController@listaEquipos');
 
-$router->get('/listaEquipos/equipos', 'PageController@equipos'); 
+$router->get('/listaEquipos/equipo', 'EquipoController@datosEquipo'); 
+
 
 $router->get('/reglamento', 'PageController@reglamento');
 

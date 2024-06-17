@@ -18,7 +18,7 @@
             {% if listaEquipos|length > 0 %}
                 {% for equipo in listaEquipos %}
                 <article class="equipo">
-                    <a href="/listaEquipos/equipos">
+                    <a href="/listaEquipos/equipo?nombre={{ equipo.nombre }}">
                         <img src="/assets/equipos/{{ equipo.escudo }}" alt="{{ equipo.nombre }}">
                         <h3>{{ equipo.nombre }}</h3>
                     </a>
@@ -112,8 +112,10 @@
             <!-- Añadir más equipos según sea necesario -->
         </section> #}
 
-        
-        <a href="../liga/cargarEquipo"> Cargar equipo </a>    
+        {% if hayLogin %}
+            <a href="../liga/cargarEquipo"> Cargar equipo </a>  
+        {% endif %}
+  
     </main>
 
     <!--FOOTER-->

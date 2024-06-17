@@ -58,16 +58,6 @@ class PageController extends Controlador
         ]);
     }
 
-    public function equipos(){
-        $title = 'Equipos - LigaCF';
-        echo $this->twig->render('competencia/equipos.view.twig', [
-            'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
-        ]);
-    }
-
     public function reglamento(){
         $title = 'Reglamento - LigaCF';
         echo $this->twig->render('competencia/reglamento.view.twig', [
@@ -182,6 +172,5 @@ class PageController extends Controlador
             'rutasFooter' => $this->rutasFooter, 
         ]);
     }
-
 
 }

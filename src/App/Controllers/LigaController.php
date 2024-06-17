@@ -95,15 +95,21 @@ class LigaController extends Controlador
 
 
     public function listaEquipos() {
+        session_start();
+        if (!isset($_SESSION['login'])) {
+             $_SESSION['login'] = "";
+        }
+
+        $hayLogin = $_SESSION['login'];
         $title = 'Equipos - LigaCF';
         $listaEquipos = $this->model->getAllEquipos(); 
-    
         echo $this->twig->render('competencia/listaEquipos.view.twig', [
             'title' => $title,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter,
-            'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+            'listaEquipos' => $listaEquipos, // Pasar la lista de equipos a la vista
+            'hayLogin' => $hayLogin
         ]);
     }
     
