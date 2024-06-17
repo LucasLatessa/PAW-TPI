@@ -44,7 +44,7 @@ class Controlador
                 "name" => "Partidos"
             ],
             [
-                "href" => '../competencia/equipos',
+                "href" => '../competencia/listaEquipos',
                 "name" => "Equipos"
             ],
             [

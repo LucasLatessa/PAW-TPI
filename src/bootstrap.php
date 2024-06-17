@@ -53,3 +53,44 @@ $router->get('/', 'PageController@index'); #Clase y metodo que procesa la petici
 $router->get('/tabla', 'PageController@tabla');
 
 $router->get('/noticias', 'PageController@noticias');
+
+#$router->get('/partidos', 'PageController@partidos');
+
+#$router->get('/listaEquipos', 'PageController@listaEquipos');
+
+$router->get('/listaEquipos', 'LigaController@listaEquipos');
+
+$router->get('/listaEquipos/equipos', 'PageController@equipos'); 
+
+$router->get('/reglamento', 'PageController@reglamento');
+
+$router->get('/login', 'PageController@ingresar');
+
+
+$router->get('/contacto', 'PageController@contacto');
+
+$router->get('/nosotros', 'PageController@nosotros');
+
+
+$router->get('/liga/cargarEquipo', 'PageController@cargarEquipo');
+
+
+$router->post('/liga/cargarEquipo', 'LigaController@cargarEquipo');
+
+
+
+$router->get('/cuenta/registrarse', 'PageController@registrarse');
+$router->post('/cuenta/registrarse', 'UsuarioController@registrarse');
+
+
+$router->get('/cuenta/perfil', 'PageController@perfil');
+$router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
+
+
+$router->get('/liga/crearTorneo', 'PageController@crearTorneo');
+
+
+$router->get('/torneos', 'LigaController@torneos');
+$router->get('/competencia/partidos', 'PageController@partidos');
+
+$router->post('/liga/crearTorneo', 'LigaController@crearTorneo');

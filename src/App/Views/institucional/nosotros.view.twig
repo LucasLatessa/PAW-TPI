@@ -1,3 +1,48 @@
-<!--Aca podria ser una sección simil mision, vision pero con la historia de la liga
-creación, gente que participa, galeria de fotos, etc ->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/nosotros.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+    
+    <main class="main-nosotros">
+        <h1>Sobre Nosotros</h1>
+        
+        <section class="section-introduccion">
+            <h2>Introducción</h2>
+            <p>Bienvenidos a la Liga Chivilcoyana, la cuna del fútbol local en Chivilcoy, Buenos Aires. Desde nuestra fundación, nos hemos comprometido a promover el deporte y la camaradería entre los equipos de nuestra comunidad.</p>
+        </section>
+        
+        <section class="section-historia">
+            <h2>Historia</h2>
+            <p>Fundada en [año de fundación], la Liga Chivilcoyana ha crecido para convertirse en una de las ligas más respetadas de la región. A lo largo de los años, hemos visto innumerables talentos y momentos memorables en nuestros campos.</p>
+        </section>
+        
+        <section class="section-mision-vision">
+            <h2>Misión y Visión</h2>
+            <h3>Misión</h3>
+            <p>Nuestra misión es fomentar el espíritu deportivo y la participación comunitaria a través del fútbol, proporcionando una plataforma donde los jugadores de todas las edades puedan desarrollarse y competir.</p>
+            <h3>Visión</h3>
+            <p>Ser la liga de fútbol más influyente y respetada de la región, conocida por su compromiso con la excelencia, la inclusión y la integridad en el deporte.</p>
+        </section>
+        
+        <section class="section-instalaciones">
+            <h2>Instalaciones y Ubicación</h2>
+            <p>Nuestra sede se encuentra en Garibaldi 7, Chivilcoy. Contamos con instalaciones modernas y bien mantenidas para garantizar la mejor experiencia tanto para los jugadores como para los espectadores.</p>
+            <p><strong>Dirección:</strong> Garibaldi 7, Chivilcoy, Buenos Aires, Argentina<br>
+            <strong>Horario:</strong> 16:00hs a 20:00hs<br>
+            <strong>Teléfono:</strong> 2346-422760</p>
+            <div class="map-container">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3277.145150973041!2d-59.89931518476754!3d-34.89715508038482!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bbff786c2648d7%3A0x2a67ef3e1cdee982!2sGaribaldi%207%2C%20B6640%20Chivilcoy%2C%20Provincia%20de%20Buenos%20Aires%2C%20Argentina!5e0!3m2!1ses-419!2sus!4v1591127985972!5m2!1ses-419!2sus" width="100%" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe>
+            </div>
+        </section>
+        
+    </main>
 
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>

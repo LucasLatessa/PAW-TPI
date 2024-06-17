@@ -1,0 +1,58 @@
+.header-menu {
+    background-color: #0066cc; /* DodgerBlue */
+    color: white;
+    text-align: center;
+    padding: 3rem 0;
+    font-size: 2em;
+}
+
+.contenido-reglamento {
+    margin: 20px;
+    font-size: 1em;
+    line-height: 1.6;
+}
+
+article {
+    margin-bottom: 2rem;
+    padding: 1rem;
+    border-radius: 10px;
+}
+
+.section-generalidades {
+    background-color: #35682d; 
+    color: white;
+}
+
+.section-torneos {
+    background-color: #ff4500;; 
+    color: white;
+}
+
+.section-partidos {
+    background-color: #35682d; 
+    color: white;
+}
+
+.section-sanciones {
+    background-color: #ff4500; 
+    color: white;
+}
+
+.section-organizacion {
+    background-color: #35682d; 
+    color: white; /* Darker text color for better readability */
+}
+
+.contenido-reglamento h2 {
+    font-size: 1.8em;
+    margin-top: 0;
+}
+
+.contenido-reglamento h3 {
+    font-size: 1.4em;
+    margin-top: 1rem;
+}
+
+.contenido-reglamento p {
+    margin-bottom: 1rem;
+}

@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% include 'parts/head.view.twig' %}
+    <link rel="stylesheet" href="/assets/styles/liga.css" />
+</head>
+<body>
+    <!--HEADER-->
+    {% include 'parts/header.view.twig' %}
+
+    <main>
+        <!-- Header del Main 
+        <header class="header-equipos">
+            <h1>CARGA DE EQUIPO</h1>
+        </header>  -->
+        
+        <section class="section-carga">
+            <h1>Carga de Equipo</h1>
+            <form method="POST" enctype="multipart/form-data" class="carga-form" action="">
+
+                <label for="equipo">Nombre del equipo</label>
+                <input id="equipo" name="equipo" required>
+                
+                <label for="fecha">Fecha de Creación</label>
+                <input type="date" id="fecha" name="fecha" required>
+                   
+                <label for="estadio">Nombre estadio</label>
+                <input id="estadio" name="estadio" required>
+
+                <label for="descripcion">Descripcion</label>
+                <textarea id="descripcion" name="descripcion" rows="4" required></textarea>
+
+                 <label for="imagen" id="imagen-drop">
+                    Escudo (Imagen tamaño maximo 1MB)
+                    <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .png">
+                </label>
+               
+                {% if errorMessage is defined %}
+                    <p class="error-message">{{ errorMessage }}</p>
+                {% endif %}
+
+                <button type="submit">Enviar</button>
+            </form>
+        </section>
+        
+        
+    </main>
+
+    <!--FOOTER-->
+    {% include 'parts/footer.view.twig' %}
+</body>
+</html>

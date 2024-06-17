@@ -12,26 +12,33 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function selectViejo($table,$params = []){
-        $where = " 1 = 1 ";
-
-        #Manera mas seguro de evitar inyecciones SQL
-        if (isset($params['id'])){
-            $where = " id = :id "; # :id -> parametrizado
+    public function selectViejo($table, $params = []) {
+        $where = "1 = 1";
+        $bindParams = [];
+    
+        // Construir la cláusula WHERE basada en los parámetros recibidos
+        if (isset($params['id'])) {
+            $where .= " AND id = :id";
+            $bindParams[':id'] = $params['id'];
         }
-
-        $query = "select * from {$table} where {$where}";
+    
+        // Construir la consulta SQL
+        $query = "SELECT * FROM {$table} WHERE {$where}";
         $sentencia = $this->pdo->prepare($query);
-
-        if (isset($params['id'])){
-            $sentencia->bindValue(":id", $params['id']);
+    
+        // Vincular los parámetros
+        foreach ($bindParams as $param => $value) {
+            $sentencia->bindValue($param, $value);
         }
-
+    
+        // Configurar el modo de recuperación de resultados
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+    
+        // Ejecutar la consulta y devolver los resultados
         $sentencia->execute();
-        #$this->logger->info("Resultado consultas select: ", [$sentencia->fetchAll()]);
-        return  $sentencia->fetchAll(); 
+        return $sentencia->fetchAll();
     }
+    
 
     public function select($table, $params = []){
 

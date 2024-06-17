@@ -1,0 +1,253 @@
+main{
+    padding: 2rem;
+    background: url('/assets/registrarse-fondo.jpg') no-repeat center center fixed;
+    background-size: cover;
+}
+.section-registro {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 400px;
+    margin: 40px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.section-registro h1 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 28px;
+    color: #333;
+}
+
+.registrarse-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.registrarse-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.registrarse-form input {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.registrarse-form input:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.registrarse-form button {
+    padding: 10px;
+    background-color: #28a853;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.registrarse-form button:hover {
+    background-color: #0056b3;
+}
+
+
+
+
+
+
+/* PERFIL 
+
+
+
+
+*/
+
+
+
+.perfil-header {
+    background-color: #ffffff;
+    border-bottom: 1px solid #e6ecf0;
+    padding: 20px 0;
+}
+
+.perfil-header-contenedor {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 0 20px;
+}
+
+.perfil-header-arriba {
+    text-align: center;
+    margin-bottom: 20px;
+}
+
+.perfil-header-arriba h1 {
+    font-size: 24px;
+    font-weight: 700;
+    color: #14171a;
+}
+
+.perfil-header-abajo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.perfil-imagen {
+    flex-shrink: 0;
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 3px solid #1da1f2;
+    margin-right: 20px;
+}
+
+.perfil-imagen img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.perfil-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.nombre-usuario {
+    font-size: 20px;
+    font-weight: 600;
+    color: #14171a;
+    margin-bottom: 10px;
+}
+
+.btn-logout {
+    padding: 8px 16px;
+    background-color: #ff4b5c;
+    color: white;
+    border: none;
+    border-radius: 20px;
+    font-size: 16px;
+    font-weight: 600;
+    text-decoration: none;
+    transition: background-color 0.3s ease;
+}
+
+.btn-logout:hover {
+    background-color: #ff2e44;
+}
+
+
+.section-perfil {
+    background-color: #f9f9f9;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    max-width: 600px;
+    margin: 40px auto;
+    font-family: 'Arial', sans-serif;
+}
+
+.perfil-form {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+.perfil-form label {
+    margin-bottom: 5px;
+    font-weight: bold;
+    color: #555;
+}
+
+.perfil-form input,
+.perfil-form select {
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+.perfil-form input:focus,
+.perfil-form select:focus {
+    border-color: #007bff;
+    box-shadow: 0 0 5px rgba(0, 123, 255, 0.5);
+    outline: none;
+}
+
+.perfil-form button {
+    padding: 10px;
+    background-color: #007bff;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.perfil-form button:hover {
+    background-color: #0056b3;
+}
+
+.perfil-botones {
+    display: flex;
+    justify-content: space-between;
+    margin-top: 15px;
+}
+
+.perfil-botones button {
+    padding: 10px;
+    background-color: #28a745;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.perfil-botones button:hover {
+    background-color: #218838;
+}
+
+.enlaces-rapidos {
+    list-style: none;
+    padding: 0;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+.enlaces-rapidos li {
+    margin-bottom: 10px;
+}
+
+.enlaces-rapidos a {
+    text-decoration: none;
+    color: #007bff;
+    font-weight: bold;
+}
+
+.enlaces-rapidos a:hover {
+    text-decoration: underline;
+}
+
+
+
+
+
+
+  
