@@ -45,5 +45,11 @@ class EquipoCollections extends Model{
       // Retornar la instancia del nuevo equipo creado
       return $newEquipo;
    }
+ 
+   public function get($nombre){
+      $equipo = $this->queryBuilder->selectNombreEquipo($this->table, $nombre);
+      return $equipo;
+   }
+
 
 }
