@@ -33,7 +33,7 @@ class UsuarioController extends Controlador{
         $palabraclave = $request->getRequest("palabraClave");
 
         if(($contraseña == $validarcontraseña) && (getenv('PALABRA_CLAVE') == $palabraclave)){
-            $contraHash = password_hash($request->getRequest("contraseña"),PASSWORD_DEFAULT);
+            $contraHash = password_hash($request->getRequest("password"),PASSWORD_DEFAULT);
             $usuario = $this->model->create($nombre,$apellido, $email, $contraHash);
             $resultado = "¡Cuenta creada!";
             header('Location: /');
@@ -57,14 +57,14 @@ class UsuarioController extends Controlador{
     public function login(){
         global $request;
 
-        #Obtengo los datos de la peticion
+        // Obtener el correo electrónico y la contraseña del formulario
         $email = $request->getRequest("email");
-        $contraseña = $request->getRequest("password");
-
-        #Obtengo los datos de la BD par aver si existe
+        $password = $request->getRequest("password");
+        // Obtener los datos del usuario desde la base de datos
         $usuario = $this->model->get($email);
-        #Compruebo que exista en el sistema
-        if ($usuario && password_verify($contraseña,$usuario->getContraseña())){
+    
+        // Comprobar si el usuario existe y verificar la contraseña
+        if ($usuario && password_verify($password, $usuario->getContraseña())) {
             // Iniciar sesión
             session_start();
             $_SESSION['login'] = true;
@@ -72,7 +72,7 @@ class UsuarioController extends Controlador{
             $_SESSION['usuario_id'] = $usuario->getId(); 
             
             // Redirigir al perfil del usuario
-            //header('Location: /cuenta/perfil');
+            header('Location: /cuenta/perfil');
             //print_r ("holaa", $_SESSION['username']); 
             exit();
         } else {
