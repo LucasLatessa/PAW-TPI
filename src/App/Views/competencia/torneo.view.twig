@@ -36,7 +36,7 @@
             {% for equipoTorneo in equipos %} <!-- aca se pueden pasar los datos desde un controller Equipo ---->
             <tr>
                 <td>{{ loop.index }}</td>
-                <td class="team-name">{{equipoTorneo.equipo.nombre}}</td>
+                <td class="team-name">{{equipoTorneo.equipo[0].nombre}}</td>
                 <td>{{ equipoTorneo.puntos }}</td>
                 <td>{{ equipoTorneo.partidosJugados }}</td>
                 <td>{{ equipoTorneo.partidosGanados }}</td>
@@ -49,7 +49,7 @@
             {% endfor %}
         </tbody>
     </table>
-
+        {% if hayLogin %}
         <section>
             Resultados
             <a href=""> Cargar resultados </a> 
@@ -57,9 +57,10 @@
 
 
         <section>
-            Resultados
-            <a href=""> Cargar equipo </a> 
+            Cargar Equipo
+            <a href="/torneo/cargarEquipo"> Cargar equipo </a> 
         </section>
+        {% endif %}
     </main>
 
     <!--FOOTER-->

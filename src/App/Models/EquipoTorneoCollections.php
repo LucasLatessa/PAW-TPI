@@ -32,6 +32,7 @@ class EquipoTorneoCollections extends Model{
    public function create($idEquipo, $idTorneo)
    {
       $newEquipoTorneo = new EquipoTorneo; 
+
       $data = [
          'id_equipo' => $idEquipo,
          'id_torneo' => $idTorneo

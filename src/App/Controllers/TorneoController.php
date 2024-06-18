@@ -25,13 +25,19 @@ class TorneoController extends Controlador{
     public function torneos() {
         $title = 'Torneos - LigaCF';
         $listaTorneos = $this->model->getAllTorneos(); 
-    
+        session_start();
+        if (!isset($_SESSION['login'])) {
+             $_SESSION['login'] = "";
+        }
+
+        $hayLogin = $_SESSION['login'];    
         echo $this->twig->render('competencia/torneos.view.twig', [
             'title' => $title,
             'listaTorneos' => $listaTorneos,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter,
+            'hayLogin' => $hayLogin,
             #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
     }
@@ -49,16 +55,19 @@ class TorneoController extends Controlador{
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
         $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
-
-
+        session_start();
+        if (!isset($_SESSION['login'])) {
+             $_SESSION['login'] = "";
+        }
+        $hayLogin = $_SESSION['login']; 
         echo $this->twig->render('competencia/torneo.view.twig', [
             'title' => $title,
             'torneo' => $torneo,
             'equipos' => $equiposTorneo,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter,
-            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+            'rutasFooter' => $this->rutasFooter, // Pasar la lista de equipos a la vista
+            'hayLogin' => $hayLogin,
         ]);
     }
 
@@ -105,15 +114,15 @@ class TorneoController extends Controlador{
 
         $torneo = $request->getRequest("id-torneo");
         $equipo = $request->getRequest("id-equipo");
-
+        
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $equipoTorneo = $modelEquipoTorneo->create($torneo,$equipo);
+        $equipoTorneo = $modelEquipoTorneo->create($equipo,$torneo);
     
         // var_dump($torneo);
         // var_dump($equipo);
 
-        header('Location: /torneo?id=' . $torneo);
+       header('Location: /torneo?id=' . $torneo);
         exit();
     }
 
