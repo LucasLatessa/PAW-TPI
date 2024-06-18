@@ -39,13 +39,9 @@ tr:nth-child(even) {
     background-color: #f2f2f2;
 }
 
-.section-torneos h2 {
-    
-}
 .lista-torneos{
     padding: 4rem;
 }
-
 
 .article-torneo {
     position: relative;
