@@ -22,6 +22,8 @@ class EquipoTorneo extends Model{
     private $golesContra;
     private $puntos;
 
+    private $diferencia;
+
     public $equipo;
 
     # Getters y setters para cada propiedad
@@ -121,6 +123,16 @@ class EquipoTorneo extends Model{
     public function setEquipo($equipo)
     {
         $this->equipo = $equipo;
+    }
+
+    public function getDiferencia()
+    {
+        return $this->diferencia;
+    }
+
+    public function setDiferencia()
+    {
+        $this->diferencia = $this->golesAFavor - $this->golesContra;
     }
 
     #Para aplicar todos los seters junto con sus validaciones

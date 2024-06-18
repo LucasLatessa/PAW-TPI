@@ -33,7 +33,7 @@ class UsuarioController extends Controlador{
         $palabraclave = $request->getRequest("palabraClave");
 
         if(($contraseña == $validarcontraseña) && (getenv('PALABRA_CLAVE') == $palabraclave)){
-            $contraHash = password_hash($request->getRequest("contraseña"),PASSWORD_DEFAULT);
+            $contraHash = password_hash($request->getRequest("password"),PASSWORD_DEFAULT);
             $usuario = $this->model->create($nombre,$apellido, $email, $contraHash);
             $resultado = "¡Cuenta creada!";
             header('Location: /');
@@ -49,26 +49,21 @@ class UsuarioController extends Controlador{
                 'rutasHeaderDer' => $this->rutasHeaderDer, 
                 'rutasFooter' => $this->rutasFooter, 
             ]);
-        }
-        
+        }        
     }
 
     #Login
     public function login(){
         global $request;
 
-        #Obtengo los datos de la peticion
+        // Obtener el correo electrónico y la contraseña del formulario
         $email = $request->getRequest("email");
-        $contraseña = $request->getRequest("contraseña");
-        //var_dump($email);
-
-        #Obtengo los datos de la BD par aver si existe
+        $password = $request->getRequest("password");
+        // Obtener los datos del usuario desde la base de datos
         $usuario = $this->model->get($email);
-
-        #Compruebo que exista en el sistema
-        //var_dump($usuario);
-        #var_dump($usuario);
-        if ($usuario && password_verify($contraseña,$usuario->getContraseña())){
+    
+        // Comprobar si el usuario existe y verificar la contraseña
+        if ($usuario && password_verify($password, $usuario->getContraseña())) {
             // Iniciar sesión
             session_start();
             $_SESSION['login'] = true;
@@ -98,7 +93,6 @@ class UsuarioController extends Controlador{
     public function logout(){        
         global $request;
         session_start();
-        var_dump($_SESSION['login']);
         if (isset($_SESSION['login'])){
             #Vacio el array de sesion
             $_SESSION = [];
@@ -137,6 +131,52 @@ class UsuarioController extends Controlador{
             ]);
         }
     }
+    public function perfil($algo = ""){
+        if (!$algo == "1"){
+            session_start();
+        }
 
+        $title = 'Ingresar - LigaCF';
+        if (!isset($_SESSION['login'])) {
+             $_SESSION['login'] = "";
+        }
 
+        $hayLogin = $_SESSION['login'];
+
+        if ($hayLogin) {
+            $usuario = $_SESSION['username'];
+            $usuario_info = $this->model->get($usuario);
+            //var_dump($usuario_info);
+        }
+
+        echo $this->twig->render('cuenta/perfil.view.twig', [
+            'title' =>  $title,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter, 
+            'usuario_info'=> $usuario_info,
+        ]);
+    }
+
+    public function updateperfil(){
+        global $request;
+        session_start();
+        $nombre = $request->getRequest("nombre");
+        $apellido = $request->getRequest("apellido");
+        $equipoFavorito = $request->getRequest("equipoFavorito");
+        
+
+        $correo = $_SESSION['username'];
+
+        $data = [
+            'correo' => $correo,
+            'nombre' => $nombre,
+            'apellido' => $apellido,
+            'equipoFavorito' => $equipoFavorito,
+        ];
+        $this->model->updateUsuario($data);
+        $algo = "2";
+        $this->perfil($algo);
+
+    }
 }

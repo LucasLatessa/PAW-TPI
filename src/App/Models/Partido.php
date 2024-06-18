@@ -73,6 +73,8 @@ class Partido extends Model {
         $this->golesVisitante = $golesVisitante;
     }
 
+
+
     public function load($id) {
       
         $params = ["id" => $id];

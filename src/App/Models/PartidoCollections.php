@@ -28,11 +28,12 @@ class PartidoCollections extends Model{
 //         return $equiposTorneoCollection;
 //   }
 
-   public function create($local, $visitante, $golesLocal, $golesVisitante, $fecha, $hora)
+   public function create($idTorneo, $idFecha, $local, $visitante, $golesLocal, $golesVisitante, $fecha, $hora)
    {
       $newPartido = new Partido(); 
 
       $data = [
+         'id_fecha' => $idFecha,
          'id_equipo_local' => $local,
          'id_equipo_visitante' => $visitante,
          'golesLocal' => $golesLocal,
@@ -53,38 +54,46 @@ class PartidoCollections extends Model{
       $equipoTorneo->setQueryBuilder($this->queryBuilder);
 
       //Estadisticas local
-      $fieldsLocal = $this->calcularEstadisticas($local,$golesLocal,$golesVisitante);
+      $estadisticasLocal = $equipoTorneo->getEstadisticas($idTorneo,$local);
+      $fieldsLocal = $this->calcularEstadisticas($estadisticasLocal ,$golesLocal,$golesVisitante);
       $equipoTorneo->updateEstadisticas($local,$fieldsLocal);
 
       //Estadisticas visitante
-      $fieldsVisitante = $this->calcularEstadisticas($visitante,$golesVisitante,$golesLocal);
+      $estadisticasVisitante = $equipoTorneo->getEstadisticas($idTorneo, $visitante);
+      //var_dump($estadisticasVisitante);
+      $fieldsVisitante = $this->calcularEstadisticas($estadisticasVisitante, $golesVisitante,$golesLocal);
+      //var_dump($fieldsVisitante);
       $equipoTorneo->updateEstadisticas($visitante,$fieldsVisitante);
 
       //Instacia nuevo partido creado
       return $newPartido;
    }
  
-   public function calcularEstadisticas($equipoId, $golesAFavor, $golesContra)
+   private function calcularEstadisticas($currentStats, $golesAFavor, $golesEnContra)
    {
-      $estadisticas = 
-      [
-         'partidosJugados' => 1,
-         'golesAFavor' => $golesAFavor,
-         'golesContra' => $golesContra
-      ];
+      //var_dump($currentStats);
+      //var_dump($golesAFavor);
+      //var_dump($golesEnContra);
 
-      if ($golesAFavor > $golesContra) { //Gano
-            $estadisticas['partidosGanados'] = 1;
-            $estadisticas['puntos'] = 3;
-      } elseif ($golesAFavor == $golesContra) { //Empato
-            $estadisticas['partidosEmpatados'] = 1;
-            $estadisticas['puntos'] = 1;
-      } else {
-            $estadisticas['partidosPerdidos'] = 1; //Perdio
-            $estadisticas['puntos'] = 0;
-      }
+       // Actualiza las estadísticas basadas en el resultado del partido
+       $currentStats['partidosJugados'] += 1;
+       $currentStats['golesAFavor'] += $golesAFavor;
+       //var_dump($currentStats['golesAFavor']);
+       $currentStats['golesContra'] += $golesEnContra;
 
-     return $estadisticas;
+       if ($golesAFavor > $golesEnContra) {
+           $currentStats['partidosGanados'] += 1;
+           $currentStats['puntos'] += 3;
+       } elseif ($golesAFavor == $golesEnContra) {
+           $currentStats['partidosEmpatados'] += 1;
+           $currentStats['puntos'] += 1;
+       } else {
+           $currentStats['partidosPerdidos'] += 1;
+       }
+
+       $currentStats['diferencia'] = $currentStats['golesAFavor'] - $currentStats['golesContra'];
+
+       return $currentStats;
    }
 }  
 

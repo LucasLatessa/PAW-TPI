@@ -15,7 +15,7 @@ final class AltaEquiposSemilla extends AbstractMigration
                 'fecha_creacion' => '1930-11-11 00:00:00',
                 'estadio' => 'Raúl Orlando Lungarzo',
                 'descripcion' => 'Fundado en el año 1930 en la ciudad de Chivilcoy',
-                'escudo' => './independiente3.png'
+                'escudo' => './independiente.png'
             ],
             [
                 'nombre' => 'Club Atletico Ciclón de Chivilcoy',

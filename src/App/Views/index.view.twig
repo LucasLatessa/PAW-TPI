@@ -35,27 +35,15 @@
                     </tr>
                 </thead>
                 <tbody>
+                    {% for equipoTorneo in equipos %}
                     <tr>
-                        <td>1</td>
-                        <td>22 Octubre</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
+                        <td>{{loop.index}}</td>
+                        <td>{{equipoTorneo.equipo[0].nombre}}</td>
+                        <td>{{equipoTorneo.partidosJugados}}</td>
+                        <td>{{equipoTorneo.diferencia}}</td>
+                        <td>{{equipoTorneo.puntos}}</td>
                     </tr>
-                    <tr>
-                        <td>2</td>
-                        <td>INDEPENDIENTE</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
-                    <tr>
-                        <td>3</td>
-                        <td>ONCE TIGRES</td>
-                        <td>0</td>
-                        <td>0</td>
-                        <td>0</td>
-                    </tr>
+                    {% endfor %}
                 </tbody>
             </table>
         </section>
