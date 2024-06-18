@@ -59,11 +59,10 @@ class UsuarioController extends Controlador{
 
         #Obtengo los datos de la peticion
         $email = $request->getRequest("email");
-        $contraseña = $request->getRequest("contraseña");
+        $contraseña = $request->getRequest("password");
 
         #Obtengo los datos de la BD par aver si existe
         $usuario = $this->model->get($email);
-
         #Compruebo que exista en el sistema
         if ($usuario && password_verify($contraseña,$usuario->getContraseña())){
             // Iniciar sesión
@@ -73,7 +72,7 @@ class UsuarioController extends Controlador{
             $_SESSION['usuario_id'] = $usuario->getId(); 
             
             // Redirigir al perfil del usuario
-            header('Location: /cuenta/perfil');
+            //header('Location: /cuenta/perfil');
             //print_r ("holaa", $_SESSION['username']); 
             exit();
         } else {
