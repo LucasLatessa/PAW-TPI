@@ -10,17 +10,33 @@ Figma: https://www.figma.com/file/XKGX9Ru2A00yJzaIg28TDR/LMJR(Chiv)---TPI(PAW)?t
 
 Diagramas: https://drive.google.com/file/d/11eeG-HcdYVZ5bG-VZjLCpFYsAhSQwbeX/view?usp=sharing
 
+## Instrucciones para configurar-instalacion
 
 1. Instalar todas las dependencias
 
+```
+composer update
 composer install
+```
 
-2. Creación db mysql con las configuraciones establecidas en el env 
+2. Crear un archivo .env, este tendra los configuracion necesaria para conectar a la base de datos
 
-3. Hacer el migrate db
+3. Copia el contenido que esta en .env.example en .env, modificiando username y password acorde a las configuraciones de su MySql
 
+4. LLevar a cabo los migrates con el siguiente comando
+
+```
 phinx migrate -e development
+```
 
-4. Levantar el proyecto 
+5. Levantar el proyecto
 
+```
 php -S localhost:8888 -t public
+```
+
+6. En el caso que se quiera levantar en un servidor publico, ejecute el siguiente comando (con el servidor levantado en local)
+
+```
+./ngrok http http://localhost:8888/
+```
