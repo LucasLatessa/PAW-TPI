@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\EquipoTorneoCollections;
+use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
 use Twig\Loader\FilesystemLoader;
@@ -64,6 +65,7 @@ class TorneoController extends Controlador{
             'title' => $title,
             'torneo' => $torneo,
             'equipos' => $equiposTorneo,
+            'idTorneo' => $idTorneo,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter, // Pasar la lista de equipos a la vista
@@ -97,6 +99,8 @@ class TorneoController extends Controlador{
         $modelEquipos->setQueryBuilder($this->getQb());
         $listaEquipos = $modelEquipos->getAllEquipos();
 
+        
+
         echo $this->twig->render('liga/cargarEquipoTorneo.view.twig', [
             'title' => $title,
             'listaTorneos' => $listaTorneos,
@@ -106,6 +110,52 @@ class TorneoController extends Controlador{
             'rutasFooter' => $this->rutasFooter,
             #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
+    }
+
+    public function formCargarResultado()
+    {
+        global $request;
+
+        $idTorneo = $request->get('id');
+        $title = 'Cargar Equipo - LigaCF';
+        $torneo = $this->model->getTorneo($idTorneo);
+        //$listaTorneos = $this->model->getAllTorneos();
+
+        $modelEquipoTorneo = new EquipoTorneoCollections();
+        $modelEquipoTorneo->setQueryBuilder($this->getQb());
+        $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
+
+        echo $this->twig->render('liga/cargarResultado.view.twig', [
+            'title' => $title,
+            'torneo' => $torneo,
+            'equiposTorneo' => $equiposTorneo,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter,
+            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+        ]);
+    }
+    
+    public function cargarResultado()
+    {
+        global $request;
+
+        $idTorneo = $request->getRequest("id-torneo");
+        $idLocal = $request->getRequest("id-equipo-local"); 
+        $idVisitante = $request->getRequest("id-equipo-visitante");
+        $golesLocal = $request->getRequest("goles-local");
+        $golesVisitante = $request->getRequest("goles-visitante");
+        $fecha = $request->getRequest("fecha");
+        $hora =$request->getRequest("hora");
+
+
+        //Creacion del partido
+        $modelPartidoCollections = new PartidoCollections();
+        $modelPartidoCollections->setQueryBuilder($this->getQb());
+        $partido = $modelPartidoCollections->create($idLocal,$idVisitante,$golesLocal,$golesVisitante,$fecha,$hora);
+
+        header('Location: /torneo?id=' . $idTorneo);
+        exit();
     }
 
     public function cargarEquipo()

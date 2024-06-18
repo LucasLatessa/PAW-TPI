@@ -95,8 +95,10 @@ $router->post('/torneos/crearTorneo', 'TorneoController@crearTorneo');
 $router->get('/torneos', 'TorneoController@torneos');
 $router->get('/torneo', 'TorneoController@torneo');
 $router->get('/torneo/cargarEquipo', "TorneoController@formCargarEquipo");
+$router->get('/torneo/cargarResultado', "TorneoController@formCargarResultado");
+
 $router->post('/torneo/cargarEquipo', "TorneoController@cargarEquipo");
-$router->post('/torneos/cargarResultado', "TorneoController@cargarResultado");
+$router->post('/torneo/cargarResultado', "TorneoController@cargarResultado");
 
 
 

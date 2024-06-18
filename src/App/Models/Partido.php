@@ -12,13 +12,9 @@ class Partido extends Model {
     private $equipoLocal; // Objeto Equipo representando al equipo local
     private $equipoVisitante; // Objeto Equipo representando al equipo visitante
     private $fecha;
+    private $hora;
     private $golesLocal;
     private $golesVisitante;
-
-    // Constructor para inicializar las propiedades
-    public function __construct() {
-   
-    }
 
     // Getters y setters
     public function getId() {
@@ -75,5 +71,28 @@ class Partido extends Model {
 
     public function setGolesVisitante($golesVisitante) {
         $this->golesVisitante = $golesVisitante;
+    }
+
+    public function load($id) {
+      
+        $params = ["id" => $id];
+        $record = current($this->queryBuilder->select($this->table, $params));
+
+        if ($record !== false) {
+            $this->set($record); // Utiliza el método set para aplicar los datos obtenidos a las propiedades del objeto
+            return $this;
+        } else {
+            return null;
+        }
+    }
+
+    // Método para establecer múltiples propiedades a la vez
+    public function set(array $values) {
+        foreach ($values as $field => $value) {
+            $method = "set" . ucfirst($field);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
     }
 }

@@ -195,8 +195,35 @@ class QueryBuilder
         $sentencia->execute(array_values($data));
     }
 
-    public function update(){
-        
+    public function update($table, array $data, array $conditions){
+        //SET de la consulta
+        $setPart = implode(", ", array_map(function($key) {
+            return "$key = :$key";
+        }, array_keys($data)));
+
+        //Where
+        $wherePart = implode(" AND ", array_map(function($key) {
+            return "$key = :where_$key";
+        }, array_keys($conditions)));
+
+        //Consulta completa
+        $sql = "UPDATE $table SET $setPart WHERE $wherePart";
+
+        //Preparo la consulta
+        $stmt = $this->pdo->prepare($sql);
+
+        //Vinculo valor con dato
+        foreach ($data as $key => $value) {
+            $stmt->bindValue(":$key", $value);
+        }
+
+        //Vinculo valor con condicion
+        foreach ($conditions as $key => $value) {
+            $stmt->bindValue(":where_$key", $value);
+        }
+
+        // Ejecutar consulta
+        return $stmt->execute();
     }
 
     public function delete($table,$params = []){
