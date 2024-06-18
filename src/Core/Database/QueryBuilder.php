@@ -179,14 +179,19 @@ class QueryBuilder
     }
 
     public function insert($table, array $data){
-        #Preparo las columnas y sus valores
+        # Preparo las columnas y los marcadores de posición
         $columns = implode(', ', array_keys($data));
-        $values = implode(', ', array_fill(0, count($data), '?'));
-        #Creo la query
-        $query = "insert into {$table} ({$columns}) values ({$values})";
-
+        $placeholders = implode(', ', array_fill(0, count($data), '?'));
+        
+        # Creo la query
+        $query = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
+        var_dump($query);  // Para depuración, puedes eliminar esto en producción
+        var_dump(array_values($data));  // Para depuración, puedes eliminar esto en producción
+        
+        # Preparo la sentencia
         $sentencia = $this->pdo->prepare($query);
-        #$sentencia->execute();
+    
+        # Ejecuto la sentencia con los valores correspondientes
         $sentencia->execute(array_values($data));
     }
 
