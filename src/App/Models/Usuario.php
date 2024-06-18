@@ -15,6 +15,8 @@ class Usuario extends Model{
 
     private $contraseña;
 
+    private $equipoFavorito;
+
     #Getters
     public function getNombre(){
         return $this->nombre;
@@ -36,6 +38,9 @@ class Usuario extends Model{
         return $this->id;
     }
 
+    public function getEquipoFavorito(){
+        return $this->equipoFavorito;
+    }
     #Setters
     public function setNombre($nombre){
         $this->nombre = $nombre;
@@ -56,6 +61,11 @@ class Usuario extends Model{
     public function setId($id){
         $this->id = $id;
     }
+    public function setEquipoFavorito($equipoFavorito){
+        $this->equipoFavorito = $equipoFavorito ;
+    }
+
+
 
     public function set(array $values){
         foreach ($values as $field => $value) {

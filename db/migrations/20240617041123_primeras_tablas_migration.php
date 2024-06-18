@@ -34,6 +34,7 @@ final class PrimerasTablasMigration extends AbstractMigration
         ->addColumn('apellido', 'string', ['limit' => 60])
         ->addColumn('correo', 'string', ['limit' => 60])
         ->addColumn('contraseña', 'string')
+        ->addColumn('equipoFavorito', 'string')
         ->create();
 
         /* ESTA GENERACIÓN DE TABLAS NO LAS PROBE TODAVIA :) pero

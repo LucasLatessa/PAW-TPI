@@ -141,27 +141,6 @@ class PageController extends Controlador
             'rutasFooter' => $this->rutasFooter, 
         ]);
     }
-
-    public function perfil(){
-        session_start();
-        $title = 'Ingresar - LigaCF';
-        if (!isset($_SESSION['login'])) {
-             $_SESSION['login'] = "";
-        }
-
-        $hayLogin = $_SESSION['login'];
-
-        if ($hayLogin) {
-            $usuario = $_SESSION['username'];
-        }
-        echo $this->twig->render('cuenta/perfil.view.twig', [
-            'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
-            'usuario' =>  $usuario, 
-        ]);
-    }
     
     public function crearTorneo(){
         $title = 'Crear Torneo - LigaCF';
