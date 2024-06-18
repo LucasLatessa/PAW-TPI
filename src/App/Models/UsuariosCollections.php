@@ -18,14 +18,12 @@ class UsuariosCollections extends Model
     public function get($correo)
     {
         $usuarioData = $this->queryBuilder->selectViejo($this->table, ['correo' => $correo]);
-        var_dump($usuarioData);
         if ($usuarioData) {
             // Creo instancia de Usuario
             $usuario = new Usuario();
-            $usuario->set($usuarioData[0]); // Cargar datos en el modelo Usuario
+            $usuario->set($usuarioData[0]);// Cargar datos en el modelo Usuario
             return $usuario;
         }
-        var_dump("Nulo");
         return null;
     }
 
@@ -45,6 +43,10 @@ class UsuariosCollections extends Model
 
         $this->queryBuilder->insert($this->table, $data);
         return $newUsuario;
+    }
+
+    public function updateUsuario($params){
+        $this->queryBuilder->update($this->table, $params);
     }
 
 }
