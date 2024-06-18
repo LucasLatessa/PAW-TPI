@@ -49,8 +49,7 @@ class UsuarioController extends Controlador{
                 'rutasHeaderDer' => $this->rutasHeaderDer, 
                 'rutasFooter' => $this->rutasFooter, 
             ]);
-        }
-        
+        }        
     }
 
     #Login
