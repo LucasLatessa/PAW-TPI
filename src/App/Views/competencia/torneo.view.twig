@@ -50,16 +50,10 @@
         </tbody>
     </table>
         {% if hayLogin %}
-        <section>
-            Resultados
-            <a href="/torneo/cargarResultado?id={{idTorneo}}"> Cargar resultados </a> 
-        </section>
-
-
-        <section>
-            Cargar Equipo
-            <a href="./torneo/cargarEquipo"> Cargar equipo </a>
-        </section>
+        <div class="configuracionTorneo"> <!--Poner datos del torneo mas adelante, es temporal (usamos div porque el seccion necesita h1..h6)-->
+            <p><a class="botonCargarResultado" href="/torneo/cargarResultado?id={{idTorneo}}"> Cargar resultados </a> </p>
+            <p><a class="botonCargarEquipo" href="./torneo/cargarEquipo"> Cargar equipo </a></p>
+        </div>
         {% endif %}
     </main>
 

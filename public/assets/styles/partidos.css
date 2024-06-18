@@ -40,10 +40,46 @@ tr:nth-child(even) {
 }
 
 .lista-torneos{
-    padding: 4rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
 }
 
-.article-torneo {
+.lista-torneos li
+{
+    margin: 1rem;
+    padding: 1.3rem;
+    width: 90%;
+    border-radius: 15px;
+    background-color: var(--color-principal);
+    color: var(--color-letras-blanco);
+    border: 3px solid var(--color-principal);
+    transition: 0.2s all ease-in-out;
+}
+
+.lista-torneos li:hover{
+    background-color: var(--color-letras-blanco);
+    border: 3px solid var(--color-letras-blanco);
+}
+
+.article-torneo a{
+    text-decoration: none;
+    color: var(--color-letras-blanco);
+    font-weight: bolder;
+    font-size: 2rem;
+    text-transform: uppercase;
+    text-align: center;
+    transition: 0.2s all ease-in-out;
+}
+
+.article-torneo a:hover
+{
+    color: var(--color-principal);
+}
+
+
+/* .article-torneo {
     position: relative;
     display: block;
     width: 100%;
@@ -78,4 +114,29 @@ tr:nth-child(even) {
 .lista-torneos li article  {
     background-image: url('/assets/ligaligax.jpg');
 
-} 
+}  */
+
+.crearTorneo{
+    text-align: center;
+    margin-top: 3rem;
+}
+
+.crearTorneo a{
+    text-decoration: none;
+    text-transform: uppercase;
+    font-size: 1.5rem;
+    font-weight: bolder;
+    background-color: var(--color-letras-blanco);
+    color: var(--color-principal);
+    border: 3px solid var(--color-principal);
+    padding: 1.2rem;
+    margin: 1rem 0;
+    border-radius: 10px;
+    transition: 0.2s all ease-in-out;
+}
+
+.crearTorneo a:hover{
+    background-color: var(--color-principal);
+    color: var(--color-letras-blanco);
+    border: 1px solid var(--color-principal);
+}
