@@ -185,8 +185,7 @@ class QueryBuilder
         
         # Creo la query
         $query = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
-        var_dump($query);  // Para depuración, puedes eliminar esto en producción
-        var_dump(array_values($data));  // Para depuración, puedes eliminar esto en producción
+  // Para depuración, puedes eliminar esto en producción
         
         # Preparo la sentencia
         $sentencia = $this->pdo->prepare($query);
@@ -195,8 +194,45 @@ class QueryBuilder
         $sentencia->execute(array_values($data));
     }
 
-    public function update(){
-        
+    public function update($table, $params = []){
+        $set = [];
+        $bindParams = [];
+    
+        foreach ($params as $key => $value) {
+            switch ($key) {
+                case 'correo':
+                    $correo = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+            
+                case 'nombre':
+                    $set[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+                case 'apellido':
+                    $set[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;   
+                case 'equipoFavorito':
+                    $set[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;  
+                // Añadir más casos según los parámetros que necesites manejar
+            }
+        }
+    
+        $setClause = '';
+        if (!empty($set)) {
+            $setClause = 'SET ' . implode(', ', $set);
+        }
+    
+        $query = "UPDATE {$table} {$setClause} WHERE {$correo}";
+        $sentencia = $this->pdo->prepare($query);
+        foreach ($bindParams as $param => $value) {
+            $sentencia->bindValue($param, $value);
+        };
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
     }
 
     public function delete($table,$params = []){
