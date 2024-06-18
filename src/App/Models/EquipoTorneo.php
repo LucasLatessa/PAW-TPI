@@ -70,7 +70,7 @@ class EquipoTorneo extends Model{
 
     public function getPartidosEmpatados()
     {
-        return $this->partidosGanados;
+        return $this->partidosEmpatados;
     }
 
     public function setPartidosEmpatados($partidosEmpatados){
@@ -79,7 +79,7 @@ class EquipoTorneo extends Model{
 
     public function getPartidosPerdidos()
     {
-        return $this->partidosGanados;
+        return $this->partidosPerdidos;
     }
 
     public function setPartidosPerdidos($partidosPerdidos){

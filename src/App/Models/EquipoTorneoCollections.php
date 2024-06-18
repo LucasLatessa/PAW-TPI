@@ -48,6 +48,11 @@ class EquipoTorneoCollections extends Model{
       // Retornar la instancia del nuevo equipo creado
       return $newEquipoTorneo;
    }
+
+   public function updateEstadisticas($equipoId, $fields)
+   {
+      return $this->queryBuilder->update($this->table, $fields, ['id_equipo' => $equipoId]);
+   }
  
 //    public function get($nombre){
 //       $equipo = $this->queryBuilder->selectNombreEquipo($this->table, $nombre);
