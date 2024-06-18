@@ -85,7 +85,7 @@ $router->get('/cuenta/logout', 'UsuarioController@logout');
 $router->post('/cuenta/registrarse', 'UsuarioController@registrarse');
 $router->post('/login', 'UsuarioController@login');
 
-$router->get('/cuenta/perfil', 'PageController@perfil');
+$router->get('/cuenta/perfil', 'UsuarioController@perfil');
 $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
 
 /* TORNEO */

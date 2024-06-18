@@ -36,6 +36,7 @@ final class CrearTablaTorneoConEquiposYPartidos extends AbstractMigration
         ->addColumn('partidosPerdidos','integer', ['default' => 0])
         ->addColumn('golesAFavor','integer', ['default' => 0])
         ->addColumn('golesContra','integer', ['default' => 0])
+        ->addColumn('diferencia','integer', ['default' => 0])
         ->addColumn('puntos','integer', ['default' => 0])
         ->addForeignKey('id_equipo', 'equipo', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
         ->addForeignKey('id_torneo', 'torneo', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])

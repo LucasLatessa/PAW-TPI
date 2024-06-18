@@ -1,6 +1,8 @@
 <?php
 
 namespace Paw\App\Controllers;
+use Paw\App\Models\EquipoTorneoCollections;
+use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -17,9 +19,16 @@ class PageController extends Controlador
 
     public function index()
     {
+        /*Lista de equipos en torneo para ver la tabla*/
+        $modelEquipoTorneo = new EquipoTorneoCollections();
+        $modelEquipoTorneo->setQueryBuilder($this->getQb());
+        $equiposTorneo = $modelEquipoTorneo->getTabla(1); //Traigo el primero, que es el de primera
+
+
         $title = 'Home - LigaCF';
         echo $this->twig->render('index.view.twig', [
             'title' =>  $title,
+            'equipos' => $equiposTorneo,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter, 
@@ -139,27 +148,6 @@ class PageController extends Controlador
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter, 
-        ]);
-    }
-
-    public function perfil(){
-        session_start();
-        $title = 'Ingresar - LigaCF';
-        if (!isset($_SESSION['login'])) {
-             $_SESSION['login'] = "";
-        }
-
-        $hayLogin = $_SESSION['login'];
-
-        if ($hayLogin) {
-            $usuario = $_SESSION['username'];
-        }
-        echo $this->twig->render('cuenta/perfil.view.twig', [
-            'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
-            'usuario' =>  $usuario, 
         ]);
     }
     

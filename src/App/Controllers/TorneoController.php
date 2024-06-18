@@ -55,7 +55,7 @@ class TorneoController extends Controlador{
 
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
+        $equiposTorneo = $modelEquipoTorneo->getTabla($idTorneo);
         session_start();
         if (!isset($_SESSION['login'])) {
              $_SESSION['login'] = "";
@@ -141,6 +141,7 @@ class TorneoController extends Controlador{
         global $request;
 
         $idTorneo = $request->getRequest("id-torneo");
+        $idFecha = $request->getRequest("id-fecha");
         $idLocal = $request->getRequest("id-equipo-local"); 
         $idVisitante = $request->getRequest("id-equipo-visitante");
         $golesLocal = $request->getRequest("goles-local");
@@ -152,7 +153,7 @@ class TorneoController extends Controlador{
         //Creacion del partido
         $modelPartidoCollections = new PartidoCollections();
         $modelPartidoCollections->setQueryBuilder($this->getQb());
-        $partido = $modelPartidoCollections->create($idLocal,$idVisitante,$golesLocal,$golesVisitante,$fecha,$hora);
+        $partido = $modelPartidoCollections->create($idTorneo, $idFecha,$idLocal,$idVisitante,$golesLocal,$golesVisitante,$fecha,$hora);
 
         header('Location: /torneo?id=' . $idTorneo);
         exit();

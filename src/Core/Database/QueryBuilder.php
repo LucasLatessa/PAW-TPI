@@ -7,64 +7,64 @@ use Monolog\Logger;
 
 class QueryBuilder
 {
-    public function __construct(PDO $pdo, Logger $logger = null){
+    public function __construct(PDO $pdo, Logger $logger = null)
+    {
         $this->pdo = $pdo;
         $this->logger = $logger;
     }
 
-    public function selectViejo($table, $params = []) {
+    public function selectViejo($table, $params = [])
+    {
         $where = [];
         $bindParams = [];
-    
+
         foreach ($params as $key => $value) {
             switch ($key) {
                 case 'id':
                 case 'idUsuario':
                 case 'idSesion':
                 case 'correo':
-                    $where[] = "$key = :$key";
-                    $bindParams[":$key"] = $value;
-                    break;
-                case 'id_pedido':
+                case 'id_torneo':
+                case 'id_equipo':
                     $where[] = "$key = :$key";
                     $bindParams[":$key"] = $value;
                     break;
                 // Añadir más casos según los parámetros que necesites manejar
             }
         }
-    
+
         $whereClause = '';
         if (!empty($where)) {
             $whereClause = 'WHERE ' . implode(' AND ', $where);
         }
-    
+
         $query = "SELECT * FROM {$table} {$whereClause}";
         $sentencia = $this->pdo->prepare($query);
-    
+
         foreach ($bindParams as $param => $value) {
             $sentencia->bindValue($param, $value);
         }
-    
+
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
         return $sentencia->fetchAll();
     }
-    
 
-    public function select($table, $params = []){
+
+    public function select($table, $params = [])
+    {
 
         $where = " 1 = 1 "; #Para que devuelva todo si no hay parametros
-        if (isset($params['id'])){
+        if (isset($params['id'])) {
             $where = " id = :id ";
-        }
-        else if((isset($params['correo'])) and (isset($params['contraseña']))){
+        } else if ((isset($params['correo'])) and (isset($params['contraseña']))) {
             $where = " correo = :correo AND contraseña = :contraseña ";
         }
         #Preparo la consulta
         #$query = "select * from {$table} where {$where}"; no funciona
         $query = "select * from {$table} where correo = '{$params['correo']}' and contraseña = '{$params['contraseña']}'";
         $sentencia = $this->pdo->prepare($query);
-        
+
 
         #Si exxiste el id, se lo agrego al where
         /*if (isset($params['id'])){
@@ -77,32 +77,41 @@ class QueryBuilder
         }*/
         $sentencia->setFetchMode(PDO::FETCH_ASSOC); #Como me retorna todo el array de respuesta FETCH_ASSOC: trae nombre de las columnas
         $sentencia->execute();
-        
-        return  $sentencia->fetchAll(); #Me devuelve todos los registros que coincidan
+
+        return $sentencia->fetchAll(); #Me devuelve todos los registros que coincidan
 
     }
 
-    /** Para el ordenamiento y filtrado de items  */
-
-    public function selectOrder($table, $sortField, $direction ){
-        // Validar el campo de ordenamiento
-        $camposPermitidos = ['id', 'nombre', 'precio']; // Agrega aquí los nombres de campo permitidos
-        if (!in_array($sortField, $camposPermitidos)) {
-            $sortField = 'id'; // Establecer un valor predeterminado si el campo no es válido
-        }
-        
+    /*Select para obtener la tabla de posiciones*/
+    public function selectTabla($table, $idTorneo = null)
+    {
         // Construir la consulta SQL con los parámetros de orden y dirección
-        $query = "SELECT * FROM {$table} ORDER BY {$sortField} {$direction}";
-        
+        $query = "SELECT * FROM {$table} WHERE 1";
+
+        // Agregar filtro por id_torneo si se proporciona
+        if ($idTorneo !== null) {
+            $query .= " AND id_torneo = :idTorneo";
+        }
+
+        // Agregar la cláusula ORDER BY por puntos ascendente
+        $query .= " ORDER BY puntos DESC";
+
         // Preparar y ejecutar la consulta
         $sentencia = $this->pdo->prepare($query);
+
+        // Vincular el parámetro id_torneo si se proporciona
+        if ($idTorneo !== null) {
+            $sentencia->bindParam(':idTorneo', $idTorneo, PDO::PARAM_INT);
+        }
+
         $sentencia->execute();
-        
+
         // Devolver los resultados
         return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    public function selectOrder2($table, $sortField, $direction, $precioMin = null, $precioMax = null){
+    public function selectOrder2($table, $sortField, $direction, $precioMin = null, $precioMax = null)
+    {
         // Validar el campo de ordenamiento
         $camposPermitidos = ['id', 'nombre', 'precio']; // Agrega aquí los nombres de campo permitidos
         if (!in_array($sortField, $camposPermitidos)) {
@@ -111,7 +120,7 @@ class QueryBuilder
 
         // Construir la consulta SQL base
         $query = "SELECT * FROM {$table}";
-        
+
         // Agregar condiciones de filtrado por rango de precio si están presentes
         $conditions = [];
         if ($precioMin !== null) {
@@ -148,8 +157,9 @@ class QueryBuilder
         return $sentencia->fetchAll(PDO::FETCH_ASSOC);
     }
 
-    
-    public function count($table, $params = []){
+
+    public function count($table, $params = [])
+    {
         $where = " 1 = 1 ";
 
         // Filtrado por precio mínimo y máximo
@@ -178,78 +188,135 @@ class QueryBuilder
         return $result['total'];
     }
 
-    public function insert($table, array $data){
+    public function insert($table, array $data)
+    {
         # Preparo las columnas y los marcadores de posición
         $columns = implode(', ', array_keys($data));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
-        
+
         # Creo la query
         $query = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
-        var_dump($query);  // Para depuración, puedes eliminar esto en producción
-        var_dump(array_values($data));  // Para depuración, puedes eliminar esto en producción
-        
+        // Para depuración, puedes eliminar esto en producción
+
         # Preparo la sentencia
         $sentencia = $this->pdo->prepare($query);
-    
+
         # Ejecuto la sentencia con los valores correspondientes
         $sentencia->execute(array_values($data));
     }
 
-    public function update($table, array $data, array $conditions){
-        //SET de la consulta
-        $setPart = implode(", ", array_map(function($key) {
-            return "$key = :$key";
-        }, array_keys($data)));
+    public function updateEquipoTorneo($table, $fields, $params = [])
+    {
+        // Inicializar arrays para fragmentos de la consulta y parámetros
+        $set = [];
+        $where = [];
+        $bindParams = [];
+    
+        // Construir la parte SET de la consulta
+        foreach ($fields as $key => $value) {
+            $paramKey = ":set_$key";
+            $set[] = "$key = $paramKey";
+            $bindParams[$paramKey] = $value;
+        }
+    
+        // Construir la parte WHERE de la consulta
+        foreach ($params as $key => $value) {
+            $paramKey = ":where_$key";
+            $where[] = "$key = $paramKey";
+            $bindParams[$paramKey] = $value;
+        }
+    
+        // Unir las partes SET y WHERE
+        $setClause = implode(', ', $set);
+        $whereClause = implode(' AND ', $where);
+    
+        // Construir la consulta completa
+        $query = "UPDATE $table SET $setClause WHERE $whereClause";
+        $sentencia = $this->pdo->prepare($query);
+    
+        // Vincular los parámetros
+        foreach ($bindParams as $param => $value) {
+            // Asegurarse de que $value sea un valor escalar
+            $sentencia->bindValue($param, $value);
+        }
+    
+        // Ejecutar la consulta
+        return $sentencia->execute();
+    }
+    
 
-        //Where
-        $wherePart = implode(" AND ", array_map(function($key) {
-            return "$key = :where_$key";
-        }, array_keys($conditions)));
 
-        //Consulta completa
-        $sql = "UPDATE $table SET $setPart WHERE $wherePart";
 
-        //Preparo la consulta
-        $stmt = $this->pdo->prepare($sql);
 
-        //Vinculo valor con dato
-        foreach ($data as $key => $value) {
-            $stmt->bindValue(":$key", $value);
+    public function update($table, $params = [])
+    {
+        $set = [];
+        $bindParams = [];
+
+        foreach ($params as $key => $value) {
+            switch ($key) {
+                case 'correo':
+                    $correo = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+
+                case 'nombre':
+                    $set[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+                case 'apellido':
+                    $set[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+                case 'equipoFavorito':
+                    $set[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
+                // Añadir más casos según los parámetros que necesites manejar
+            }
         }
 
-        //Vinculo valor con condicion
-        foreach ($conditions as $key => $value) {
-            $stmt->bindValue(":where_$key", $value);
+        $setClause = '';
+        if (!empty($set)) {
+            $setClause = 'SET ' . implode(', ', $set);
         }
 
-        // Ejecutar consulta
-        return $stmt->execute();
+        $query = "UPDATE {$table} {$setClause} WHERE {$correo}";
+        $sentencia = $this->pdo->prepare($query);
+        foreach ($bindParams as $param => $value) {
+            $sentencia->bindValue($param, $value);
+        }
+        ;
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
     }
 
-    public function delete($table,$params = []){
+    public function delete($table, $params = [])
+    {
         $where = " 1 = 2 ";
 
         #Manera mas seguro de evitar inyecciones SQL
-        if (isset($params['id'])){
+        if (isset($params['id'])) {
             $where = " id = :id "; # :id -> parametrizado
         }
 
         $query = "delete from {$table} where {$where}";
         $sentencia = $this->pdo->prepare($query); #Prepara la consulta
-        if (isset($params['id'])){
+        if (isset($params['id'])) {
             $sentencia->bindValue(":id", $params['id']);
         }
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
     }
 
-    public function selectNombreEquipo($table, $nombre){
+    public function selectNombreEquipo($table, $nombre)
+    {
         $whereClause = 'WHERE nombre = :nombre';
         $query = "SELECT * FROM {$table} {$whereClause}";
 
         $sentencia = $this->pdo->prepare($query);
         $sentencia->bindValue(':nombre', $nombre);
-            
+
         $sentencia->setFetchMode(PDO::FETCH_ASSOC);
         $sentencia->execute();
         return $sentencia->fetchAll();
