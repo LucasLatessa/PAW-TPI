@@ -1,51 +1,41 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     {% include 'parts/head.view.twig' %}
     <link rel="stylesheet" href="/assets/styles/noticias.css" />
 </head>
 <body>
-    <!--HEADER-->
+    <!-- HEADER -->
     {% include 'parts/header.view.twig' %}
     
     <main>
-        <!-- Header del Main -->
         <header class="header-noticias">
             <h1>NOTICIAS</h1>
         </header>
 
         <!-- Grilla de Noticias -->
         <section class="noticias-grid">
-            <!-- Ejemplo de artículos de noticias -->
-            <article class="noticia noticia1">
-                <h3>INDEPENDIENTE CAMPEÓN</h3>
-                <p>Final del Torneo Apertura de 1ra. División 2024. </p>
-            </article>
-            <article class="noticia noticia2">
-                <h3>Remodelación 2023</h3>
-                <p>Se comenzó a realizar los arreglos en el frente de la Liga Chivilcoyana de Fútbol</p>
-            </article>
-            <article class="noticia noticia3">
-                <h3>Noticia 3</h3>
-                <p>Descripción de la noticia 3.</p>
-            </article>
-            <article class="noticia noticia4">
-                <h3>Copa oro femenino</h3>
-                <p>Cerámica se impuso en la final de la copa oro femenino</p>
-            </article>
-            <article class="noticia noticia5">
-                <h3>PRODE LCF</h3>
-                <p>Ya podes solicitar el prode en tu club, te esperamos</p>
-            </article>
-            <article class="noticia noticia6">
-                <h3>Aniversario CLUB ONCE TIGRES</h3>
-                <p>Saludamos a sus hinchas, socios, jugadores, cuerpo técnico y directivos del club</p>
-            </article>
-            <!-- Añadir más artículos según sea necesario -->
+            {% for noticia in noticias %}
+               <article class="noticia">
+                    {% if noticia.imagen %}
+                        <div class="noticia-img-container">
+                            <img src="/assets/{{ noticia.imagen }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        </div>
+                    {% endif %}
+
+                    <div class="noticia-content">
+                        <h3>{{ noticia.titulo }}</h3>
+                        <p>{{ noticia.descripcion }}</p>
+                        <p><strong>Fecha:</strong> {{ noticia.fecha|date("d/m/Y") }}</p>
+                    </div>
+                </article>
+            {% else %}
+                <p>No hay noticias disponibles.</p>
+            {% endfor %}
         </section>
     </main>
 
-    <!--FOOTER-->
+    <!-- FOOTER -->
     {% include 'parts/footer.view.twig' %}
 </body>
 </html>

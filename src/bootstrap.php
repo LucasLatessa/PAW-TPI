@@ -53,7 +53,7 @@ $router->get('/', 'PageController@index'); #Clase y metodo que procesa la petici
 
 $router->get('/tabla', 'PageController@tabla');
 
-$router->get('/noticias', 'PageController@noticias');
+$router->get('/noticias', 'NoticiaController@noticias');
 
 #$router->get('/partidos', 'PageController@partidos');
 

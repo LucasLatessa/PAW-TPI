@@ -28,6 +28,14 @@ final class PrimerasTablasMigration extends AbstractMigration
         ->addColumn('escudo','string', ['limit' => 100]) #esto es imagen
         ->create();
 
+        $noticia = $this->table('noticia');
+        $noticia
+        ->addColumn('titulo', 'string', ['limit' => 200]) 
+        ->addColumn('descripcion', 'string', ['limit' => 500]) 
+        ->addColumn('fecha', 'date')
+        ->addColumn('imagen', 'string', ['limit' => 255]) 
+        ->create();
+
         $usuario = $this->table('usuario');
         $usuario
         ->addColumn('nombre', 'string', ['limit' => 60])
