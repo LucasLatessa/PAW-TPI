@@ -11,7 +11,7 @@ final class AltaEquiposSemilla extends AbstractMigration
     {
         $data = [
             [
-                'nombre' => 'Club atletico independiente de Chivilcoy',
+                'nombre' => 'Club Atletico Independiente de Chivilcoy',
                 'fecha_creacion' => '1930-11-11',
                 'estadio' => 'Raúl Orlando Lungarzo',
                 'descripcion' => 'Fundado en el año 1930 en la ciudad de Chivilcoy',
