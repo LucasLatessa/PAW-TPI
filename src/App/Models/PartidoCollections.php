@@ -28,7 +28,7 @@ class PartidoCollections extends Model{
 //         return $equiposTorneoCollection;
 //   }
 
-   public function create($idTorneo, $idFecha, $local, $visitante, $golesLocal, $golesVisitante, $fecha, $hora)
+   public function cargarResultado($idTorneo, $idFecha, $local, $visitante, $fecha, $hora, $golesLocal, $golesVisitante)
    {
       $newPartido = new Partido(); 
 
@@ -67,6 +67,49 @@ class PartidoCollections extends Model{
 
       //Instacia nuevo partido creado
       return $newPartido;
+   }
+   public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha, $hora)
+   {
+      $newPartido = new Partido(); 
+
+      $data = [
+         'id_torneo' => $idTorneo,
+         'fecha_torneo' => $fechaTorneo,
+         'id_equipo_local' => $local,
+         'id_equipo_visitante' => $visitante,
+         'fecha' => $fecha,
+         'horario' => $hora
+      ];
+
+      // Asignar el QueryBuilder y establecer los datos del equipo
+      $newPartido->setQueryBuilder($this->queryBuilder);
+      $newPartido->set($data);
+
+      // Insertar los datos en la base de datos
+      $this->queryBuilder->insert($this->table, $data);
+
+      //Instacia nuevo partido creado
+      return $newPartido;
+   }
+    public function getPartidosACargar($idTorneo){
+       // Obtener los partidos que no haya resultado cargado
+      $equipos = $this->queryBuilder->selectViejo($this->table, ["id_torneo" => $idTorneo]);
+
+      $equipoCollection = new EquipoCollections();
+      $equipoCollection->setQueryBuilder($this->queryBuilder);
+
+      // Crear una colección de objetos Equipo
+      $partidosTorneoCollection = [];
+      foreach ($equipos as $equipoData) {
+         $nuevoEquipo = new Partido; // Suponiendo que tienes una clase Equipo
+         $nuevoEquipo->set($equipoData);
+
+         $equipo = $equipoCollection->getXid($nuevoEquipo->getId_equipo());
+         $nuevoEquipo->equipo = $equipo;
+         $equiposTorneoCollection[] = $nuevoEquipo;
+      }
+      //var_dump($equiposTorneoCollection);
+      return $equiposTorneoCollection;
    }
  
    private function calcularEstadisticas($currentStats, $golesAFavor, $golesEnContra)
