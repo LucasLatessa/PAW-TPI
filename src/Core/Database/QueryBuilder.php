@@ -13,7 +13,7 @@ class QueryBuilder
         $this->logger = $logger;
     }
 
-    public function selectViejo($table, $params = [])
+    public function selectViejo($table, $params = [], $orderBy = null, $limit = null)
     {
         $where = [];
         $bindParams = [];
@@ -39,6 +39,15 @@ class QueryBuilder
         }
 
         $query = "SELECT * FROM {$table} {$whereClause}";
+        // order by si existe
+        if ($orderBy) {
+            $query .= " ORDER BY {$orderBy}";
+        }
+
+        // limit si existe
+        if ($limit) {
+            $query .= " LIMIT " . (int)$limit;
+        }
         $sentencia = $this->pdo->prepare($query);
 
         foreach ($bindParams as $param => $value) {

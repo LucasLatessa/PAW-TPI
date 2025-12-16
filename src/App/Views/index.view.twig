@@ -10,16 +10,6 @@
     {% include 'parts/header.view.twig' %}
     
     <main class="mainIndex">
-        <!-- Resultados Header -->
-        {# <header class="resultados-header">
-            <div class="carousel-arrow left">‹</div>
-            <div class="resultados-carousel">
-                <h2>Resultados de Partidos</h2>
-                <!-- Aquí irán los resultados del carrusel -->
-            </div>
-            <div class="carousel-arrow right">›</div>
-        </header> #}
-
         <!-- Layout con tabla de puntajes y noticias -->
         <section class="tablaPuntajes">
             <!-- Tabla de Puntajes -->
@@ -50,37 +40,25 @@
 
         <section class="seccionNoticias">
             <h2 class="tituloNoticias">Noticias</h2>
-            <section class="todasLasNoticias"> <!--Aca se agregaria con JS-->
-                <article class="noticia">
-                    <h3>Noticia 1</h3>
-                    <figure>
-                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
-                        <figcaption>Descripcion de la noticia.</figcaption>
-                    </figure>
+            <section class="todasLasNoticias"> 
+            {% for noticia in noticias %}
+               <article class="noticia">
+                    {% if noticia.imagen %}
+                        <div class="noticia-img-container">
+                            <img src="/assets/{{ noticia.imagen }}" alt="{{ noticia.titulo }}" loading="lazy">
+                        </div>
+                    {% endif %}
+
+                    <div class="noticia-content">
+                        <h3>{{ noticia.titulo }}</h3>
+                        <p>{{ noticia.descripcion }}</p>
+                        <p><strong>Fecha:</strong> {{ noticia.fecha|date("d/m/Y") }}</p>
+                    </div>
                 </article>
-                <article class="noticia">
-                    <h3>Noticia 1</h3>
-                    <figure>
-                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
-                        <figcaption>Descripcion de la noticia.</figcaption>
-                    </figure>
-                </article>
-                <article class="noticia">
-                    <h3>Noticia 1</h3>
-                    <figure>
-                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
-                        <figcaption>Descripcion de la noticia.</figcaption>
-                    </figure>
-                </article>
-                <article class="noticia">
-                    <h3>Noticia 1</h3>
-                    <figure>
-                        <img src="https://via.placeholder.com/400x300" alt="Ejemplo de imagen">
-                        <figcaption>Descripcion de la noticia.</figcaption>
-                    </figure>
-                </article>
+            {% else %}
+                <p>No hay noticias disponibles.</p>
+            {% endfor %}
             </section>
-                <!-- Añadir más artículos -->
         </section>
 
     </main>

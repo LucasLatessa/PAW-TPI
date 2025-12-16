@@ -2,6 +2,7 @@
 
 namespace Paw\App\Controllers;
 use Paw\App\Models\EquipoTorneoCollections;
+use Paw\App\Models\NoticiaCollections;
 use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
 use Twig\Loader\FilesystemLoader;
@@ -23,12 +24,18 @@ class PageController extends Controlador
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
         $equiposTorneo = $modelEquipoTorneo->getTabla(1); //Traigo el primero, que es el de primera
+        
+        $modelNoticias = new NoticiaCollections();
+        $modelNoticias->setQueryBuilder($this->getQb());
+
+        $noticias= $modelNoticias->getUltimasNoticias(4); // 4 ultimas noticias
 
 
         $title = 'Home - LigaCF';
         echo $this->twig->render('index.view.twig', [
             'title' =>  $title,
             'equipos' => $equiposTorneo,
+            'noticias' => $noticias,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter, 
