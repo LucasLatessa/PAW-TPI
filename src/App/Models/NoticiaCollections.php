@@ -28,6 +28,23 @@ class NoticiaCollections extends Model {
         
         return $noticiasCollection;
     }
+    /**
+     * Trae las ultimas N noticias ordenadas por fecha descendente
+     */
+    public function getUltimasNoticias($cantidad) {
+        # obtener las ultimas noticias ordenadas por fecha descendente
+        $noticias = $this->queryBuilder->selectViejo($this->table, [], 'fecha DESC', $cantidad);
+        
+        $noticiasCollection = [];
+        foreach ($noticias as $noticiaData) {
+            $nuevaNoticia = new Noticia();
+            $nuevaNoticia->setQueryBuilder($this->queryBuilder);
+            $nuevaNoticia->set($noticiaData);
+            $noticiasCollection[] = $nuevaNoticia;
+        }
+        
+        return $noticiasCollection;
+    }
 
 
     public function create($titulo, $descripcion, $fecha, $imagen) {
