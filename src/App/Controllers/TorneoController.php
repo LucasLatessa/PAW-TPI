@@ -138,11 +138,11 @@ class TorneoController extends Controlador{
         $torneo = $this->model->getTorneo($idTorneo);
         //$listaTorneos = $this->model->getAllTorneos();
 
-        $modelEquipoTorneo = new EquipoTorneoCollections();
-        $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $partidosACargar = $modelEquipoTorneo->getPartidosACargar($idTorneo);
+        $modelPartido = new PartidoCollections();
+        $modelPartido->setQueryBuilder($this->getQb());
+        $partidosACargar = $modelPartido->getPartidosACargar($idTorneo);
 
-        echo $this->twig->render('liga/cargarResultado.view.twig', [
+        echo $this->twig->render('liga/cargarResultados.view.twig', [
             'title' => $title,
             'torneo' => $torneo,
             'partidosACargar'=> $partidosACargar,
@@ -157,24 +157,18 @@ class TorneoController extends Controlador{
     {
         global $request;
 
-        $idTorneo = $request->getRequest("id-torneo");
-        $idFecha = $request->getRequest("id-fecha");
-        $idLocal = $request->getRequest("id-equipo-local"); 
-        $idVisitante = $request->getRequest("id-equipo-visitante");
-        $golesLocal = $request->getRequest("goles-local");
-        $golesVisitante = $request->getRequest("goles-visitante");
-        $fecha = $request->getRequest("fecha");
-        $hora =$request->getRequest("hora");
-
-
-        //Creacion del partido
-        $modelPartidoCollections = new PartidoCollections();
-        $modelPartidoCollections->setQueryBuilder($this->getQb());
-        $partido = $modelPartidoCollections->cargarResultado($idTorneo, $idFecha,$idLocal,$idVisitante,$fecha,$hora,$golesLocal,$golesVisitante);
-
-        header('Location: /torneo?id=' . $idTorneo);
-        exit();
+        $idTorneo = $request->getRequest("id_torneo");
+        $idPartido = $request->getRequest("id_partido");
+        $golesLocal = $request->getRequest("golesLocal");
+        $golesVisitante = $request->getRequest("golesVisitante");
+    if ($idPartido && $golesLocal !== null && $golesVisitante !== null) {
+       $partidoCollection = new PartidoCollections();
+        $partidoCollection->setQueryBuilder($this->getQb());
+        $partidoCollection->cargarResultado($idTorneo,$idPartido, $golesLocal, $golesVisitante);
     }
+    header("Location: /torneo/cargarResultado?id=$idTorneo");
+    exit;
+}
 
     
     public function formCargarPartido()

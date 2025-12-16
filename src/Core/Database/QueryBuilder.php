@@ -29,7 +29,17 @@ class QueryBuilder
                     $where[] = "$key = :$key";
                     $bindParams[":$key"] = $value;
                     break;
-                // Añadir más casos según los parámetros que necesites manejar
+                case 'golesLocal':
+                case 'golesVisitante':
+                    if (is_null($value)) {
+                        // Si es null, usamos IS NULL y NO bindeamos 
+                        $where[] = "$key IS NULL";
+                    } else {
+                        // Si tiene valor, usamos = y bindeamos
+                        $where[] = "$key = :$key";
+                        $bindParams[":$key"] = $value;
+                    }
+                    break;
             }
         }
 
@@ -256,50 +266,40 @@ class QueryBuilder
 
 
 
-
-    public function update($table, $params = [])
+/**
+     * @param string $table Nombre de la tabla
+     * @param array $data Array asociativo con columna => valor a cambiar
+     * @param array $where Array asociativo con columna => valor para filtrar (el ID)
+     */
+    public function update($table, $data, $where)
     {
-        $set = [];
+        $setParts = [];
         $bindParams = [];
 
-        foreach ($params as $key => $value) {
-            switch ($key) {
-                case 'correo':
-                    $correo = "$key = :$key";
-                    $bindParams[":$key"] = $value;
-                    break;
-
-                case 'nombre':
-                    $set[] = "$key = :$key";
-                    $bindParams[":$key"] = $value;
-                    break;
-                case 'apellido':
-                    $set[] = "$key = :$key";
-                    $bindParams[":$key"] = $value;
-                    break;
-                case 'equipoFavorito':
-                    $set[] = "$key = :$key";
-                    $bindParams[":$key"] = $value;
-                    break;
-                // Añadir más casos según los parámetros que necesites manejar
-            }
+        foreach ($data as $key => $value) {
+            $setParts[] = "$key = :$key";
+            $bindParams[":$key"] = $value;
         }
 
-        $setClause = '';
-        if (!empty($set)) {
-            $setClause = 'SET ' . implode(', ', $set);
+        $whereParts = [];
+        foreach ($where as $key => $value) {
+            $whereParts[] = "$key = :w_$key"; 
+            $bindParams[":w_$key"] = $value;
         }
 
-        $query = "UPDATE {$table} {$setClause} WHERE {$correo}";
+        $setClause = implode(', ', $setParts);
+        $whereClause = implode(' AND ', $whereParts);
+
+        $query = "UPDATE {$table} SET {$setClause} WHERE {$whereClause}";
+
         $sentencia = $this->pdo->prepare($query);
+        
         foreach ($bindParams as $param => $value) {
             $sentencia->bindValue($param, $value);
         }
-        ;
-        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+
         $sentencia->execute();
     }
-
     public function delete($table, $params = [])
     {
         $where = " 1 = 2 ";
