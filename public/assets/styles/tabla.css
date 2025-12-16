@@ -45,7 +45,7 @@ tr:nth-child(even) {
     margin: 4rem 0;
 }
 
-.botonCargarEquipo, .botonCargarResultado{
+.botonCargarEquipo, .botonCargarResultado, .botonProgramarPartido{
     text-align: center;
     margin-top: 3rem;
     text-decoration: none;
@@ -60,7 +60,7 @@ tr:nth-child(even) {
     transition: 0.2s all ease-in-out;
 }
 
-.botonCargarEquipo:hover, .botonCargarResultado:hover{
+.botonCargarEquipo:hover, .botonCargarResultado:hover, .botonProgramarPartido:hover{
     background-color: var(--color-principal);
     color: var(--color-letras-blanco);
     border: 1px solid var(--color-principal);

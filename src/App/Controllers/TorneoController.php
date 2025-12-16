@@ -111,24 +111,41 @@ class TorneoController extends Controlador{
             #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
     }
+    public function cargarEquipo()
+    {
+        global $request;
+
+        $torneo = $request->getRequest("id-torneo");
+        $equipo = $request->getRequest("id-equipo");
+        
+        $modelEquipoTorneo = new EquipoTorneoCollections();
+        $modelEquipoTorneo->setQueryBuilder($this->getQb());
+        $equipoTorneo = $modelEquipoTorneo->create($equipo,$torneo);
+    
+        // var_dump($torneo);
+        // var_dump($equipo);
+
+       header('Location: /torneo?id=' . $torneo);
+        exit();
+    }
 
     public function formCargarResultado()
     {
         global $request;
 
         $idTorneo = $request->get('id');
-        $title = 'Cargar Equipo - LigaCF';
+        $title = 'Cargar Resultado - LigaCF';
         $torneo = $this->model->getTorneo($idTorneo);
         //$listaTorneos = $this->model->getAllTorneos();
 
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
+        $partidosACargar = $modelEquipoTorneo->getPartidosACargar($idTorneo);
 
         echo $this->twig->render('liga/cargarResultado.view.twig', [
             'title' => $title,
             'torneo' => $torneo,
-            'equiposTorneo' => $equiposTorneo,
+            'partidosACargar'=> $partidosACargar,
             'rutasLogoHeader' => $this->rutasLogoHeader, 
             'rutasHeaderDer' => $this->rutasHeaderDer, 
             'rutasFooter' => $this->rutasFooter,
@@ -153,27 +170,55 @@ class TorneoController extends Controlador{
         //Creacion del partido
         $modelPartidoCollections = new PartidoCollections();
         $modelPartidoCollections->setQueryBuilder($this->getQb());
-        $partido = $modelPartidoCollections->create($idTorneo, $idFecha,$idLocal,$idVisitante,$golesLocal,$golesVisitante,$fecha,$hora);
+        $partido = $modelPartidoCollections->cargarResultado($idTorneo, $idFecha,$idLocal,$idVisitante,$fecha,$hora,$golesLocal,$golesVisitante);
 
         header('Location: /torneo?id=' . $idTorneo);
         exit();
     }
 
-    public function cargarEquipo()
+    
+    public function formCargarPartido()
     {
         global $request;
 
-        $torneo = $request->getRequest("id-torneo");
-        $equipo = $request->getRequest("id-equipo");
-        
+        $idTorneo = $request->get('id');
+        $title = 'Cargar Partido - LigaCF';
+        $torneo = $this->model->getTorneo($idTorneo);
+        //$listaTorneos = $this->model->getAllTorneos();
+
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $equipoTorneo = $modelEquipoTorneo->create($equipo,$torneo);
-    
-        // var_dump($torneo);
-        // var_dump($equipo);
+        $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
 
-       header('Location: /torneo?id=' . $torneo);
+        echo $this->twig->render('liga/cargarPartido.view.twig', [
+            'title' => $title,
+            'torneo' => $torneo,
+            'equiposTorneo' => $equiposTorneo,
+            'rutasLogoHeader' => $this->rutasLogoHeader, 
+            'rutasHeaderDer' => $this->rutasHeaderDer, 
+            'rutasFooter' => $this->rutasFooter,
+            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+        ]);
+    }
+    
+    public function cargarPartido()
+    {
+        global $request;
+
+        $idTorneo = $request->getRequest("id-torneo");
+        $fechaTorneo = $request->getRequest("fecha-torneo");
+        $idLocal = $request->getRequest("id-equipo-local"); 
+        $idVisitante = $request->getRequest("id-equipo-visitante");
+        $fecha = $request->getRequest("fecha");
+        $hora =$request->getRequest("hora");
+
+
+        //Creacion del partido
+        $modelPartidoCollections = new PartidoCollections();
+        $modelPartidoCollections->setQueryBuilder($this->getQb());
+        $partido = $modelPartidoCollections->programarPartido($idTorneo, $fechaTorneo,$idLocal,$idVisitante,$fecha,$hora);
+
+        header('Location: /torneo?id=' . $idTorneo);
         exit();
     }
 

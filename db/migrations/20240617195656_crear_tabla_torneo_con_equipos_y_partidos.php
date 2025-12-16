@@ -42,25 +42,28 @@ final class CrearTablaTorneoConEquiposYPartidos extends AbstractMigration
         ->addForeignKey('id_torneo', 'torneo', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
         ->create();
 
+        /*   
+        TABLA FECHA NO EXISTE MAS
         $fecha = $this->table('fecha');
         $fecha
         ->addColumn('id_torneo','integer', ['signed' => false])
         ->addColumn('numero_fecha','integer')
         ->addForeignKey('id_torneo', 'torneo', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
-        ->create();
+        ->create(); */
 
         $partido = $this->table('partido');
         $partido
-        ->addColumn('id_fecha','integer', ['signed' => false])
+        ->addColumn('id_torneo','integer', ['signed' => false])
+        ->addColumn('fecha_torneo','integer', ['signed' => false])
         ->addColumn('id_equipo_local','integer', ['signed' => false])
         ->addColumn('id_equipo_visitante','integer', ['signed' => false])
         ->addColumn('fecha','date')
         ->addColumn('golesLocal','integer')
         ->addColumn('golesVisitante','integer')
         ->addColumn('horario','time')
+        ->addForeignKey('id_torneo', 'torneo', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
         ->addForeignKey('id_equipo_local', 'equipo', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
         ->addForeignKey('id_equipo_visitante', 'equipo', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
-        ->addForeignKey('id_fecha', 'fecha', 'id', ['delete'=> 'CASCADE', 'update'=> 'NO_ACTION'])
         ->create();
 
     }

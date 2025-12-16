@@ -4,6 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Model;
 use Paw\App\Models\Equipo;
+use Paw\App\Models\Partido;
 
 class EquipoTorneoCollections extends Model
 {
