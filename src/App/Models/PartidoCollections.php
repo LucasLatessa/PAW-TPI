@@ -28,46 +28,44 @@ class PartidoCollections extends Model{
 //         return $equiposTorneoCollection;
 //   }
 
-   public function cargarResultado($idTorneo, $idFecha, $local, $visitante, $fecha, $hora, $golesLocal, $golesVisitante)
-   {
-      $newPartido = new Partido(); 
+   public function cargarResultado($idTorneo, $idPartido, $golesLocal, $golesVisitante)
+{
+    // RECUPERAR DATOS DEL PARTIDO
+    $partido = new Partido();
+    $partido->setQueryBuilder($this->queryBuilder);
+    $partido->load($idPartido);
 
-      $data = [
-         'id_fecha' => $idFecha,
-         'id_equipo_local' => $local,
-         'id_equipo_visitante' => $visitante,
-         'golesLocal' => $golesLocal,
-         'golesVisitante' => $golesVisitante,
-         'fecha' => $fecha,
-         'horario' => $hora
-      ];
+    $local = $partido->getIdEquipoLocal();
+    $visitante = $partido->getIdEquipoVisitante();
+    
+    $idTorneo = $partido->getIdTorneo();
 
-      // Asignar el QueryBuilder y establecer los datos del equipo
-      $newPartido->setQueryBuilder($this->queryBuilder);
-      $newPartido->set($data);
+    // ACTUALIZAR EL PARTIDO CON LOS GOLES
+    $data = [
+        'golesLocal' => $golesLocal,
+        'golesVisitante' => $golesVisitante
+    ];
 
-      // Insertar los datos en la base de datos
-      $this->queryBuilder->insert($this->table, $data);
+    $this->queryBuilder->update($this->table, $data, [
+        'id' => $idPartido
+    ]);
 
-      //Actualizar estadisticas en EquipoTorneo
-      $equipoTorneo = new EquipoTorneoCollections();
-      $equipoTorneo->setQueryBuilder($this->queryBuilder);
+    // ACTUALIZAR ESTADISTICAS EN EQUIPO_TORNEO
+    $equipoTorneo = new EquipoTorneoCollections();
+    $equipoTorneo->setQueryBuilder($this->queryBuilder);
 
-      //Estadisticas local
-      $estadisticasLocal = $equipoTorneo->getEstadisticas($idTorneo,$local);
-      $fieldsLocal = $this->calcularEstadisticas($estadisticasLocal ,$golesLocal,$golesVisitante);
-      $equipoTorneo->updateEstadisticas($local,$fieldsLocal);
+    // Estadisticas Local
+    $estadisticasLocal = $equipoTorneo->getEstadisticas($idTorneo, $local);
+    
+    // Calculamos los nuevos numeros
+    $fieldsLocal = $this->calcularEstadisticas($estadisticasLocal, $golesLocal, $golesVisitante);
+    $equipoTorneo->updateEstadisticas($local, $fieldsLocal);
 
-      //Estadisticas visitante
-      $estadisticasVisitante = $equipoTorneo->getEstadisticas($idTorneo, $visitante);
-      //var_dump($estadisticasVisitante);
-      $fieldsVisitante = $this->calcularEstadisticas($estadisticasVisitante, $golesVisitante,$golesLocal);
-      //var_dump($fieldsVisitante);
-      $equipoTorneo->updateEstadisticas($visitante,$fieldsVisitante);
-
-      //Instacia nuevo partido creado
-      return $newPartido;
-   }
+    // Estadisticas Visitante
+    $estadisticasVisitante = $equipoTorneo->getEstadisticas($idTorneo, $visitante);
+    $fieldsVisitante = $this->calcularEstadisticas($estadisticasVisitante, $golesVisitante, $golesLocal);
+    $equipoTorneo->updateEstadisticas($visitante, $fieldsVisitante);
+}
    public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha, $hora)
    {
       $newPartido = new Partido(); 
@@ -91,25 +89,36 @@ class PartidoCollections extends Model{
       //Instacia nuevo partido creado
       return $newPartido;
    }
-    public function getPartidosACargar($idTorneo){
-       // Obtener los partidos que no haya resultado cargado
-      $equipos = $this->queryBuilder->selectViejo($this->table, ["id_torneo" => $idTorneo]);
+   public function getPartidosACargar($idTorneo){
+       // traemos los datos de la base
+       $partidosData = $this->queryBuilder->selectViejo($this->table, [
+           "id_torneo" => $idTorneo,
+           "golesLocal" => null,
+           "golesVisitante" => null
+       ]);
 
-      $equipoCollection = new EquipoCollections();
-      $equipoCollection->setQueryBuilder($this->queryBuilder);
+       $listaPartidos = [];
+       
+       // recorremos y armamos los objetos
+       foreach ($partidosData as $data) {
+           $partido = new Partido();
+           $partido->setQueryBuilder($this->queryBuilder);
+           $partido->set($data); 
+           $local = new Equipo();
+           $local->setQueryBuilder($this->queryBuilder); 
+           if ($local->load($partido->getIdEquipoLocal())) {
+               $partido->setEquipoLocal($local);
+           }
+           $visitante = new Equipo();
+           $visitante->setQueryBuilder($this->queryBuilder);
+           if ($visitante->load($partido->getIdEquipoVisitante())) {
+               $partido->setEquipoVisitante($visitante);
+           }
 
-      // Crear una colección de objetos Equipo
-      $partidosTorneoCollection = [];
-      foreach ($equipos as $equipoData) {
-         $nuevoEquipo = new Partido; // Suponiendo que tienes una clase Equipo
-         $nuevoEquipo->set($equipoData);
+           $listaPartidos[] = $partido;
+       }
 
-         $equipo = $equipoCollection->getXid($nuevoEquipo->getId_equipo());
-         $nuevoEquipo->equipo = $equipo;
-         $equiposTorneoCollection[] = $nuevoEquipo;
-      }
-      //var_dump($equiposTorneoCollection);
-      return $equiposTorneoCollection;
+       return $listaPartidos;
    }
  
    private function calcularEstadisticas($currentStats, $golesAFavor, $golesEnContra)
