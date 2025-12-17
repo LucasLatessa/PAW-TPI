@@ -45,8 +45,19 @@ class UsuariosCollections extends Model
         return $newUsuario;
     }
 
-    public function updateUsuario($params){
-        $this->queryBuilder->update($this->table, $params);
-    }
+    public function updateUsuario($params)
+{
+    // Sacamos el id
+    $id = $params['id'];
+
+    // borramos de los params para que no intente hacer SET id = :id
+    unset($params['id']);
+
+    $where = [
+        'id' => $id
+    ];
+
+    $this->queryBuilder->update($this->table, $params, $where);
+}
 
 }

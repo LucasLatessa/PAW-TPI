@@ -51,7 +51,6 @@ $router->setLoggeable($log); #Agrego el log
 
 $router->get('/', 'PageController@index'); #Clase y metodo que procesa la peticion
 
-$router->get('/tabla', 'PageController@tabla');
 
 $router->get('/noticias', 'NoticiaController@noticias');
 

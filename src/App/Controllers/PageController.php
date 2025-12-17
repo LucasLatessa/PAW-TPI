@@ -10,20 +10,13 @@ use Twig\Environment;
 
 class PageController extends Controlador
 {
-    private $twig;
-    public function __construct()
-    {
-        parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
-        $this->twig = new Environment($loader);
-    }
 
     public function index()
     {
         /*Lista de equipos en torneo para ver la tabla*/
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $equiposTorneo = $modelEquipoTorneo->getTabla(1); //Traigo el primero, que es el de primera
+        $tabla = $modelEquipoTorneo->getUltimaTabla(); //Traigo el primero, que es el de primera
         
         $modelNoticias = new NoticiaCollections();
         $modelNoticias->setQueryBuilder($this->getQb());
@@ -34,33 +27,17 @@ class PageController extends Controlador
         $title = 'Home - LigaCF';
         echo $this->twig->render('index.view.twig', [
             'title' =>  $title,
-            'equipos' => $equiposTorneo,
-            'noticias' => $noticias,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
+            'nombre_torneo' => $tabla['nombre_torneo'],
+            'equipos' => $tabla['tabla'],
+            'noticias' => $noticias
         ]);
     }
 
-    
-    public function tabla()
-    {
-        $title = 'Tabla - LigaCF';
-        echo $this->twig->render('competencia/tabla.view.twig', [
-            'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
-        ]);
-    }
 
     public function noticias(){
         $title = 'Noticias - LigaCF';
         echo $this->twig->render('institucional/noticias.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
         ]);
     }
 
@@ -68,9 +45,6 @@ class PageController extends Controlador
         $title = 'Partidos - LigaCF';
         echo $this->twig->render('competencia/partidos.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
         ]);
     }
 
@@ -78,30 +52,24 @@ class PageController extends Controlador
         $title = 'Reglamento - LigaCF';
         echo $this->twig->render('competencia/reglamento.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
         ]);
     }
 
     public function ingresar(){
-        session_start();
         $title = 'Ingresar - LigaCF';
-        if (!isset($_SESSION['login'])) {
-             $_SESSION['login'] = "";
-        }
-
-        $hayLogin = $_SESSION['login'];
-
-        if ($hayLogin) {
+        if ($this->hayLogin) {
             header('Location: /cuenta/perfil');
             exit();
         }
         echo $this->twig->render('cuenta/login.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
+        ]);
+    }
+    
+    public function registrarse(){
+        $title = 'Registrarse - LigaCF';
+        echo $this->twig->render('cuenta/registrarse.view.twig', [
+            'title' =>  $title,
         ]);
     }
 
@@ -109,9 +77,6 @@ class PageController extends Controlador
         $title = 'Contacto - LigaCF';
         echo $this->twig->render('institucional/contacto.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
         ]);
     }
 
@@ -119,52 +84,23 @@ class PageController extends Controlador
         $title = 'Nosotros - LigaCF';
         echo $this->twig->render('institucional/nosotros.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
         ]);
     }
-
-    /*public function listaEquipos(){
-        $title = 'Equipos - LigaCF';
-        echo $this->twig->render('competencia/listaEquipos.view.twig', [
-            'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
-        ]);
-    }*/
-
    
-    
+
 
     public function cargarEquipo(){
         $title = 'Cargar - LigaCF';
         echo $this->twig->render('liga/cargarEquipo.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
         ]);
     }
 
-    public function registrarse(){
-        $title = 'Registrarse - LigaCF';
-        echo $this->twig->render('cuenta/registrarse.view.twig', [
-            'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
-        ]);
-    }
     
     public function crearTorneo(){
         $title = 'Crear Torneo - LigaCF';
         echo $this->twig->render('liga/crearTorneo.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
         ]);
     }
 

@@ -54,6 +54,25 @@ class EquipoTorneoCollections extends Model
       return $equiposTorneoCollection;
    }
 
+   /* Devuelve la ultima tabla creada + el nombre del torneo */
+   public function getUltimaTabla()
+    {
+        // buscar el ultimo torneo creado
+        $torneos = $this->queryBuilder->selectViejo('torneo', [], 'id DESC', 1);
+
+        // si no hay torneos, devolvemos array vacio
+        if (empty($torneos)) {
+            return [];
+        }
+
+        $ultimoTorneo = $torneos[0];
+        $tabla = $this->getTabla($ultimoTorneo['id']);
+
+        return [
+        'nombre_torneo' => $ultimoTorneo['nombre'], 
+        'tabla' => $tabla
+    ];
+    }
    public function create($idEquipo, $idTorneo)
    {
       $newEquipoTorneo = new EquipoTorneo;

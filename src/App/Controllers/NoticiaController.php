@@ -13,13 +13,11 @@ class NoticiaController extends Controlador {
     public ?string $modelName = NoticiaCollections::class;
 
     public string $viewsDir; // Dirección a la vista indicada
-    private $twig;
 
     // CONSTRUCTOR
     public function __construct() {
         parent::__construct();
         $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
-        $this->twig = new Environment($loader);
     }
 
     public function noticias() {
@@ -38,10 +36,7 @@ class NoticiaController extends Controlador {
         // Renderiza la vista y pasa las noticias
         echo $this->twig->render('institucional/noticias.view.twig', [
             'title' => $title,
-            'noticias' => $noticias,
-            'rutasLogoHeader' => $this->rutasLogoHeader ?? [], 
-            'rutasHeaderDer' => $this->rutasHeaderDer ?? [], 
-            'rutasFooter' => $this->rutasFooter ?? []
+            'noticias' => $noticias
         ]);
     }
     // Método para mostrar los detalles de una noticia
@@ -65,9 +60,6 @@ class NoticiaController extends Controlador {
 
         echo $this->twig->render('noticias.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
             'noticia' => $noticia, 
         ]);
     }
