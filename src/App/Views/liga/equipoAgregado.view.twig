@@ -18,7 +18,7 @@
             <figure class="figura-escudo">
                 <img class="equipo-escudo" src="/assets/equipos/{{ equipo.escudo }}" alt="Escudo del equipo" width="300">
             </figure>
-            <p class="fecha-creacion">Fecha de Creación: {{ equipo.fecha_creacion }}</p>
+            <p class="fecha-creacion">Fecha de Creación: {{ equipo.fecha_creacion|date("d/m/Y") }}</p>
             <p class="nombre-estadio">Estadio: {{ equipo.estadio }}</p>
             <p class="descripcion-equipo">{{ equipo.descripcion }}</p>
         </article>

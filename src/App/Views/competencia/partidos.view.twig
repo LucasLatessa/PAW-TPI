@@ -28,7 +28,8 @@
                     {% for partido in partidos %} <!-- aca se pueden pasar los datos desde un controller Partido ---->
                     <tr>
                         <td>{{ partido.dia }}</td>
-                        <td>{{ partido.hora }}</td>
+                        <td>{{ partido.fecha|date("d/m/Y") }}</td>
+                        <td>{{ partido.horario|slice(0, 5) }}</td>
                         <td>{{ partido.equipoA }} {{ partido.golesA }} vs {{ partido.golesB }} {{ partido.equipoB }}</td>
                         <td>{{ partido.estadio }}</td>
                     </tr>
