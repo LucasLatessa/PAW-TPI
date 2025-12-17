@@ -5,6 +5,8 @@ namespace Paw\Core;
 use Paw\Core\Model;
 use Paw\Core\Database\QueryBuilder;
 use Paw\Core\Traits\Loggable;
+use Twig\Loader\FilesystemLoader;
+use Twig\Environment;
 
 class Controlador
 {
@@ -14,6 +16,8 @@ class Controlador
     public array $rutasHeaderDer;
     public array $rutasLogoHeader;
     protected $model;
+    protected $twig;
+    protected $hayLogin;
 
     use Loggable;
 
@@ -22,6 +26,16 @@ class Controlador
     public function __construct()
     {
         global $connection, $log;
+        // ARRANCAMOS LA SESION
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
+        // Definimos el estado del login y validamos que no sea null
+        if (!isset($_SESSION['login'])) {
+            $_SESSION['login'] = false; 
+        }
+        $this->hayLogin = $_SESSION['login'];
 
         $this->viewsDir = __DIR__ . "/../App/Views/";
 
@@ -50,12 +64,15 @@ class Controlador
             [
                 "href" => '../competencia/reglamento',
                 "name" => "Reglamento"
-            ],
-            [
-                "href" => '../cuenta/login',
-                "name" => "Login"
             ]
         ];
+        if ($this->hayLogin) {
+            // Si esta logueado, mostramos perfil
+            $this->rutasHeaderDer[] = ["href" => '/perfil', "name" => "Perfil"];
+        } else {
+            // Si no, mostramos login
+            $this->rutasHeaderDer[] = ["href" => '../cuenta/login', "name" => "Login"];
+        }
 
         $this->rutasFooter = [
             [
@@ -68,6 +85,17 @@ class Controlador
             ]
         ];
 
+        // INICIALIZAMOS TWIG
+        $loader = new FilesystemLoader($this->viewsDir);
+        $this->twig = new Environment($loader, [
+            'debug' => true,
+        ]);
+
+        // HACEMOS DISPONIBLES LAS VARIABLES GLOBALES
+        $this->twig->addGlobal('hayLogin', $this->hayLogin);
+        $this->twig->addGlobal('rutasHeaderDer', $this->rutasHeaderDer);
+        $this->twig->addGlobal('rutasFooter', $this->rutasFooter);
+        $this->twig->addGlobal('rutasLogoHeader', $this->rutasLogoHeader);
         $qb = new QueryBuilder($connection, $log);
         $this->qb = $qb;
 

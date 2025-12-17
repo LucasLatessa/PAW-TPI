@@ -12,17 +12,7 @@ class LigaController extends Controlador
 {
 
     public ?string $modelName = EquipoCollections::class;
-    public string $viewsDir; #Direccion a la vista indicada
-    private $twig;
     
-    #CONSTRUCTOR
-    public function __construct()
-    {
-        parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
-        $this->twig = new Environment($loader);
-    }
-
     public function validarImagen(&$nombreArchivo) {
         // Verificar si se está subiendo un archivo
         if (!isset($_FILES['imagen']['error']) || $_FILES['imagen']['error'] !== UPLOAD_ERR_OK) {
@@ -95,21 +85,12 @@ class LigaController extends Controlador
 
 
     public function listaEquipos() {
-        session_start();
-        if (!isset($_SESSION['login'])) {
-             $_SESSION['login'] = "";
-        }
-
         $hayLogin = $_SESSION['login'];
         $title = 'Equipos - LigaCF';
         $listaEquipos = $this->model->getAllEquipos(); 
         echo $this->twig->render('competencia/listaEquipos.view.twig', [
             'title' => $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter,
             'listaEquipos' => $listaEquipos, // Pasar la lista de equipos a la vista
-            'hayLogin' => $hayLogin
         ]);
     }
     
@@ -120,9 +101,6 @@ class LigaController extends Controlador
     
         echo $this->twig->render('competencia/torneos.view.twig', [
             'title' => $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter,
             #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
     }

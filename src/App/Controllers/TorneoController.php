@@ -13,33 +13,13 @@ use Paw\Core\Config;
 
 class TorneoController extends Controlador{ 
     public ?string $modelName = TorneoCollections::class;
-    public string $viewsDir; #Direccion a la vista indicada
-    private $twig;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
-        $this->twig = new Environment($loader);
-    }
 
     public function torneos() {
         $title = 'Torneos - LigaCF';
         $listaTorneos = $this->model->getAllTorneos(); 
-        session_start();
-        if (!isset($_SESSION['login'])) {
-             $_SESSION['login'] = "";
-        }
-
-        $hayLogin = $_SESSION['login'];    
         echo $this->twig->render('competencia/torneos.view.twig', [
             'title' => $title,
             'listaTorneos' => $listaTorneos,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter,
-            'hayLogin' => $hayLogin,
-            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
     }
 
@@ -56,20 +36,12 @@ class TorneoController extends Controlador{
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
         $equiposTorneo = $modelEquipoTorneo->getTabla($idTorneo);
-        session_start();
-        if (!isset($_SESSION['login'])) {
-             $_SESSION['login'] = "";
-        }
         $hayLogin = $_SESSION['login']; 
         echo $this->twig->render('competencia/torneo.view.twig', [
             'title' => $title,
             'torneo' => $torneo,
             'equipos' => $equiposTorneo,
             'idTorneo' => $idTorneo,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, // Pasar la lista de equipos a la vista
-            'hayLogin' => $hayLogin,
         ]);
     }
 
@@ -105,9 +77,6 @@ class TorneoController extends Controlador{
             'title' => $title,
             'listaTorneos' => $listaTorneos,
             'listaEquipos' => $listaEquipos,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter,
             #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
     }
@@ -146,9 +115,6 @@ class TorneoController extends Controlador{
             'title' => $title,
             'torneo' => $torneo,
             'partidosACargar'=> $partidosACargar,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter,
             #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
     }
@@ -188,9 +154,6 @@ class TorneoController extends Controlador{
             'title' => $title,
             'torneo' => $torneo,
             'equiposTorneo' => $equiposTorneo,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter,
             #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
         ]);
     }

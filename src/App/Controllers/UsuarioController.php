@@ -10,44 +10,57 @@ use Paw\Core\Config;
 
 class UsuarioController extends Controlador{ 
     public ?string $modelName = UsuariosCollections::class;
-    public string $viewsDir; #Direccion a la vista indicada
-    private $twig;
 
-    public function __construct()
-    {
-        parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
-        $this->twig = new Environment($loader);
-    }
 
     #Registro de usuarios
-    public function registrarse(){
+   public function registrarse()
+    {
         global $request;
 
-         #Obtengo los datos de la peticion
+        // Si ya esta logueado, lo mandamos al perfil
+        if ($this->hayLogin) {
+            header('Location: /cuenta/perfil');
+            exit();
+        }
+
+        // GET mostramos el formulario
+        if ($request->method() !== 'POST') {
+             echo $this->twig->render('cuenta/registrarse.view.twig', [
+                'title' => 'Registrarse - LigaCF',
+            ]);
+            return;
+        }
+
+        // POST procesamos
         $nombre = $request->getRequest("nombre");
         $apellido = $request->getRequest("apellido");
         $email = $request->getRequest("email");
-        $contraseña = $request->getRequest("contraseña");
-        $validarcontraseña = $request->getRequest("validarContraseña");
+        $password = $request->getRequest("password"); 
+        $passwordConfirm = $request->getRequest("password_confirm");
         $palabraclave = $request->getRequest("palabraClave");
 
-        if(($contraseña == $validarcontraseña) && (getenv('PALABRA_CLAVE') == $palabraclave)){
-            $contraHash = password_hash($request->getRequest("password"),PASSWORD_DEFAULT);
-            $usuario = $this->model->create($nombre,$apellido, $email, $contraHash);
-            $resultado = "¡Cuenta creada!";
-            header('Location: /');
+        // Validamos contraseñas y palabra clave
+        if (($password === $passwordConfirm) && (getenv('PALABRA_CLAVE') == $palabraclave)) {
+            
+            $contraHash = password_hash($password, PASSWORD_DEFAULT);
+            $this->model->create($nombre, $apellido, $email, $contraHash);
+            
+            // Redirigimos al login
+            header('Location: /login');
             exit();
-        }
-        else{
-            $errorMessage = "Las contranseñas no coinciden"; 
-            $title = 'Crear Torneo - LigaCF';
+
+        } else {
+            // Error
+            $errorMessage = "Las contraseñas no coinciden o la palabra clave es incorrecta"; 
+            
             echo $this->twig->render('cuenta/registrarse.view.twig', [
-                'title' => $title,
-                'errorMessage' => $errorMessage, 
-                'rutasLogoHeader' => $this->rutasLogoHeader, 
-                'rutasHeaderDer' => $this->rutasHeaderDer, 
-                'rutasFooter' => $this->rutasFooter, 
+                'title' => 'Registrarse - LigaCF',
+                'errorMessage' => $errorMessage,
+                
+                // devolvemos lo que escribio
+                'nombre_ingresado' => $nombre,
+                'apellido_ingresado' => $apellido,
+                'email_ingresado' => $email
             ]);
         }        
     }
@@ -55,128 +68,117 @@ class UsuarioController extends Controlador{
     #Login
     public function login(){
         global $request;
+        // Si ya esta logueado, al perfil
+        if ($this->hayLogin) {
+            header('Location: /cuenta/perfil');
+            exit();
+        }
 
-        // Obtener el correo electrónico y la contraseña del formulario
+        // GET mostramos form
+        if ($request->method() !== 'POST') {
+            echo $this->twig->render('cuenta/login.view.twig', [
+                'title' => 'Iniciar Sesión - LigaCF'
+            ]);
+            return;
+        }
+
+        // POST procesamos
         $email = $request->getRequest("email");
         $password = $request->getRequest("password");
-        // Obtener los datos del usuario desde la base de datos
+        
         $usuario = $this->model->get($email);
     
-        // Comprobar si el usuario existe y verificar la contraseña
         if ($usuario && password_verify($password, $usuario->getContraseña())) {
-            // Iniciar sesión
-            session_start();
+            
             $_SESSION['login'] = true;
             $_SESSION['username'] = $usuario->getCorreo();
             $_SESSION['usuario_id'] = $usuario->getId(); 
             
-            // Redirigir al perfil del usuario
             header('Location: /cuenta/perfil');
-            //print_r ("holaa", $_SESSION['username']); 
             exit();
+
         } else {
+            // Login fallido
             $errorMessage = "Credenciales incorrectas";
-            $title = 'Crear Torneo - LigaCF';
-            $usuario_no_encontrado = true;
+            
             echo $this->twig->render('cuenta/login.view.twig', [
-                'title' => $title,
+                'title' => 'Iniciar Sesión - LigaCF',
                 'errorMessage' => $errorMessage,
-                'usuario_no_encontrado' => $usuario_no_encontrado,
-                'rutasLogoHeader' => $this->rutasLogoHeader, 
-                'rutasHeaderDer' => $this->rutasHeaderDer, 
-                'rutasFooter' => $this->rutasFooter,
+                'usuario_no_encontrado' => true,
             ]);
         }
-
-
     }
-    public function logout(){        
-        global $request;
-        session_start();
-        if (isset($_SESSION['login'])){
-            #Vacio el array de sesion
-            $_SESSION = [];
+    public function logout()
+    {        
+        // Vaciamos sesion
+        $_SESSION = [];
 
-            #Obtener los parametros de la cookie de sesion
+        // Borramos cookie
+        if (ini_get("session.use_cookies")) {
             $params = session_get_cookie_params();
-
-            // Establecer la cookie de sesión con una fecha de expiración en el pasado
             setcookie(session_name(), '', time() - 42000,
                 $params['path'], $params['domain'],
                 $params['secure'], $params['httponly']
             );
-
-            #Destruir la sesion
-            session_destroy();
-            
-            $title = 'Crear Torneo - LigaCF';
-            $errorMessage = "Deslogueado";
-            header('Location: /');
-            exit();
-            // echo $this->twig->render('cuenta/login.view.twig', [
-            //     'title' => $title,
-            //     'errorMessage' => $errorMessage
-            // ]);
         }
-        else{
 
-            $title = 'Crear Torneo - LigaCF';
-            $errorMessage = "Error al desloguearte!";
-            echo $this->twig->render('/login.view.twig', [
-                'title' => $title,
-                'errorMessage' => $errorMessage,
-                'rutasLogoHeader' => $this->rutasLogoHeader, 
-                'rutasHeaderDer' => $this->rutasHeaderDer, 
-                'rutasFooter' => $this->rutasFooter,
-            ]);
-        }
+        // Destruimos
+        session_destroy();
+        
+        // Redirigimos al home
+        header('Location: /');
+        exit();
     }
-    public function perfil($algo = ""){
-        if (!$algo == "1"){
-            session_start();
+   public function perfil()
+    {
+        // Validamos seguridad usando la propiedad del padre
+        if (!$this->hayLogin) {
+            header('Location: /cuenta/login');
+            exit();
         }
 
-        $title = 'Ingresar - LigaCF';
-        if (!isset($_SESSION['login'])) {
-             $_SESSION['login'] = "";
-        }
-
-        $hayLogin = $_SESSION['login'];
-
-        if ($hayLogin) {
-            $usuario = $_SESSION['username'];
-            $usuario_info = $this->model->get($usuario);
-            //var_dump($usuario_info);
-        }
+        $title = 'Mi Perfil - LigaCF';
+        
+        // Recuperamos datos del usuario
+        $emailUsuario = $_SESSION['username'];
+        $usuario_info = $this->model->get($emailUsuario);
 
         echo $this->twig->render('cuenta/perfil.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
             'usuario_info'=> $usuario_info,
         ]);
     }
 
-    public function updateperfil(){
+    # Update Perfil
+    public function updateperfil()
+    {
         global $request;
-        session_start();
-        $nombre = $request->getRequest("nombre");
-        $apellido = $request->getRequest("apellido");
-        $equipoFavorito = $request->getRequest("equipoFavorito");
-        
 
-        $correo = $_SESSION['username'];
+        // Seguridad
+        if (!$this->hayLogin) {
+            header('Location: /cuenta/login');
+            exit();
+        }
 
-        $data = [
-            'correo' => $correo,
-            'nombre' => $nombre,
-            'apellido' => $apellido,
-            'equipoFavorito' => $equipoFavorito,
-        ];
-        $this->model->updateUsuario($data);
-        $algo = "2";
-        $this->perfil($algo);
+        if ($request->method() == 'POST') {
+            $id = $request->getRequest("id");
+            $nombre = $request->getRequest("nombre");
+            $apellido = $request->getRequest("apellido");
+            $equipoFavorito = $request->getRequest("equipoFavorito");
+            $correo = $_SESSION['username'];
 
+            $data = [
+                'id' => $id,
+                'correo' => $correo,
+                'nombre' => $nombre,
+                'apellido' => $apellido,
+                'equipoFavorito' => $equipoFavorito,
+            ];
+
+            $this->model->updateUsuario($data);
+        }
+
+        header('Location: /cuenta/perfil');
+        exit();
     }
 }

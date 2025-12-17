@@ -7,15 +7,6 @@ use Twig\Environment;
 
 class ErrorController extends Controlador
 {
-    public string $viewsDir; #Direccion a la vista indicada
-    private $twig;
-
-    public function __construct()
-    {
-        parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
-        $this->twig = new Environment($loader);
-}
 
     public function notFound(){
         http_response_code(404);

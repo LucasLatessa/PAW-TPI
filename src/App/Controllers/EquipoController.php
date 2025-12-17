@@ -12,28 +12,16 @@ class EquipoController extends Controlador{
 
     public ?string $modelName = EquipoCollections::class;
 
-    public string $viewsDir; #Direccion a la vista indicada
-    private $twig;
-    
-    #CONSTRUCTOR
-    public function __construct()
-    {
-        parent::__construct();
-        $loader = new FilesystemLoader(__DIR__ . '/../../App/Views');
-        $this->twig = new Environment($loader);
-    }
-
     public function datosEquipo(){
         global $request;
         $title = 'Equipos - LigaCF';
-        $equipo_nombre = $request->get('nombre');
-        $equipo = $this->model->get($equipo_nombre);
+        $equipo_id = $request->get('id');
+        $equipo = $this->model->getXid($equipo_id);
+        $partidosEquipo= $this->model->getPartidosEquipo($equipo_id);
         echo $this->twig->render('competencia/equipos.view.twig', [
             'title' =>  $title,
-            'rutasLogoHeader' => $this->rutasLogoHeader, 
-            'rutasHeaderDer' => $this->rutasHeaderDer, 
-            'rutasFooter' => $this->rutasFooter, 
-            'equipo' => $equipo[0],
+            'equipo' => $equipo,
+            'partidosEquipo' => $partidosEquipo,
         ]);
 
     }

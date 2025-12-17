@@ -26,6 +26,7 @@ class TorneoCollections extends Model{
    $torneo = $this->queryBuilder->selectViejo($this->table,['id'=> $idTorneo]);
    return $torneo ? $torneo[0] : null;
   }
+  
 
 
    public function create($nombreTorneo, $fechaInicio, $fechaFin)

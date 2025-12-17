@@ -51,10 +51,58 @@ class EquipoCollections extends Model{
       $equipo = $this->queryBuilder->selectNombreEquipo($this->table, $nombre);
       return $equipo;
    }
+  public function getPartidosEquipo($idEquipo)
+{
+    // traemos los partidos donde es local y visitante
+    $partidosLocal = $this->queryBuilder->selectViejo('partido', ['id_equipo_local' => $idEquipo]);
+    $partidosVisitante = $this->queryBuilder->selectViejo('partido', ['id_equipo_visitante' => $idEquipo]);
 
+    // unimos todo
+    $todosLosPartidos = array_merge($partidosLocal, $partidosVisitante);
+
+    // para evitar duplicados si la consulta fallo en algun lado
+    $todosLosPartidos = array_unique($todosLosPartidos, SORT_REGULAR);
+
+    // traemos todos los equipos para saber sus nombres
+    $listaEquipos = $this->queryBuilder->selectViejo('equipo');
+    
+    // armamos un mapa rapido: id -> nombre
+    $infoEquipos = [];
+    foreach ($listaEquipos as $equipo) {
+        $infoEquipos[$equipo['id']] = $equipo;
+    }
+
+    $jugados = [];
+    $pendientes = [];
+
+    // recorremos y traemos los datos
+    foreach ($todosLosPartidos as $partido) {
+        
+        $datosLocal = $infoEquipos[$partido['id_equipo_local']] ?? null;
+        $datosVisita = $infoEquipos[$partido['id_equipo_visitante']] ?? null;
+
+        $partido['nombre_local'] = $datosLocal ? $datosLocal['nombre'] : 'Desconocido';
+        $partido['nombre_visitante'] = $datosVisita ? $datosVisita['nombre'] : 'Desconocido';
+
+        // asignamos el estadio
+        $partido['estadio'] = $datosLocal['estadio'] ?? 'A confirmar';
+
+        // separamos jugados de pendientes
+        if (!is_null($partido['golesLocal']) && !is_null($partido['golesVisitante'])) {
+            $jugados[] = $partido;
+        } else {
+            $pendientes[] = $partido;
+        }
+    }
+
+    return [
+        'jugados' => $jugados,
+        'pendientes' => $pendientes
+    ];
+}
    public function getXid($idEquipo){
       $equipo = $this->queryBuilder->selectViejo($this->table, ["id" => $idEquipo]);
-      return $equipo;
+      return $equipo[0];
    }
 
 
