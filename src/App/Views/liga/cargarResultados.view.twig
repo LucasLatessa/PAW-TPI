@@ -23,7 +23,7 @@
                     <input type="hidden" name="id_torneo" value="{{ torneo.id }}">
 
                     <div class="partido-info">
-                        <span>Fecha Nº {{ partido.fechaTorneo }} - {{ partido.fecha|date("d/m/Y") }} - {{ partido.horario }}</span>
+                        <span>Fecha Nº {{ partido.fechaTorneo }} - {{ partido.fecha|date("d/m/Y") }} - {{ partido.horario|slice(0, 5) }}</span>
                     </div>
 
                     <div class="enfrentamiento">

@@ -13,7 +13,7 @@
             <div class="header-content">
                 <div class="info-equipo">
                     <h1>{{ equipo.nombre }}</h1>
-                    <p>Creación: {{ equipo.fecha_creacion }}</p>
+                    <p>Creación: {{ equipo.fecha_creacion|date("d/m/Y") }}</p>
                 </div>
                 <div class="escudo-equipo">
                     <img src="/assets/equipos/{{ equipo.escudo }}" alt="Escudo de {{ equipo.nombre }}">
@@ -26,60 +26,63 @@
             <p>{{ equipo.descripcion }}</p>
         </section>
 
-        <section class="puntaje-equipo">
-            <div class="barra-puntaje">
-                <span>{{ equipo.nombre }}</span>
-                <span>{{ equipo.puntaje }}</span>
-            </div>
-        </section>
 
-        <section class="detalles-equipo">
+       <section class="detalles-equipo">
+            
             <div class="fixture">
                 <h3>FIXTURE</h3>
+                {% if partidosEquipo.pendientes is empty %}
+                    <p>No hay partidos pendientes.</p>
+                {% else %}
                 <table>
                     <thead>
                         <tr>
-                            <th>DIA</th>
-                            <th>HORA</th>
+                            <th>FECHA</th> <th>HORA</th>
                             <th>PARTIDO</th>
                             <th>ESTADIO</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for partido in equipo.fixture %}
+                        {% for partido in partidosEquipo.pendientes %}
                         <tr>
-                            <td>{{ partido.dia }}</td>
-                            <td>{{ partido.hora }}</td>
-                            <td>{{ partido.equipoA }} vs {{ partido.equipoB }}</td>
+                            <td>{{ partido.fecha|date("d/m/Y") }}</td>
+                            <td>{{ partido.horario|slice(0, 5) }}</td>
+                            <td>{{ partido.nombre_local }} vs {{ partido.nombre_visitante }}</td>
                             <td>{{ partido.estadio }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                {% endif %}
             </div>
 
             <div class="resultados">
-                <h3>RESULTADO</h3>
+                <h3>RESULTADOS</h3>
+                {% if partidosEquipo.jugados is empty %}
+                    <p>Aún no jugó partidos.</p>
+                {% else %}
                 <table>
                     <thead>
                         <tr>
-                            <th>DIA</th>
+                            <th>FECHA</th>
                             <th>HORA</th>
-                            <th>PARTIDO</th>
-                            <th>ESTADIO</th>
+                            <th>RESULTADO</th> <th>ESTADIO</th>
                         </tr>
                     </thead>
                     <tbody>
-                        {% for resultado in equipo.resultados %}
+                        {% for resultado in partidosEquipo.jugados %}
                         <tr>
-                            <td>{{ resultado.dia }}</td>
-                            <td>{{ resultado.hora }}</td>
-                            <td>{{ resultado.equipoA }} {{ resultado.golesA }} vs {{ resultado.golesB }} {{ resultado.equipoB }}</td>
+                            <td>{{ resultado.fecha|date("d/m/Y") }}</td>
+                            <td>{{ resultado.horario|slice(0, 5) }}</td>
+                            <td>
+                                {{ resultado.nombre_local }} ({{ resultado.golesLocal }}) - ({{ resultado.golesVisitante }}) {{ resultado.nombre_visitante }}
+                            </td>
                             <td>{{ resultado.estadio }}</td>
                         </tr>
                         {% endfor %}
                     </tbody>
                 </table>
+                {% endif %}
             </div>
         </section>
     </main>

@@ -38,3 +38,38 @@ main {
     min-height: 60vh;
     background-color: var(--color-fondo);
 }
+
+/* estilo para el titulo 404 */
+
+.contenedor-error {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;     /* centra horizontalmente */
+    justify-content: center; /* centra verticalmente */
+    text-align: center;
+    padding: 2rem;
+}
+
+.contenedor-error h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    color: black;
+    margin-bottom: 1.5rem; /* espacio entre titulo y boton */
+}
+
+/* estilo del boton de volver */
+.btn-volver {
+    display: inline-block;
+    background-color: #3182ce; 
+    color: white;
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background-color 0.2s;
+}
+
+.btn-volver:hover {
+    background-color: #2b6cb0;
+}
