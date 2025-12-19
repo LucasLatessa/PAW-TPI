@@ -19,7 +19,7 @@
                <article class="noticia">
                     {% if noticia.imagen %}
                         <div class="noticia-img-container">
-                            <img src="/assets/{{ noticia.imagen }}" alt="{{ noticia.titulo }}" loading="lazy">
+                            <img src="/assets/noticias/{{ noticia.imagen }}" alt="{{ noticia.titulo }}" loading="lazy">
                         </div>
                     {% endif %}
 
@@ -32,7 +32,11 @@
             {% else %}
                 <p>No hay noticias disponibles.</p>
             {% endfor %}
+            
         </section>
+        {% if hayLogin %}
+                <a class="btn-accion" href="./crearNoticia">Crear noticia</a>
+        {% endif %}
     </main>
 
     <!-- FOOTER -->

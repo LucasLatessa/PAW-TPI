@@ -1,84 +1,136 @@
-/* Main header styles */
+:root {
+    --primary-color: #2563eb;
+    --primary-hover: #1d4ed8;
+    --bg-light: #f3f4f6;
+    --white: #ffffff;
+    --text-dark: #1f2937;
+    --border-color: #e5e7eb;
+}
+
+body {
+    font-family: system-ui, -apple-system, sans-serif;
+    color: var(--text-dark);
+}
+
+/* Header */
 .header-equipos {
-    background-color: #0066cc; /* Color de fondo */
+    background-color: #0066cc;
     color: white;
     text-align: center;
     padding: 3rem 0;
     font-size: 2em;
 }
-
-
-/* Grid styles */
+/*  GRILLA DE EQUIPOS  */
 .equipos-grid {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
-    margin-top: 2em;
-    justify-content: center;
-    padding: 4em;
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 2rem;
+    padding: 0 2rem 4rem 2rem;
+    max-width: 1200px;
+    margin: 0 auto;
 }
 
-.equipo {
-    position: relative;
-    width: calc(25% - 6em); /* 4 columnas con espacio entre ellas */
-    height: 30vh; /* Altura fija para los artículos */
+/* TARJETA */
+.equipo-card {
+    background-color: var(--white);
+    border-radius: 12px;
     overflow: hidden;
-    border-radius: 8px; /* Bordes redondeados */
-    transition: transform 0.3s ease;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+    border: 1px solid var(--border-color);
 }
 
-.equipo img {
-    width: 100%;
-    height: auto;
-    object-fit: contain;
-    border-radius: 8px;
-    transition: transform 0.3s ease;
+.equipo-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    border-color: var(--primary-color);
 }
 
-.equipo h3 {
-    position: absolute;
-    bottom: 10px;
-    left: 50%;
-    transform: translateX(-50%);
-    background-color: rgba(0, 0, 0, 0.7); /* Fondo semitransparente */
-    color: white;
-    padding: 5px 10px;
-    border-radius: 4px;
-    text-align: center;
-    opacity: 0;
-    transition: opacity 0.3s ease;
-}
-
-.equipo:hover h3 {
-    opacity: 1; /* Mostrar nombre del equipo al pasar el ratón */
-}
-
-.equipo:hover img {
-    transform: scale(1.5); /* Efecto de zoom al pasar el ratón */
-}
-
-.pCargarEquipo{
-    text-align: center;
-    margin: 3rem 0;
-}
-
-.cargarEquipo{
-    text-align: center;
-    
+.equipo-link {
     text-decoration: none;
-    text-transform: uppercase;
-    font-size: 1.5rem;
-    font-weight: bolder;
-    background-color: var(--color-letras-blanco);
-    color: var(--color-principal);
-    border: 3px solid var(--color-principal);
-    padding: 1.2rem;
-    border-radius: 10px;
-    transition: 0.2s all ease-in-out;
+    color: inherit;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
 }
 
-.cargarEquipo:hover{
-    background-color: var(--color-principal);
-    color: var(--color-letras-blanco);
-    border: 1px solid var(--color-principal);
+/*  IMAGEN  */
+.img-container {
+    height: 200px; 
+    padding: 1.5rem;
+    background-color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.img-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain; 
+    filter: drop-shadow(0 4px 6px rgba(0,0,0,0.1)); 
+    transition: transform 0.3s ease;
+}
+
+.equipo-card:hover img {
+    transform: scale(1.1);
+}
+
+/*  TEXTO  */
+.info-container {
+    padding: 1rem;
+    text-align: center;
+    background-color: #fafafa;
+    flex-grow: 1; 
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.info-container h3 {
+    margin: 0;
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: var(--text-dark);
+    text-transform: uppercase;
+}
+
+/* BOTON CARGAR EQUIPO  */
+.acciones-container {
+    text-align: center;
+    padding-bottom: 4rem;
+}
+
+.btn-cargar {
+    display: inline-block;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: 50px; /* redondo  */
+    text-decoration: none;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    box-shadow: 0 4px 6px rgba(37, 99, 235, 0.3);
+    transition: all 0.3s ease;
+}
+
+.btn-cargar:hover {
+    background-color: var(--primary-hover);
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(37, 99, 235, 0.4);
+}
+
+.sin-datos {
+    grid-column: 1 / -1; /* todo el ancho */
+    text-align: center;
+    padding: 3rem;
+    font-size: 1.2rem;
+    color: #6b7280;
+}
+main .btn-accion {
+    display: block;  
+    width: fit-content; 
+    margin: 2rem auto;    
 }

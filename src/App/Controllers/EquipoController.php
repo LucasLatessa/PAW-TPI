@@ -18,7 +18,7 @@ class EquipoController extends Controlador{
         $equipo_id = $request->get('id');
         $equipo = $this->model->getXid($equipo_id);
         $partidosEquipo= $this->model->getPartidosEquipo($equipo_id);
-        echo $this->twig->render('competencia/equipos.view.twig', [
+        echo $this->twig->render('competencia/equipo.view.twig', [
             'title' =>  $title,
             'equipo' => $equipo,
             'partidosEquipo' => $partidosEquipo,

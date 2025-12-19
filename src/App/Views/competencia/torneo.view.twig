@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
     {% include 'parts/head.view.twig' %}
-    <link rel="stylesheet" href="/assets/styles/partidos.css" />
     <link rel="stylesheet" href="/assets/styles/tabla.css" />
 </head>
 <body>
@@ -36,7 +35,7 @@
             {% for equipoTorneo in equipos %} <!-- aca se pueden pasar los datos desde un controller Equipo ---->
             <tr>
                 <td>{{ loop.index }}</td>
-                <td class="team-name">{{equipoTorneo.equipo[0].nombre}}</td>
+                <td class="team-name">{{equipoTorneo.equipo.nombre}}</td>
                 <td>{{ equipoTorneo.puntos }}</td>
                 <td>{{ equipoTorneo.partidosJugados }}</td>
                 <td>{{ equipoTorneo.partidosGanados }}</td>
@@ -51,9 +50,9 @@
     </table>
         {% if hayLogin %}
         <div class="configuracionTorneo"> <!--Poner datos del torneo mas adelante, es temporal (usamos div porque el seccion necesita h1..h6)-->
-            <p><a class="botonProgramarPartido" href="/torneo/cargarPartido?id={{idTorneo}}"> Cargar partido </a> </p>
-            <p><a class="botonCargarResultado" href="/torneo/cargarResultado?id={{idTorneo}}"> Cargar resultados </a> </p>
-            <p><a class="botonCargarEquipo" href="./torneo/cargarEquipo"> Cargar equipo </a></p>
+            <a class="btn-accion" href="/torneo/cargarPartido?id={{idTorneo}}">Cargar partido</a> 
+            <a class="btn-accion" href="/torneo/cargarResultado?id={{idTorneo}}">Cargar resultados</a> 
+            <a class="btn-accion" href="./torneo/cargarEquipo">Cargar equipo</a>
         </div>
         {% endif %}
     </main>

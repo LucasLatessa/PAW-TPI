@@ -34,13 +34,52 @@
     text-transform: uppercase;
     font-weight: bold;
     font-size: 1.2rem;
+    display: inline-block;
+    transition: transform 0.3s ease;
 }
 
 .listaDesplegable li a:hover{
-    font-size: 1.3rem;
     color: var(--color-principal);
     border-bottom: 5px solid var(--color-principal);
     transition: all 0.3s ease-in-out;
-
+    transform: scale(1.1);
+    color: var(--color-principal);
+    border-bottom: 3px solid var(--color-principal); 
 }
 
+
+/*  RESPONSIVE  */
+
+@media (max-width: 768px) {
+    /* direccion a columna */
+    .header {
+        flex-direction: column;
+        padding: 1rem 0; 
+    }
+
+    /*achicamos el logo */
+    .headerLogo {
+        width: 100%;    
+        max-width: 250px;
+        height: auto;
+        margin-bottom: 1rem; 
+    }
+
+    /* menu vertical */
+    .listaDesplegable {
+        flex-direction: column;
+        width: 100%;
+        padding: 0; 
+    }
+
+    .listaDesplegable li {
+        padding: 0.8rem 0;
+        width: 100%;       
+        text-align: center;
+        border-bottom: 1px solid rgba(0,0,0,0.1); 
+    }
+    
+    .listaDesplegable li:last-child {
+        border-bottom: none;
+    }
+}

@@ -17,20 +17,26 @@
         <section class="equipos-grid">
             {% if listaEquipos|length > 0 %}
                 {% for equipo in listaEquipos %}
-                <article class="equipo">
-                    <a href="/listaEquipos/equipo?id={{ equipo.id }}">
-                        <img src="/assets/equipos/{{ equipo.escudo }}" alt="{{ equipo.nombre }}">
-                        <h3>{{ equipo.nombre }}</h3>
+                <article class="equipo-card">
+                    <a href="/listaEquipos/equipo?id={{ equipo.id }}" class="equipo-link">
+                        <div class="img-container">
+                            <img src="/assets/equipos/{{ equipo.escudo }}" alt="{{ equipo.nombre }}" loading="lazy">
+                        </div>
+                        <div class="info-container">
+                            <h3>{{ equipo.nombre }}</h3>
+                        </div>
                     </a>
                 </article>
                 {% endfor %}
             {% else %}
-                <p>No hay equipos disponibles.</p>
+                <div class="sin-datos">
+                    <p>No hay equipos disponibles.</p>
+                </div>
             {% endif %}
         </section>
 
         {% if hayLogin %}
-            <p class="pCargarEquipo"><a class="cargarEquipo" href="../liga/cargarEquipo"> Cargar equipo </a></p>
+            <a class="btn-accion" href="./torneo/cargarEquipo">Cargar equipo</a>
         {% endif %}
   
     </main>
