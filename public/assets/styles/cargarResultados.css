@@ -166,14 +166,6 @@
     border-radius: 10px;
 }
 
-.btn-volver {
-    display: inline-block;
-    margin-top: 1rem;
-    color: #0066cc;
-    text-decoration: none;
-    font-weight: bold;
-}
-
 /* --- RESPONSIVE --- */
 @media (max-width: 600px) {
     .enfrentamiento {

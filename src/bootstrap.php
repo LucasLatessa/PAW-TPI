@@ -53,7 +53,8 @@ $router->get('/', 'PageController@index'); #Clase y metodo que procesa la petici
 
 
 $router->get('/noticias', 'NoticiaController@noticias');
-
+$router->get('/crearNoticia', 'NoticiaController@formCrearNoticia');
+$router->post('/crearNoticia', 'NoticiaController@crearNoticia');
 #$router->get('/partidos', 'PageController@partidos');
 
 #$router->get('/listaEquipos', 'PageController@listaEquipos');

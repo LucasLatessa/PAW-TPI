@@ -16,7 +16,7 @@ class PageController extends Controlador
         /*Lista de equipos en torneo para ver la tabla*/
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $tabla = $modelEquipoTorneo->getUltimaTabla(); //Traigo el primero, que es el de primera
+        $tabla = $modelEquipoTorneo->getUltimaTabla(); //traigo el primero
         
         $modelNoticias = new NoticiaCollections();
         $modelNoticias->setQueryBuilder($this->getQb());
@@ -90,7 +90,7 @@ class PageController extends Controlador
 
 
     public function cargarEquipo(){
-        $title = 'Cargar - LigaCF';
+        $title = 'Cargar equipo - LigaCF';
         echo $this->twig->render('liga/cargarEquipo.view.twig', [
             'title' =>  $title,
         ]);
@@ -98,7 +98,7 @@ class PageController extends Controlador
 
     
     public function crearTorneo(){
-        $title = 'Crear Torneo - LigaCF';
+        $title = 'Crear torneo - LigaCF';
         echo $this->twig->render('liga/crearTorneo.view.twig', [
             'title' =>  $title,
         ]);

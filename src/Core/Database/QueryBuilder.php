@@ -29,6 +29,11 @@ class QueryBuilder
                     $where[] = "$key = :$key";
                     $bindParams[":$key"] = $value;
                     break;
+                case 'id_equipo_local':
+                case 'id_equipo_visitante':
+                    $where[] = "$key = :$key";
+                    $bindParams[":$key"] = $value;
+                    break;
                 case 'golesLocal':
                 case 'golesVisitante':
                     if (is_null($value)) {

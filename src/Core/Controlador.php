@@ -106,6 +106,39 @@ class Controlador
             $this->setModel($model);
         }
     }
+    protected function subirImagen($files, $carpetaDestino) 
+{
+    // Validaciones basicas
+    if (!isset($files['imagen']['error']) || $files['imagen']['error'] !== UPLOAD_ERR_OK) {
+        return false; 
+    }
+    
+    // Validar tamaño (1MB)
+    $tamanoMaximo = 1048576; 
+    if ($files['imagen']['size'] > $tamanoMaximo) {
+        return false;
+    }
+
+    // Generar nombre unico
+    $info = pathinfo($files['imagen']['name']);
+    $ext = $info['extension'];
+    $nombreArchivo = uniqid('img_') . '.' . $ext;
+
+    $rutaBase = __DIR__ . '/../../public/assets/'; 
+    $rutaDestinoCompleta = $rutaBase . $carpetaDestino . '/' . $nombreArchivo;
+
+    // Crear carpeta si no existe
+    if (!file_exists(dirname($rutaDestinoCompleta))) {
+        mkdir(dirname($rutaDestinoCompleta), 0777, true);
+    }
+
+    // DEVOLVER EL NOMBRE
+    if (move_uploaded_file($files['imagen']['tmp_name'], $rutaDestinoCompleta)) {
+        return $nombreArchivo;
+    }
+
+    return false; 
+}
 
     public function setModel(Model $model)
     {
