@@ -29,6 +29,12 @@ composer install
 phinx migrate -e development
 ```
 
+En el caso de no tener el phnix con su PATH
+
+```
+./vendor/bin/phinx migrate -e development
+```
+
 5. Levantar el proyecto
 
 ```
