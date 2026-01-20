@@ -2,16 +2,6 @@
 @import url(reset.css);
 @import url(variables.css);
 
-/* @font-face {
-    font-family: "Montserrat";
-    src: url("../font/Montserrat-VariableFont_wght.ttf") format("truetype");
-}
-
-@font-face {
-    font-family: "Montserrat-Italic";
-    src: url("../font/Montserrat-Italic-VariableFont_wght.ttf") format("truetype");
-} */
-
 body{
     background-color: var(--color-bg-muted);
 }

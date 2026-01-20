@@ -1,44 +1,110 @@
-.footer{
-    background-color: var(--color-principal);
+.footer {
+    background-color: var(--color-footer);
+    color: var(--color-letras-secundario);
+
+    text-align: center;
+    padding: 2rem 1.5rem;
+    padding-bottom: 1rem;
+
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 3rem;
+    font-family: var(--fuente-secundaria);
 }
 
-.navegation{
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
+/* ===== BRAND ===== */
 
-.footerContenedorImagen{
-    padding: 1rem 2rem;
-}
-
-.footerContenedorImagen img {
-    width: 8rem;
-}
-
-.contacto{
+.footer-brand {
     display: flex;
     justify-content: center;
     align-items: center;
-    border-bottom: 5px solid var(--color-secundario);
-    padding: 0 1rem;
+    flex-direction: column;
 }
 
-.contacto ul li{
-    padding: 1rem 0;
+.footer-logo {
+    height: 40%;
+    margin-bottom: 1rem;
 }
 
-.contacto ul li a{
-    color: var(--color-letras-blanco);
-    text-decoration: none;
-    padding: 2rem;
-    text-transform: uppercase;
+.footer-description {
+    color: var;
+    margin-bottom: 1rem;
+}
+
+.footer-social {
+    display: flex;
+    gap: 1rem;
+    justify-content: center;
+}
+
+.footer-social a {
+    width: 2.5rem;
+    height: 2.5rem;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+
+    border-radius: 50%;
+}
+
+.footer-social a {
+    transition: transform 0.3s ease, background-color 0.3s ease, box-shadow 0.3s ease;
+}
+
+.footer-social a:hover {
+    transform: translateY(-4px) scale(1.05);
+    background-color: var(--color-secundario);
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.25);
+}
+
+/* ===== NAV y CONTACT ===== */
+
+.footer-nav h2,
+.footer-contact h2 {
+    font-size: 1.2rem;
     font-weight: bolder;
+    margin-bottom: 1rem;
+    padding-bottom: 0.7rem;
+    border-bottom: 1px solid var(--color-blanco);
+    text-align: center;
 }
 
-.contacto ul li a:hover{
-    color: var(--color-letras);
-    transition: all 0.5s ease-in-out;
+.footer-nav ul,
+.footer-contact ul {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1rem;
+    padding-left: 0;
+}
+
+
+.footer-nav li,
+.footer-contact li {
+    font-size: 1rem;
+    color: var(--color-letras-secundario);
+}
+
+.footer-nav a {
+    color: var(--color-letras-secundario);
+}
+
+
+/* ===== COPYRIGHT ===== */
+
+.footer-copy {
+    grid-column: 1 / -1;
+    padding-top: 1rem;
+
+    border-top: 1px solid var(--color-letras-secundario);;
+
+    text-align: center;
+    font-size: 0.8rem;
+    color: var(--color-letras-secundario);
 }
 
 #copyright{
@@ -54,18 +120,48 @@
     font-weight: normal;
 }
 
-/*Redes */
+/* ===================================================
+   RESPONSIVE
+======================================================
+*/
 
-footer nav ul.redes {
-  display: flex;
-  justify-content: right;
-}
+/* ===================================================
+   TABLET (>= 768px)
+====================================================== */
 
-/* Redes */
-footer nav ul.redes li {
-   margin: 0.5rem 1rem 0.5rem 1rem;
-}
-  
-footer nav ul.redes li img {
-   width: 2rem;
+@media (min-width: 768px) {}
+
+/* ===================================================
+   DESKTOP (>= 1024px)
+====================================================== */
+
+@media (min-width: 1024px) {
+    .footer {
+        grid-template-columns: 3fr 1fr 1fr;
+        text-align: left;
+        padding: 3rem;
+    }
+
+    .footer-brand{
+        height: auto;
+        justify-content: flex-start;
+        align-items: flex-start;
+    }
+
+    .footer-nav ul,
+    .footer-contact ul {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 1rem;
+        padding-left: 0.4rem;
+    }
+
+    .footer-social {
+        justify-content: flex-start;
+    }
+
+    .footer-nav h2,
+    .footer-contact h2 {
+        text-align: left;
+    }
 }
