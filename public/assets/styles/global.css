@@ -1,9 +1,8 @@
 /** Estilos para sitio de la liga */
 @import url(reset.css);
-/*@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&display=swap');
-*/
+@import url(variables.css);
 
-@font-face {
+/* @font-face {
     font-family: "Montserrat";
     src: url("../font/Montserrat-VariableFont_wght.ttf") format("truetype");
 }
@@ -11,34 +10,15 @@
 @font-face {
     font-family: "Montserrat-Italic";
     src: url("../font/Montserrat-Italic-VariableFont_wght.ttf") format("truetype");
-}
+} */
 
-:root {
-    /*Colores a utilizar*/
-    --color-principal: #1C99D2;
-    --color-secundario: #fff;
-    --color-terciario: #2765d4;
-
-    /*Letras*/
-    --color-letras: #000;
-    --color-letras-blanco: #fff;
-
-    /*Fondo*/
-    --color-fondo:#D9D9D9;
-    
-
-    /*Fuentes*/
-    font-family: "Montserrat", sans-serif;
-    font-size: 16px;
-
-}
 body{
-    background-color: var(--color-fondo);
+    background-color: var(--color-bg-muted);
 }
-/* Para que el footer no quede flotando */
-main {
-    min-height: 60vh;
 
+.main{
+    background-color: var(--color-bg-muted);
+    font-family: var(--fuente-primaria);
 }
 
 /* estilo para el titulo 404 */

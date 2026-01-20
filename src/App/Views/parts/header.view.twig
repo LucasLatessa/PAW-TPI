@@ -1,11 +1,11 @@
-<header class="header">
+{#<header class="header">
     <h1 class="headerTitulo"><a href="../"><img class="headerLogo" src="../assets/liga_chivilcoyana_de_futbol.jpg" alt="Logo Liga Chivilcoyana de Futbol"></a></h1>
     <nav class="headerNavegacion">
         <ul class="listaDesplegable">
-            {#<li><a href="/tabla">Tabla</a></li>
+            <li><a href="/tabla">Tabla</a></li>
              esto anda, se esta probando tener TORNEOS primero antes
                 que Partidos
-             <li><a href="/partidos">Partidos</a></li> #}
+             <li><a href="/partidos">Partidos</a></li> 
             <li><a href="/torneos">Torneos</a></li>
             <li><a href="/listaEquipos">Equipos</a></li>
             <li><a href="/reglamento">Reglamento</a></li>
@@ -17,4 +17,43 @@
             {% endif %}
         </ul>
     </nav>
+</header>#}
+
+<header class="header">
+    <h1 class="header-titulo"><a href="./"><img class="header-logo" src="../assets/liga_chivilcoyana_de_futbol.jpg"
+                alt="Logo Liga Chivilcoyana de Futbol"></a></h1>
+
+    <!-- BOTON HAMBURGUESA -->
+    <button class="header-hamburguesa" id="btnMenu">
+        ☰
+    </button>
+
+    <nav class="header-navegacion" id="menu">
+        <ul>
+            <li>
+                <a href="/partidos"
+                    >Partidos</a>
+            </li>
+            <li>
+                <a href="/torneos"
+                    >Torneos</a>
+            </li>
+            <li>
+                <a href="/listaEquipos"
+                    >Equipos</a>
+            </li>
+            <li>
+                <a href="/noticias"
+                    >Noticias</a>
+            </li>
+        </ul>
+    </nav>
+
+    <!-- LOGIN DESKTOP -->
+    {% if hayLogin %}
+        <a class="header-login" href="/login" id="login">Mi Perfil</a>
+    @else
+    {% else %}
+        <a class="header-login" href="/login" id="login">Iniciar sesion</a>
+    {% endif %}
 </header>
