@@ -6,7 +6,7 @@ use Paw\Core\Model;
 use Paw\App\Models\Equipo;
 
 class EquipoCollections extends Model{
-   public $table = 'equipos';
+   public $table = 'equipo';
 
 
    public function getAllEquipos(){

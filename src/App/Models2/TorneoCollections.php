@@ -6,7 +6,7 @@ use Paw\Core\Model;
 use Paw\App\Models\Torneo;
 
 class TorneoCollections extends Model{
-   public $table = 'torneos';
+   public $table = 'torneo';
 
 
    public function getAllTorneos(){
@@ -26,8 +26,6 @@ class TorneoCollections extends Model{
    $torneo = $this->queryBuilder->selectViejo($this->table,['id'=> $idTorneo]);
    return $torneo ? $torneo[0] : null;
   }
-  
-
 
    public function create($nombreTorneo, $fechaInicio, $fechaFin)
    {

@@ -5,3 +5,13 @@ phinx create "Nombre"
 Correr migrate en un entorno
 
 phinx migrate -e development
+
+Crear semillas
+
+vendor/bin/phinx seed:create "nombreSemilla"
+
+Ej: vendor/bin/phinx seed:create TorneosSeeder
+
+Correr semillas
+
+vendor/bin/phinx seed:run -e development

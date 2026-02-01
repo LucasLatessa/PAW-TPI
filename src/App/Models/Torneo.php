@@ -5,126 +5,164 @@ namespace Paw\App\Models;
 use Paw\Core\Model;
 use Paw\App\Models\Partido;
 
-class Torneo extends Model {
+class Torneo extends Model
+{
 
-    private $table = 'torneo';
+  private $table = 'torneos';
+  private ?int $id = null;
+  private string $nombre;
+  private string $slug;
+  private string $categoria;
+  private string $temporada;
+  private ?string $descripcion = null;
+  private string $estado = 'activo';
+  private string $fecha_inicio;
+  private ?string $fecha_fin = null;
 
-    private $id;
-    private $nombre;
-    private $fechaInicio;
-    private $fechaFin;
-    // private $categoria;
-    // private $cantidadEquipos;
-    // private $cantidadFechas;
-    // private $descripcion;
 
-    private $partidos = [];
+  private array $partidos = [];
 
-    // Constructor
-    public function __construct() {
-        
+  /* ====== CONSTRUCTOR ====== */
+  public function __construct(array $data = [])
+  {
+    foreach ($data as $key => $value) {
+      if (property_exists($this, $key)) {
+        $this->$key = $value;
+      }
+    }
+  }
+
+  /* ====== LOAD ====== */
+  public function load(int $id): ?self
+  {
+    $params = ['id' => $id];
+    $record = current($this->queryBuilder->select($this->table, $params));
+
+    if (!$record) {
+      return null;
     }
 
-    // Método para agregar un partido al torneo
-    public function agregarPartido(Partido $partido) {
-        $this->partidos[] = $partido;
+    $this->set($record);
+    return $this;
+  }
+
+  private function snakeToCamel(string $string): string
+  {
+    return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+  }
+
+  /* ====== SET ====== */
+  public function set(array $values): void
+  {
+    foreach ($values as $field => $value) {
+      $method = 'set' . $this->snakeToCamel($field);
+      if (method_exists($this, $method)) {
+        $this->$method($value);
+      }
     }
+  }
 
-    // Método para obtener todos los partidos del torneo
-    public function getPartidos() {
-        return $this->partidos;
-    }
+  /* ====== GETTERS ====== */
 
-    // Getters y setters para cada propiedad
-    public function getId() {
-        return $this->id;
-    }
+  public function getId(): ?int
+  {
+    return $this->id;
+  }
 
-    public function setId($id) {
-        $this->id = $id;
-    }
+  public function getNombre(): string
+  {
+    return $this->nombre;
+  }
 
-    public function getNombre() {
-        return $this->nombre;
-    }
+  public function getSlug(): string
+  {
+    return $this->slug;
+  }
 
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
-    }
+  public function getCategoria(): string
+  {
+    return $this->categoria;
+  }
 
-    public function getFechaInicio() {
-        return $this->fechaInicio;
-    }
+  public function getTemporada(): string
+  {
+    return $this->temporada;
+  }
 
-    public function setFechaInicio($fechaInicio) {
-        $this->fechaInicio = $fechaInicio;
-    }
+  public function getDescripcion(): ?string
+  {
+    return $this->descripcion;
+  }
 
-    public function getFechaFin() {
-        return $this->fechaFin;
-    }
+  public function getEstado(): string
+  {
+    return $this->estado;
+  }
 
-    public function setFechaFin($fechaFin) {
-        $this->fechaFin = $fechaFin;
-    }
+  public function getFechaInicio(): string
+  {
+    return $this->fecha_inicio;
+  }
 
-    // public function getCategoria() {
-    //     return $this->categoria;
-    // }
+  public function getFechaFin(): ?string
+  {
+    return $this->fecha_fin;
+  }
 
-    // public function setCategoria($categoria) {
-    //     $this->categoria = $categoria;
-    // }
+  public function getPartidos(): array
+  {
+    return $this->partidos;
+  }
 
-    // public function getCantidadEquipos() {
-    //     return $this->cantidadEquipos;
-    // }
+  /* ====== SETTERS ====== */
 
-    // public function setCantidadEquipos($cantidadEquipos) {
-    //     $this->cantidadEquipos = $cantidadEquipos;
-    // }
+  public function setId(?int $id): void
+  {
+    $this->id = $id;
+  }
 
-    // public function getCantidadFechas() {
-    //     return $this->cantidadFechas;
-    // }
+  public function setNombre(string $nombre): void
+  {
+    $this->nombre = $nombre;
+  }
 
-    // public function setCantidadFechas($cantidadFechas) {
-    //     $this->cantidadFechas = $cantidadFechas;
-    // }
+  public function setSlug(string $slug): void
+  {
+    $this->slug = $slug;
+  }
 
-    // public function getDescripcion() {
-    //     return $this->descripcion;
-    // }
+  public function setCategoria(string $categoria): void
+  {
+    $this->categoria = $categoria;
+  }
 
-    // public function setDescripcion($descripcion) {
-    //     $this->descripcion = $descripcion;
-    // }
+  public function setTemporada(string $temporada): void
+  {
+    $this->temporada = $temporada;
+  }
 
-    // Método para cargar datos de un torneo desde la base de datos
-    public function load($id) {
-      
-        $params = ["id" => $id];
-        $record = current($this->queryBuilder->select($this->table, $params));
+  public function setDescripcion(?string $descripcion): void
+  {
+    $this->descripcion = $descripcion;
+  }
 
-        if ($record !== false) {
-            $this->set($record); // Utiliza el método set para aplicar los datos obtenidos a las propiedades del objeto
-            return $this;
-        } else {
-            return null;
-        }
-    }
+  public function setEstado(string $estado): void
+  {
+    $this->estado = $estado;
+  }
 
-    // Método para establecer múltiples propiedades a la vez
-    public function set(array $values) {
-        foreach ($values as $field => $value) {
-            $method = "set" . ucfirst($field);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-    }
+  public function setFechaInicio(string $fecha_inicio): void
+  {
+    $this->fecha_inicio = $fecha_inicio;
+  }
 
-    // Otros métodos relacionados con la manipulación de datos del torneo
-    // Por ejemplo, guardar, actualizar, eliminar, etc.
+  public function setFechaFin(?string $fecha_fin): void
+  {
+    $this->fecha_fin = $fecha_fin;
+  }
+
+  public function setPartidos(array $partidos): void
+  {
+    $this->partidos = $partidos;
+  }
 }
-

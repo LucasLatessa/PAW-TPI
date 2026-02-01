@@ -11,15 +11,15 @@ use Twig\Environment;
 class LigaController extends Controlador
 {
 
-    public ?string $modelName = EquipoCollections::class;
-    
-    
-    
-    
+  public ?string $modelName = EquipoCollections::class;
 
-    public function cargarEquipo() 
-{
-    global $request; 
+
+
+
+
+  public function cargarEquipo()
+  {
+    global $request;
 
     $nombreEquipo = $request->getRequest('equipo');
     $fechaCreacion = $request->getRequest('fecha');
@@ -29,73 +29,77 @@ class LigaController extends Controlador
     $nombreArchivo = $this->subirImagen($_FILES, 'equipos');
 
     if ($nombreArchivo !== false) {
-        
-        $this->model->create($nombreEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $nombreArchivo);
 
-        header('Location: /listaEquipos');
-        exit();
+      $this->model->create($nombreEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $nombreArchivo);
 
+      header('Location: /listaEquipos');
+      exit();
     } else {
-        $errorMessage = "La imagen excede el tamaño permitido (1MB) o hubo un error en la carga.";
-        $title = "Cargar Equipo - Liga";
+      $errorMessage = "La imagen excede el tamaño permitido (1MB) o hubo un error en la carga.";
+      $title = "Cargar Equipo - Liga";
 
-        echo $this->twig->render('liga/cargarEquipo.view.twig', [
-            'title' => $title,
-            'errorMessage' => $errorMessage,
-            
-            'equipo_ingresado' => $nombreEquipo,
-            'fecha_ingresada' => $fechaCreacion,
-            'estadio_ingresado' => $nombreEstadio,
-            'descripcion_ingresada' => $descripcion
-        ]);
+      echo $this->twig->render('liga/cargarEquipo.view.twig', [
+        'title' => $title,
+        'errorMessage' => $errorMessage,
+
+        'equipo_ingresado' => $nombreEquipo,
+        'fecha_ingresada' => $fechaCreacion,
+        'estadio_ingresado' => $nombreEstadio,
+        'descripcion_ingresada' => $descripcion
+      ]);
     }
-}
+  }
 
 
 
-    public function listaEquipos() {
-        $hayLogin = $_SESSION['login'];
-        $title = 'Equipos - LigaCF';
-        $listaEquipos = $this->model->getAllEquipos(); 
-        echo $this->twig->render('competencia/listaEquipos.view.twig', [
-            'title' => $title,
-            'listaEquipos' => $listaEquipos, // Pasar la lista de equipos a la vista
-        ]);
-    }
+  public function listaEquipos()
+  {
+    $hayLogin = $_SESSION['login'];
+    $title = 'Equipos - LigaCF';
+    $equipos = $this->model->getAllEquipos();
     
-    
-    public function torneos() {
-        $title = 'Torneos - LigaCF';
-        #$listaTorneos = $this->model->getAllTorneos(); 
-    
-        echo $this->twig->render('competencia/torneos.view.twig', [
-            'title' => $title,
-            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
-        ]);
-    }
+    //var_dump($equipos);
+    echo $this->twig->render('competencia/listaEquipos.view.twig', [
+      'title' => $title,
+      'equipos' => $equipos, // Pasar la lista de equipos a la vista
+    ]);
+  }
 
-    public function crearTorneo() {
-        global $request;
-        $modelTorneo = TorneoCollections::class; #ver si esto esta bien de usar otro modelo para TorneoColelctiones 
-        // Obtener los datos del formulario
-        $nombreTorneo = $request->getRequest('nombre_torneo');
-        $fechaInicio = $request->getRequest('fechaInicio');
-        $fechaFin = $request->getRequest('fechaFin');
-        $categoria = $request->getRequest('categoria');
-        $cantidadEquipos = $request->getRequest('cantidad_equipos');
-        $cantidadFechas = $request->getRequest('cantidad_fechas');
-        $descripcion = $request->getRequest('descripcion');
 
-        // Aca deberiamos validar los datos 
+  public function torneos()
+  {
+    $title = 'Torneos - LigaCF';
+    #$listaTorneos = $this->model->getAllTorneos(); 
 
-        // Crear instancia de Torneo y guardar en la base de datos
-            // Lógica para guardar el torneo en la base de datos
+    echo $this->twig->render('competencia/torneos.view.twig', [
+      'title' => $title,
+      #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+    ]);
+  }
 
-            #falta probar esta logica de crear
-      #  $torneo = $modelTorneo->create($nombreTorneo,$fechaInicio, $fechaFin,$categoria, $cantidadEquipos, $cantidadFechas, $descripcion);
+  public function crearTorneo()
+  {
+    global $request;
+    $modelTorneo = TorneoCollections::class; #ver si esto esta bien de usar otro modelo para TorneoColelctiones 
+    // Obtener los datos del formulario
+    $nombreTorneo = $request->getRequest('nombre_torneo');
+    $fechaInicio = $request->getRequest('fechaInicio');
+    $fechaFin = $request->getRequest('fechaFin');
+    $categoria = $request->getRequest('categoria');
+    $cantidadEquipos = $request->getRequest('cantidad_equipos');
+    $cantidadFechas = $request->getRequest('cantidad_fechas');
+    $descripcion = $request->getRequest('descripcion');
 
-        // Verificar si el torneo se guardó correctamente
-        /*if ($torneo) {
+    // Aca deberiamos validar los datos 
+
+    // Crear instancia de Torneo y guardar en la base de datos
+    // Lógica para guardar el torneo en la base de datos
+
+    #falta probar esta logica de crear
+    #  $torneo = $modelTorneo->create($nombreTorneo,$fechaInicio, $fechaFin,$categoria, $cantidadEquipos, $cantidadFechas, $descripcion);
+
+    // Verificar si el torneo se guardó correctamente
+    /*if ($torneo) {
             $title = "Torneo Creado - Liga";
             echo $this->twig->render('liga/torneoCreado.view.twig', [
                 'title' => $title,
@@ -111,11 +115,9 @@ class LigaController extends Controlador
             ]);
         }*/
 
-        $title = "Torneo Creado - Liga";
-            echo $this->twig->render('liga/torneoCreado.view.twig', [
-                'title' => $title,
-            ]);           
-    }
-    
-
+    $title = "Torneo Creado - Liga";
+    echo $this->twig->render('liga/torneoCreado.view.twig', [
+      'title' => $title,
+    ]);
+  }
 }
