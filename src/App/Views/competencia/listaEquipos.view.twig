@@ -2,38 +2,37 @@
 <html lang="en">
 <head>
     {% include 'parts/head.view.twig' %}
-    <link rel="stylesheet" href="/assets/styles/listaEquipos.css" />
+    <link rel="stylesheet" href="/assets/styles/equipos/index.css" />
 </head>
 <body>
-    <!--HEADER-->
     {% include 'parts/header.view.twig' %}
 
     <main>
-        <!-- Header del Main -->
-        <header class="header-equipos">
-            <h1>EQUIPOS</h1>
+        <header class="header-main">
+          <h1>Equipos</h1>
         </header>
 
-        <section class="equipos-grid">
-            {% if listaEquipos|length > 0 %}
-                {% for equipo in listaEquipos %}
-                <article class="equipo-card">
-                    <a href="/listaEquipos/equipo?id={{ equipo.id }}" class="equipo-link">
-                        <div class="img-container">
-                            <img src="/assets/equipos/{{ equipo.escudo }}" alt="{{ equipo.nombre }}" loading="lazy">
-                        </div>
-                        <div class="info-container">
-                            <h3>{{ equipo.nombre }}</h3>
-                        </div>
-                    </a>
-                </article>
-                {% endfor %}
-            {% else %}
-                <div class="sin-datos">
-                    <p>No hay equipos disponibles.</p>
-                </div>
-            {% endif %}
-        </section>
+        <section class="equipos-container">
+          {% if equipos|length > 0 %}
+            {% for equipo in equipos %}
+                <a href="/listaEquipos/equipo?id={{ equipo.id }}" class="equipo-link">
+
+                    <article class="equipo-card">
+                        <figure class="equipo-escudo">
+                            <img src="/assets/{{ equipo.escudo }}" alt="Escudo {{ equipo.nombre }}">
+                        </figure>
+
+                        <h2 class="equipo-nombre">{{ equipo.nombrePila }}</h2>
+
+                    </article>
+
+                </a>
+            {% endfor %}
+          {% else %}
+            <p>No hay equipos disponibles.</p>
+          {% endif %}
+
+      </section>
 
         {% if hayLogin %}
             <a class="btn-accion" href="./torneo/cargarEquipo">Cargar equipo</a>
@@ -41,7 +40,6 @@
   
     </main>
 
-    <!--FOOTER-->
     {% include 'parts/footer.view.twig' %}
 </body>
 </html>

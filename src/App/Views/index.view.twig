@@ -6,64 +6,8 @@
     
 </head>
 <body>
-    <!--HEADER-->
     {% include 'parts/header.view.twig' %}
-    
-    <main class="mainIndex">
-        <!-- Layout con tabla de puntajes y noticias -->
-        <section class="tablaPuntajes">
-            <!-- Tabla de Puntajes -->
-            <h2 class="tituloTablaPuntajes"> {{nombre_torneo}} </h2>
-            <table class="tabla">
-                <thead>
-                    <tr>
-                        <th class="pos">POS</th>
-                        <th class="equipo">Equipo</th>
-                        <th class="pj">PJ</th>
-                        <th class="dg">DG</th>
-                        <th class="pts">PTS</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    {% for equipoTorneo in equipos %}
-                    <tr>
-                        <td>{{loop.index}}</td>
-                        <td>{{equipoTorneo.equipo.nombre}}</td>
-                        <td>{{equipoTorneo.partidosJugados}}</td>
-                        <td>{{equipoTorneo.diferencia}}</td>
-                        <td>{{equipoTorneo.puntos}}</td>
-                    </tr>
-                    {% endfor %}
-                </tbody>
-            </table>
-        </section>
 
-        <section class="seccionNoticias">
-            <h2 class="tituloNoticias">Noticias</h2>
-            <section class="todasLasNoticias"> 
-            {% for noticia in noticias %}
-               <article class="noticia">
-                    {% if noticia.imagen %}
-                        <div class="noticia-img-container">
-                            <img src="/assets/noticias/{{ noticia.imagen }}" alt="{{ noticia.titulo }}" loading="lazy">
-                        </div>
-                    {% endif %}
-
-                    <div class="noticia-content">
-                        <h3>{{ noticia.titulo }}</h3>
-                        <p>{{ noticia.descripcion }}</p>
-                        <p><strong>Fecha:</strong> {{ noticia.fecha|date("d/m/Y") }}</p>
-                    </div>
-                </article>
-            {% else %}
-                <p>No hay noticias disponibles.</p>
-            {% endfor %}
-            </section>
-        </section>
-
-    </main>
-
-    <!--FOOTER-->
     {% include 'parts/footer.view.twig' %}
 </body>
 </html>

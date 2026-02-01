@@ -1,93 +1,170 @@
 <?php
 
 namespace Paw\App\Models;
+
 use Paw\Core\Model;
 
-class Equipo extends Model{
+class Equipo extends Model
+{
 
-    #Asocio el model con la tabla
-    private $table = 'equipo';
+  private $table = 'equipos';
 
-    # Defino las propiedades del modelo
-    private $id;
-    private $nombre;
-    private $fecha_creacion;
-    private $escudo;
-    private $estadio;
-    private $descripcion;
+  private ?int $id = null;
+  private string $nombre;
+  private string $slug;
+  private string $nombre_pila;
+  private string $fecha_creacion;
+  private string $escudo;
+  private string $estadio;
+  private string $descripcion;
+  private bool $activo;
 
-    # Getters y setters para cada propiedad
-    public function getId() {
-        return $this->id;
+  /* ====== CONSTRUCTOR ====== */
+  public function __construct(array $data = [])
+  {
+    foreach ($data as $key => $value) {
+      if (property_exists($this, $key)) {
+        $this->$key = $value;
+      }
     }
+  }
 
-    public function setId($id)
-    {
-        $this->id = $id;
+  /* ====== LOAD ====== */
+  public function load($id)
+  {
+    $params = ["id" => $id];
+    $record = current($this->queryBuilder->selectViejo($this->table, $params));
+
+    if ($record !== false) {
+      $this->set($record);
+      return $this;
+    } else {
+      return null;
     }
+  }
 
-    public function getNombre() {
-        return $this->nombre;
+  /* ====== SET ====== */
+  // public function set(array $values)
+  // {
+  //   foreach ($values as $field => $value) {
+  //     #Creo el methodo y si existe lo ejecuto
+  //     $method = "set" . ucfirst($field);
+  //     if (method_exists($this, $method)) {
+  //       $this->$method($value);
+  //     }
+  //   }
+  // }
+  public function set(array $values)
+  {
+    foreach ($values as $field => $value) {
+
+      $camelCase = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
+      $method = 'set' . $camelCase;
+
+      if (method_exists($this, $method)) {
+        $this->$method($value);
+      }
     }
+  }
 
-    public function setNombre($nombre) {
-        $this->nombre = $nombre;
-    }
+  /* ====== GETTERS ====== */
+  public function getId(): ?int
+  {
+    return $this->id;
+  }
 
-    public function getFechaCreacion() {
-        return $this->fecha_creacion;
-    }
+  public function getNombre(): string
+  {
+    return $this->nombre;
+  }
 
-    public function setFechaCreacion($fecha_creacion) {
-        $this->fecha_creacion = $fecha_creacion;
-    }
+  public function getSlug(): string
+  {
+    return $this->slug;
+  }
 
-    public function getEscudo() {
-        return $this->escudo;
-    }
+  public function getNombrePila(): string
+  {
+    return $this->nombre_pila;
+  }
 
-    public function setEscudo($escudo) {
-        $this->escudo = $escudo;
-    }
+  public function getFechaCreacion(): string
+  {
+    return $this->fecha_creacion;
+  }
 
-    public function getEstadio() {
-        return $this->estadio;
-    }
+  public function getEscudo(): string
+  {
+    return $this->escudo;
+  }
 
-    public function setEstadio($estadio) {
-        $this->estadio = $estadio;
-    }
+  public function getEstadio(): string
+  {
+    return $this->estadio;
+  }
 
-    public function getDescripcion() {
-        return $this->descripcion;
-    }
+  public function getDescripcion(): string
+  {
+    return $this->descripcion;
+  }
 
-    public function setDescripcion($descripcion) {
-        $this->descripcion = $descripcion;
-    }
+  public function isActivo(): bool
+  {
+    return $this->activo;
+  }
 
-    #Para aplicar todos los seters junto con sus validaciones
-    public function set(array $values)
-    {
-        foreach ($values as $field => $value) {
-            #Creo el methodo y si existe lo ejecuto
-            $method = "set" . ucfirst($field);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-    }
+  /* ====== SETTERS ====== */
+  public function setId(?int $id): self
+  {
+    $this->id = $id;
+    return $this;
+  }
 
-    public function load($id){
-        $params = ["id" => $id];
-        $record = current($this->queryBuilder->selectViejo($this->table, $params));
-    
-        if ($record !== false) {
-            $this->set($record);
-            return $this;
-        } else {
-            return null;
-        }
-    }
+  public function setNombre(string $nombre): self
+  {
+    $this->nombre = $nombre;
+    return $this;
+  }
 
+  public function setSlug(string $slug): self
+  {
+    $this->slug = $slug;
+    return $this;
+  }
+
+  public function setNombrePila(string $nombre_pila): self
+  {
+    $this->nombre_pila = $nombre_pila;
+    return $this;
+  }
+
+  public function setFechaCreacion(string $fecha_creacion): self
+  {
+    $this->fecha_creacion = $fecha_creacion;
+    return $this;
+  }
+
+  public function setEscudo(string $escudo): self
+  {
+    $this->escudo = $escudo;
+    return $this;
+  }
+
+  public function setEstadio(string $estadio): self
+  {
+    $this->estadio = $estadio;
+    return $this;
+  }
+
+  public function setDescripcion(string $descripcion): self
+  {
+    $this->descripcion = $descripcion;
+    return $this;
+  }
+
+  public function setActivo(bool $activo): self
+  {
+    $this->activo = $activo;
+    return $this;
+  }
 }

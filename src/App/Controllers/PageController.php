@@ -13,7 +13,7 @@ class PageController extends Controlador
 
     public function index()
     {
-        /*Lista de equipos en torneo para ver la tabla*/
+        /*Lista de equipos en torneo para ver la tabla
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
         $tabla = $modelEquipoTorneo->getUltimaTabla(); //traigo el primero
@@ -21,15 +21,12 @@ class PageController extends Controlador
         $modelNoticias = new NoticiaCollections();
         $modelNoticias->setQueryBuilder($this->getQb());
 
-        $noticias= $modelNoticias->getUltimasNoticias(4); // 4 ultimas noticias
+        $noticias= $modelNoticias->getUltimasNoticias(4); // 4 ultimas noticias*/
 
 
         $title = 'Home - LigaCF';
         echo $this->twig->render('index.view.twig', [
-            'title' =>  $title,
-            'nombre_torneo' => $tabla['nombre_torneo'],
-            'equipos' => $tabla['tabla'],
-            'noticias' => $noticias
+            'title' =>  $title
         ]);
     }
 
