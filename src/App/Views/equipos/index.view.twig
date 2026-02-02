@@ -1,0 +1,38 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/equipos/index.css" />
+{% endblock %}
+
+{% block content %}
+  <header class="header-main">
+    <h1>Equipos</h1>
+  </header>
+
+  <section class="equipos-container">
+    {% if equipos|length > 0 %}
+      {% for equipo in equipos %}
+          <a href="/equipos/equipo?id={{ equipo.id }}" class="equipo-link">
+
+              <article class="equipo-card">
+                  <figure class="equipo-escudo">
+                      <img src="/assets/{{ equipo.escudo }}" alt="Escudo {{ equipo.nombre }}">
+                  </figure>
+
+                  <h2 class="equipo-nombre">{{ equipo.nombrePila }}</h2>
+
+              </article>
+
+          </a>
+      {% endfor %}
+    {% else %}
+      <p>No hay equipos disponibles.</p>
+    {% endif %}
+
+    </section>
+
+  {% if hayLogin %}
+      <a class="btn-accion" href="./torneo/cargarEquipo">Cargar equipo</a>
+  {% endif %}
+
+{% endblock %}
