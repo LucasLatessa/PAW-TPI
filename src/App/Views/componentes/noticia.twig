@@ -1,10 +1,10 @@
 <article class="noticia-card">
 
-    <a href="/" class="noticia-link">
+    <a href="/noticias/noticia?id={{ noticia.id }}" class="noticia-link">
 
         {% if noticia.imagen %}
             <figure class="noticia-imagen">
-                <img src="/assets/noticias/{{ noticia.imagen }}" alt="{{ noticia.titulo }}">
+                <img src="/assets/{{ noticia.imagen }}" alt="{{ noticia.titulo }}">
             </figure>
         {% endif %}
 

@@ -1,0 +1,21 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/noticias/index.css" />
+<link rel="stylesheet" href="/assets/styles/componentes/noticia.css" />
+{% endblock %}
+
+{% block content %}
+    <header class="header-main">
+        <h1>Noticias</h1>
+    </header>
+
+    <section class="noticias">
+            {% for noticia in noticias %}
+                {% include 'componentes/noticia.twig' with {'noticia': noticia} only %}
+            {% else %}
+                <p>No hay noticias publicadas.</p>
+            {% endfor %}
+    </section>
+
+{% endblock %}

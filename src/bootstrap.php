@@ -56,7 +56,10 @@ $router->get('/', 'PageController@index'); #Clase y metodo que procesa la petici
 $router->get('/equipos', 'EquipoController@equipos');
 $router->get('/equipos/equipo', 'EquipoController@show'); 
 
+/* ===== NOTICIAS ===== */
 
+$router->get('/noticias', 'NoticiaController@noticias');
+$router->get('/noticias/noticia', 'NoticiaController@show');
 
 
 
