@@ -1,13 +1,9 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    {% include 'parts/head.view.twig' %}
-    <link rel="stylesheet" href="/assets/styles/index.css" />
-    
-</head>
-<body>
-    {% include 'parts/header.view.twig' %}
+{% extends 'layouts/app.view.twig' %}
 
-    {% include 'parts/footer.view.twig' %}
-</body>
-</html>
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/index.css" />
+<link rel="stylesheet" href="/assets/styles/componentes/noticia.css" />
+{% endblock %}
+
+{% block content %}
+{% endblock %}
