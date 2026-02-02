@@ -34,11 +34,9 @@ class EquipoController extends Controlador
 
     $title = 'Equipo - LigaCF';
     $equipo_id = $request->get('id');
-    $equipo = $this->model->getXid($equipo_id);
+    $equipo = $this->model->getID($equipo_id);
 
-    //$title = $equipo->getNombrePila() . ' - LigaCF';
-
-    //var_dump($equipo);
+    $title = $equipo['nombre_pila'] . ' - LigaCF';
 
     echo $this->twig->render('equipos/show.view.twig', [
       'title' =>  $title,

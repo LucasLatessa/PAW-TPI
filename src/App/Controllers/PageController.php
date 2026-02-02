@@ -1,6 +1,7 @@
 <?php
 
 namespace Paw\App\Controllers;
+
 use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\NoticiaCollections;
 use Paw\App\Models\TorneoCollections;
@@ -11,11 +12,11 @@ use Twig\Environment;
 class PageController extends Controlador
 {
 
-    public function index()
-    {
-        $title = 'Home - LigaCF';
-        echo $this->twig->render('index.view.twig', [
-            'title' =>  $title
-        ]);
-    }
+  public function index()
+  {
+    $title = 'Home - LigaCF';
+    echo $this->twig->render('index.view.twig', [
+      'title' =>  $title
+    ]);
+  }
 }
