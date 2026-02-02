@@ -59,7 +59,7 @@ class LigaController extends Controlador
     $equipos = $this->model->getAllEquipos();
     
     //var_dump($equipos);
-    echo $this->twig->render('competencia/listaEquipos.view.twig', [
+    echo $this->twig->render('equipos/index.view.twig', [
       'title' => $title,
       'equipos' => $equipos, // Pasar la lista de equipos a la vista
     ]);

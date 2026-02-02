@@ -51,6 +51,19 @@ $router->setLoggeable($log); #Agrego el log
 
 $router->get('/', 'PageController@index'); #Clase y metodo que procesa la peticion
 
+/* ===== EQUIPOS ===== */
+
+$router->get('/equipos', 'EquipoController@equipos');
+$router->get('/equipos/equipo', 'EquipoController@show'); 
+
+
+
+
+
+
+
+
+
 
 $router->get('/noticias', 'NoticiaController@noticias');
 $router->get('/crearNoticia', 'NoticiaController@formCrearNoticia');
@@ -58,12 +71,6 @@ $router->post('/crearNoticia', 'NoticiaController@crearNoticia');
 #$router->get('/partidos', 'PageController@partidos');
 
 #$router->get('/listaEquipos', 'PageController@listaEquipos');
-
-
-$router->get('/listaEquipos', 'LigaController@listaEquipos');
-
-$router->get('/listaEquipos/equipo', 'EquipoController@datosEquipo'); 
-
 
 $router->get('/reglamento', 'PageController@reglamento');
 

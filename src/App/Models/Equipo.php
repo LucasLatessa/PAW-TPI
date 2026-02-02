@@ -67,6 +67,8 @@ class Equipo extends Model
     }
   }
 
+  /* ====== UTILS ====== */
+
   /* ====== GETTERS ====== */
   public function getId(): ?int
   {
