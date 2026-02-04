@@ -33,12 +33,38 @@ class TorneoController extends Controlador
 
     $torneo_id = $request->get('id');
     $torneo = $this->model->getTorneo($torneo_id);
+    $tabla = $this->model->getTablaPosiciones($torneo_id);
+    $cantEquipos = $this->model->getCantidadEquipos($torneo_id);
 
     $title = $torneo['nombre'] . ' - LigaCF';
 
+    //print_r($tabla);
+
     echo $this->twig->render('torneos/torneo.view.twig', [
       'title' =>  $title,
-      'torneo' => $torneo
+      'torneo' => $torneo,
+      'tabla' => $tabla,
+      'cantEquipos' => $cantEquipos
+    ]);
+  }
+
+  // Muestro la tabla de un torneo
+  public function tabla()
+  {
+    global $request;
+
+    $title = 'Tabla - LigaCF';
+
+    $torneo_id = $request->get('id');
+    $torneo = $this->model->getTorneo($torneo_id);
+    $tabla = $this->model->getTablaPosiciones($torneo_id);
+
+    //print_r($tabla);
+
+    echo $this->twig->render('torneos/tabla.view.twig', [
+      'title' =>  $title,
+      'torneo' => $torneo,
+      'tabla' => $tabla
     ]);
   }
 }

@@ -1,0 +1,53 @@
+<table class="tabla-posiciones">
+    <thead>
+        <tr>
+            <th>Pos</th>
+            <th>Equipo</th>
+
+            {% if variant == 'full' %}
+                <th>PTS</th>
+                <th>PJ</th>
+                <th>PG</th>
+                <th>PE</th>
+                <th>PP</th>
+                <th>GF</th>
+                <th>GC</th>
+                <th>DG</th>
+            {% else %}
+                <th>PTS</th>
+                <th>PJ</th>
+                <th>DG</th>
+            {% endif %}
+        </tr>
+    </thead>
+
+    <tbody>
+        {% set max = limit is defined ? limit : equipos|length %}
+        {% for equipo in equipos|slice(0, max) %}
+            <tr>
+                <td>{{ loop.index }}</td>
+
+                <td class="equipo">
+                    <img src="/assets/{{ equipo.escudo }}"
+                         alt="Escudo {{ equipo.nombre_pila }}">
+                    <span>{{ equipo.nombre_pila }}</span>
+                </td>
+
+                {% if variant == 'full' %}
+                    <td class="pts">{{ equipo.puntos }}</td>
+                    <td>{{ equipo.partidos_jugados }}</td>
+                    <td>{{ equipo.ganados }}</td>
+                    <td>{{ equipo.empatados }}</td>
+                    <td>{{ equipo.perdidos }}</td>
+                    <td>{{ equipo.goles_favor }}</td>
+                    <td>{{ equipo.goles_contra }}</td>
+                    <td>{{ equipo.diferencia_goles }}</td>
+                {% else %}
+                    <td class="pts">{{ equipo.puntos }}</td>
+                    <td>{{ equipo.partidos_jugados }}</td>
+                    <td>{{ equipo.diferencia_goles }}</td>
+                {% endif %}
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
