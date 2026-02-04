@@ -2,6 +2,7 @@
 
 {% block styles %}
 <link rel="stylesheet" href="/assets/styles/torneos/torneo.css" />
+<link rel="stylesheet" href="/assets/styles/componentes/tabla-posiciones.css" />
 {% endblock %}
 
 {% block content %}
@@ -27,7 +28,7 @@
                 </span>
                 <div>
                     <h4>Equipos</h4>
-                    <p>{{ cantidadEquipos }} equipos</p>
+                    <p>{{ cantEquipos }} equipos</p>
                 </div>
             </article>
             <article>
@@ -36,21 +37,42 @@
                 </span>
                 <div>
                     <h4>Inicio</h4>
-                    <p>{{ torneo.fecha_inicio.translatedFormat('d \\d\\e F \\d\\e Y') }}</p>
+                    <p>{{ torneo.fecha_inicio }}</p>
                 </div>
             </article>
-            @isset(torneo.fecha_fin)
-                <article>
-                    <span class="card-icon">
-                        <ion-icon name="calendar-outline" class="material-icons"></ion-icon>
-                    </span>
-                    <div>
-                        <h4>Final</h4>
-                        <p>{{ torneo.fecha_fin.translatedFormat('d \\d\\e F \\d\\e Y') }}</p>
-                    </div>
-                </article>
-            @endisset
+            {% if torneo.fecha_fin is not empty  %}
+              <article>
+                  <span class="card-icon">
+                      <ion-icon name="calendar-outline" class="material-icons"></ion-icon>
+                  </span>
+                  <div>
+                      <h4>Final</h4>
+                      <p>{{ torneo.fecha_fin }}</p>
+                  </div>
+              </article>
+            {% endif %}
         </section>
+
+        <section class="tabla-posiciones-torneo">
+            <div class="data">
+                <h2>
+                    <ion-icon name="stats-chart-outline" class="icon"></ion-icon> Tabla de Posiciones
+                </h2>
+                <a href="/torneos/torneo/tabla?id={{ torneo.id }}" class="tabla-completa">Ver tabla completa <ion-icon
+                        name="arrow-forward-outline"></ion-icon></a>
+            </div>
+            {% include 'componentes/tabla-posiciones.twig' with {
+                equipos: tabla,
+                limit: "5",
+                variant: 'simple'
+            } %}
+        </section>
+
+        <section class="sobre-torneo">
+            <h3>Sobre el torneo</h3>
+            <p>{{ torneo.descripcion }}</p>
+        </section>
+
       </main>
 
 {% endblock %}
