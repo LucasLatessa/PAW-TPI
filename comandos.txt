@@ -15,3 +15,7 @@ Ej: vendor/bin/phinx seed:create TorneosSeeder
 Correr semillas
 
 vendor/bin/phinx seed:run -e development
+
+Correr semilla especifica
+
+vendor/bin/phinx seed:run -s TorneosSeeder -e development

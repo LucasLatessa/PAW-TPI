@@ -31,8 +31,7 @@ class EquipoController extends Controlador
   public function show()
   {
     global $request;
-
-    $title = 'Equipo - LigaCF';
+    
     $equipo_id = $request->get('id');
     $equipo = $this->model->getID($equipo_id);
 

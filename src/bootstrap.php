@@ -61,6 +61,11 @@ $router->get('/equipos/equipo', 'EquipoController@show');
 $router->get('/noticias', 'NoticiaController@noticias');
 $router->get('/noticias/noticia', 'NoticiaController@show');
 
+/* ===== TORNEOS ===== */
+
+$router->get('/torneos', 'TorneoController@torneos');
+$router->get('/torneos/torneo', 'TorneoController@show');
+
 
 
 

@@ -62,6 +62,9 @@ class Torneo extends Model
     }
   }
 
+  /* ====== UTILS ====== */
+
+
   /* ====== GETTERS ====== */
 
   public function getId(): ?int
