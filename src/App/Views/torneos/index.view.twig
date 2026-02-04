@@ -1,0 +1,40 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/torneos/index.css" />
+{% endblock %}
+
+{% block content %}
+    <header class="header-main">
+        <h1>Torneos</h1>
+    </header>
+
+
+    <section class="torneos-section">
+
+        <!-- TO-DO Filtro por categoria -->
+
+        <ul class="torneos-container">
+            {% for torneo in torneos %}
+                <li><a href="/torneos/torneo?id={{ torneo.id }}" class="torneo-card">
+                        <article class="card-contenedor">
+                            <span class="card-icon">
+                                <ion-icon name="trophy-outline" class="material-icons"></ion-icon>
+                            </span>
+
+                            <section class="card-details">
+                                <span class="barra-status status-{{ torneo.estado }}">{{ torneo.estado == 'activo' ? 'En Curso' : 'Finalizado' }}</span>
+                                <h3 class="card-title">{{ torneo.nombre }} {{ torneo.temporada }}</h3>
+                                <p class="card-subtitle">Categoria: {{ torneo.categoria }}</p>
+                            </section>
+                        </article>
+                    </a>
+                </li>
+            {% else %}
+              <p>No hay torneos publicados.</p>
+            {% endfor %}
+        </ul>
+
+    </section>
+
+{% endblock %}

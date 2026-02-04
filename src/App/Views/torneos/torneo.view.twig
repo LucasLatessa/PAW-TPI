@@ -1,0 +1,56 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/torneos/torneo.css" />
+{% endblock %}
+
+{% block content %}
+    <header class="header-main">
+        <h1>{{ torneo.nombre }} {{ torneo.temporada }}</h1>
+    </header>
+
+    <main class="torneo-main">
+        <section class="informacion-torneo">
+            <article>
+                <span class="card-icon">
+                    <ion-icon name="alert-circle-outline" class="material-icons"></ion-icon>
+                </span>
+                <div>
+                    <h4>Estado</h4>
+                    <p class="barra-status status-{{ torneo.estado }}">
+                        {{ torneo.estado == 'activo' ? 'En Curso' : 'Finalizado' }}</p>
+                </div>
+            </article>
+            <article>
+                <span class="card-icon">
+                    <ion-icon name="people-outline" class="material-icons"></ion-icon>
+                </span>
+                <div>
+                    <h4>Equipos</h4>
+                    <p>{{ cantidadEquipos }} equipos</p>
+                </div>
+            </article>
+            <article>
+                <span class="card-icon">
+                    <ion-icon name="calendar-outline" class="material-icons"></ion-icon>
+                </span>
+                <div>
+                    <h4>Inicio</h4>
+                    <p>{{ torneo.fecha_inicio.translatedFormat('d \\d\\e F \\d\\e Y') }}</p>
+                </div>
+            </article>
+            @isset(torneo.fecha_fin)
+                <article>
+                    <span class="card-icon">
+                        <ion-icon name="calendar-outline" class="material-icons"></ion-icon>
+                    </span>
+                    <div>
+                        <h4>Final</h4>
+                        <p>{{ torneo.fecha_fin.translatedFormat('d \\d\\e F \\d\\e Y') }}</p>
+                    </div>
+                </article>
+            @endisset
+        </section>
+      </main>
+
+{% endblock %}
