@@ -1,0 +1,184 @@
+/* ===== INFORMACION PARTIDO ===== */
+.informacion-partido{
+    display: flex;
+    flex-direction: column;
+
+    gap: 1rem;
+    padding: 1rem;
+
+    background-color: var(--color-blanco);
+    border-radius: 0.75rem;
+    border-left: 8px solid var(--color-primario);
+    border-bottom: 5px solid transparent;
+    box-shadow: var(--sombra-suave);
+    margin: 1rem;
+}
+
+.informacion-partido h2{
+    font-size: 1.5rem;
+    font-weight: bolder;
+}
+
+.datos-informacion-partido{
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    width: 100%;
+    justify-content: space-evenly;
+}
+
+.informacion-partido li {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.informacion-partido li h4{
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    font-weight: bold;
+    color: var(--color-letras-cuaternario);
+    padding-bottom: 0.3rem;
+}
+
+.informacion-torneo li p {
+    font-size: 1rem;
+    font-weight: bolder;
+}
+
+/* ===== PARTIDO ===== */
+.partido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin: 1rem;
+
+    padding: 1rem;
+    border-radius: 0.75rem;
+    background-color: var(--color-blanco);
+    box-shadow: var(--sombra-suave);
+}
+
+/* ===== EQUIPOS ===== */
+.equipo {
+    flex: 1;
+    text-align: center;
+}
+
+.equipo-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.equipo-escudo {
+    width: 3.75rem;
+    height: 4.375rem;
+    /* width: 3rem;
+    height: 3rem; */
+
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-weight: 700;
+}
+
+.equipo-nombre {
+    font-size: 0.875rem;
+    font-weight: 600;
+}
+
+.equipo-condicion {
+    font-size: 0.75rem;
+    color: var(--color-letras-cuaternario);
+}
+
+/* ===== RESULTADO ===== */
+.partido-info {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+
+    gap: 0.25rem;
+
+    font-size: 1.5rem;
+    font-weight: 800;
+    color: var(--color-letras-cuaternario);
+    margin: 0 1rem;
+}
+
+
+.partido-resultado, .vs-text {
+    font-size: 2.5rem;
+    font-weight: 700;
+}
+
+/* ===================================================
+   RESPONSIVE
+======================================================
+*/
+
+/* ===================================================
+   TABLET (>= 768px)
+====================================================== */
+
+@media (min-width: 768px) {
+
+    .partido {
+        padding: 1.25rem 1.5rem;
+        gap: 1rem;
+    }
+
+    .equipo-escudo {
+        width: 3.5rem;
+        height: 3.5rem;
+        font-size: 1.125rem;
+    }
+
+    .equipo-nombre {
+        font-size: 1rem;
+    }
+
+    .partido-resultado, .vs-text {
+        font-size: 3rem;
+    }
+}
+
+/* ===================================================
+   DESKTOP (>= 1024px)
+====================================================== */
+
+@media (min-width: 1024px) {
+    .informacion-partido {
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
+
+    .datos-informacion-partido{
+        flex-direction: row;
+    }
+
+    .partido {
+        padding: 1.5rem 2rem;
+    }
+
+    .equipo-escudo {
+        width: 5rem;
+        height: 5rem;
+    }
+
+    .equipo-nombre {
+        font-size: 1.2rem;
+    }
+
+    .equipo-header {
+        gap: 0.75rem;
+    }
+
+}

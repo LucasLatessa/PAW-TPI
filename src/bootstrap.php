@@ -67,8 +67,10 @@ $router->get('/torneos', 'TorneoController@torneos');
 $router->get('/torneos/torneo', 'TorneoController@show');
 $router->get('/torneos/torneo/tabla', 'TorneoController@tabla');
 
+/* ===== PARTIDOS ===== */
 
-
+$router->get('/partidos', 'PartidoController@partidos');
+$router->get('/partidos/partido', 'PartidoController@show');
 
 
 
