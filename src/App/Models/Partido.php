@@ -14,8 +14,9 @@ class Partido extends Model
   private string $hora_partido;
   private int $equipo_local_id;
   private int $equipo_visitante_id;
-  private $equipoLocal; // Objeto Equipo representando al equipo local
-  private $equipoVisitante; // Objeto Equipo representando al equipo visitante
+
+  private ?Equipo $equipoLocal = null;  // Objeto Equipo representando al equipo local
+  private ?Equipo $equipoVisitante = null; // Objeto Equipo representando al equipo visitante
   private ?int $goles_local = null;
   private ?int $goles_visitante = null;
   private string $estado;
@@ -167,12 +168,12 @@ class Partido extends Model
     $this->equipo_visitante_id = $equipo_visitante_id;
   }
 
-  public function setEquipoLocal($equipoLocal): void
+  public function setEquipoLocal(Equipo $equipoLocal): void
   {
     $this->equipoLocal = $equipoLocal;
   }
 
-  public function setEquipoVisitante($equipoVisitante): void
+  public function setEquipoVisitante(Equipo $equipoVisitante): void
   {
     $this->equipoVisitante = $equipoVisitante;
   }

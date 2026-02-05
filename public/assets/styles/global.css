@@ -8,7 +8,7 @@ body{
     background-color: var(--color-bg-muted);
 }
 
-main{
+.main{
     background-color: var(--color-bg-muted);
     font-family: var(--fuente-primaria);
 }

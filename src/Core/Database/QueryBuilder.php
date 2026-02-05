@@ -45,6 +45,10 @@ class QueryBuilder
             $bindParams[":$key"] = $value;
           }
           break;
+        case 'torneo_id':
+          $where[] = "$key = :$key";
+          $bindParams[":$key"] = $value;
+          break;
       }
     }
 
