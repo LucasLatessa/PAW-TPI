@@ -3,6 +3,7 @@
 {% block styles %}
 <link rel="stylesheet" href="/assets/styles/torneos/torneo.css" />
 <link rel="stylesheet" href="/assets/styles/componentes/tabla-posiciones.css" />
+<link rel="stylesheet" href="/assets/styles/componentes/partido.css" />
 {% endblock %}
 
 {% block content %}
@@ -63,7 +64,7 @@
             </div>
             {% include 'componentes/tabla-posiciones.twig' with {
                 equipos: tabla,
-                limit: "5",
+                limit: "8",
                 variant: 'simple'
             } %}
         </section>
@@ -71,6 +72,27 @@
         <section class="sobre-torneo">
             <h3>Sobre el torneo</h3>
             <p>{{ torneo.descripcion }}</p>
+        </section>
+
+        <section class="partidos-torneo">
+            <div class="data">
+                <h2> <ion-icon name="football-outline" class="icon"></ion-icon> Partidos</h2>
+                <a href="/torneos/torneo/fixture?id={{ torneo.id }}" class="fixture-completo">Ver fixture completo <ion-icon
+                        name="arrow-forward-outline"></ion-icon></a>
+            </div>
+
+            <section class="lista-partidos-torneo">
+                {% if ultimosPartidos|length > 0 %}
+                  {% for partido in ultimosPartidos %}
+                    {% include 'componentes/partido.twig' with {
+                      partido: partido
+                    } %}
+                  {% endfor %}
+                {% else %}
+                    <p>No hay partidos para este torneo.</p>
+                {% endif %}
+            </section>
+
         </section>
 
       </main>

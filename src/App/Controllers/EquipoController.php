@@ -32,10 +32,11 @@ class EquipoController extends Controlador
   {
     global $request;
     
+    $title = 'Equipos - LigaCF';
     $equipo_id = $request->get('id');
     $equipo = $this->model->getID($equipo_id);
 
-    $title = $equipo['nombre_pila'] . ' - LigaCF';
+    //$title = $equipo->nombrePila . ' - LigaCF';
 
     echo $this->twig->render('equipos/show.view.twig', [
       'title' =>  $title,

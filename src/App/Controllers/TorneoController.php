@@ -35,6 +35,7 @@ class TorneoController extends Controlador
     $torneo = $this->model->getTorneo($torneo_id);
     $tabla = $this->model->getTablaPosiciones($torneo_id);
     $cantEquipos = $this->model->getCantidadEquipos($torneo_id);
+    $ultimosPartidos = $this->model->getUltimosPartidos($torneo_id);
 
     $title = $torneo['nombre'] . ' - LigaCF';
 
@@ -44,7 +45,8 @@ class TorneoController extends Controlador
       'title' =>  $title,
       'torneo' => $torneo,
       'tabla' => $tabla,
-      'cantEquipos' => $cantEquipos
+      'cantEquipos' => $cantEquipos,
+      'ultimosPartidos' => $ultimosPartidos
     ]);
   }
 

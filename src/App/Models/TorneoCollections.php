@@ -72,4 +72,12 @@ class TorneoCollections extends Model
     );
     return $cantEquipos ? $cantEquipos : 0;
   }
+
+  public function getUltimosPartidos($idTorneo)
+  {
+    $partidoCollection = new PartidoCollections();
+    $partidoCollection->setQueryBuilder($this->queryBuilder);
+
+    return $partidoCollection->getUltimosPorTorneo($idTorneo, 3);
+  }
 }

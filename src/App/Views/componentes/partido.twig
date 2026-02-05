@@ -2,8 +2,8 @@
     <a href="/partidos/partido?id={{ partido.id }}">
 
         <header class="partido-header">
-            <time datetime="{{ partido.fecha_hora }}">
-                {{ partido.fecha_hora }}
+            <time datetime="{{ partido.fecha_partido }}">
+                {{ partido.fechaPartido }} | {{ partido.horaPartido }}
             </time>
 
             <span class="barra-estado {{ partido.estado }}">
@@ -15,12 +15,12 @@
 
             <article class="equipo local">
                 <figure class="logo-equipo">
-                    <img src="/assets/{{ partido.local.escudo }}"
-                        alt="Escudo {{ partido.local.nombre }}">
+                    <img src="/assets/{{ partido.equipoLocal.escudo }}"
+                        alt="Escudo {{ partido.equipoLocal.nombre }}">
                 </figure>
 
                 <h3 class="equipo-nombre">
-                    {{ partido.local.nombre_pila }}
+                    {{ partido.equipoLocal.nombrePila }}
                 </h3>
             </article>
 
@@ -36,12 +36,12 @@
 
             <article class="equipo visitante">
                 <figure class="logo-equipo">
-                    <img src="/assets/{{ partido.visitante.escudo }}"
-                        alt="Escudo {{ partido.visitante.nombre }}">
+                    <img src="/assets/{{ partido.equipoVisitante.escudo }}"
+                        alt="Escudo {{ partido.equipoVisitante.nombre }}">
                 </figure>
 
                 <h3 class="equipo-nombre">
-                    {{ partido.visitante.nombre_pila }}
+                    {{ partido.equipoVisitante.nombrePila }}
                 </h3>
             </article>
 
