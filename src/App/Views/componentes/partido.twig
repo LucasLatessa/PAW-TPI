@@ -1,0 +1,55 @@
+<article class="partido-card">
+    <a href="/partidos/partido?id={{ partido.id }}">
+
+        <header class="partido-header">
+            <time datetime="{{ partido.fecha_hora }}">
+                {{ partido.fecha_hora }}
+            </time>
+
+            <span class="barra-estado {{ partido.estado }}">
+                {{ partido.estado }}
+            </span>
+        </header>
+
+        <main class="partido-main">
+
+            <article class="equipo local">
+                <figure class="logo-equipo">
+                    <img src="/assets/{{ partido.local.escudo }}"
+                        alt="Escudo {{ partido.local.nombre }}">
+                </figure>
+
+                <h3 class="equipo-nombre">
+                    {{ partido.local.nombre_pila }}
+                </h3>
+            </article>
+
+            <span class="vs">
+                {% if partido.estado == 'programado' %}
+                    <span class="vs-text">VS</span>
+                {% else %}
+                    {{ partido.goles_local ?? 0 }}
+                    -
+                    {{ partido.goles_visitante ?? 0 }}
+                {% endif %}
+            </span>
+
+            <article class="equipo visitante">
+                <figure class="logo-equipo">
+                    <img src="/assets/{{ partido.visitante.escudo }}"
+                        alt="Escudo {{ partido.visitante.nombre }}">
+                </figure>
+
+                <h3 class="equipo-nombre">
+                    {{ partido.visitante.nombre_pila }}
+                </h3>
+            </article>
+
+        </main>
+
+        <footer class="partido-footer">
+            <p>{{ 'Estadio: A definir' }}</p>
+        </footer>
+    </a>
+
+</article>
