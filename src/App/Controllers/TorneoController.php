@@ -69,4 +69,36 @@ class TorneoController extends Controlador
       'tabla' => $tabla
     ]);
   }
+
+  // Fixture de ese torneo
+  public function fixture()
+  {
+    global $request;
+
+    $title = 'Fixture - LigaCF';
+
+    $torneo_id = $request->get('id');
+    $fecha_id = $request->get('fecha');
+    $torneo = $this->model->getTorneo($torneo_id);
+    $fechas = $this->model->getFixture($torneo_id);
+    
+    if (!isset($fecha_id)) {
+      $fecha_id = 1; //Que tome la primera
+    }
+
+    //var_dump($fecha_id);
+
+    $fechaActual = $this->model->getFecha($torneo_id, $fecha_id);
+    $partidos = $this->model->getPartidosFecha($torneo_id, $fecha_id);
+
+    //print_r($fechaActual);
+
+    echo $this->twig->render('torneos/fixture.view.twig', [
+      'title' =>  $title,
+      'torneo' => $torneo,
+      'fechas' => $fechas,
+      'fechaActual' => $fechaActual,
+      'partidos' => $partidos
+    ]);
+  }
 }

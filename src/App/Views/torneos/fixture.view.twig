@@ -1,0 +1,39 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/torneos/fixture.css" />
+<link rel="stylesheet" href="/assets/styles/componentes/partido.css" />
+{% endblock %}
+
+{% block content %}
+    <header class="header-main">
+      <h1>Fixture Completo</h1>
+      <p>{{ torneo.nombre }}</p>
+    </header>
+
+    <section class="fixture-fechas">
+        <h2>Fechas: </h2>
+        <nav class="fechas">
+            {% for fecha in fechas %}
+                <a href="/torneos/torneo/fixture?id={{torneo.id}}&fecha={{ fecha.numero }}"
+                    class="{% if fecha.id == fechaActual.id %}activa{% endif %}">
+                    {{ fecha.numero }}
+                </a>
+            {% endfor %}
+        </nav>
+    </section>
+
+    {# {{-- PARTIDOS --}} #}
+    <section class="fixture-partidos">
+        <h3>{{ fechaActual.nombre }}</h3>
+        <div class="lista-fixture-partidos">
+            {% for partido in partidos %}
+              {% include 'componentes/partido.twig' with {
+                partido: partido  } %}
+            {% else %}
+            <p>No hay partidos aun para esta fecha.</p>
+            {% endfor %}
+        </div>
+    </section>
+
+{% endblock %}
