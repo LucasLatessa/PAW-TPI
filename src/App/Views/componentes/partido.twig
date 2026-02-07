@@ -28,9 +28,9 @@
                 {% if partido.estado == 'programado' %}
                     <span class="vs-text">VS</span>
                 {% else %}
-                    {{ partido.goles_local ?? 0 }}
+                    {{ partido.golesLocal ?? 0 }}
                     -
-                    {{ partido.goles_visitante ?? 0 }}
+                    {{ partido.golesVisitante ?? 0 }}
                 {% endif %}
             </span>
 

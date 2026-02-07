@@ -66,6 +66,7 @@ $router->get('/noticias/noticia', 'NoticiaController@show');
 $router->get('/torneos', 'TorneoController@torneos');
 $router->get('/torneos/torneo', 'TorneoController@show');
 $router->get('/torneos/torneo/tabla', 'TorneoController@tabla');
+$router->get('/torneos/torneo/fixture', 'TorneoController@fixture');
 
 /* ===== PARTIDOS ===== */
 

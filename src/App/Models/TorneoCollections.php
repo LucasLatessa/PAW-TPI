@@ -27,29 +27,6 @@ class TorneoCollections extends Model
     $torneo = $this->queryBuilder->selectViejo($this->table, ['id' => $idTorneo]);
     return $torneo ? $torneo[0] : null;
   }
-  public function create($nombreTorneo, $fechaInicio, $fechaFin)
-  {
-    $newTorneo = new Equipo;
-    $data = [
-      'nombre' => $nombreTorneo,
-      'fecha_inicio' => $fechaInicio,
-      'fecha_fin' => $fechaFin,
-      // 'categoria' => $categoria,
-      // 'cantidadEquipos' => $cantidadEquipos,
-      // 'cantidadFechas' => $cantidadFechas,
-      // 'descripcion' => $descripcion
-    ];
-
-    // Asignar el QueryBuilder y establecer los datos del equipo
-    $newTorneo->setQueryBuilder($this->queryBuilder);
-    $newTorneo->set($data);
-
-    // Insertar los datos en la base de datos
-    $this->queryBuilder->insert($this->table, $data);
-
-    // Retornar la instancia del nuevo equipo creado
-    return $newTorneo;
-  }
 
   // La idea es que la Query sea casi automatica por el QueryBuilder
   public function getTablaPosiciones($idTorneo)
@@ -79,5 +56,29 @@ class TorneoCollections extends Model
     $partidoCollection->setQueryBuilder($this->queryBuilder);
 
     return $partidoCollection->getUltimosPorTorneo($idTorneo, 3);
+  }
+
+  public function getFixture(int $idTorneo)
+  {
+    $fechaCollection = new FechaCollections();
+    $fechaCollection->setQueryBuilder($this->queryBuilder);
+
+    return $fechaCollection->getByTorneo($idTorneo);
+  }
+
+  public function getFecha(int $idTorneo, int $idFecha)
+  {
+    $fechaCollection = new FechaCollections();
+    $fechaCollection->setQueryBuilder($this->queryBuilder);
+
+    return $fechaCollection->getFecha($idTorneo, $idFecha);
+  }
+
+  public function getPartidosFecha($idTorneo,$idFecha)
+  {
+    $partidoCollection = new PartidoCollections();
+    $partidoCollection->setQueryBuilder($this->queryBuilder);
+
+    return $partidoCollection->getPartidosByFecha($idTorneo,$idFecha);
   }
 }

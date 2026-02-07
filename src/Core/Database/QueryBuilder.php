@@ -19,37 +19,43 @@ class QueryBuilder
     $bindParams = [];
 
     foreach ($params as $key => $value) {
-      switch ($key) {
-        case 'id':
-        case 'idUsuario':
-        case 'idSesion':
-        case 'correo':
-        case 'id_torneo':
-        case 'id_equipo':
-          $where[] = "$key = :$key";
-          $bindParams[":$key"] = $value;
-          break;
-        case 'id_equipo_local':
-        case 'id_equipo_visitante':
-          $where[] = "$key = :$key";
-          $bindParams[":$key"] = $value;
-          break;
-        case 'golesLocal':
-        case 'golesVisitante':
-          if (is_null($value)) {
-            // Si es null, usamos IS NULL y NO bindeamos 
-            $where[] = "$key IS NULL";
-          } else {
-            // Si tiene valor, usamos = y bindeamos
-            $where[] = "$key = :$key";
-            $bindParams[":$key"] = $value;
-          }
-          break;
-        case 'torneo_id':
-          $where[] = "$key = :$key";
-          $bindParams[":$key"] = $value;
-          break;
-      }
+      $where[] = "$key = :$key";
+      $bindParams[":$key"] = $value;
+      // switch ($key) {
+      //   case 'id':
+      //   case 'idUsuario':
+      //   case 'idSesion':
+      //   case 'correo':
+      //   case 'id_torneo':
+      //   case 'id_equipo':
+      //     $where[] = "$key = :$key";
+      //     $bindParams[":$key"] = $value;
+      //     break;
+      //   case 'id_equipo_local':
+      //   case 'id_equipo_visitante':
+      //     $where[] = "$key = :$key";
+      //     $bindParams[":$key"] = $value;
+      //     break;
+      //   case 'golesLocal':
+      //   case 'golesVisitante':
+      //     if (is_null($value)) {
+      //       // Si es null, usamos IS NULL y NO bindeamos 
+      //       $where[] = "$key IS NULL";
+      //     } else {
+      //       // Si tiene valor, usamos = y bindeamos
+      //       $where[] = "$key = :$key";
+      //       $bindParams[":$key"] = $value;
+      //     }
+      //     break;
+      //   case 'torneo_id':
+      //     $where[] = "$key = :$key";
+      //     $bindParams[":$key"] = $value;
+      //     break;
+      //   case 'fecha_id':
+      //     $where[] = "$key = :$key";
+      //     $bindParams[":$key"] = $value;
+      //     break;
+      // }
     }
 
     $whereClause = '';
