@@ -18,6 +18,7 @@ vendor/bin/phinx seed:run -e development
 
 Correr semilla especifica
 
+Orden de ejecucion de Semilla
 vendor/bin/phinx seed:run -s EquiposSeeder -e development
 vendor/bin/phinx seed:run -s NoticiasSeeder -e development
 vendor/bin/phinx seed:run -s TorneosSeeder -e development

@@ -1,0 +1,36 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/noticias/create.css" />
+{% endblock %}
+
+{% block content %}
+    <header class="header-main">
+        <h1>Nueva noticia</h1>
+    </header>
+
+    <form method="POST" enctype="multipart/form-data" class="carga-form" action="">
+
+        <label for="titulo">Titulo de la noticia</label>
+        <input id="titulo" name="titulo" type="text" value="{{titulo_ingresado}}"required>
+
+        <label for="descripcion">Descripcion</label>
+        <textarea id="descripcion" name="descripcion" rows="4" required>{{descripcion_ingresada}}</textarea>
+        
+        <label for="fecha">Fecha</label>
+        <input type="date" id="fecha" name="fecha"value="{{fecha_ingresada}}" required>
+        
+
+          <label for="imagen" id="imagen-drop">
+            Imagen (Tamaño maximo 1MB)
+            <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .png">
+        </label>
+        
+        {% if errorMessage is defined %}
+            <p class="error-message">{{ errorMessage }}</p>
+        {% endif %}
+
+        <button type="submit">Enviar</button>
+    </form>
+
+{% endblock %}
