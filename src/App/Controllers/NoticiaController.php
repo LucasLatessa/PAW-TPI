@@ -42,4 +42,48 @@ class NoticiaController extends Controlador
       'noticia' => $noticia
     ]);
   }
+
+  // Mostrar formulario para crear una noticia
+  public function create()
+  {
+    global $request;
+
+    $title = 'Crear noticia - LigaCF';
+
+    echo $this->twig->render('noticias/create.view.twig', [
+      'title' =>  $title
+    ]);
+  }
+
+  // Crear noticia
+  public function crearNoticia()
+  {
+    global $request;
+
+    $titulo = $request->getRequest('titulo');
+    $descripcion = $request->getRequest('descripcion');
+    $fecha = $request->getRequest('fecha');
+
+    // Intentamos subir la imagen
+    $nombreImagen = $this->subirImagen($_FILES, 'noticias');
+
+    // Si nombreImagen NO es false, es porque subio bien
+    if ($nombreImagen !== false) {
+      $this->model->create($titulo, $descripcion, $fecha, $nombreImagen);
+
+      header('Location: /noticias');
+      exit();
+    } else {
+      $errorMessage = "La imagen excede el tamaño permitido (1MB) o hubo un error en la carga.";
+      $title = 'Crear noticia - LigaCF';
+
+      echo $this->twig->render('noticias/create.view.twig', [
+        'title' => $title,
+        'errorMessage' => $errorMessage,
+        'titulo_ingresado' => $titulo,
+        'descripcion_ingresada' => $descripcion,
+        'fecha_ingresada' => $fecha
+      ]);
+    }
+  }
 }
