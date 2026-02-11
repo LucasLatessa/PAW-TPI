@@ -21,7 +21,7 @@ body {
 }
 
 /* Contenedor principal con la imagen de fondo */
-.main-login {
+.main {
     flex: 1; 
     display: flex;
     align-items: center;
@@ -32,7 +32,7 @@ body {
     padding: 2rem; 
 }
 
-.main-login::before {
+.main::before {
     content: '';
     position: absolute;
     top: 0; left: 0; right: 0; bottom: 0;
