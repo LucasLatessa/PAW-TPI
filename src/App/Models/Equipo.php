@@ -11,7 +11,6 @@ class Equipo extends Model
 
   private ?int $id = null;
   private string $nombre;
-  private string $slug;
   private string $nombre_pila;
   private string $fecha_creacion;
   private string $escudo;
@@ -80,11 +79,6 @@ class Equipo extends Model
     return $this->nombre;
   }
 
-  public function getSlug(): string
-  {
-    return $this->slug;
-  }
-
   public function getNombrePila(): string
   {
     return $this->nombre_pila;
@@ -125,12 +119,6 @@ class Equipo extends Model
   public function setNombre(string $nombre): self
   {
     $this->nombre = $nombre;
-    return $this;
-  }
-
-  public function setSlug(string $slug): self
-  {
-    $this->slug = $slug;
     return $this;
   }
 

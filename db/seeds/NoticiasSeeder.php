@@ -38,9 +38,6 @@ class NoticiasSeeder extends AbstractSeed
 
     foreach ($noticias as $noticia) {
 
-      // Generar slug
-      $slug = $this->slugify($noticia['titulo']);
-
       // Copiar imagen
       $rutaDestinoRelativa = null;
 
@@ -61,7 +58,6 @@ class NoticiasSeeder extends AbstractSeed
       // Insertar noticia
       $this->table('noticias')->insert([
         'titulo' => $noticia['titulo'],
-        'slug' => $slug,
         'descripcion' => $noticia['descripcion'],
         'contenido' => $noticia['contenido'],
         'imagen' => $rutaDestinoRelativa,
@@ -72,13 +68,4 @@ class NoticiasSeeder extends AbstractSeed
     }
   }
 
-  private function slugify(string $text): string
-  {
-    $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
-    $text = strtolower($text);
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    $text = trim($text, '-');
-
-    return $text;
-  }
 }

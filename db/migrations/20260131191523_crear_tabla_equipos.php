@@ -18,9 +18,6 @@ final class CrearTablaEquipos extends AbstractMigration
       ->addColumn('nombre', 'string', [
         'limit' => 100
       ])
-      ->addColumn('slug', 'string', [
-        'limit' => 255
-      ])
       ->addColumn('nombre_pila', 'string', [
         'limit' => 100
       ])
@@ -46,9 +43,6 @@ final class CrearTablaEquipos extends AbstractMigration
       ->addColumn('updated_at', 'timestamp', [
         'null' => true,
         'update' => 'CURRENT_TIMESTAMP'
-      ])
-      ->addIndex(['slug'], [
-        'unique' => true
       ])
       ->create();
   }

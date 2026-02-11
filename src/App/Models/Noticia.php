@@ -11,7 +11,6 @@ class Noticia extends Model
 
   private ?int $id = null;
   private string $titulo;
-  private ?string $slug= null;
   private string $descripcion;
   private string $contenido;
   private string $imagen;
@@ -80,10 +79,6 @@ class Noticia extends Model
     return $this->titulo;
   }
 
-  public function getSlug(): string
-  {
-    return $this->slug;
-  }
 
   public function getDescripcion(): string
   {
@@ -125,12 +120,6 @@ class Noticia extends Model
   public function setTitulo(string $titulo): self
   {
     $this->titulo = $titulo;
-    return $this;
-  }
-
-  public function setSlug(string $slug): self
-  {
-    $this->slug = $slug;
     return $this;
   }
 

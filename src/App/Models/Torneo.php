@@ -11,7 +11,6 @@ class Torneo extends Model
   private $table = 'torneos';
   private ?int $id = null;
   private string $nombre;
-  private string $slug;
   private string $categoria;
   private string $temporada;
   private ?string $descripcion = null;
@@ -77,11 +76,6 @@ class Torneo extends Model
     return $this->nombre;
   }
 
-  public function getSlug(): string
-  {
-    return $this->slug;
-  }
-
   public function getCategoria(): string
   {
     return $this->categoria;
@@ -127,11 +121,6 @@ class Torneo extends Model
   public function setNombre(string $nombre): void
   {
     $this->nombre = $nombre;
-  }
-
-  public function setSlug(string $slug): void
-  {
-    $this->slug = $slug;
   }
 
   public function setCategoria(string $categoria): void

@@ -125,9 +125,6 @@ class EquiposSeeder extends AbstractSeed
 
     foreach ($equipos as $equipo) {
 
-      // Generar slug
-      $slug = $this->slugify($equipo['nombre_pila']);
-
       // Copiar escudo
       $rutaOrigen = __DIR__ . '/assets/escudos/' . $equipo['escudo'];
       $rutaDestinoRelativa = 'escudos/' . $equipo['escudo'];
@@ -144,7 +141,6 @@ class EquiposSeeder extends AbstractSeed
       $this->table('equipos')->insert([
         'nombre' => $equipo['nombre'],
         'nombre_pila' => $equipo['nombre_pila'],
-        'slug' => $slug,
         'fecha_creacion' => $equipo['fecha_creacion'],
         'estadio' => $equipo['estadio'],
         'descripcion' => $equipo['descripcion'],
@@ -154,13 +150,4 @@ class EquiposSeeder extends AbstractSeed
     }
   }
 
-  private function slugify(string $text): string
-  {
-    $text = iconv('UTF-8', 'ASCII//TRANSLIT', $text);
-    $text = strtolower($text);
-    $text = preg_replace('/[^a-z0-9]+/', '-', $text);
-    $text = trim($text, '-');
-
-    return $text;
-  }
 }

@@ -18,9 +18,6 @@ final class CrearTablaTorneos extends AbstractMigration
       ->addColumn('nombre', 'string', [
         'limit' => 255
       ])
-      ->addColumn('slug', 'string', [
-        'limit' => 255
-      ])
       ->addColumn('categoria', 'string', [
         'limit' => 255
       ])
@@ -44,9 +41,6 @@ final class CrearTablaTorneos extends AbstractMigration
       ->addColumn('updated_at', 'timestamp', [
         'null' => true,
         'update' => 'CURRENT_TIMESTAMP'
-      ])
-      ->addIndex(['slug'], [
-        'unique' => true
       ])
       ->create();
   }

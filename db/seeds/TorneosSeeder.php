@@ -13,7 +13,6 @@ class TorneosSeeder extends AbstractSeed
 
     $torneos = [
       [
-        'slug' => 'primera-division-2025',
         'nombre' => 'Primera División',
         'categoria' => 'Primera',
         'temporada' => '2025',
@@ -22,7 +21,6 @@ class TorneosSeeder extends AbstractSeed
         'fecha_inicio' => '2025-02-01',
       ],
       [
-        'slug' => 'segunda-division-2025',
         'nombre' => 'Segunda División',
         'categoria' => 'Segunda',
         'temporada' => '2025',
