@@ -18,9 +18,6 @@ final class CrearTablaEquipos extends AbstractMigration
       ->addColumn('nombre', 'string', [
         'limit' => 100
       ])
-      ->addColumn('nombre_pila', 'string', [
-        'limit' => 100
-      ])
       ->addColumn('fecha_creacion', 'date', [
         'null' => true
       ])

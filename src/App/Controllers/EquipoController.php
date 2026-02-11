@@ -43,4 +43,44 @@ class EquipoController extends Controlador
       'equipo' => $equipo
     ]);
   }
+  public function formCrearEquipo(){
+    $title = 'Cargar equipo - LigaCF';
+    echo $this->twig->render('equipos/crearEquipo.view.twig', [
+        'title' =>  $title,
+    ]);
+  }
+  
+  public function crearEquipo()
+  {
+    global $request;
+
+    $nombreEquipo = $request->getRequest('equipo');
+    $fechaCreacion = $request->getRequest('fecha');
+    $nombreEstadio = $request->getRequest('estadio');
+    $descripcion = $request->getRequest('descripcion');
+
+    $nombreArchivo = $this->subirImagen($_FILES, 'escudos');
+    
+
+    if ($nombreArchivo !== false) {
+
+      $this->model->create($nombreEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $nombreArchivo);
+
+      header('Location: /equipos');
+      exit();
+    } else {
+      $errorMessage = "La imagen excede el tamaño permitido (1MB) o hubo un error en la carga.";
+      $title = "Cargar Equipo - Liga";
+
+      echo $this->twig->render('equipo/crearEquipo.view.twig', [
+        'title' => $title,
+        'errorMessage' => $errorMessage,
+
+        'equipo_ingresado' => $nombreEquipo,
+        'fecha_ingresada' => $fechaCreacion,
+        'estadio_ingresado' => $nombreEstadio,
+        'descripcion_ingresada' => $descripcion
+      ]);
+    }
+  }
 }

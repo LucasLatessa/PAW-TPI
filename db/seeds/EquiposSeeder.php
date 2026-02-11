@@ -11,7 +11,6 @@ class EquiposSeeder extends AbstractSeed
     $equipos = [
       [
         'nombre' => 'Club Atletico Independiente',
-        'nombre_pila' => 'Independiente',
         'escudo' => 'Independiente.png',
         'fecha_creacion' => '1930-04-05',
         'estadio' => 'Estadio Raul Orlando Lungarzo',
@@ -19,7 +18,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Social, Cultural y Deportivo Gimnasia y Esgrima',
-        'nombre_pila' => 'Gimnasia',
         'escudo' => 'Gimnasia.png',
         'fecha_creacion' => '1916-04-18',
         'estadio' => 'Estadio José María Paz',
@@ -27,7 +25,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Social y Deportivo 22 de Octubre',
-        'nombre_pila' => '22 de Octubre',
         'escudo' => '22Octubre.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio X',
@@ -35,7 +32,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Deportivo Alsina',
-        'nombre_pila' => 'Alsina',
         'escudo' => 'Alsina.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Alsina',
@@ -43,7 +39,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Social y Deportivo Ceramica Argentina',
-        'nombre_pila' => 'Ceramica',
         'escudo' => 'Ceramica.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Ceramica',
@@ -51,7 +46,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Atletico Ciclon',
-        'nombre_pila' => 'Ciclon',
         'escudo' => 'Ciclon.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Ciclon',
@@ -59,7 +53,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Social y Deportivo Colon',
-        'nombre_pila' => 'Colon',
         'escudo' => 'Colon.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Colon',
@@ -67,7 +60,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Social y Deportivo Huracan',
-        'nombre_pila' => 'Huracan',
         'escudo' => 'Huracan.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Huracan',
@@ -75,7 +67,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Moquehua',
-        'nombre_pila' => 'Moquehua',
         'escudo' => 'Moquehua.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Moquehua',
@@ -83,7 +74,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Once Tigres',
-        'nombre_pila' => 'Once Tigres',
         'escudo' => 'OnceTigres.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Once Tigres',
@@ -91,7 +81,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Deportivo Pellegrini',
-        'nombre_pila' => 'Pellegrini',
         'escudo' => 'Pellegrini.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Pellegrini',
@@ -99,7 +88,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club San Lorenzo Alberti',
-        'nombre_pila' => 'San Lorenzo',
         'escudo' => 'SanLorenzo.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Alberti',
@@ -107,7 +95,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Deportivo, Social y Cultural Florencio Varela',
-        'nombre_pila' => 'Varela',
         'escudo' => 'Varela.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Varela',
@@ -115,7 +102,6 @@ class EquiposSeeder extends AbstractSeed
       ],
       [
         'nombre' => 'Club Atletico Villarino',
-        'nombre_pila' => 'Villarino',
         'escudo' => 'Villarino.png',
         'fecha_creacion' => '1900-01-01',
         'estadio' => 'Estadio Villarino',
@@ -140,7 +126,6 @@ class EquiposSeeder extends AbstractSeed
       // Insertar
       $this->table('equipos')->insert([
         'nombre' => $equipo['nombre'],
-        'nombre_pila' => $equipo['nombre_pila'],
         'fecha_creacion' => $equipo['fecha_creacion'],
         'estadio' => $equipo['estadio'],
         'descripcion' => $equipo['descripcion'],

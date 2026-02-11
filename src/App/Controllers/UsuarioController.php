@@ -11,7 +11,7 @@ use Paw\Core\Config;
 class UsuarioController extends Controlador{ 
     public ?string $modelName = UsuariosCollections::class;
     
-    public function signUp(){
+    public function formSignUp(){
         $title = 'Registrarse - LigaCF';
         echo $this->twig->render('cuenta/registrarse.view.twig', [
             'title' =>  $title,
@@ -19,7 +19,7 @@ class UsuarioController extends Controlador{
     }
 
     #Registro de usuarios
-   public function registrarse()
+   public function signUp()
     {
         global $request;
 
@@ -70,7 +70,7 @@ class UsuarioController extends Controlador{
             ]);
         }        
     }
-    public function ingresar(){
+    public function formLogin(){
         $title = 'Ingresar - LigaCF';
         if ($this->hayLogin) {
             header('Location: /cuenta/perfil');

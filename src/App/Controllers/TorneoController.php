@@ -15,6 +15,7 @@ class TorneoController extends Controlador
         $hayLogin = $_SESSION['login'];
         $title    = 'Torneos - LigaCF';
         $torneos  = $this->model->getAllTorneos();
+        $hayLogin = $_SESSION['login']; 
 
         //var_dump($equipos);
         echo $this->twig->render('torneos/index.view.twig', [

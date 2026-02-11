@@ -34,6 +34,9 @@
               <p>No hay torneos publicados.</p>
             {% endfor %}
         </ul>
+        {% if hayLogin %}
+            <a class="btn-crear" href="/torneos/crearTorneo">Crear Torneo</a>
+        {% endif %}
 
     </section>
 
