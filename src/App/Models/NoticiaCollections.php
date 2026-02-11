@@ -52,6 +52,13 @@ class NoticiaCollections extends Model
         # retornar la instancia de la nueva noticia creada
         return $nuevaNoticia;
     }
+    public function incrementarVisitas($idNoticia) {
+        $noticia = $this->getID($idNoticia);
+        if ($noticia) {
+            $nuevaCantidadVisitas = $noticia['visitas'] + 1;
+            $this->queryBuilder->update($this->table, ['visitas' => $nuevaCantidadVisitas], ['id' => $idNoticia]);
+        }
+    }
 
 
   // public function getID($id)
