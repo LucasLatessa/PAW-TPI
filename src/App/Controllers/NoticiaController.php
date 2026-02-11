@@ -63,13 +63,15 @@ class NoticiaController extends Controlador
     $titulo = $request->getRequest('titulo');
     $descripcion = $request->getRequest('descripcion');
     $fecha = $request->getRequest('fecha');
+    $autor = $request->getRequest('autor');
+    $contenido = $request->getRequest('contenido');
 
     // Intentamos subir la imagen
     $nombreImagen = $this->subirImagen($_FILES, 'noticias');
 
     // Si nombreImagen NO es false, es porque subio bien
     if ($nombreImagen !== false) {
-      $this->model->create($titulo, $descripcion, $fecha, $nombreImagen);
+      $this->model->create($titulo, $descripcion,$contenido, $autor, $fecha, $nombreImagen);
 
       header('Location: /noticias');
       exit();
@@ -82,7 +84,9 @@ class NoticiaController extends Controlador
         'errorMessage' => $errorMessage,
         'titulo_ingresado' => $titulo,
         'descripcion_ingresada' => $descripcion,
-        'fecha_ingresada' => $fecha
+        'fecha_ingresada' => $fecha,
+        'contenido_ingresado' => $contenido,
+        'autor_ingresado' => $autor
       ]);
     }
   }

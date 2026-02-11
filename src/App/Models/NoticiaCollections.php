@@ -27,6 +27,32 @@ class NoticiaCollections extends Model
 
     return $noticiasCollection;
   }
+  
+    public function create($titulo, $descripcion,$contenido, $autor, $fecha, $imagen) {
+        $nuevaNoticia = new Noticia(); 
+        
+        $data = [
+            'titulo' => $titulo,
+            'descripcion' => $descripcion,
+            'fecha_publicacion' => $fecha,
+            'imagen' => $imagen,
+            'slug' => implode("-", explode(" ",strtolower($titulo)) ),
+            'contenido' => $contenido,
+            'autor' => $autor
+
+        ];
+
+        # asignar el querybuilder y establecer los datos
+        $nuevaNoticia->setQueryBuilder($this->queryBuilder);
+        $nuevaNoticia->set($data);
+
+        # insertar los datos en la base de datos
+        $this->queryBuilder->insert($this->table, $data);
+
+        # retornar la instancia de la nueva noticia creada
+        return $nuevaNoticia;
+    }
+
 
   // public function getID($id)
   // {

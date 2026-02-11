@@ -61,7 +61,7 @@ $router->get('/equipos/equipo', 'EquipoController@show');
 $router->get('/noticias', 'NoticiaController@noticias');
 $router->get('/noticias/noticia', 'NoticiaController@show');
 $router->get('/noticias/crear', 'NoticiaController@create');
-$router->post('/noticias/crear', 'NoticiaController@store');
+$router->post('/noticias/crear', 'NoticiaController@crearNoticia');
 
 /* ===== TORNEOS ===== */
 
