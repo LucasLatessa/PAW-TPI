@@ -124,7 +124,7 @@ class QueryBuilder
 
     // Agregar filtro por id_torneo si se proporciona
     if ($idTorneo !== null) {
-      $query .= " AND id_torneo = :idTorneo";
+      $query .= " AND torneo_id = :idTorneo";
     }
 
     // Agregar la cláusula ORDER BY por puntos ascendente

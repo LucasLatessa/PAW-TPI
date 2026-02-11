@@ -5,6 +5,7 @@ namespace Paw\App\Models;
 use Paw\Core\Model;
 use Paw\App\Models\Torneo;
 
+
 class TorneoCollections extends Model
 {
   public $table = 'torneos';

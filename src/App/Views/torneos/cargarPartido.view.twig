@@ -1,0 +1,59 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/torneos/creartorneo.css">
+{% endblock %}
+
+{% block content %}
+  
+    <header class="torneo-header">
+      <h1>Cargar partido</h1>
+    </header>
+
+    <section class="creacion-torneo">
+    {% if hayLogin %}{# Solo mostramos el formulario si el usuario esta logueado #}
+      <form method="POST" action="" class="crear-form">
+
+        <label for="id-torneo">Torneo</label>
+        <select name="id-torneo" id="id-torneo">
+            <option value={{torneo.id}}>{{torneo.nombre}}</option>
+        </select>
+
+        <label for="fecha-torneo">Partido correspondiente a la fecha Nº
+          <input type="number" name="fecha-torneo" id="fecha-torneo" required>
+        </label>
+
+        <label for="id-equipo-local">Equipo Local</label>
+        <select name="id-equipo-local" id="id-equipo-local">
+        <option value="" disabled selected>Seleccionar un equipo</option>
+            {% for equipo in equiposTorneo %}
+                <option value={{equipo.equipo_id}}>{{equipo.equipo.nombre}}</option>
+            {% endfor %}
+        </select>
+  
+        <label for="id-equipo-visitante">Equipo Visitante</label>
+        <select name="id-equipo-visitante" id="id-equipo-visitante">
+        <option value="" disabled selected>Seleccionar un equipo</option>
+            {% for equipo in equiposTorneo %}
+                <option value={{equipo.equipo_id}}>{{equipo.equipo.nombre}}</option>
+            {% endfor %}
+        </select>
+
+        <label for="fecha">Fecha
+          <input type="date" id="fecha" name="fecha" required>
+        </label>
+
+        <label for="hora">Hora
+          <input type="time" id="hora" name="hora" required>
+        </label>
+
+        <button type="submit">Cargar partido</button>
+      </form>
+      {% else %}
+        <div class="mensaje-login">
+          <p>Debés iniciar sesión para poder cargar un partido.</p>
+          <a href="/login" class="btn-login-redirect">Ir al Login</a>
+        </div>
+      {% endif %}
+    </section>
+{% endblock %}
