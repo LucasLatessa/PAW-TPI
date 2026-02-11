@@ -55,77 +55,58 @@ $router->get('/', 'PageController@index'); #Clase y metodo que procesa la petici
 
 $router->get('/equipos', 'EquipoController@equipos');
 $router->get('/equipos/equipo', 'EquipoController@show'); 
+$router->get('/equipos/crearEquipo', 'EquipoController@formCrearEquipo');
+/* Post */
+$router->post('/equipos/crearEquipo', 'EquipoController@crearEquipo');
 
 /* ===== NOTICIAS ===== */
-
 $router->get('/noticias', 'NoticiaController@noticias');
 $router->get('/noticias/noticia', 'NoticiaController@show');
-$router->get('/noticias/crear', 'NoticiaController@create');
+$router->get('/noticias/crear', 'NoticiaController@formCrearnoticia');
+/* Post */
 $router->post('/noticias/crear', 'NoticiaController@crearNoticia');
 
 /* ===== TORNEOS ===== */
-
 $router->get('/torneos', 'TorneoController@torneos');
 $router->get('/torneos/torneo', 'TorneoController@show');
 $router->get('/torneos/torneo/tabla', 'TorneoController@tabla');
 $router->get('/torneos/torneo/fixture', 'TorneoController@fixture');
-
-/* ===== PARTIDOS ===== */
-
-$router->get('/partidos', 'PartidoController@partidos');
-$router->get('/partidos/partido', 'PartidoController@show');
-
-
-
-
-
-
-$router->get('/noticias', 'NoticiaController@noticias');
-$router->get('/crearNoticia', 'NoticiaController@formCrearNoticia');
-$router->post('/crearNoticia', 'NoticiaController@crearNoticia');
-#$router->get('/partidos', 'PageController@partidos');
-
-#$router->get('/listaEquipos', 'PageController@listaEquipos');
-
-$router->get('/reglamento', 'PageController@reglamento');
-
-$router->get('/login', 'UsuarioController@ingresar');
-
-
-$router->get('/contacto', 'PageController@contacto');
-
-$router->get('/nosotros', 'PageController@nosotros');
-
-
-$router->get('/liga/cargarEquipo', 'PageController@cargarEquipo');
-
-
-$router->post('/liga/cargarEquipo', 'LigaController@cargarEquipo');
-
-$router->get('/cuenta/registrarse', 'UsuarioController@signUp');
-$router->get('/cuenta/logout', 'UsuarioController@logout');
-$router->post('/cuenta/registrarse', 'UsuarioController@registrarse');
-$router->post('/login', 'UsuarioController@login');
-
-$router->get('/cuenta/perfil', 'UsuarioController@perfil');
-$router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
-
-/* TORNEO */
-
 $router->get('/torneos/crearTorneo', 'TorneoController@formCrearTorneo');
-$router->post('/torneos/crearTorneo', 'TorneoController@crearTorneo');
-$router->get('/torneos', 'TorneoController@torneos');
-$router->get('/torneo', 'TorneoController@torneo');
 $router->get('/torneo/cargarEquipo', "TorneoController@formCargarEquipo");
 $router->get('/torneo/cargarResultado', "TorneoController@formCargarResultado");
 $router->get('/torneo/cargarPartido', "TorneoController@formCargarPartido");
-
+/* Post */
+$router->post('/torneos/crearTorneo', 'TorneoController@crearTorneo');
 $router->post('/torneo/cargarEquipo', "TorneoController@cargarEquipo");
 $router->post('/torneo/cargarResultado', "TorneoController@cargarResultado");
 $router->post('/torneo/cargarPartido', "TorneoController@cargarPartido");
 
+/* ===== PARTIDOS ===== */
+$router->get('/partidos', 'PartidoController@partidos');
+$router->get('/partidos/partido', 'PartidoController@show');
+
+/* ===== USUARIO ===== */
+$router->get('/login', 'UsuarioController@formLogin');
+$router->get('/cuenta/registrarse', 'UsuarioController@formSignUp');
+$router->get('/cuenta/logout', 'UsuarioController@logout');
+$router->get('/cuenta/perfil', 'UsuarioController@perfil');
+
+/* Post */
+$router->post('/login', 'UsuarioController@login');
+$router->post('/cuenta/registrarse', 'UsuarioController@signUp');
+$router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
+
+
+
+
+/* TORNEO(viejo supongo) */
 
 
 
 $router->get('/competencia/partidos', 'PageController@partidos');
 
+$router->get('/reglamento', 'PageController@reglamento');
+
+$router->get('/contacto', 'PageController@contacto');
+
+$router->get('/nosotros', 'PageController@nosotros');

@@ -45,7 +45,7 @@ class NoticiaController extends Controlador
   }
 
   // Mostrar formulario para crear una noticia
-  public function create()
+  public function formCrearnoticia()
   {
     global $request;
 

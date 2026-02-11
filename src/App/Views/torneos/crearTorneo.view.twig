@@ -1,7 +1,7 @@
 {% extends 'layouts/app.view.twig' %}
 
 {% block styles %}
-<link rel="stylesheet" href="/assets/styles/creartorneo.css">
+<link rel="stylesheet" href="/assets/styles/torneos/creartorneo.css">
 {% endblock %}
 
 {% block content %}
@@ -11,27 +11,45 @@
     </header>
 
     <section class="creacion-torneo">
-      <form method="POST" action="" class="crear-form">
-        <label for="nombre-torneo">Nombre del Torneo</label>
-        <input type="text" id="nombre-torneo" name="nombre_torneo" required>
+      {% if hayLogin %}{# Solo mostramos el formulario si el usuario esta logueado #}
+        <form method="POST" action="" class="crear-form">
+          <div class="form-group">
+            <label for="nombre-torneo">Nombre del Torneo</label>
+            <input type="text" id="nombre-torneo" name="nombre_torneo" required>
+          </div>
 
-        <label for="categoria">Categoría</label>
-        <input type="text" id="categoria" name="categoria" required>
+          <div class="form-group">
+            <label for="categoria">Categoría</label>
+            <input type="text" id="categoria" name="categoria" required>
+          </div>
 
-        <label for="temporada">Temporada</label>
-        <input type="text" id="temporada" name="temporada" required>
-        
-        <label for="descripcion">Descripción</label>
-        <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+          <div class="form-group">
+            <label for="temporada">Temporada</label>
+            <input type="text" id="temporada" name="temporada" required>
+          </div>
+          
+          <div class="form-group">
+            <label for="descripcion">Descripción</label>
+            <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+          </div>
 
-        <label for="fechaInicio">Fecha Inicio</label>
-        <input type="date" id="fechaInicio" name="fechaInicio" required>
+          <div class="form-group">
+            <label for="fechaInicio">Fecha Inicio</label>
+            <input type="date" id="fechaInicio" name="fechaInicio" required>
+          </div>
 
-        <label for="fechaFin">Fecha Fin</label>
-        <input type="date" id="fechaFin" name="fechaFin" required>
+          <div class="form-group">
+            <label for="fechaFin">Fecha Fin</label>
+            <input type="date" id="fechaFin" name="fechaFin" required>
+          </div>
 
-        <button type="submit">Crear Torneo</button>
-      </form>
-
+          <button type="submit" class="btn-crear-submit">Crear Torneo</button>
+        </form>
+      {% else %}
+        <div class="mensaje-login">
+          <p>Debés iniciar sesión para poder crear un torneo.</p>
+          <a href="/login" class="btn-login-redirect">Ir al Login</a>
+        </div>
+      {% endif %}
     </section>
 {% endblock %}

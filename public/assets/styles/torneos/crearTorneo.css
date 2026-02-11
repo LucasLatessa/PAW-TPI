@@ -111,6 +111,23 @@ main {
     position: relative;
 }
 
+.mensaje-login {
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.btn-login-redirect {
+    padding: 0.8rem 2rem;
+    background-color: var(--primary-color);
+    color: white;
+    text-decoration: none;
+    border-radius: 8px;
+    font-weight: 600;
+}
+
 
 /* Responsive  */
 @media (max-width: 600px) {

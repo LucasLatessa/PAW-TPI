@@ -9,6 +9,29 @@ use Paw\App\Models\Equipo;
 class EquipoCollections extends Model
 {
   public $table = 'equipos';
+  
+   public function create($nombreEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $imagen)
+   {
+      $newEquipo = new Equipo; 
+      $pathImagen = 'escudos/' . $imagen;
+      $data = [
+         'nombre' => $nombreEquipo,
+         'fecha_creacion' => $fechaCreacion,
+         'estadio' => $nombreEstadio,
+         'descripcion' => $descripcion,
+         'escudo' => $pathImagen
+      ];
+
+      // Asignar el QueryBuilder y establecer los datos del equipo
+      $newEquipo->setQueryBuilder($this->queryBuilder);
+      $newEquipo->set($data);
+
+      // Insertar los datos en la base de datos
+      $this->queryBuilder->insert($this->table, $data);
+
+      // Retornar la instancia del nuevo equipo creado
+      return $newEquipo;
+   }
 
   public function getAllEquipos()
   {
