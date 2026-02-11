@@ -2,6 +2,8 @@
 namespace Paw\App\Controllers;
 
 use Paw\App\Models\TorneoCollections;
+use Paw\App\Models\EquipoTorneoCollections;
+use Paw\App\Models\PartidoCollections;
 use Paw\Core\Controlador;
 
 class TorneoController extends Controlador
@@ -15,7 +17,7 @@ class TorneoController extends Controlador
         $hayLogin = $_SESSION['login'];
         $title    = 'Torneos - LigaCF';
         $torneos  = $this->model->getAllTorneos();
-        $hayLogin = $_SESSION['login']; 
+        $hayLogin = $_SESSION['login'];
 
         //var_dump($equipos);
         echo $this->twig->render('torneos/index.view.twig', [
@@ -96,6 +98,86 @@ class TorneoController extends Controlador
 
         header('Location: /torneos');
         exit();
+    }
+
+    public function formCargarPartido()
+    {
+        global $request;
+
+        $idTorneo = $request->get('id');
+       
+        $title    = 'Cargar Partido - LigaCF';
+        $torneo   = $this->model->getTorneo($idTorneo);
+        //$listaTorneos = $this->model->getAllTorneos();
+
+        $modelEquipoTorneo = new EquipoTorneoCollections();
+        $modelEquipoTorneo->setQueryBuilder($this->getQb());
+        $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
+        echo $this->twig->render('torneos/cargarPartido.view.twig', [
+            'title'         => $title,
+            'torneo'        => $torneo,
+            'equiposTorneo' => $equiposTorneo,
+            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+        ]);
+    }
+
+    public function cargarPartido()
+    {
+        global $request;
+
+        $idTorneo    = $request->getRequest("id-torneo");
+        $fechaTorneo = $request->getRequest("fecha-torneo");
+        $idLocal     = $request->getRequest("id-equipo-local");
+        $idVisitante = $request->getRequest("id-equipo-visitante");
+        $fecha       = $request->getRequest("fecha");
+        $hora        = $request->getRequest("hora");
+        
+        //die(var_dump($idTorneo, $fechaTorneo, $idLocal, $idVisitante, $fecha, $hora));
+        //Creacion del partido
+        $modelPartidoCollections = new PartidoCollections();
+        $modelPartidoCollections->setQueryBuilder($this->getQb());
+
+        $partido = $modelPartidoCollections->programarPartido($idTorneo, $fechaTorneo, $idLocal, $idVisitante, $fecha, $hora);
+
+        header('Location: /torneos/torneo?id=' . $idTorneo);
+        exit();
+    }
+    public function formCargarResultado()
+    {
+        global $request;
+
+        $idTorneo = $request->get('id');
+        $title    = 'Cargar Resultado - LigaCF';
+        $torneo   = $this->model->getTorneo($idTorneo);
+        //$listaTorneos = $this->model->getAllTorneos();
+
+        $modelPartido = new PartidoCollections();
+        $modelPartido->setQueryBuilder($this->getQb());
+        $partidosACargar = $modelPartido->getPartidosACargar($idTorneo);
+
+        echo $this->twig->render('liga/cargarResultados.view.twig', [
+            'title'           => $title,
+            'torneo'          => $torneo,
+            'partidosACargar' => $partidosACargar,
+            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
+        ]);
+    }
+
+    public function cargarResultado()
+    {
+        global $request;
+
+        $idTorneo       = $request->getRequest("torneo_id");
+        $idPartido      = $request->getRequest("id_partido");
+        $golesLocal     = $request->getRequest("golesLocal");
+        $golesVisitante = $request->getRequest("golesVisitante");
+        if ($idPartido && $golesLocal !== null && $golesVisitante !== null) {
+            $partidoCollection = new PartidoCollections();
+            $partidoCollection->setQueryBuilder($this->getQb());
+            $partidoCollection->cargarResultado($idTorneo, $idPartido, $golesLocal, $golesVisitante);
+        }
+        header("Location: /torneo/cargarResultado?id=$idTorneo");
+        exit;
     }
 
     // Fixture de ese torneo

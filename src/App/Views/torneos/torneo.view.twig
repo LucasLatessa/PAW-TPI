@@ -92,8 +92,12 @@
                     <p>No hay partidos para este torneo.</p>
                 {% endif %}
             </section>
-
+            {% if hayLogin %}
+                <a class="btn-programar" href="/torneo/cargarPartido?id={{ torneo.id }}">Programar partido</a>
+            {% endif %}
         </section>
+     
+
 
       </main>
 

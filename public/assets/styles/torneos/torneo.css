@@ -163,9 +163,49 @@
     grid-template-columns: 1fr; /* Mobile: 1 columna */
     justify-items: center;
     gap: 1.2rem;
-    padding-bottom: 2rem;
+    margin-bottom: 2rem;
 }
 
+
+.btn-programar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 0.5rem;
+    padding: 1rem 2rem;
+    margin: 1rem auto; /* Centrado horizontal */
+    margin-top: 0;
+    
+    background-color: var(--color-blanco);
+    color: var(--color-letras-primario);
+    border: 1px solid var(--color-inputs);
+    border-radius: 10px;
+    
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: var(--sombra-ultra-suave);
+    width: fit-content;
+}
+
+.btn-programar:hover {
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    border-color: var(--color-primario);
+    transform: translateY(-3px);
+    box-shadow: var(--sombra-suave);
+}
+
+/* Ajuste específico para el Grid en Desktop */
+@media (min-width: 1024px) {
+    .btn-programar {
+        grid-column: 1 / -1; /* Esto le dice que vaya de la linea 1 a la ultima (toda la fila) */
+        grid-row-start: 6;   /* Lo forzamos a ir debajo de la seccion de partidos */
+        margin: 3rem auto;
+        width: fit-content;
+        display: flex;
+    }
+}
 /* ===================================================
    RESPONSIVE
 ======================================================

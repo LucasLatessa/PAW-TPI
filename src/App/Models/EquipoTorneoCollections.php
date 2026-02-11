@@ -8,7 +8,7 @@ use Paw\App\Models\Partido;
 
 class EquipoTorneoCollections extends Model
 {
-   public $table = 'equipoTorneo';
+   public $table = 'equipo_torneo';
 
    public function getAllEquipos($idTorneo)
    {
@@ -24,7 +24,7 @@ class EquipoTorneoCollections extends Model
          $nuevoEquipo = new EquipoTorneo; // Suponiendo que tienes una clase Equipo
          $nuevoEquipo->set($equipoData);
 
-         $equipo = $equipoCollection->getXid($nuevoEquipo->getId_equipo());
+         $equipo = $equipoCollection->getId($nuevoEquipo->getEquipo_id());
          $nuevoEquipo->equipo = $equipo;
          $equiposTorneoCollection[] = $nuevoEquipo;
       }
@@ -78,8 +78,8 @@ class EquipoTorneoCollections extends Model
       $newEquipoTorneo = new EquipoTorneo;
 
       $data = [
-         'id_equipo' => $idEquipo,
-         'id_torneo' => $idTorneo
+         'equipo_id' => $idEquipo,
+         'torneo_id' => $idTorneo
       ];
 
       // Asignar el QueryBuilder y establecer los datos del equipo
