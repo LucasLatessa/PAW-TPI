@@ -1,0 +1,37 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/creartorneo.css">
+{% endblock %}
+
+{% block content %}
+  
+    <header class="torneo-header">
+      <h1>Creación de Torneo</h1>
+    </header>
+
+    <section class="creacion-torneo">
+      <form method="POST" action="" class="crear-form">
+        <label for="nombre-torneo">Nombre del Torneo</label>
+        <input type="text" id="nombre-torneo" name="nombre_torneo" required>
+
+        <label for="categoria">Categoría</label>
+        <input type="text" id="categoria" name="categoria" required>
+
+        <label for="temporada">Temporada</label>
+        <input type="text" id="temporada" name="temporada" required>
+        
+        <label for="descripcion">Descripción</label>
+        <textarea id="descripcion" name="descripcion" rows="4"></textarea>
+
+        <label for="fechaInicio">Fecha Inicio</label>
+        <input type="date" id="fechaInicio" name="fechaInicio" required>
+
+        <label for="fechaFin">Fecha Fin</label>
+        <input type="date" id="fechaFin" name="fechaFin" required>
+
+        <button type="submit">Crear Torneo</button>
+      </form>
+
+    </section>
+{% endblock %}

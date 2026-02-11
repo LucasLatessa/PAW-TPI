@@ -112,7 +112,7 @@ $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
 
 /* TORNEO */
 
-$router->get('/torneos/crearTorneo', 'PageController@crearTorneo');
+$router->get('/torneos/crearTorneo', 'TorneoController@formCrearTorneo');
 $router->post('/torneos/crearTorneo', 'TorneoController@crearTorneo');
 $router->get('/torneos', 'TorneoController@torneos');
 $router->get('/torneo', 'TorneoController@torneo');

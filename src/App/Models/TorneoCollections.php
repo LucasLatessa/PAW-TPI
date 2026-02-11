@@ -9,6 +9,31 @@ class TorneoCollections extends Model
 {
   public $table = 'torneos';
 
+   public function create($nombreTorneo, $categoria, $temporada, $descripcion, $fechaInicio, $fechaFin)
+   {
+      $newTorneo = new Torneo; 
+      $data = [
+         'nombre' => $nombreTorneo,
+         'categoria' => $categoria,
+         'temporada' => $temporada,
+         'descripcion' => $descripcion,
+         'fecha_inicio' => $fechaInicio,
+         'fecha_fin' => $fechaFin,
+         // 'cantidadEquipos' => $cantidadEquipos,
+         // 'cantidadFechas' => $cantidadFechas
+      ];
+
+      // Asignar el QueryBuilder y establecer los datos del equipo
+      $newTorneo->setQueryBuilder($this->queryBuilder);
+      $newTorneo->set($data);
+
+      // Insertar los datos en la base de datos
+      $this->queryBuilder->insert($this->table, $data);
+
+      // Retornar la instancia del nuevo equipo creado
+      return $newTorneo;
+   }
+
 
   public function getAllTorneos()
   {
