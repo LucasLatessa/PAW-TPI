@@ -4,7 +4,7 @@ phinx create "Nombre"
 
 Correr migrate en un entorno
 
-phinx migrate -e development
+vendor/bin/phinx migrate -e development
 
 Crear semillas
 
