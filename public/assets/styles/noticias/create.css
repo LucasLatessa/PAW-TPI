@@ -1,123 +1,56 @@
-/* ===== FORMULARIO ===== */
+
 .carga-form {
-    max-width: 43.75rem; /* 700px */
-    margin: 0 auto 3.75rem;
-    padding: 1.875rem;
-    background-color: var(--color-blanco);
-    border-radius: 0.75rem;
-    box-shadow: var(--sombra-suave);
+    width: 100%;
     display: flex;
     flex-direction: column;
-    gap: 1rem;
 }
 
-/* Labels */
 .carga-form label {
-    font-weight: 500;
-    font-size: 0.95rem;
-    color: var(--color-letras-terceario);
-    margin-top: 0.5rem;
+    font-size: 1rem;
+    color: #555;
+    margin-bottom: 0.5rem;
 }
 
-/* Inputs y textarea */
 .carga-form input,
-.carga-form textarea {
-    width: 100%;
-    padding: 0.75rem 0.875rem;
-    border-radius: 0.5rem;
-    border: 1px solid var(--color-inputs);
+.carga-form textarea,
+.carga-form button {
     font-size: 1rem;
-    color: var(--color-letras-primario);
-    background-color: var(--color-blanco);
-    transition: border-color 0.2s ease, box-shadow 0.2s ease;
+    padding: 0.75rem;
+    margin-bottom: 1rem;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    background-color: #fff;
+    width: 100%;
+    box-sizing: border-box;
+}
+
+.carga-form input[type="file"] {
+    padding: 0;
+}
+
+.carga-form button {
+    background-color: #007BFF;
+    color: #fff;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.carga-form button:hover {
+    background-color: #0056b3;
+}
+
+.carga-form input:focus,
+.carga-form textarea:focus,
+.carga-form button:focus {
+    border-color: #007BFF;
+    outline: none;
 }
 
 .carga-form textarea {
     resize: vertical;
-    min-height: 6rem;
 }
 
-/* Focus */
-.carga-form input:focus,
-.carga-form textarea:focus {
-    outline: none;
-    border-color: var(--color-primario);
-    box-shadow: 0 0 0 0.1875rem rgba(89, 172, 218, 0.25);
-}
-
-/* Fecha */
-.carga-form input[type="date"] {
-    max-width: 15.625rem; /* 250px */
-}
-
-/* Imagen */
-#imagen-drop {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1.25rem;
-    border: 2px dashed var(--color-inputs);
-    border-radius: 0.625rem;
-    cursor: pointer;
-    color: var(--color-letras-terceario);
-    text-align: center;
-    background-color: var(--color-bg-muted);
-    transition: border-color 0.2s ease, background-color 0.2s ease;
-}
-
-#imagen-drop-input {
-    display: none;
-}
-
-/* Error */
-.error-message {
-    color: var(--color-error);
-    font-size: 0.9rem;
-    margin-top: 0.25rem;
-}
-
-/* Botón */
-.carga-form button {
-    margin-top: 1.25rem;
-    align-self: flex-start;
-    padding: 0.75rem 1.5rem;
-    font-size: 1rem;
-    font-weight: 500;
-    border: none;
-    border-radius: 0.625rem;
-    background-color: var(--color-primario);
-    color: var(--color-letras-secundario);
-    cursor: pointer;
-    transition: background-color 0.2s ease, transform 0.1s ease;
-}
-
-.carga-form button:active {
-    transform: scale(0.97);
-}
-
-/* ===================================================
-   RESPONSIVE
-======================================================
-*/
-
-/* ===================================================
-   TABLET (>= 768px)
-====================================================== */
-
-@media (min-width: 768px) {
-}
-
-/* ===================================================
-   DESKTOP (>= 1024px)
-====================================================== */
-
-@media (min-width: 1024px) {
-  .carga-form button:hover {
-      background-color: var(--color-links);
-  }
-
-  #imagen-drop:hover {
-      border-color: var(--color-primario);
-      background-color: var(--color-header);
-  }
+.article-equipo > img{
+        align-items: center;
 }

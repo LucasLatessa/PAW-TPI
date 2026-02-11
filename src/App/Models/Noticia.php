@@ -11,7 +11,7 @@ class Noticia extends Model
 
   private ?int $id = null;
   private string $titulo;
-  private string $slug;
+  private ?string $slug= null;
   private string $descripcion;
   private string $contenido;
   private string $imagen;
