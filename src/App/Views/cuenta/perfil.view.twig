@@ -1,0 +1,56 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/cuenta/perfil.css" />
+{% endblock %}
+
+{% block content %}
+  <header class="perfil-header">
+  <div class="perfil-header-contenedor">
+    <div class="perfil-header-arriba">
+      <h1>Perfil de Usuario</h1>
+    </div>
+    <div class="perfil-header-abajo">
+      <div class="perfil-imagen">
+        <img src="/assets/logo-perfil.jpg" alt="Imagen de perfil">
+      </div>
+      <div class="perfil-info">
+        <span class="nombre-usuario">{{ usuario_info.correo }}</span>
+        
+      </div>
+    </div>
+  </div>
+</header>
+
+
+    <section class="section-perfil">
+      <form method="POST" id="infoUsuario" class="perfil-form" action="">
+        <input type="hidden" id="id" name="id" value="{{ usuario_info.id|default('') }}" required />
+        <label for="nombre">Nombre</label>
+        <input type="text" id="nombre" name="nombre" value="{{ usuario_info.nombre|default('') }}" required />
+
+        <label for="apellido">Apellido</label>
+        <input type="text" id="apellido" name="apellido" value="{{ usuario_info.apellido|default('') }}" required />
+
+        <label for="equipoFavorito">Equipo Favorito</label>
+        <input type="text" id="equipoFavorito" name="equipoFavorito" value="{{ usuario_info.equipoFavorito|default('') }}" />
+
+        <button type="submit" value="Actualizar">Actualizar</button>
+
+        <div class="perfil-botones">
+          <a class="btn-accion" href="/torneos/crearTorneo">Crear Torneo</a>
+          <a class="btn-accion" href="/liga/cargarEquipo">Crear Equipo</a>
+          <a class="btn-accion" href="/crearNoticia">Crear Noticia</a>
+        </div>
+      </form>
+      <a class="btn-logout" href="./logout">Cerrar sesión</a>
+
+      {# <h2>Enlaces Rápidos</h2>
+      <ul class="enlaces-rapidos">
+        <li><a href="/tabla">Ver Tabla de Posiciones</a></li>
+        <li><a href="/noticias">Noticias de la Liga</a></li>
+        <li><a href="/listaEquipos">Equipos</a></li>
+        <li><a href="/partidos">Partidos</a></li>
+      </ul> #}
+    </section>
+{% endblock %}
