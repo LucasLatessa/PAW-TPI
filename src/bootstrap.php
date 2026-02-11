@@ -89,7 +89,7 @@ $router->post('/crearNoticia', 'NoticiaController@crearNoticia');
 
 $router->get('/reglamento', 'PageController@reglamento');
 
-$router->get('/login', 'PageController@ingresar');
+$router->get('/login', 'UsuarioController@ingresar');
 
 
 $router->get('/contacto', 'PageController@contacto');
@@ -102,7 +102,7 @@ $router->get('/liga/cargarEquipo', 'PageController@cargarEquipo');
 
 $router->post('/liga/cargarEquipo', 'LigaController@cargarEquipo');
 
-$router->get('/cuenta/registrarse', 'PageController@registrarse');
+$router->get('/cuenta/registrarse', 'UsuarioController@signUp');
 $router->get('/cuenta/logout', 'UsuarioController@logout');
 $router->post('/cuenta/registrarse', 'UsuarioController@registrarse');
 $router->post('/login', 'UsuarioController@login');
