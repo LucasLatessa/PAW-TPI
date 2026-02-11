@@ -36,7 +36,6 @@ class NoticiaCollections extends Model
             'descripcion' => $descripcion,
             'fecha_publicacion' => $fecha,
             'imagen' => $imagen,
-            'slug' => implode("-", explode(" ",strtolower($titulo)) ),
             'contenido' => $contenido,
             'autor' => $autor
 

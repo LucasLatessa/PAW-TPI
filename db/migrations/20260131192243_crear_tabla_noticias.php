@@ -17,9 +17,6 @@ final class CrearTablaNoticias extends AbstractMigration
       ->addColumn('titulo', 'string', [
         'limit' => 255
       ])
-      ->addColumn('slug', 'string', [
-        'limit' => 255
-      ])
       ->addColumn('descripcion', 'text')
       ->addColumn('contenido', 'text', [
         'null' => true,
@@ -46,9 +43,6 @@ final class CrearTablaNoticias extends AbstractMigration
       ->addColumn('updated_at', 'timestamp', [
         'null' => true,
         'update' => 'CURRENT_TIMESTAMP'
-      ])
-      ->addIndex(['slug'], [
-        'unique' => true
       ])
       ->create();
   }
