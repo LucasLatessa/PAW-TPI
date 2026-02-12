@@ -36,6 +36,43 @@ class PartidoCollections extends Model
         }
         return $partidosCollection;
     }
+    public function getPartido($idPartido)
+    {
+        $partidoData = $this->queryBuilder->selectViejo($this->table, ['id' => $idPartido]);
+
+        if (! $partidoData) {
+            return null;
+        }
+
+        $data = $partidoData[0];
+
+        $nuevoPartido = new Partido();
+        $nuevoPartido->set($data);
+
+        // traemos los equipos
+        $equipoCollection = new EquipoCollections();
+        $equipoCollection->setQueryBuilder($this->queryBuilder);
+
+        // Local
+        $equipoLocal = $equipoCollection->getID($nuevoPartido->getEquipoLocalId());
+        $nuevoPartido->setEquipoLocal($equipoLocal);
+
+        // Visitante
+        $equipoVisitante = $equipoCollection->getID($nuevoPartido->getEquipoVisitanteId());
+        $nuevoPartido->setEquipoVisitante($equipoVisitante);
+
+        // tramos la fecha (fecha nro 1...)
+        $fechaData = $this->queryBuilder->selectViejo('fechas', ['id' => $nuevoPartido->getFechaId()]);
+        $nuevoPartido->setFecha($fechaData[0]);
+
+        // traemos el torneo
+        $torneoColl = new TorneoCollections();
+        $torneoColl->setQueryBuilder($this->queryBuilder);
+        $torneo = $torneoColl->getTorneo($nuevoPartido->getTorneoId());
+        $nuevoPartido->setTorneo($torneo);
+
+        return $nuevoPartido;
+    }
 
     public function getUltimosPorTorneo(int $torneoId, int $limit = 3)
     {
@@ -71,12 +108,6 @@ class PartidoCollections extends Model
         }
 
         return $partidosCollection;
-    }
-
-    public function getPartido($idPartido)
-    {
-        $partido = $this->queryBuilder->selectViejo($this->table, ['id' => $idPartido]);
-        return $partido ? $partido[0] : null;
     }
 
     public function getPartidosByFecha(int $torneoId, int $fechaId): array
@@ -131,7 +162,6 @@ class PartidoCollections extends Model
             'fecha_partido'       => $fecha,
             'hora_partido'        => $hora,
         ];
-
 
         // Asignar el QueryBuilder y establecer los datos del equipo
         $newPartido->setQueryBuilder($this->queryBuilder);

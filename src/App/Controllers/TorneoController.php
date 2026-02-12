@@ -1,9 +1,10 @@
 <?php
 namespace Paw\App\Controllers;
 
-use Paw\App\Models\TorneoCollections;
 use Paw\App\Models\EquipoTorneoCollections;
+use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\PartidoCollections;
+use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
 
 class TorneoController extends Controlador
@@ -39,7 +40,7 @@ class TorneoController extends Controlador
         $cantEquipos     = $this->model->getCantidadEquipos($torneo_id);
         $ultimosPartidos = $this->model->getUltimosPartidos($torneo_id);
 
-        $title = $torneo['nombre'] . ' - LigaCF';
+        $title = $torneo->getNombre() . ' - LigaCF';
 
         //print_r($tabla);
 
@@ -99,15 +100,80 @@ class TorneoController extends Controlador
         header('Location: /torneos');
         exit();
     }
+    public function formCargarEquipos()
+    {
+        if (session_status() === PHP_SESSION_NONE) session_start();
+        global $request;
+        $torneoId = $request->get('id');
+
+        // buscamos los datos del torneo
+        $torneo = $this->model->getTorneo($torneoId);
+
+        // Obtenemos los equipos que YA pertenecen al torneo
+        $equiposEnTorneo = $this->model->getAllEquipos($torneoId);
+        
+        // creamos un array  con los IDs de los equipos ya cargados
+        $idsCargados = array_map(function($equipoTorneo) {
+            return $equipoTorneo->getId();
+        }, $equiposEnTorneo);
+
+        // traemos TODOS los equipos de la liga
+        $equipoModel = new EquipoCollections();
+        $equipoModel->setQueryBuilder($this->model->queryBuilder);
+        $todosLosEquipos = $equipoModel->getAllEquipos();
+
+        // nos quedamos solo con los que NO están en idsCargados
+        $equiposDisponibles = array_filter($todosLosEquipos, function($equipo) use ($idsCargados) {
+            return !in_array($equipo->getId(), $idsCargados);
+        });
+
+        // error en sesion
+        $error = $_SESSION['flash_error'] ?? null;
+        unset($_SESSION['flash_error']);
+        echo $this->twig->render('torneos/cargarEquipos.view.twig', [
+            'title'   => 'Seleccionar Equipos - ' . $torneo->getNombre(),
+            'torneo'  => $torneo,
+            'equipos' => $equiposDisponibles, 
+            'error'   => $error
+        ]);
+    }
+
+    public function cargarEquipos()
+    {
+        global $request;
+        $torneoId = $request->get('torneo_id');
+
+        $equiposIds = $_POST['equipos_seleccionados'] ?? [];
+
+        if (empty($equiposIds)) {
+            // Iniciamos sesion si no esta iniciada
+            if (session_status() === PHP_SESSION_NONE) session_start();
+            
+            // Guardamos el mensaje
+            $_SESSION['flash_error'] = "Tenés que seleccionar al menos un equipo.";
+
+            header("Location: /torneo/cargarEquipos?id={$torneoId}");
+            exit();
+        }
+
+        // 3. Guardamos la relación en la tabla intermedia (ej: torneos_equipos)
+        $exito = $this->model->vincularEquiposAlTorneo($torneoId, $equiposIds);
+
+        if ($exito) {
+            header("Location: /torneos/torneo?id={$torneoId}");
+        } else {
+            header("Location: /torneos/torneo?id={$torneoId}");
+        }
+    }
 
     public function formCargarPartido()
     {
         global $request;
 
         $idTorneo = $request->get('id');
-       
-        $title    = 'Cargar Partido - LigaCF';
-        $torneo   = $this->model->getTorneo($idTorneo);
+
+        $title  = 'Cargar Partido - LigaCF';
+        $torneo = $this->model->getTorneo($idTorneo);
         //$listaTorneos = $this->model->getAllTorneos();
 
         $modelEquipoTorneo = new EquipoTorneoCollections();
@@ -131,7 +197,7 @@ class TorneoController extends Controlador
         $idVisitante = $request->getRequest("id-equipo-visitante");
         $fecha       = $request->getRequest("fecha");
         $hora        = $request->getRequest("hora");
-        
+
         //die(var_dump($idTorneo, $fechaTorneo, $idLocal, $idVisitante, $fecha, $hora));
         //Creacion del partido
         $modelPartidoCollections = new PartidoCollections();

@@ -72,12 +72,12 @@ $router->get('/torneos/torneo', 'TorneoController@show');
 $router->get('/torneos/torneo/tabla', 'TorneoController@tabla');
 $router->get('/torneos/torneo/fixture', 'TorneoController@fixture');
 $router->get('/torneos/crearTorneo', 'TorneoController@formCrearTorneo');
-$router->get('/torneo/cargarEquipo', "TorneoController@formCargarEquipo");
+$router->get('/torneo/cargarEquipos', "TorneoController@formCargarEquipos");
 $router->get('/torneo/cargarResultado', "TorneoController@formCargarResultado");
 $router->get('/torneo/cargarPartido', "TorneoController@formCargarPartido");
 /* Post */
 $router->post('/torneos/crearTorneo', 'TorneoController@crearTorneo');
-$router->post('/torneo/cargarEquipo', "TorneoController@cargarEquipo");
+$router->post('/torneo/cargarEquipos', "TorneoController@cargarEquipos");
 $router->post('/torneo/cargarResultado', "TorneoController@cargarResultado");
 $router->post('/torneo/cargarPartido', "TorneoController@cargarPartido");
 
