@@ -20,8 +20,8 @@ class PartidosSeeder extends AbstractSeed
             // FECHA 1
             [
                 'fecha_numero' => 1,
-                'local' => 'Club Atletico Independiente',
-                'visitante' => 'Club Social, Cultural y Deportivo Gimnasia y Esgrima',
+                'local' => 'Independiente',
+                'visitante' => 'Gimnasia',
                 'fecha_partido' => '2026-03-10',
                 'hora_partido' => '16:00',
                 'goles_local' => 2,
@@ -30,8 +30,8 @@ class PartidosSeeder extends AbstractSeed
             ],
             [
                 'fecha_numero' => 1,
-                'local' => 'Club Deportivo Alsina',
-                'visitante' => 'Club Social y Deportivo 22 de Octubre',
+                'local' => 'Alsina',
+                'visitante' => '22 de Octubre',
                 'fecha_partido' => '2026-03-10',
                 'hora_partido' => '18:00',
                 'goles_local' => 0,
@@ -42,8 +42,8 @@ class PartidosSeeder extends AbstractSeed
             // FECHA 2
             [
                 'fecha_numero' => 2,
-                'local' => 'Club Social, Cultural y Deportivo Gimnasia y Esgrima',
-                'visitante' => 'Club Deportivo Alsina',
+                'local' => 'Gimnasia',
+                'visitante' => 'Alsina',
                 'fecha_partido' => '2026-03-17',
                 'hora_partido' => '16:00',
                 'goles_local' => null,
@@ -52,8 +52,8 @@ class PartidosSeeder extends AbstractSeed
             ],
             [
                 'fecha_numero' => 2,
-                'local' => 'Club Social y Deportivo 22 de Octubre',
-                'visitante' => 'Club Atletico Independiente',
+                'local' => '22 de Octubre',
+                'visitante' => 'Independiente',
                 'fecha_partido' => '2026-03-17',
                 'hora_partido' => '18:00',
                 'goles_local' => null,
