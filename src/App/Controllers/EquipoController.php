@@ -55,6 +55,7 @@ class EquipoController extends Controlador
     global $request;
 
     $nombreEquipo = $request->getRequest('equipo');
+    $nombreInstitucionalEquipo = $request->getRequest('institucional');
     $fechaCreacion = $request->getRequest('fecha');
     $nombreEstadio = $request->getRequest('estadio');
     $descripcion = $request->getRequest('descripcion');
@@ -64,7 +65,7 @@ class EquipoController extends Controlador
 
     if ($nombreArchivo !== false) {
 
-      $this->model->create($nombreEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $nombreArchivo);
+      $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $nombreArchivo);
 
       header('Location: /equipos');
       exit();
@@ -77,6 +78,7 @@ class EquipoController extends Controlador
         'errorMessage' => $errorMessage,
 
         'equipo_ingresado' => $nombreEquipo,
+        'institucional_ingresado' => $nombreInstitucionalEquipo,
         'fecha_ingresada' => $fechaCreacion,
         'estadio_ingresado' => $nombreEstadio,
         'descripcion_ingresada' => $descripcion

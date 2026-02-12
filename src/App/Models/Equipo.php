@@ -11,6 +11,7 @@ class Equipo extends Model
 
   private ?int $id = null;
   private string $nombre;
+  private string $nombre_institucional;
   private string $fecha_creacion;
   private string $escudo;
   private string $estadio;
@@ -77,6 +78,10 @@ class Equipo extends Model
   {
     return $this->nombre;
   }
+  public function getNombreInstitucional(): string
+  {
+    return $this->nombre_institucional;
+  }
 
   public function getFechaCreacion(): string
   {
@@ -113,6 +118,11 @@ class Equipo extends Model
   public function setNombre(string $nombre): self
   {
     $this->nombre = $nombre;
+    return $this;
+  }
+  public function setNombreInstitucional(string $nombre_institucional): self
+  {
+    $this->nombre_institucional = $nombre_institucional;
     return $this;
   }
 
