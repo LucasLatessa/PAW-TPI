@@ -10,12 +10,13 @@ class EquipoCollections extends Model
 {
   public $table = 'equipos';
   
-   public function create($nombreEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $imagen)
+   public function create($nombreEquipo, $nombreEquipoInstitucional, $fechaCreacion, $nombreEstadio, $descripcion, $imagen)
    {
       $newEquipo = new Equipo; 
       $pathImagen = 'escudos/' . $imagen;
       $data = [
          'nombre' => $nombreEquipo,
+         'nombre_institucional' => $nombreEquipoInstitucional,
          'fecha_creacion' => $fechaCreacion,
          'estadio' => $nombreEstadio,
          'descripcion' => $descripcion,
