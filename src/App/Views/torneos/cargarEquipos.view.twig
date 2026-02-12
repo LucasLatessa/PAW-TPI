@@ -1,0 +1,56 @@
+{% extends 'layouts/app.view.twig' %}
+
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/torneos/cargarEquipos.css" />
+{% endblock %}
+
+{% block content %}
+<header class="header-main">
+    <h1>Cargar Equipos a {{ torneo.nombre }}</h1>
+</header>
+
+<form action="/torneo/cargarEquipos" method="POST" class="form-carga-multiple">
+    <input type="hidden" name="torneo_id" value="{{ torneo.id }}">
+
+    <section class="tabla-seleccion-equipos">
+        <table>
+            <thead>
+                <tr>
+                    <th>Seleccionar</th>
+                    <th>Escudo</th>
+                    <th>Nombre</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for equipo in equipos %}
+                <tr>
+                    <td>
+                        <input type="checkbox" name="equipos_seleccionados[]" value="{{ equipo.id }}">
+                    </td>
+                    <td>
+                        <img src="/assets/{{ equipo.escudo }}" width="30" alt="Escudo">
+                    </td>
+                    <td>{{ equipo.nombre }}</td>
+                </tr>
+                {% else %}
+                <tr>
+                    <td colspan="3" class="mensaje-vacio">
+                        <div class="alerta-vacia">
+                            <p>No hay equipos disponibles para vincular en este momento.</p>
+                            <small>Es posible que todos los equipos de la liga ya pertenezcan a este torneo.</small>
+                        </div>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </section>
+    
+    <p>{{error}}</p>
+
+    <div class="form-actions">
+        <a href="/torneos/torneo?id={{ torneo.id }}" class="btn-cancelar">Volver</a>
+        <button type="submit" class="btn-guardar">Vincular Equipos Seleccionados</button>
+    </div>
+</form>
+{% endblock %}

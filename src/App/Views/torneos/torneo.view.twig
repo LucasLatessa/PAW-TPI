@@ -73,7 +73,9 @@
             <h3>Sobre el torneo</h3>
             <p>{{ torneo.descripcion }}</p>
         </section>
-
+        {% if hayLogin %}
+                <a class="btn-carga-quipos" href="/torneo/cargarEquipos?id={{ torneo.id }}">Cargar equipos</a>
+            {% endif %}
         <section class="partidos-torneo">
             <div class="data">
                 <h2> <ion-icon name="football-outline" class="icon"></ion-icon> Partidos</h2>

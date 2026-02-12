@@ -1,200 +1,217 @@
 <?php
-
 namespace Paw\App\Models;
 
 use Paw\Core\Model;
 
 class Partido extends Model
 {
-  private $table = 'partidos';
-  private ?int $id = null;
-  private int $torneo_id;
-  private int $fecha_id;
-  private string $fecha_partido;
-  private string $hora_partido;
-  private int $equipo_local_id;
-  private int $equipo_visitante_id;
+    private $table   = 'partidos';
+    private ?int $id = null;
+    private int $torneo_id;
+    private int $fecha_id;
+    private string $fecha_partido;
+    private string $hora_partido;
+    private int $equipo_local_id;
+    private int $equipo_visitante_id;
 
-  private ?Equipo $equipoLocal = null;  // Objeto Equipo representando al equipo local
-  private ?Equipo $equipoVisitante = null; // Objeto Equipo representando al equipo visitante
-  private ?int $goles_local = null;
-  private ?int $goles_visitante = null;
-  private string $estado;
-  private ?string $cancha = null;
+    private ?Equipo $equipoLocal     = null; // Objeto Equipo representando al equipo local
+    private ?Equipo $equipoVisitante = null; // Objeto Equipo representando al equipo visitante
+    private ?Torneo $torneo;
+    private $fecha;
+    private ?int $goles_local     = null;
+    private ?int $goles_visitante = null;
+    private string $estado;
+    private ?string $cancha = null;
 
-  /* ====== CONSTRUCTOR ====== */
-  public function __construct(array $data = [])
-  {
-    foreach ($data as $key => $value) {
-      if (property_exists($this, $key)) {
-        $this->$key = $value;
-      }
-    }
-  }
-
-  /* ====== LOAD ====== */
-  public function load(int $id): ?self
-  {
-    $params = ['id' => $id];
-    $record = current($this->queryBuilder->select($this->table, $params));
-
-    if (!$record) {
-      return null;
+    /* ====== CONSTRUCTOR ====== */
+    public function __construct(array $data = [])
+    {
+        foreach ($data as $key => $value) {
+            if (property_exists($this, $key)) {
+                $this->$key = $value;
+            }
+        }
     }
 
-    $this->set($record);
-    return $this;
-  }
+    /* ====== LOAD ====== */
+    public function load(int $id): ?self
+    {
+        $params = ['id' => $id];
+        $record = current($this->queryBuilder->select($this->table, $params));
 
-  private function snakeToCamel(string $string): string
-  {
-    return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
-  }
+        if (! $record) {
+            return null;
+        }
 
-  /* ====== SET ====== */
-  public function set(array $values): void
-  {
-    foreach ($values as $field => $value) {
-      $method = 'set' . $this->snakeToCamel($field);
-      if (method_exists($this, $method)) {
-        $this->$method($value);
-      }
+        $this->set($record);
+        return $this;
     }
-  }
 
-  /* ====== UTILS ====== */
+    private function snakeToCamel(string $string): string
+    {
+        return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
+    }
 
+    /* ====== SET ====== */
+    public function set(array $values): void
+    {
+        foreach ($values as $field => $value) {
+            $method = 'set' . $this->snakeToCamel($field);
+            if (method_exists($this, $method)) {
+                $this->$method($value);
+            }
+        }
+    }
 
-  /* ====== GETTERS ====== */
-  public function getId(): ?int
-  {
-    return $this->id;
-  }
+    /* ====== UTILS ====== */
 
-  public function getTorneoId(): int
-  {
-    return $this->torneo_id;
-  }
+    /* ====== GETTERS ====== */
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-  public function getFechaId(): int
-  {
-    return $this->fecha_id;
-  }
+    public function getTorneoId(): int
+    {
+        return $this->torneo_id;
+    }
+    public function getTorneo(): Torneo
+    {
+        return $this->torneo;
+    }
 
-  public function getFechaPartido(): string
-  {
-    return $this->fecha_partido;
-  }
+    public function getFechaId(): int
+    {
+        return $this->fecha_id;
+    }
+    public function setFecha($fecha): void
+    {
+        $this->fecha = $fecha;
+    }
 
-  public function getHoraPartido(): string
-  {
-    return $this->hora_partido;
-  }
+    public function getFecha()
+    {
+        return $this->fecha;
+    }
 
-  public function getEquipoLocalId(): int
-  {
-    return $this->equipo_local_id;
-  }
+    public function getFechaPartido(): string
+    {
+        return $this->fecha_partido;
+    }
 
-  public function getEquipoVisitanteId(): int
-  {
-    return $this->equipo_visitante_id;
-  }
+    public function getHoraPartido(): string
+    {
+        return $this->hora_partido;
+    }
 
-  public function getEquipoLocal()
-  {
-    return $this->equipoLocal;
-  }
+    public function getEquipoLocalId(): int
+    {
+        return $this->equipo_local_id;
+    }
 
-  public function getEquipoVisitante()
-  {
-    return $this->equipoVisitante;
-  }
+    public function getEquipoVisitanteId(): int
+    {
+        return $this->equipo_visitante_id;
+    }
 
-  public function getGolesLocal(): int
-  {
-    return $this->goles_local;
-  }
+    public function getEquipoLocal()
+    {
+        return $this->equipoLocal;
+    }
 
-  public function getGolesVisitante(): int
-  {
-    return $this->goles_visitante;
-  }
+    public function getEquipoVisitante()
+    {
+        return $this->equipoVisitante;
+    }
 
-  public function getEstado(): string
-  {
-    return $this->estado;
-  }
+    public function getGolesLocal(): int
+    {
+        return $this->goles_local;
+    }
 
-  public function getCancha(): string
-  {
-    return $this->cancha;
-  }
+    public function getGolesVisitante(): int
+    {
+        return $this->goles_visitante;
+    }
 
-  /* ====== SETTERS ====== */
+    public function getEstado(): string
+    {
+        return $this->estado;
+    }
 
-  public function setId(?int $id): void
-  {
-    $this->id = $id;
-  }
+    public function getCancha(): string
+    {
+        return $this->cancha;
+    }
 
-  public function setTorneoId(int $torneo_id): void
-  {
-    $this->torneo_id = $torneo_id;
-  }
+    /* ====== SETTERS ====== */
 
-  public function setFechaId(int $fecha_id): void
-  {
-    $this->fecha_id = $fecha_id;
-  }
+    public function setId(?int $id): void
+    {
+        $this->id = $id;
+    }
 
-  public function setFechaPartido(string $fecha_partido): void
-  {
-    $this->fecha_partido = $fecha_partido;
-  }
+    public function setTorneoId(int $torneo_id): void
+    {
+        $this->torneo_id = $torneo_id;
+    }
 
-  public function setHoraPartido(string $hora_partido): void
-  {
-    $this->hora_partido = $hora_partido;
-  }
+    public function setFechaId(int $fecha_id): void
+    {
+        $this->fecha_id = $fecha_id;
+    }
 
-  public function setEquipoLocalId(int $equipo_local_id): void
-  {
-    $this->equipo_local_id = $equipo_local_id;
-  }
+    public function setFechaPartido(string $fecha_partido): void
+    {
+        $this->fecha_partido = $fecha_partido;
+    }
 
-  public function setEquipoVisitanteId(int $equipo_visitante_id): void
-  {
-    $this->equipo_visitante_id = $equipo_visitante_id;
-  }
+    public function setHoraPartido(string $hora_partido): void
+    {
+        $this->hora_partido = $hora_partido;
+    }
 
-  public function setEquipoLocal(Equipo $equipoLocal): void
-  {
-    $this->equipoLocal = $equipoLocal;
-  }
+    public function setEquipoLocalId(int $equipo_local_id): void
+    {
+        $this->equipo_local_id = $equipo_local_id;
+    }
 
-  public function setEquipoVisitante(Equipo $equipoVisitante): void
-  {
-    $this->equipoVisitante = $equipoVisitante;
-  }
+    public function setEquipoVisitanteId(int $equipo_visitante_id): void
+    {
+        $this->equipo_visitante_id = $equipo_visitante_id;
+    }
 
-  public function setGolesLocal(int $goles_local = null): void
-  {
-    $this->goles_local = $goles_local;
-  }
+    public function setEquipoLocal(Equipo $equipoLocal): void
+    {
+        $this->equipoLocal = $equipoLocal;
+    }
 
-  public function setGolesVisitante(int $goles_visitante = null): void
-  {
-    $this->goles_visitante = $goles_visitante;
-  }
+    public function setEquipoVisitante(Equipo $equipoVisitante): void
+    {
+        $this->equipoVisitante = $equipoVisitante;
+    }
+    public function setTorneo(Torneo $torneo): void
+    {
+        $this->torneo = $torneo;
+    }
 
-  public function setEstado(string $estado): void
-  {
-    $this->estado = $estado;
-  }
+    public function setGolesLocal(int $goles_local = null): void
+    {
+        $this->goles_local = $goles_local;
+    }
 
-  public function setCancha(string $cancha = null): void
-  {
-    $this->cancha = $cancha;
-  }
+    public function setGolesVisitante(int $goles_visitante = null): void
+    {
+        $this->goles_visitante = $goles_visitante;
+    }
+
+    public function setEstado(string $estado): void
+    {
+        $this->estado = $estado;
+    }
+
+    public function setCancha(string $cancha = null): void
+    {
+        $this->cancha = $cancha;
+    }
 }

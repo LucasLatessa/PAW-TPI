@@ -1,0 +1,105 @@
+.form-carga-multiple {
+    padding: 2rem;
+    border-radius: 1rem;
+}
+
+/* ===== TABLA ===== */
+.tabla-seleccion-equipos {
+    margin-bottom: 2rem;
+    max-height: 500px; 
+    overflow-y: auto;
+    border: 1px solid #eee;
+    border-radius: 0.5rem;
+}
+
+.tabla-seleccion-equipos table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: left;
+}
+
+.tabla-seleccion-equipos thead th {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    position: sticky;
+    top: 0;
+    border-bottom: 2px solid var(--color-primario);
+    color: var(--color-letras-primario);
+    font-size: 0.9rem;
+    text-transform: uppercase;
+}
+
+.tabla-seleccion-equipos tbody tr {
+    transition: background 0.2s ease;
+    border-bottom: 1px solid #f0f0f0;
+}
+
+.tabla-seleccion-equipos tbody tr:hover {
+    background-color: rgba(var(--color-primario-rgb), 0.05);
+}
+
+.tabla-seleccion-equipos td {
+    padding: 0.75rem 1rem;
+    vertical-align: middle;
+}
+
+.tabla-seleccion-equipos img {
+    width: 40px;
+    height: 40px;
+    object-fit: contain;
+    display: block;
+}
+
+.tabla-seleccion-equipos input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    cursor: pointer;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: 1rem;
+    border-top: 1px solid #eee;
+    padding-top: 1.5rem;
+}
+
+.btn-cancelar {
+    padding: 0.75rem 1.5rem;
+    background-color: #e5e7eb;
+    color: #374151;
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: 600;
+    transition: background 0.3s;
+}
+
+.btn-cancelar:hover {
+    background-color: #d1d5db;
+}
+
+.btn-guardar {
+    padding: 0.75rem 1.5rem;
+    background-color: var(--color-primario);
+    color: white;
+    border: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s, background 0.3s;
+}
+
+.btn-guardar:hover {
+    filter: brightness(1.1);
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .form-actions {
+        flex-direction: column-reverse;
+    }
+    .btn-cancelar, .btn-guardar {
+        text-align: center;
+        width: 100%;
+    }
+}
