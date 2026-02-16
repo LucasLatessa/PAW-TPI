@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-        <section class="login-container">
+        {# <section class="login-container">
             <h1>Iniciar Sesión</h1>
             
             <form action="" method="post" class="login-form">
@@ -26,6 +26,36 @@
                 <small class="registro-selec">¿No tenés cuenta?</small>
                 <a href="/cuenta/registrarse" class="register-link">Crear una cuenta nueva</a>
             </div>
-        </section>
+        </section> #}
+
+    <section class="auth-container">
+
+        <header class="auth-header">
+            <ion-icon name="football-outline" class="auth-icon"></ion-icon>
+            <h1>Iniciar sesión</h1>
+            <p>Accedé a tu de la Liga Chivilcoyana</p>
+        </header>
+
+        <form method="POST" action="" class="auth-form">
+
+            <label for="email">Correo electrónico</label>
+            <input type="email" id="email" name="email" placeholder="ejemplo@correo.com" required autofocus>
+
+            <label for="password">Contraseña</label>
+            <input type="password" id="password" name="password" placeholder="••••••••" required>
+
+            <button type="submit" value="login" class="btn-login">
+                Entrar al sistema
+            </button>
+        </form>
+
+        <footer class="auth-footer">
+            <p>¿No tenés cuenta?
+                <a href="/cuenta/registrarse">Crear una cuenta nueva</a>
+            </p>
+        </footer>
+
+
+    </section>
 
 {% endblock %}
