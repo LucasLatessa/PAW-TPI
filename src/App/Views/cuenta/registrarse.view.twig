@@ -5,7 +5,7 @@
 {% endblock %}
 
 {% block content %}
-        <section class="login-container">
+        {# <section class="login-container">
             <h1>Crear Cuenta</h1>
             {% if errorMessage %}
                 <div class="alerta-error">
@@ -52,6 +52,51 @@
                 <small class="registro-selec">¿Ya tenés cuenta?</small>
                 <a href="/cuenta/login" class="register-link">Iniciar Sesión</a>
             </div>
-        </section>
+        </section> #}
+
+<section class="auth-container">
+
+    <header class="auth-header">
+        <ion-icon name="person-add-outline" class="auth-icon"></ion-icon>
+        <h1>Crear cuenta</h1>
+        <p>Crea tu cuenta en la Liga Chivilcoyana</p>
+    </header>
+
+    <form method="POST" action="" class="auth-form">
+
+        <label for="nombre">Nombre</label>
+        <input type="text" name="nombre" id="nombre" value="{{ nombre_ingresado }}" required>
+
+        <label for="apellido">Apellido</label>
+        <input type="text" name="apellido" id="apellido" value="{{ apellido_ingresado }}" required>
+
+        <label for="email">Correo Electronico</label>
+        <input type="email" name="email" id="email" value="{{ email_ingresado }}" required>
+
+        <label for="password">Contraseña</label>
+        <input type="password" name="password" id="password" required>
+
+        <label for="validarContraseña">Confirmar contraseña</label>
+        <input type="password" name="password_confirm" id="validarContraseña"  required>
+
+        <label for="palabraClave">Palabra Clave</label>
+        <input type="text" name="palabraClave" id="palabraClave" required>
+
+        {% if errorMessage %}
+            <p class="alerta-error">
+                {{ errorMessage }}
+            </p>
+        {% endif %}
+
+        <button type="submit" value="registrarse" class="btn-login">Registrarme</button>
+    </form>
+
+    <footer class="auth-footer">
+        <p>¿Ya tienes una cuenta?
+            <a href="/cuenta/login">Inicie sesion aquí</a>
+        </p>
+    </footer>
+
+</section>
 
 {% endblock %}
