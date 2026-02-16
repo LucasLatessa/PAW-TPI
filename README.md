@@ -46,3 +46,8 @@ php -S localhost:8888 -t public
 ```
 ./ngrok http http://localhost:8888/
 ```
+
+7. "OPCIONAL" Migrates con semilla
+
+Ejecutar .bat
+./semilla.bat
