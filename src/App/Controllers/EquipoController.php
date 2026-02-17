@@ -36,7 +36,9 @@ class EquipoController extends Controlador
     $equipo_id = $request->get('id');
     $equipo = $this->model->getID($equipo_id);
 
+
     //$title = $equipo->nombrePila . ' - LigaCF';
+    
 
     echo $this->twig->render('equipos/show.view.twig', [
       'title' =>  $title,
@@ -44,7 +46,7 @@ class EquipoController extends Controlador
     ]);
   }
   public function formCrearEquipo(){
-    $title = 'Cargar equipo - LigaCF';
+    $title = 'Crear equipo - LigaCF';
     echo $this->twig->render('equipos/crearEquipo.view.twig', [
         'title' =>  $title,
     ]);

@@ -166,8 +166,7 @@
     margin-bottom: 2rem;
 }
 
-.btn-carga-quipos, 
-.btn-programar {
+.btn-carga-quipos {
     display: inline-flex; 
     align-items: center;
     justify-content: center;
@@ -187,17 +186,12 @@
     cursor: pointer; 
 }
 
-.btn-carga-quipos:hover,
-.btn-programar:hover {
+.btn-carga-quipos:hover {
     background-color: var(--color-primario);
     color: var(--color-blanco);
     border-color: var(--color-primario);
     transform: translateY(-3px);
     box-shadow: var(--sombra-suave);
-}
-
-.btn-programar {
-    margin: 2rem auto; 
 }
 
 @media (min-width: 1024px) {

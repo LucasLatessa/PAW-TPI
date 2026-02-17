@@ -1,5 +1,3 @@
-/* --- Estilos para Carga de Equipo / Torneo --- */
-
 .section-carga {
     max-width: 600px;
     margin: 3rem auto;
@@ -11,24 +9,38 @@
     flex-direction: column;
 }
 
+.section-carga h1 {
+    font-family: var(--fuente-primaria);
+    font-size: 1.75rem;
+    font-weight: 700;
+    color: var(--color-letras-primario);
+    margin-bottom: 2rem;
+    text-align: center;
+}
+
 .carga-form {
     display: flex;
     flex-direction: column;
-    gap: 1.25rem;
+    gap: 1.5rem;
 }
 
-.carga-form label {
+.form-group {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+}
+
+.form-group label {
     font-family: var(--fuente-secundaria);
     font-size: 0.9rem;
     font-weight: 600;
     color: var(--color-letras-terceario);
-    margin-bottom: -0.75rem;
 }
 
 .carga-form input,
-.carga-form textarea {
+.carga-form select {
     width: 100%;
-    padding: 0.75rem 1rem;
+    padding: 0.8rem 1rem;
     border: 1px solid var(--color-inputs);
     border-radius: 8px;
     background-color: var(--color-bg-muted);
@@ -39,47 +51,22 @@
 }
 
 .carga-form input:focus,
-.carga-form textarea:focus {
+.carga-form select:focus {
     outline: none;
     border-color: var(--color-primario);
     background-color: var(--color-blanco);
     box-shadow: 0 0 0 3px rgba(89, 172, 218, 0.1); 
 }
 
-/* --- Area del Escudo */
-#imagen-drop {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.5rem;
-    border: 2px dashed var(--color-inputs);
-    border-radius: 8px;
-    background-color: var(--color-bg-muted);
-    cursor: pointer;
-    text-align: center;
-    color: var(--color-letras-terceario);
-    font-family: var(--fuente-secundaria);
-    transition: all 0.3s ease;
+.form-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.25rem;
 }
 
-#imagen-drop:hover {
-    border-color: var(--color-primario);
-    background-color: var(--color-blanco);
-    color: var(--color-primario);
-}
-
-#imagen-drop-input {
-    font-size: 0.85rem;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: 0.5rem 0 0 0;
-}
-
-/* --- Botón Enviar (Celeste) --- */
-.carga-form button {
+.btn-enviar {
     margin-top: 1rem;
-    padding: 1rem;
+    padding: 1.1rem;
     background-color: var(--color-primario);
     color: var(--color-letras-secundario);
     border: none;
@@ -91,34 +78,32 @@
     transition: all 0.3s ease;
 }
 
-.carga-form button:hover {
+.btn-enviar:hover {
     background-color: #3E8EBA;
     transform: translateY(-2px);
     box-shadow: 0 4px 12px rgba(62, 142, 186, 0.3);
 }
 
-/* --- Mensajes de Error --- */
-.error-message {
-    font-family: var(--fuente-secundaria);
-    color: var(--color-error);
-    background-color: rgba(220, 38, 38, 0.05);
-    padding: 0.75rem;
-    border-radius: 6px;
-    font-size: 0.85rem;
+.mensaje-login {
     text-align: center;
-    border: 1px solid var(--color-error);
+    padding: 2rem;
 }
 
-.carga-form textarea {
-    resize: vertical;
-    min-height: 120px;
+.btn-login-redirect {
+    display: inline-block;
+    margin-top: 1rem;
+    color: var(--color-primario);
+    font-weight: 700;
+    text-decoration: none;
 }
 
 /* Responsive */
-@media (max-width: 768px) {
+@media (max-width: 600px) {
     .section-carga {
-        max-width: 95%;
-        margin: 1.5rem auto;
+        margin: 1.5rem 1rem;
         padding: 1.5rem;
+    }
+    .form-row {
+        grid-template-columns: 1fr;
     }
 }
