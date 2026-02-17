@@ -7,6 +7,11 @@ use Monolog\Logger;
 
 class QueryBuilder
 {
+  private $pdo;
+  private $logger;
+  private $query = "";
+  private $params = [];
+  
   public function __construct(PDO $pdo, Logger $logger = null)
   {
     $this->pdo = $pdo;
@@ -83,9 +88,98 @@ class QueryBuilder
     $sentencia->execute();
     return $sentencia->fetchAll();
   }
+  /**
+     * Inicia una consulta SELECT
+     * Si no se pasan parámetros, entra en modo fluido
+     */
+    public function select($table, $params = [], $conector = 'AND')
+    {
+        // Limpiamos estados anteriores
+        $this->query = "";
+        $this->params = [];
+
+        // Si se pasan parámetros, funciona como el select común que querías
+        if (!empty($params)) {
+            $where = [];
+            foreach ($params as $key => $value) {
+                $where[] = "$key = :$key";
+                $this->params[":$key"] = $value;
+            }
+            $whereClause = ' WHERE ' . implode(" $conector ", $where);
+            $this->query = "SELECT * FROM {$table} {$whereClause}";
+            return $this->execute(); // Ejecuta directo si mandás array
+        }
+
+        // Modo Fluido: Solo inicializa la base de la consulta
+        $this->query = "SELECT * FROM {$table}";
+        return $this; 
+    }
+
+    public function where($condition)
+    {
+        $this->query .= " WHERE {$condition}";
+        return $this;
+    }
+
+    public function setParam($name, $value)
+    {
+        $this->params[":$name"] = $value;
+        return $this;
+    }
+
+    public function order($order)
+    {
+        if ($order) {
+            $this->query .= " ORDER BY {$order}";
+        }
+        return $this;
+    }
+
+    public function limit($limit)
+    {
+        if ($limit) {
+            $this->query .= " LIMIT " . (int) $limit;
+        }
+        return $this;
+    }
+
+    /**
+     * Ejecuta la consulta construida
+     */
+    public function execute()
+    {
+        $sentencia = $this->pdo->prepare($this->query);
+
+        foreach ($this->params as $param => $value) {
+            $sentencia->bindValue($param, $value);
+        }
+
+        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+        $sentencia->execute();
+        
+        $result = $sentencia->fetchAll();
+
+        // Limpieza post-ejecución
+        $this->query = "";
+        $this->params = [];
+
+        return $result;
+    }
+    public function join($table, $on)
+    {
+        $this->query .= " INNER JOIN {$table} ON {$on}";
+        return $this;
+    }
+
+    public function addSelect($columns)
+    {
+        // Cambiamos el "SELECT *" inicial por las columnas específicas si se requiere
+        $this->query = str_replace("SELECT *", "SELECT *, {$columns}", $this->query);
+        return $this;
+    }
 
 
-  public function select($table, $params = [])
+  public function selectLoad($table, $params = [])
   {
 
     $where = " 1 = 1 "; #Para que devuelva todo si no hay parametros

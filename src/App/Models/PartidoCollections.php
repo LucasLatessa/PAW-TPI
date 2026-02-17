@@ -150,6 +150,21 @@ class PartidoCollections extends Model
 
         return $partidosCollection;
     }
+    public function getPartidosByEquipo($equipoId)//PARTIDOS FINALIZADOS
+    {
+        return $this->queryBuilder
+            ->select($this->table)
+            ->join("equipos as local", "partidos.equipo_local_id = local.id")
+            ->join("equipos as visitante", "partidos.equipo_visitante_id = visitante.id")
+            ->addSelect("local.nombre as nombre_local, local.escudo as escudo_local")
+            ->addSelect("visitante.nombre as nombre_visitante, visitante.escudo as escudo_visitante")
+            ->where("(equipo_local_id = :id OR equipo_visitante_id = :id) AND estado = :estado")
+            ->setParam('id', $equipoId)
+            ->setParam('estado', 'finalizado')
+            ->order('fecha_partido DESC')
+            ->limit(5)
+            ->execute();
+    }
     public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha, $hora)
     {
         $newPartido = new Partido();
@@ -173,14 +188,14 @@ class PartidoCollections extends Model
         //Instacia nuevo partido creado
         return $newPartido;
     }
-    public function cargarResultado( $idPartido, $gl, $gv)
+    public function cargarResultado($idPartido, $gl, $gv)
     {
         $data = [
             'goles_local'     => $gl,
             'goles_visitante' => $gv,
-            'estado'          => 'finalizado'
+            'estado'          => 'finalizado',
         ];
-        
+
         return $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
     }
 }

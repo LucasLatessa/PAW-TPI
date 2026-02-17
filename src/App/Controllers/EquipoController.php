@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\Equipo;
 use Paw\App\Models\EquipoCollections;
+use Paw\App\Models\PartidoCollections;
 use Paw\Core\Controlador;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -29,22 +30,24 @@ class EquipoController extends Controlador
 
   // Muestra un equipo del torneo
   public function show()
-  {
+{
     global $request;
     
-    $title = 'Equipos - LigaCF';
     $equipo_id = $request->get('id');
     $equipo = $this->model->getID($equipo_id);
 
-
-    //$title = $equipo->nombrePila . ' - LigaCF';
+    // Buscamos los partidos de este equipo
+    $partidoModel = new PartidoCollections();
+    $partidoModel->setQueryBuilder($this->getQb());
     
-
+    // Este método lo creamos abajo
+    $ultimosPartidos = $partidoModel->getPartidosByEquipo($equipo_id);
     echo $this->twig->render('equipos/show.view.twig', [
-      'title' =>  $title,
-      'equipo' => $equipo
+      'title'   => $equipo->getNombre() . ' - LigaCF',
+      'equipo'  => $equipo,
+      'ultimosPartidos' => $ultimosPartidos 
     ]);
-  }
+}
   public function formCrearEquipo(){
     $title = 'Crear equipo - LigaCF';
     echo $this->twig->render('equipos/crearEquipo.view.twig', [

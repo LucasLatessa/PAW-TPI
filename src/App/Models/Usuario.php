@@ -79,7 +79,7 @@ class Usuario extends Model{
     public function load($usuarioEmail,$usuarioContraseña){
         $params = ["correo" => $usuarioEmail, "contraseña" => $usuarioContraseña];
 
-        $record = current($this ->queryBuilder->select($this->table, $params));       
+        $record = current($this ->queryBuilder->selectLoad($this->table, $params));       
         if(!empty($record)){
             $this ->set($record);
         }
