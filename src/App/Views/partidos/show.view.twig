@@ -63,21 +63,27 @@
 
         <!-- Resultado y estado -->
         <section class="partido-info">
-    {% if partido.estado == 'programado' %}
-        <span class="vs-text">VS</span>
-    {% else %}
-        <p class="partido-resultado" aria-label="Resultado del partido">
-            <span class="goles-local">{{ partido.golesLocal}}</span>
-            <span class="separador">-</span>
-            <span class="goles-visitante">{{ partido.golesVisitante }}</span>
-        </p>
-    {% endif %}
-
-    {# Reemplazamos el guion bajo por espacio y ponemos mayúscula inicial #}
-    <span class="barra-estado {{ partido.estado }}">
-        {{ partido.estado|replace({'_': ' '})|capitalize }}
-    </span>
-</section>
+            {% if partido.estado == 'programado' and hayLogin %}
+                {# Formulario rápido para el admin #}
+                <form action="/partidos/cargarResultado" method="POST" class="form-resultado-rapido">
+                    <input type="hidden" name="id_partido" value="{{ partido.id }}">
+                    <div class="inputs-goles">
+                        <input type="number" name="goles_local" min="0" placeholder="0" required>
+                        <span>-</span>
+                        <input type="number" name="goles_visitante" min="0" placeholder="0" required>
+                    </div>
+                    <button type="submit" class="btn-guardar-chico">Guardar</button>
+                </form>
+            {% elseif partido.estado == 'programado' %}
+                <span class="vs-text">VS</span>
+            {% else %}
+                <p class="partido-resultado">
+                    <span class="goles-local">{{ partido.golesLocal }}</span>
+                    <span class="separador">-</span>
+                    <span class="goles-visitante">{{ partido.golesVisitante }}</span>
+                </p>
+            {% endif %}
+        </section>
 
         <!-- Equipo Visitante -->
         <section class="equipo equipo-visitante">

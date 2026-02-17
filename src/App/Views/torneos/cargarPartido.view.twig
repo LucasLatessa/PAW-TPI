@@ -1,59 +1,84 @@
 {% extends 'layouts/app.view.twig' %}
 
 {% block styles %}
-<link rel="stylesheet" href="/assets/styles/torneos/creartorneo.css">
+<link rel="stylesheet" href="/assets/styles/partidos/crearPartido.css">
 {% endblock %}
 
 {% block content %}
-  
-    <header class="torneo-header">
-      <h1>Cargar partido</h1>
-    </header>
 
-    <section class="creacion-torneo">
-    {% if hayLogin %}{# Solo mostramos el formulario si el usuario esta logueado #}
-      <form method="POST" action="" class="crear-form">
+        <header class="header-main">
+            <h1>Crear Partido</h1>
+        </header>
+        <main class="section-carga">
 
-        <label for="id-torneo">Torneo</label>
-        <select name="id-torneo" id="id-torneo">
-            <option value={{torneo.id}}>{{torneo.nombre}}</option>
-        </select>
+        {% if hayLogin %}
+            <form method="POST" action="" class="carga-form">
+                
+                {# Si el torneo ya viene prefijado #}
+                {% if torneo %}
+                    <input type="hidden" name="id-torneo" value="{{ torneo.id }}">
+                {% endif %}
 
-        <label for="fecha-torneo">Partido correspondiente a la fecha Nº
-          <input type="number" name="fecha-torneo" id="fecha-torneo" required>
-        </label>
+                <div class="form-group">
+                    <label for="id-torneo">Torneo</label>
+                    <select name="id-torneo" id="id-torneo" required 
+                        {% if torneo %} disabled {% endif %} 
+                        onchange="location.href='/torneo/cargarPartido?id=' + this.value">
+                        {% if torneo %}
+                            <option value="{{ torneo.id }}" selected>{{ torneo.nombre }}</option>
+                        {% else %}
+                            <option value="" disabled selected>Seleccioná un torneo</option>
+                            {% for t in listaTorneos %}
+                                <option value="{{ t.id }}" {{ t.id == idSeleccionado ? 'selected' : '' }}>{{ t.nombre }}</option>
+                            {% endfor %}
+                        {% endif %}
+                    </select>
+                </div>
 
-        <label for="id-equipo-local">Equipo Local</label>
-        <select name="id-equipo-local" id="id-equipo-local">
-        <option value="" disabled selected>Seleccionar un equipo</option>
-            {% for equipo in equiposTorneo %}
-                <option value={{equipo.equipo_id}}>{{equipo.equipo.nombre}}</option>
-            {% endfor %}
-        </select>
-  
-        <label for="id-equipo-visitante">Equipo Visitante</label>
-        <select name="id-equipo-visitante" id="id-equipo-visitante">
-        <option value="" disabled selected>Seleccionar un equipo</option>
-            {% for equipo in equiposTorneo %}
-                <option value={{equipo.equipo_id}}>{{equipo.equipo.nombre}}</option>
-            {% endfor %}
-        </select>
+                <div class="form-group">
+                    <label for="fecha-torneo">Número de Fecha (Jornada)</label>
+                    <input type="number" name="fecha-torneo" id="fecha-torneo" min="1" placeholder="Ej: 1" required>
+                </div>
 
-        <label for="fecha">Fecha
-          <input type="date" id="fecha" name="fecha" required>
-        </label>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="id-equipo-local">Equipo Local</label>
+                        <select name="id-equipo-local" id="id-equipo-local" required>
+                            <option value="" disabled selected>Seleccionar local</option>
+                            {% for equipo in equiposTorneo %}
+                                <option value="{{ equipo.equipo_id }}">{{ equipo.equipo.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
 
-        <label for="hora">Hora
-          <input type="time" id="hora" name="hora" required>
-        </label>
+                    <div class="form-group">
+                        <label for="id-equipo-visitante">Equipo Visitante</label>
+                        <select name="id-equipo-visitante" id="id-equipo-visitante" required>
+                            <option value="" disabled selected>Seleccionar visitante</option>
+                            {% for equipo in equiposTorneo %}
+                                <option value="{{ equipo.equipo_id }}">{{ equipo.equipo.nombre }}</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                </div>
 
-        <button type="submit">Cargar partido</button>
-      </form>
-      {% else %}
-        <div class="mensaje-login">
-          <p>Debés iniciar sesión para poder cargar un partido.</p>
-          <a href="/login" class="btn-login-redirect">Ir al Login</a>
-        </div>
-      {% endif %}
-    </section>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label for="fecha">Día del Partido</label>
+                        <input type="date" id="fecha" name="fecha" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="hora">Horario</label>
+                        <input type="time" id="hora" name="hora" required>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-enviar">Cargar Partido</button>
+            </form>
+        {% else %}
+            <div class="mensaje-login">
+                <p>Debés iniciar sesión para poder cargar un partido.</p>
+                <a href="/login" class="btn-login-redirect">Ir al Login</a>
+            </div>
+        {% endif %}
 {% endblock %}

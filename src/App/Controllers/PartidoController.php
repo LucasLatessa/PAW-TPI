@@ -45,4 +45,20 @@ class PartidoController extends Controlador
     ]);
   }
   
+    public function cargarResultado()
+    {
+        global $request;
+
+        $idPartido      = $request->getRequest("id_partido");
+        $golesLocal     = $request->getRequest("goles_local");
+        $golesVisitante = $request->getRequest("goles_visitante");
+        if ($idPartido && $golesLocal !== null && $golesVisitante !== null) {
+            $partidoCollection = new PartidoCollections();
+            $partidoCollection->setQueryBuilder($this->getQb());
+            $partidoCollection->cargarResultado($idPartido, $golesLocal, $golesVisitante);
+        }
+        header("Location: /partidos/partido?id=$idPartido");
+        exit;
+    }
+  
 }

@@ -85,7 +85,11 @@
         {% else %}
             <p>No hay partidos para los filtros seleccionados.</p>
         {% endfor %}
+        
 
     </section>
+    {% if hayLogin %}
+                <a class="btn-programar" href="/torneo/cargarPartido">Programar partido</a>
+    {% endif %}
 
 {% endblock %}

@@ -166,26 +166,35 @@ class TorneoController extends Controlador
         }
     }
 
-    public function formCargarPartido()
-    {
-        global $request;
+  public function formCargarPartido()
+{
+    global $request;
+    $idTorneo = $request->get('id');
+    $title = 'Cargar Partido - LigaCF';
 
-        $idTorneo = $request->get('id');
-
-        $title  = 'Cargar Partido - LigaCF';
+    // Si TENEMOS ID, buscamos los equipos de ese torneo
+    if ($idTorneo) {
         $torneo = $this->model->getTorneo($idTorneo);
-        //$listaTorneos = $this->model->getAllTorneos();
-
+        
         $modelEquipoTorneo = new EquipoTorneoCollections();
         $modelEquipoTorneo->setQueryBuilder($this->getQb());
         $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
-        echo $this->twig->render('torneos/cargarPartido.view.twig', [
-            'title'         => $title,
-            'torneo'        => $torneo,
-            'equiposTorneo' => $equiposTorneo,
-            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
-        ]);
+        
+        $listaTorneos = null;
+    } else {
+        // Si NO TENEMOS ID, buscamos todos los torneos para que elija
+        $torneo = null;
+        $equiposTorneo = null;
+        $listaTorneos = $this->model->getAllTorneos();
     }
+
+    echo $this->twig->render('torneos/cargarPartido.view.twig', [
+        'title'         => $title,
+        'torneo'        => $torneo,
+        'equiposTorneo' => $equiposTorneo,
+        'listaTorneos'  => $listaTorneos // Si esto no es null, mostrás un select en la vista
+    ]);
+}
 
     public function cargarPartido()
     {
@@ -208,43 +217,7 @@ class TorneoController extends Controlador
         header('Location: /torneos/torneo?id=' . $idTorneo);
         exit();
     }
-    public function formCargarResultado()
-    {
-        global $request;
 
-        $idTorneo = $request->get('id');
-        $title    = 'Cargar Resultado - LigaCF';
-        $torneo   = $this->model->getTorneo($idTorneo);
-        //$listaTorneos = $this->model->getAllTorneos();
-
-        $modelPartido = new PartidoCollections();
-        $modelPartido->setQueryBuilder($this->getQb());
-        $partidosACargar = $modelPartido->getPartidosACargar($idTorneo);
-
-        echo $this->twig->render('liga/cargarResultados.view.twig', [
-            'title'           => $title,
-            'torneo'          => $torneo,
-            'partidosACargar' => $partidosACargar,
-            #'listaEquipos' => $listaEquipos // Pasar la lista de equipos a la vista
-        ]);
-    }
-
-    public function cargarResultado()
-    {
-        global $request;
-
-        $idTorneo       = $request->getRequest("torneo_id");
-        $idPartido      = $request->getRequest("id_partido");
-        $golesLocal     = $request->getRequest("golesLocal");
-        $golesVisitante = $request->getRequest("golesVisitante");
-        if ($idPartido && $golesLocal !== null && $golesVisitante !== null) {
-            $partidoCollection = new PartidoCollections();
-            $partidoCollection->setQueryBuilder($this->getQb());
-            $partidoCollection->cargarResultado($idTorneo, $idPartido, $golesLocal, $golesVisitante);
-        }
-        header("Location: /torneo/cargarResultado?id=$idTorneo");
-        exit;
-    }
 
     // Fixture de ese torneo
     public function fixture()

@@ -173,4 +173,14 @@ class PartidoCollections extends Model
         //Instacia nuevo partido creado
         return $newPartido;
     }
+    public function cargarResultado( $idPartido, $gl, $gv)
+    {
+        $data = [
+            'goles_local'     => $gl,
+            'goles_visitante' => $gv,
+            'estado'          => 'finalizado'
+        ];
+        
+        return $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
+    }
 }
