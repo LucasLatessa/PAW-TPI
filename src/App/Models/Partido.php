@@ -37,7 +37,7 @@ class Partido extends Model
     public function load(int $id): ?self
     {
         $params = ['id' => $id];
-        $record = current($this->queryBuilder->select($this->table, $params));
+        $record = current($this->queryBuilder->selectLoad($this->table, $params));
 
         if (! $record) {
             return null;

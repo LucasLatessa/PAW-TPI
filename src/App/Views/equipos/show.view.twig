@@ -41,53 +41,70 @@
                     </li>
                 </ul>
             </section>
-
             <section class="resultados-club">
                 <header class="resultados-club-header">
-                    <h2> <ion-icon name="football-outline" class="icon"></ion-icon> Últimos Resultados</h2>
+                    <h2>
+                        <ion-icon name="football-outline" class="icon"></ion-icon>
+                        Últimos Resultados
+                    </h2>
                 </header>
+            <ul class="resultados-club-list">
+                    {% for partido in ultimosPartidos %}
+                        {# Determinamos si el equipo que estamos viendo es local o visitante en este partido #}
+                        {% set esLocal = (partido.equipo_local_id == equipo.id) %}
+                        {% set golesPropio = esLocal ? partido.goles_local : partido.goles_visitante %}
+                        {% set golesRival = esLocal ? partido.goles_visitante : partido.goles_local %}
 
-                {# <ul class="resultados-club-list">
-                    @foreach ($ultimosPartidos as $partido)
-                        @php
-                            $esLocal = $partido->equipo_local_id === $equipo->id;
-
-                            $golesEquipo = $esLocal ? $partido->goles_local : $partido->goles_visitante;
-                            $golesRival = $esLocal ? $partido->goles_visitante : $partido->goles_local;
-
-                            if ($golesEquipo > $golesRival) {
-                                $resultado = 'Victoria';
-                                $clase = 'result--win';
-                            } elseif ($golesEquipo < $golesRival) {
-                                $resultado = 'Derrota';
-                                $clase = 'result--loss';
-                            } else {
-                                $resultado = 'Empate';
-                                $clase = 'result--draw';
-                            }
-
-                            $rival = $esLocal ? $partido->visitante : $partido->local;
-                        @endphp
+                        {% set claseResultado = '' %}
+                        {% set textoResultado = '' %}
+                        
+                        {% if golesPropio > golesRival %}
+                            {% set claseResultado = 'result--win' %}
+                            {% set textoResultado = 'Victoria' %}
+                        {% elseif golesPropio < golesRival %}
+                            {% set claseResultado = 'result--loss' %}
+                            {% set textoResultado = 'Derrota' %}
+                        {% else %}
+                            {% set claseResultado = 'result--draw' %}
+                            {% set textoResultado = 'Empate' %}
+                        {% endif %}
 
                         <li>
-                            <a href="{{ route('partidos.show', $partido) }}" class="result {{ $clase }}">
-                                <time datetime="{{ $partido->fecha_partido }}">
-                                    {{ \Carbon\Carbon::parse($partido->fecha_partido)->format('d M') }}
-                                </time>
+                            <article class="result {{ claseResultado }}">
+                                {# Columna de la fecha #}
+                                <div class="result-date">
+                                    <time datetime="{{ partido.fecha_partido }}">
+                                        {{ partido.fecha_partido }}
+                                    </time>
+                                </div>
 
-                                <span class="team local">{{ $equipo->nombre_pila }}</span>
+                                <div class="result-content">
+                                    <div class="result-teams-row">
+                                        <div class="team-info local">
+                                            <span class="team">{{ partido.nombre_local }}</span>
+                                            <img src="/assets/{{ partido.escudo_local }}" class="mini-escudo" alt="">
+                                        </div>
 
-                                <strong class="score">
-                                    {{ $golesEquipo }} - {{ $golesRival }}
-                                </strong>
+                                        <strong class="score">
+                                            {{ partido.goles_local }} - {{ partido.goles_visitante }}
+                                        </strong>
 
-                                <span class="team">{{ $rival->nombre_pila }}</span>
+                                        <div class="team-info visitante">
+                                            <img src="/assets/{{ partido.escudo_visitante }}" class="mini-escudo" alt="">
+                                            <span class="team">{{ partido.nombre_visitante }}</span>
+                                        </div>
+                                    </div>
+                                </div>
 
-                                <span class="badge">{{ $resultado }}</span>
-                            </a>
+                                <div class="result-status">
+                                    <span class="badge">{{ textoResultado }}</span>
+                                </div>
+                            </article>
                         </li>
-                    @endforeach
-                </ul> #}
+                    {% else %}
+                        <p>No hay partidos registrados para este equipo.</p>
+                    {% endfor %}
+                </ul>
             </section>
         </div>
 
