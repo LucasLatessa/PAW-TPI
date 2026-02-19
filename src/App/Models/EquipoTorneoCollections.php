@@ -132,6 +132,60 @@ class EquipoTorneoCollections extends Model
 
     $this->queryBuilder->update($this->table, $dataVisitante, ['equipo_id' => $visitanteId, "torneo_id" => $torneoId]);
   }
+
+  public function revertirEstadisticas($localId, $visitanteId, $torneoId, $gl, $gv)
+  {
+    // LOCAL
+    $statsLocal = $this->getEstadisticas($torneoId, $localId);
+    $dataLocal = $this->calcularStatsReversa($statsLocal, $gl, $gv);
+
+    $this->queryBuilder->update(
+      $this->table,
+      $dataLocal,
+      ['equipo_id' => $localId, "torneo_id" => $torneoId]
+    );
+
+    // VISITANTE
+    $statsVisitante = $this->getEstadisticas($torneoId, $visitanteId);
+    $dataVisitante = $this->calcularStatsReversa($statsVisitante, $gv, $gl);
+
+    $this->queryBuilder->update(
+      $this->table,
+      $dataVisitante,
+      ['equipo_id' => $visitanteId, "torneo_id" => $torneoId]
+    );
+  }
+
+  private function calcularStatsReversa($statsActuales, $gf, $gc)
+  {
+    $pj = $statsActuales['partidos_jugados'] - 1;
+    $pg = $statsActuales['ganados'];
+    $pe = $statsActuales['empatados'];
+    $pp = $statsActuales['perdidos'];
+    $pts = $statsActuales['puntos'];
+
+    if ($gf > $gc) {
+      $pg -= 1;
+      $pts -= 3;
+    } elseif ($gf == $gc) {
+      $pe -= 1;
+      $pts -= 1;
+    } else {
+      $pp -= 1;
+    }
+
+    return [
+      'partidos_jugados'  => $pj,
+      'ganados'  => $pg,
+      'empatados'  => $pe,
+      'perdidos'  => $pp,
+      'goles_favor'  => $statsActuales['goles_favor'] - $gf,
+      'goles_contra'  => $statsActuales['goles_contra'] - $gc,
+      'diferencia_goles'  => ($statsActuales['goles_favor'] - $gf) -
+        ($statsActuales['goles_contra'] - $gc),
+      'puntos' => $pts
+    ];
+  }
   private function calcularStats($statsActuales, $gf, $gc)
   {
     $pj = $statsActuales['partidos_jugados'] + 1;

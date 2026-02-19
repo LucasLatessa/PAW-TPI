@@ -66,9 +66,9 @@
                 <form action="/partidos/cargarResultado" method="POST" class="form-resultado-rapido">
                     <input type="hidden" name="id_partido" value="{{ partido.id }}">
                     <div class="inputs-goles">
-                        <input type="number" name="goles_local" min="0" placeholder={{ partido.golesLocal }} value={{ partido.golesLocal }} required>
+                        <input type="number" name="goles_local" min="0" placeholder=0 value={{ partido.golesLocal }} required>
                         <span>-</span>
-                        <input type="number" name="goles_visitante" min="0" placeholder={{ partido.golesVisitante }} value={{ partido.golesVisitante }} required>
+                        <input type="number" name="goles_visitante" min="0" placeholder=0 value={{ partido.golesVisitante }} required>
                     </div>
                     <button type="submit" class="btn-guardar-chico">Guardar</button>
                 </form>
