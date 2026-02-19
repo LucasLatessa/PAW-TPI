@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\Equipo;
 use Paw\App\Models\EquipoCollections;
+use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\PartidoCollections;
 use Paw\Core\Controlador;
 use Twig\Loader\FilesystemLoader;
@@ -34,18 +35,39 @@ class EquipoController extends Controlador
     global $request;
     
     $equipo_id = $request->get('id');
+    $torneo_id = 1; //Primera
     $equipo = $this->model->getID($equipo_id);
 
-    // Buscamos los partidos de este equipo
+    // Modelos tabla y partido
     $partidoModel = new PartidoCollections();
     $partidoModel->setQueryBuilder($this->getQb());
-    
-    // Este método lo creamos abajo
+    $tablaModel = new EquipoTorneoCollections();
+    $tablaModel->setQueryBuilder($this->getQb());
+
+    // Buscamos los partidos de este equipo
     $ultimosPartidos = $partidoModel->getPartidosByEquipo($equipo_id);
+
+    //Posicion actual en primera
+    $posicion = $tablaModel->getPosicion($torneo_id, $equipo_id);
+
+    //Tabla de posiciones en ese torneo
+    $tabla = $tablaModel->getEstadisticas($torneo_id, $equipo_id);
+
+    //Total de equipos en ese torneo
+    $totalEquipos = $tablaModel->getCantidadEquipos($torneo_id);
+
+    //Proximo partido (si existe)
+    $proxPartido = $partidoModel->getProximoPartido($torneo_id,$equipo_id);
+    //var_dump($proxPartido);
+
     echo $this->twig->render('equipos/show.view.twig', [
       'title'   => $equipo->getNombre() . ' - LigaCF',
       'equipo'  => $equipo,
-      'ultimosPartidos' => $ultimosPartidos 
+      'ultimosPartidos' => $ultimosPartidos,
+      'tabla' => $tabla,
+      'posicion' => $posicion,
+      'totalEquipos' => $totalEquipos,
+      'proxPartido' => $proxPartido,
     ]);
 }
   public function formCrearEquipo(){

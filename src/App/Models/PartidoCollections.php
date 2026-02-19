@@ -1,4 +1,5 @@
 <?php
+
 namespace Paw\App\Models;
 
 use Paw\App\Models\Partido;
@@ -6,219 +7,264 @@ use Paw\Core\Model;
 
 class PartidoCollections extends Model
 {
-    public $table = 'partidos';
+  public $table = 'partidos';
 
-    public function getAllPartidos()
-    {
-        $partidos           = $this->queryBuilder->selectViejo($this->table);
-        $partidosCollection = [];
+  public function getAllPartidos()
+  {
+    $partidos           = $this->queryBuilder->selectViejo($this->table);
+    $partidosCollection = [];
 
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+    $equipoCollection = new EquipoCollections();
+    $equipoCollection->setQueryBuilder($this->queryBuilder);
 
-        foreach ($partidos as $partido) {
-            $nuevoPartido = new Partido(); //Hidratar (armar) el partido
-            $nuevoPartido->set($partido);
+    foreach ($partidos as $partido) {
+      $nuevoPartido = new Partido(); //Hidratar (armar) el partido
+      $nuevoPartido->set($partido);
 
-            //Equipo local
-            $equipoLocal = $equipoCollection->getID(
-                $nuevoPartido->getEquipoLocalId()
-            );
-            $nuevoPartido->setEquipoLocal($equipoLocal);
+      //Equipo local
+      $equipoLocal = $equipoCollection->getID(
+        $nuevoPartido->getEquipoLocalId()
+      );
+      $nuevoPartido->setEquipoLocal($equipoLocal);
 
-            //Equipo visitante
-            $equipoVisitante = $equipoCollection->getID(
-                $nuevoPartido->getEquipoVisitanteId()
-            );
-            $nuevoPartido->setEquipoVisitante($equipoVisitante);
+      //Equipo visitante
+      $equipoVisitante = $equipoCollection->getID(
+        $nuevoPartido->getEquipoVisitanteId()
+      );
+      $nuevoPartido->setEquipoVisitante($equipoVisitante);
 
-            $partidosCollection[] = $nuevoPartido;
-        }
-        return $partidosCollection;
+      $partidosCollection[] = $nuevoPartido;
     }
-    public function getPartido($idPartido)
-    {
-        $partidoData = $this->queryBuilder->selectViejo($this->table, ['id' => $idPartido]);
+    return $partidosCollection;
+  }
+  public function getPartido($idPartido)
+  {
+    $partidoData = $this->queryBuilder->selectViejo($this->table, ['id' => $idPartido]);
 
-        if (! $partidoData) {
-            return null;
-        }
-
-        $data = $partidoData[0];
-
-        $nuevoPartido = new Partido();
-        $nuevoPartido->set($data);
-
-        // traemos los equipos
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
-
-        // Local
-        $equipoLocal = $equipoCollection->getID($nuevoPartido->getEquipoLocalId());
-        $nuevoPartido->setEquipoLocal($equipoLocal);
-
-        // Visitante
-        $equipoVisitante = $equipoCollection->getID($nuevoPartido->getEquipoVisitanteId());
-        $nuevoPartido->setEquipoVisitante($equipoVisitante);
-
-        // tramos la fecha (fecha nro 1...)
-        $fechaData = $this->queryBuilder->selectViejo('fechas', ['id' => $nuevoPartido->getFechaId()]);
-        $nuevoPartido->setFecha($fechaData[0]);
-
-        // traemos el torneo
-        $torneoColl = new TorneoCollections();
-        $torneoColl->setQueryBuilder($this->queryBuilder);
-        $torneo = $torneoColl->getTorneo($nuevoPartido->getTorneoId());
-        $nuevoPartido->setTorneo($torneo);
-
-        return $nuevoPartido;
+    if (! $partidoData) {
+      return null;
     }
 
-    public function getUltimosPorTorneo(int $torneoId, int $limit = 3)
-    {
-        $partidos = $this->queryBuilder->selectViejo(
-            $this->table,
-            ['torneo_id' => $torneoId],
-            'fecha_partido DESC',
-            $limit
-        );
+    $data = $partidoData[0];
 
-        $partidosCollection = [];
+    $nuevoPartido = new Partido();
+    $nuevoPartido->set($data);
 
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+    // traemos los equipos
+    $equipoCollection = new EquipoCollections();
+    $equipoCollection->setQueryBuilder($this->queryBuilder);
 
-        foreach ($partidos as $partido) {
-            $nuevoPartido = new Partido();
-            $nuevoPartido->set($partido);
+    // Local
+    $equipoLocal = $equipoCollection->getID($nuevoPartido->getEquipoLocalId());
+    $nuevoPartido->setEquipoLocal($equipoLocal);
 
-            // Equipo local
-            $equipoLocal = $equipoCollection->getID(
-                $nuevoPartido->getEquipoLocalId()
-            );
-            $nuevoPartido->setEquipoLocal($equipoLocal);
+    // Visitante
+    $equipoVisitante = $equipoCollection->getID($nuevoPartido->getEquipoVisitanteId());
+    $nuevoPartido->setEquipoVisitante($equipoVisitante);
 
-            // Equipo visitante
-            $equipoVisitante = $equipoCollection->getID(
-                $nuevoPartido->getEquipoVisitanteId()
-            );
-            $nuevoPartido->setEquipoVisitante($equipoVisitante);
+    // tramos la fecha (fecha nro 1...)
+    $fechaData = $this->queryBuilder->selectViejo('fechas', ['id' => $nuevoPartido->getFechaId()]);
+    $nuevoPartido->setFecha($fechaData[0]);
 
-            $partidosCollection[] = $nuevoPartido;
-        }
+    // traemos el torneo
+    $torneoColl = new TorneoCollections();
+    $torneoColl->setQueryBuilder($this->queryBuilder);
+    $torneo = $torneoColl->getTorneo($nuevoPartido->getTorneoId());
+    $nuevoPartido->setTorneo($torneo);
 
-        return $partidosCollection;
+    return $nuevoPartido;
+  }
+  public function getUltimosPorTorneo(int $torneoId, int $limit = 3)
+  {
+    $partidos = $this->queryBuilder->selectViejo(
+      $this->table,
+      ['torneo_id' => $torneoId],
+      'fecha_partido DESC',
+      $limit
+    );
+
+    $partidosCollection = [];
+
+    $equipoCollection = new EquipoCollections();
+    $equipoCollection->setQueryBuilder($this->queryBuilder);
+
+    foreach ($partidos as $partido) {
+      $nuevoPartido = new Partido();
+      $nuevoPartido->set($partido);
+
+      // Equipo local
+      $equipoLocal = $equipoCollection->getID(
+        $nuevoPartido->getEquipoLocalId()
+      );
+      $nuevoPartido->setEquipoLocal($equipoLocal);
+
+      // Equipo visitante
+      $equipoVisitante = $equipoCollection->getID(
+        $nuevoPartido->getEquipoVisitanteId()
+      );
+      $nuevoPartido->setEquipoVisitante($equipoVisitante);
+
+      $partidosCollection[] = $nuevoPartido;
     }
 
-    public function getPartidosByFecha(int $torneoId, int $fechaId): array
-    {
-        $partidos = $this->queryBuilder->selectViejo(
-            $this->table,
-            ['fecha_id' => $fechaId, "torneo_id" => $torneoId],
-            'hora_partido ASC'
-        );
+    return $partidosCollection;
+  }
 
-        // echo "<pre>";
-        // print_r($partidos);
-        // echo "</pre>";
+  public function getPartidosByFecha(int $torneoId, int $fechaId): array
+  {
+    $partidos = $this->queryBuilder->selectViejo(
+      $this->table,
+      ['fecha_id' => $fechaId, "torneo_id" => $torneoId],
+      'hora_partido ASC'
+    );
 
-        //var_dump($torneoId);
-        //var_dump($fechaId);
-        $partidosCollection = [];
+    // echo "<pre>";
+    // print_r($partidos);
+    // echo "</pre>";
 
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+    //var_dump($torneoId);
+    //var_dump($fechaId);
+    $partidosCollection = [];
 
-        foreach ($partidos as $partido) {
-            $nuevoPartido = new Partido();
-            $nuevoPartido->set($partido);
+    $equipoCollection = new EquipoCollections();
+    $equipoCollection->setQueryBuilder($this->queryBuilder);
 
-            // Equipo local
-            $equipoLocal = $equipoCollection->getID(
-                $nuevoPartido->getEquipoLocalId()
-            );
-            $nuevoPartido->setEquipoLocal($equipoLocal);
+    foreach ($partidos as $partido) {
+      $nuevoPartido = new Partido();
+      $nuevoPartido->set($partido);
 
-            // Equipo visitante
-            $equipoVisitante = $equipoCollection->getID(
-                $nuevoPartido->getEquipoVisitanteId()
-            );
-            $nuevoPartido->setEquipoVisitante($equipoVisitante);
+      // Equipo local
+      $equipoLocal = $equipoCollection->getID(
+        $nuevoPartido->getEquipoLocalId()
+      );
+      $nuevoPartido->setEquipoLocal($equipoLocal);
 
-            $partidosCollection[] = $nuevoPartido;
-        }
+      // Equipo visitante
+      $equipoVisitante = $equipoCollection->getID(
+        $nuevoPartido->getEquipoVisitanteId()
+      );
+      $nuevoPartido->setEquipoVisitante($equipoVisitante);
 
-        return $partidosCollection;
+      $partidosCollection[] = $nuevoPartido;
     }
-    public function getPartidosByEquipo($equipoId) //PARTIDOS FINALIZADOS
-    {
-        return $this->queryBuilder
-            ->select($this->table)
-            ->join("equipos as local", "partidos.equipo_local_id = local.id")
-            ->join("equipos as visitante", "partidos.equipo_visitante_id = visitante.id")
-            ->addSelect("local.nombre as nombre_local, local.escudo as escudo_local")
-            ->addSelect("visitante.nombre as nombre_visitante, visitante.escudo as escudo_visitante")
-            ->where("(equipo_local_id = :id OR equipo_visitante_id = :id) AND estado = :estado")
-            ->setParam('id', $equipoId)
-            ->setParam('estado', 'finalizado')
-            ->order('fecha_partido DESC')
-            ->limit(5)
-            ->execute();
-    }
-    public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha = null, $hora = null)
-    {
-        $newPartido = new Partido();
 
-        $data = [
-            'torneo_id'           => $idTorneo,
-            'fecha_id'            => $fechaTorneo,
-            'equipo_local_id'     => $local,
-            'equipo_visitante_id' => $visitante,
-            'fecha_partido'       => $fecha,
-            'hora_partido'        => $hora
-        ];
+    return $partidosCollection;
+  }
+  public function getPartidosByEquipo($equipoId) //PARTIDOS FINALIZADOS
+  {
+    return $this->queryBuilder
+      ->select($this->table)
+      ->join("equipos as local", "partidos.equipo_local_id = local.id")
+      ->join("equipos as visitante", "partidos.equipo_visitante_id = visitante.id")
+      ->addSelect("local.nombre as nombre_local, local.escudo as escudo_local")
+      ->addSelect("visitante.nombre as nombre_visitante, visitante.escudo as escudo_visitante")
+      ->where("(equipo_local_id = :id OR equipo_visitante_id = :id) AND estado = :estado")
+      ->setParam('id', $equipoId)
+      ->setParam('estado', 'finalizado')
+      ->order('fecha_partido DESC')
+      ->limit(5)
+      ->execute();
+  }
 
-        // insertar en la base de datos
-        $this->queryBuilder->insert($this->table, $data);
+  //Obtengo el proximo partido de un equipo (Mejorar)
+  public function getProximoPartido($idTorneo, $equipoId)
+  {
+    $result = $this->queryBuilder
+      ->select($this->table)
+      ->join("equipos as local", "partidos.equipo_local_id = local.id")
+      ->join("equipos as visitante", "partidos.equipo_visitante_id = visitante.id")
+      ->addSelect("local.nombre as nombre_local, local.escudo as escudo_local")
+      ->addSelect("visitante.nombre as nombre_visitante, visitante.escudo as escudo_visitante")
+      ->select("partidos.*")
+      ->where("(equipo_local_id = :id OR equipo_visitante_id = :id) AND estado = :estado AND torneo_id = :torneoId")
+      ->setParam('id', $equipoId)
+      ->setParam('estado', 'programado')
+      ->setParam('torneoId', $idTorneo)
+      ->order('fecha_partido ASC')
+      ->limit(1)
+      ->execute();
 
-        $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
+    if (empty($result)) return null;
 
-        $newPartido->setQueryBuilder($this->queryBuilder);
+    $p = $result[0];
+    var_dump($p);
 
-        $data['id'] = $idInsertado;
-        $newPartido->set($data);
+    return [
+      'id' => $p['id'],
+      'fechaPartido' => $p['fecha_partido'],
+      'horaPartido' => $p['hora_partido'],
+      'estado' => $p['estado'],
+      'golesLocal' => $p['goles_local'],
+      'golesVisitante' => $p['goles_visitante'],
 
-        return $newPartido;
-    }
-    public function cargarResultado($idPartido, $gl, $gv)
-    {
+      'equipoLocal' => [
+        'nombre' => $p['nombre_local'],
+        'escudo' => $p['escudo_local'],
+        'estadio' => [
+          'nombre' => $p['cancha'] ?? ''
+        ]
+      ],
 
-        $partido = $this->queryBuilder->selectViejo('partidos',["id" => $idPartido], null, $limit = 1);
-        $partido = $partido[0];
+      'equipoVisitante' => [
+        'nombre' => $p['nombre_visitante'],
+        'escudo' => $p['escudo_visitante']
+      ]
+    ];
+  }
+  public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha = null, $hora = null)
+  {
+    $newPartido = new Partido();
 
-        $data = [
-            'goles_local'     => $gl,
-            'goles_visitante' => $gv,
-            'estado'          => 'finalizado',
-        ];
+    $data = [
+      'torneo_id'           => $idTorneo,
+      'fecha_id'            => $fechaTorneo,
+      'equipo_local_id'     => $local,
+      'equipo_visitante_id' => $visitante,
+      'fecha_partido'       => $fecha,
+      'hora_partido'        => $hora
+    ];
 
-        //var_dump($partido);
+    // insertar en la base de datos
+    $this->queryBuilder->insert($this->table, $data);
 
-        $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
+    $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
 
-        //Actualizar tabla de posiciones
-        $equipoTorneoCollection = new EquipoTorneoCollections();
-        $equipoTorneoCollection->setQueryBuilder($this->queryBuilder);
+    $newPartido->setQueryBuilder($this->queryBuilder);
 
-        //var_dump($partido['equipo_local_id']);
-        //var_dump($partido->equipo_local_id);
+    $data['id'] = $idInsertado;
+    $newPartido->set($data);
 
-        $equipoTorneoCollection->actualizarEstadisticas(
-            $partido['equipo_local_id'],
-            $partido['equipo_visitante_id'],
-            $partido['torneo_id'],
-            $gl,
-            $gv
-        );
-    }
+    return $newPartido;
+  }
+  public function cargarResultado($idPartido, $gl, $gv)
+  {
+
+    $partido = $this->queryBuilder->selectViejo('partidos', ["id" => $idPartido], null, $limit = 1);
+    $partido = $partido[0];
+
+    $data = [
+      'goles_local'     => $gl,
+      'goles_visitante' => $gv,
+      'estado'          => 'finalizado',
+    ];
+
+    //var_dump($partido);
+
+    $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
+
+    //Actualizar tabla de posiciones
+    $equipoTorneoCollection = new EquipoTorneoCollections();
+    $equipoTorneoCollection->setQueryBuilder($this->queryBuilder);
+
+    //var_dump($partido['equipo_local_id']);
+    //var_dump($partido->equipo_local_id);
+
+    $equipoTorneoCollection->actualizarEstadisticas(
+      $partido['equipo_local_id'],
+      $partido['equipo_visitante_id'],
+      $partido['torneo_id'],
+      $gl,
+      $gv
+    );
+  }
 }

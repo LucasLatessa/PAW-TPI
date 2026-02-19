@@ -38,7 +38,7 @@
                 </span>
                 <div>
                     <h4>Inicio</h4>
-                    <p>{{ torneo.fecha_inicio }}</p>
+                    <p>{{ torneo.fechaInicio|date('d/m/Y') }}</p>
                 </div>
             </article>
             {% if torneo.fecha_fin is not empty  %}
@@ -48,7 +48,7 @@
                   </span>
                   <div>
                       <h4>Final</h4>
-                      <p>{{ torneo.fecha_fin }}</p>
+                      <p>{{ torneo.fecha_fin|date('d/m/Y') }}</p>
                   </div>
               </article>
             {% endif %}

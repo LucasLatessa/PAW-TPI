@@ -17,8 +17,8 @@
         </header>
 
         <footer class="noticia-footer">
-            <time datetime="{{ noticia.fechaPublicacion }}">
-                {{ noticia.fechaPublicacion }}
+            <time datetime="{{ noticia.fechaPublicacion|date('d/m/Y') }}">
+                {{ noticia.fechaPublicacion|date('d/m/Y') }}
             </time>
 
             {% if noticia.autor %}

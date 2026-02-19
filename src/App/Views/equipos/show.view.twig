@@ -1,7 +1,9 @@
 {% extends 'layouts/app.view.twig' %}
 
 {% block styles %}
+<link rel="stylesheet" href="/assets/styles/componentes/partido.css" />
 <link rel="stylesheet" href="/assets/styles/equipos/show.css" />
+
 {% endblock %}
 
 {% block content %}
@@ -33,7 +35,7 @@
                 <ul class="sobre-club-stats">
                     <li>
                         <span class="label">Fundación</span>
-                        <strong>{{ equipo.fechaCreacion }}</strong>
+                        <strong>{{ equipo.fechaCreacion|date('d/m/Y') }}</strong>
                     </li>
                     <li>
                         <span class="label">Estadio</span>
@@ -48,7 +50,8 @@
                         Últimos Resultados
                     </h2>
                 </header>
-            <ul class="resultados-club-list">
+
+                <ul class="resultados-club-list">
                     {% for partido in ultimosPartidos %}
                         {# Determinamos si el equipo que estamos viendo es local o visitante en este partido #}
                         {% set esLocal = (partido.equipo_local_id == equipo.id) %}
@@ -71,34 +74,20 @@
 
                         <li>
                             <article class="result {{ claseResultado }}">
-                                {# Columna de la fecha #}
-                                <div class="result-date">
-                                    <time datetime="{{ partido.fecha_partido }}">
-                                        {{ partido.fecha_partido }}
-                                    </time>
-                                </div>
+                                <time datetime="{{ partido.fecha_partido }}">
+                                    {{ partido.fecha_partido|date('d/m/Y') }}
+                                </time>
 
-                                <div class="result-content">
-                                    <div class="result-teams-row">
-                                        <div class="team-info local">
-                                            <span class="team">{{ partido.nombre_local }}</span>
-                                            <img src="/assets/{{ partido.escudo_local }}" class="mini-escudo" alt="">
-                                        </div>
+                                <span class="team local">{{ partido.nombre_local }}</span>
 
-                                        <strong class="score">
-                                            {{ partido.goles_local }} - {{ partido.goles_visitante }}
-                                        </strong>
+                                <strong class="score">
+                                    {{ partido.goles_local }} - {{ partido.goles_visitante }}
+                                </strong>
 
-                                        <div class="team-info visitante">
-                                            <img src="/assets/{{ partido.escudo_visitante }}" class="mini-escudo" alt="">
-                                            <span class="team">{{ partido.nombre_visitante }}</span>
-                                        </div>
-                                    </div>
-                                </div>
+                                <span class="team">{{ partido.nombre_visitante }}</span>
 
-                                <div class="result-status">
-                                    <span class="badge">{{ textoResultado }}</span>
-                                </div>
+                                <span class="badge">{{ textoResultado }}</span>
+
                             </article>
                         </li>
                     {% else %}
@@ -109,39 +98,42 @@
         </div>
 
         <div>
-            {# <section class="posicion-club">
+            <section class="posicion-club">
                 <h2>Posición Actual</h2>
 
                 <p class="posicion-rank">
-                    <strong>{{ $posicion }}°</strong> / {{ $totalEquipos }} Equipos
+                    <strong>{{ posicion }}°</strong> / {{ totalEquipos }} Equipos
                 </p>
 
                 <ul class="posicion-stats">
                     <li>
-                        <strong>{{ $equipoTabla->pivot->puntos }}</strong>
+                        <strong>{{ tabla.puntos }}</strong>
                         <span>Puntos</span>
                     </li>
                     <li>
-                        <strong>{{ $equipoTabla->pivot->partidos_jugados }}</strong>
+                        <strong>{{ tabla.partidos_jugados }}</strong>
                         <span>Jugados</span>
                     </li>
                     <li>
                         <strong>
-                            {{ $equipoTabla->pivot->diferencia_goles > 0 ? '+' : '' }}{{ $equipoTabla->pivot->diferencia_goles }}</strong>
+                            {{ tabla.diferencia_goles > 0 ? '+' : '' }}{{ tabla.diferencia_goles }}</strong>
                         <span>Diferencia</span>
                     </li>
                 </ul>
             </section>
 
+  
             <section class="proximo-partido-club">
                 <h2>Próximo Partido</h2>
 
-                @if ($proximoPartido)
-                    <x-partido-card :partido="$proximoPartido" />
-                @else
+                {% if proxPartido %}
+                    {% include 'componentes/partido.twig' with {
+                        partido: proxPartido
+                    } only %}
+                {% else %}
                     <p>No hay partidos programados.</p>
-                @endif
-            </section> #}
+                {% endif %}
+            </section>
         </div>
 
     </section>

@@ -34,7 +34,7 @@ class NoticiaController extends Controlador
 
     $noticia_id = $request->get('id');
     $noticia = $this->model->getID($noticia_id);
-    $this->model->incrementarVisitas($noticia_id); 
+    $this->model->incrementarVisitas($noticia_id);
 
     $title = $noticia['titulo'] . ' - LigaCF';
 

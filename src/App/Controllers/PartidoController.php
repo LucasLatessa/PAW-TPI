@@ -37,6 +37,7 @@ class PartidoController extends Controlador
     $partido_id = $request->get('id');
     $partido = $this->model->getPartido($partido_id);
     
+    
     //print_r($tabla);
 
     echo $this->twig->render('partidos/show.view.twig', [
