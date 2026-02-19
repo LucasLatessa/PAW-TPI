@@ -50,20 +50,28 @@ class EquipoCollections extends Model
 
     return $equiposCollection;
   }
-  public function getID($idEquipo): ?Equipo
-  {
-    $result = $this->queryBuilder->selectViejo(
-      $this->table,
-      ['id' => $idEquipo]
-    );
+    public function getID(int $id): ?Equipo
+    {
+        $record = $this->queryBuilder->selectViejo('equipos', ['id' => $id]);
+        if (empty($record)) {
+            return null;
+        }
 
-    if (empty($result)) {
-      return null;
+        $equipo = new Equipo();
+        $equipo->set($record[0]);
+
+        // si el equipo tiene un estadio_id
+        if ($equipo->getEstadioId()) {
+            $dataEstadio = $this->queryBuilder->selectViejo('estadios', ['id' => $equipo->getEstadioId()]);
+
+            if (! empty($dataEstadio)) {
+                $estadio = new Estadio();
+                $estadio->set($dataEstadio[0]);
+                // inyectamos objeto estadio al equipo
+                $equipo->setEstadio($estadio);
+            }
+        }
+
+        return $equipo;
     }
-
-    $equipo = new Equipo();
-    $equipo->set($result[0]);
-
-    return $equipo;
-  }
 }
