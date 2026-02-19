@@ -175,7 +175,6 @@ class PartidoCollections extends Model
       ->join("equipos as visitante", "partidos.equipo_visitante_id = visitante.id")
       ->addSelect("local.nombre as nombre_local, local.escudo as escudo_local")
       ->addSelect("visitante.nombre as nombre_visitante, visitante.escudo as escudo_visitante")
-      ->select("partidos.*")
       ->where("(equipo_local_id = :id OR equipo_visitante_id = :id) AND estado = :estado AND torneo_id = :torneoId")
       ->setParam('id', $equipoId)
       ->setParam('estado', 'programado')
