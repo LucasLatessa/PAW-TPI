@@ -150,7 +150,7 @@ class PartidoCollections extends Model
 
         return $partidosCollection;
     }
-    public function getPartidosByEquipo($equipoId)//PARTIDOS FINALIZADOS
+    public function getPartidosByEquipo($equipoId) //PARTIDOS FINALIZADOS
     {
         return $this->queryBuilder
             ->select($this->table)
@@ -165,7 +165,7 @@ class PartidoCollections extends Model
             ->limit(5)
             ->execute();
     }
-    public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha, $hora)
+    public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha = null, $hora = null)
     {
         $newPartido = new Partido();
 
@@ -175,17 +175,19 @@ class PartidoCollections extends Model
             'equipo_local_id'     => $local,
             'equipo_visitante_id' => $visitante,
             'fecha_partido'       => $fecha,
-            'hora_partido'        => $hora,
+            'hora_partido'        => $hora
         ];
 
-        // Asignar el QueryBuilder y establecer los datos del equipo
-        $newPartido->setQueryBuilder($this->queryBuilder);
-        $newPartido->set($data);
-
-        // Insertar los datos en la base de datos
+        // insertar en la base de datos
         $this->queryBuilder->insert($this->table, $data);
 
-        //Instacia nuevo partido creado
+        $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
+
+        $newPartido->setQueryBuilder($this->queryBuilder);
+
+        $data['id'] = $idInsertado;
+        $newPartido->set($data);
+
         return $newPartido;
     }
     public function cargarResultado($idPartido, $gl, $gv)

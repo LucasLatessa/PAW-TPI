@@ -178,7 +178,9 @@ class QueryBuilder
         return $this;
     }
 
-
+  public function getPdo(){
+    return $this->pdo;
+  }
   public function selectLoad($table, $params = [])
   {
 

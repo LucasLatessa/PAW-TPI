@@ -11,25 +11,24 @@ class TorneoCollections extends Model
     public function create($nombreTorneo, $categoria, $temporada, $descripcion, $fechaInicio, $fechaFin)
     {
         $newTorneo = new Torneo;
-        $data      = [
+        $data = [
             'nombre'       => $nombreTorneo,
             'categoria'    => $categoria,
             'temporada'    => $temporada,
             'descripcion'  => $descripcion,
             'fecha_inicio' => $fechaInicio,
             'fecha_fin'    => $fechaFin,
-            // 'cantidadEquipos' => $cantidadEquipos,
-            // 'cantidadFechas' => $cantidadFechas
         ];
 
-        // Asignar el QueryBuilder y establecer los datos del equipo
-        $newTorneo->setQueryBuilder($this->queryBuilder);
-        $newTorneo->set($data);
-
-        // Insertar los datos en la base de datos
         $this->queryBuilder->insert($this->table, $data);
 
-        // Retornar la instancia del nuevo equipo creado
+        $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
+
+        $newTorneo->setQueryBuilder($this->queryBuilder);
+        
+        $data['id'] = $idInsertado; 
+        $newTorneo->set($data);
+
         return $newTorneo;
     }
 
@@ -100,6 +99,44 @@ class TorneoCollections extends Model
           return false;
       }
   }
+    public function generarFixtureAutomatico($torneoId, $equiposIds, $modelPartido, $fechaInicio)
+    {
+        $cantidadEquipos = count($equiposIds);
+        if ($cantidadEquipos < 2) return;
+        shuffle($equiposIds);
+
+        // si es impar, agregamos un null (FECHA LIBRE)
+        if ($cantidadEquipos % 2 != 0) {
+            $equiposIds[] = null;
+            $cantidadEquipos++;
+        }
+        $cantidadFechas = $cantidadEquipos - 1;
+        $partidosPorFecha = $cantidadEquipos / 2;
+
+        for ($i = 0; $i < $cantidadFechas; $i++) {
+            $nroFechaTorneo = $i + 1;
+
+            for ($j = 0; $j < $partidosPorFecha; $j++) {
+                $local = $equiposIds[$j];
+                $visitante = $equiposIds[$cantidadEquipos - 1 - $j];
+
+                // Solo programamos si ninguno de los dos es el equipo LIBRE
+                if ($local !== null && $visitante !== null) {
+                    $modelPartidoCollections = new PartidoCollections();
+                    $modelPartidoCollections->setQueryBuilder($this->queryBuilder);
+                    $modelPartidoCollections->programarPartido(
+                        $torneoId, 
+                        $nroFechaTorneo, 
+                        $local, 
+                        $visitante
+                    );
+                }
+            }
+            // Rotacion (fijamos el primero, rotamos el resto)
+            $ultimo = array_pop($equiposIds);
+            array_splice($equiposIds, 1, 0, [$ultimo]);
+        }
+    }
 
     public function getCantidadEquipos($idTorneo)
     {

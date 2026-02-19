@@ -32,6 +32,24 @@
                     <label for="descripcion">Descripción</label>
                     <textarea id="descripcion" name="descripcion" placeholder="Contanos un poco sobre el torneo..."></textarea>
                 </div>
+                <div class="form-group">
+                    <div class="opciones-fixture-row">
+                        {# Botón de siempre #}
+                        <button type="button" id="btn-abrir-modal" class="btn-secundario">
+                            <ion-icon name="add-circle-outline"></ion-icon> Seleccionar Equipos
+                        </button>
+
+                        {# Nuevo Checkbox #}
+                        <label class="check-fixture-automatico">
+                            <input type="checkbox" name="crear_fixture" value="1">
+                            <span>Fixture automático</span>
+                        </label>
+                    </div>
+                    
+                    <div id="equipos-seleccionados-contador" class="contador-badge">
+                        0 equipos seleccionados
+                    </div>
+                </div>
 
                 <div class="form-row">
                     <div class="form-group">
@@ -45,7 +63,33 @@
                 </div>
 
                 <button type="submit" class="btn-enviar">Crear Torneo</button>
+                <div id="modal-equipos" class="modal">
+                    <div class="modal-content">
+                        <header class="modal-header">
+                            <h3>Seleccionar Equipos</h3>
+                            <span class="btn-cerrar">&times;</span>
+                        </header>
+                        <div class="modal-body">
+                            <div class="buscador-equipos">
+                                <input type="text" id="filtro-equipos" placeholder="Buscar equipo...">
+                            </div>
+                            <div class="lista-equipos-check">
+                                {% for equipo in equipos %}
+                                <label class="equipo-check-item">
+                                    <input type="checkbox" name="equipos_ids[]" value="{{ equipo.id }}" class="equipo-checkbox">
+                                    <img src="/assets/{{ equipo.escudo }}" alt="" class="mini-escudo">
+                                    <span>{{ equipo.nombre }}</span>
+                                </label>
+                                {% endfor %}
+                            </div>
+                        </div>
+                        <footer class="modal-footer">
+                            <button type="button" id="btn-confirmar-equipos" class="btn-enviar">Confirmar Selección</button>
+                        </footer>
+                    </div>
+                </div>
             </form>
+            
         {% else %}
             <div class="mensaje-login">
                 <p>Debés iniciar sesión para poder crear un torneo.</p>
@@ -53,4 +97,5 @@
             </div>
         {% endif %}
     </main>
+    <script src="/assets/js/appCrearTorneo.js"></script>
 {% endblock %}

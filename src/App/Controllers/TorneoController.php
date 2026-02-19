@@ -76,27 +76,44 @@ class TorneoController extends Controlador
     public function formCrearTorneo()
     {
         $title = 'Crear torneo - LigaCF';
+        // traemos TODOS los equipos de la liga
+        $equipoModel = new EquipoCollections();
+        $equipoModel->setQueryBuilder($this->model->queryBuilder);
+        $todosLosEquipos = $equipoModel->getAllEquipos();
         echo $this->twig->render('torneos/crearTorneo.view.twig', [
             'title' => $title,
+            'equipos' => $todosLosEquipos
         ]);
     }
 
     public function crearTorneo()
     {
         global $request;
-        //$modelTorneo = TorneoCollections::class; #ver si esto esta bien de usar otro modelo para TorneoColelctiones
-        // Obtener los datos del formulario
+
+        // obtener datos del torneo
         $nombreTorneo = $request->getRequest('nombre_torneo');
         $categoria    = $request->getRequest('categoria');
         $temporada    = $request->getRequest('temporada');
         $descripcion  = $request->getRequest('descripcion');
         $fechaInicio  = $request->getRequest('fechaInicio');
         $fechaFin     = $request->getRequest('fechaFin');
-        // $cantidadEquipos = $request->getRequest('cantidad_equipos');
-        // $cantidadFechas = $request->getRequest('cantidad_fechas');
+        $equiposIds = $request->getRequest('equipos_ids') ?? [];
+        $crearFixture  = $request->getRequest('crear_fixture'); // llega 1 si se marco
 
         $torneo = $this->model->create($nombreTorneo, $categoria, $temporada, $descripcion, $fechaInicio, $fechaFin);
+        
+        $torneoId = $torneo->getId(); 
 
+        if (!empty($equiposIds) && $torneoId) {
+            $this->model->vincularEquiposAlTorneo($torneoId, $equiposIds);
+            // generamos los partidos
+            if ($crearFixture == "1") {
+                $modelPartido = new PartidoCollections();
+                $modelPartido->setQueryBuilder($this->getQb());
+                
+                $this->model->generarFixtureAutomatico($torneoId, $equiposIds, $modelPartido, $fechaInicio);
+            }
+        }
         header('Location: /torneos');
         exit();
     }
@@ -156,7 +173,6 @@ class TorneoController extends Controlador
             exit();
         }
 
-        // 3. Guardamos la relación en la tabla intermedia (ej: torneos_equipos)
         $exito = $this->model->vincularEquiposAlTorneo($torneoId, $equiposIds);
 
         if ($exito) {

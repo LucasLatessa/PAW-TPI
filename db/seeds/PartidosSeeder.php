@@ -66,7 +66,7 @@ class PartidosSeeder extends AbstractSeed
 
             // Buscar fecha
             $fecha = $this->fetchRow(
-                'SELECT id FROM fechas WHERE torneo_id = ' . $torneo['id'] . ' AND numero ='  . $data['fecha_numero']
+                'SELECT id FROM fechas WHERE numero ='  . $data['fecha_numero']
             );
 
             // Buscar equipos

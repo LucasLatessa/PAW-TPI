@@ -20,7 +20,9 @@ final class CrearTablaPartidos extends AbstractMigration
       ->addColumn('fecha_id', 'integer', [
         'signed' => false
       ])
-      ->addColumn('fecha_partido', 'date')
+      ->addColumn('fecha_partido', 'date', [
+        'null' => true
+      ])
       ->addColumn('hora_partido', 'time', [
         'null' => true
       ])
