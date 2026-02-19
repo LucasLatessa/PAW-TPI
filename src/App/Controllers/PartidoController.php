@@ -45,6 +45,7 @@ class PartidoController extends Controlador
     ]);
   }
   
+    // Cargar resultado de un partido
     public function cargarResultado()
     {
         global $request;
