@@ -50,7 +50,6 @@ $router->setLoggeable($log); #Agrego el log
 
 
 $router->get('/', 'PageController@index'); #Clase y metodo que procesa la peticion
-
 /* ===== EQUIPOS ===== */
 
 $router->get('/equipos', 'EquipoController@equipos');
@@ -95,18 +94,3 @@ $router->get('/cuenta/perfil', 'UsuarioController@perfil');
 $router->post('/login', 'UsuarioController@login');
 $router->post('/cuenta/registrarse', 'UsuarioController@signUp');
 $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
-
-
-
-
-/* TORNEO(viejo supongo) */
-
-
-
-$router->get('/competencia/partidos', 'PageController@partidos');
-
-$router->get('/reglamento', 'PageController@reglamento');
-
-$router->get('/contacto', 'PageController@contacto');
-
-$router->get('/nosotros', 'PageController@nosotros');

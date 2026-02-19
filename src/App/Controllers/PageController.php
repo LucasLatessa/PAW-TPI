@@ -19,4 +19,20 @@ class PageController extends Controlador
       'title' =>  $title
     ]);
   }
+      public function notFound(){
+        http_response_code(404);
+        $title = "Pagina no encontrada";
+        echo $this->twig->render('not-found.view.twig', [
+            'title' => $title,
+            ]);
+    }
+
+    public function internalError()
+    {
+        http_response_code(500);
+        $title = "Internal error";
+        echo $this->twig->render('internal-error.view.twig', [
+            'title' => $title,
+            ]);
+    }
 }

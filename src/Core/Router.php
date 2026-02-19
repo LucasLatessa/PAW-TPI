@@ -20,8 +20,8 @@ class Router
     public string $internalError = 'internal_error';
 
     public function __construct(){
-        $this->get($this->notFound, 'ErrorController@notFound');
-        $this->get($this->internalError, 'ErrorController@internalError');
+        $this->get($this->notFound, 'PageController@notFound');
+        $this->get($this->internalError, 'PageController@internalError');
     }
 
     private function loadRoutes($path, $action, $method = "GET")
