@@ -15,9 +15,12 @@ Mateo:
     - Clima de tu ubicacion
 
 Josue:
-  - Home
+  X Home
   - Estilos CSS para Login y demas
   - Paginacion de equipos, partidos, noticias y torneos
-  - Actualizar tabla despues de cargar resultado del partido
+  X Actualizar tabla despues de cargar resultado del partido
   - Update del partidos
   - Formateo de fechas
+  - Filtros partido
+  - Select viejo y nuevo en QueryBuilder
+  - Mensajes al usuario (Update, delete, etc.)

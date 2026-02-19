@@ -192,12 +192,33 @@ class PartidoCollections extends Model
     }
     public function cargarResultado($idPartido, $gl, $gv)
     {
+
+        $partido = $this->queryBuilder->selectViejo('partidos',["id" => $idPartido], null, $limit = 1);
+        $partido = $partido[0];
+
         $data = [
             'goles_local'     => $gl,
             'goles_visitante' => $gv,
             'estado'          => 'finalizado',
         ];
 
-        return $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
+        //var_dump($partido);
+
+        $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
+
+        //Actualizar tabla de posiciones
+        $equipoTorneoCollection = new EquipoTorneoCollections();
+        $equipoTorneoCollection->setQueryBuilder($this->queryBuilder);
+
+        //var_dump($partido['equipo_local_id']);
+        //var_dump($partido->equipo_local_id);
+
+        $equipoTorneoCollection->actualizarEstadisticas(
+            $partido['equipo_local_id'],
+            $partido['equipo_visitante_id'],
+            $partido['torneo_id'],
+            $gl,
+            $gv
+        );
     }
 }
