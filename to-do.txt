@@ -20,6 +20,7 @@ Josue:
   - Paginacion de equipos, partidos, noticias y torneos
   X Actualizar tabla despues de cargar resultado del partido
   - Update del partidos
+  X Tabla y prox partido para Equipos
   - Formateo de fechas
   - Filtros partido
   - Select viejo y nuevo en QueryBuilder
