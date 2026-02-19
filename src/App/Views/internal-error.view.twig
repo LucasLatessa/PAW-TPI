@@ -1,20 +1,15 @@
-<!DOCTYPE html>
-<html lang="en">
+{% extends 'layouts/app.view.twig' %}
 
-<head>
-    {% include 'parts/head.view.twig' %}
-    <link rel="stylesheet" href="/assets/styles/global.css" />
-</head>
+{% block styles %}
+<link rel="stylesheet" href="/assets/styles/global.css" />
+{% endblock %}
 
+{% block content %}
 <body>
-    <!--HEADER-->
-    {% include 'parts/header.view.twig' %}
     <main>
     <h1 class="titulo-error">Internal error</h1>
     </main>
-    
-    <!--FOOTER-->
-    {% include 'parts/footer.view.twig' %}
 </body>
 
 </html>
+{% endblock %}

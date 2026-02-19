@@ -108,6 +108,62 @@ body{
   justify-content: center;
 }
 
+/* VISTAS DE ERROR (404 / internal error)  */
+.contenedor-error {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh; 
+    text-align: center;
+    padding: 2rem;
+}
+
+.contenedor-error h1, 
+.titulo-error {
+    font-size: clamp(2rem, 8vw, 4rem); 
+    color: var(--color-letras-primario);
+    margin-bottom: 1.5rem;
+    font-weight: 800;
+    letter-spacing: -1px;
+}
+
+.titulo-error{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+.titulo-error {
+    color: var(--color-error); 
+    text-transform: uppercase;
+}
+
+.btn-volver {
+    display: inline-block;
+    padding: 0.8rem 2rem;
+    background-color: var(--color-primario);
+    color: var(--color-blanco);
+    text-decoration: none;
+    border-radius: 0.5rem;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    box-shadow: var(--sombra-suave);
+}
+
+.btn-volver:hover {
+    transform: translateY(-3px);
+    filter: brightness(1.1);
+    box-shadow: var(--sombra-media);
+}
+
+@media (max-width: 480px) {
+    .contenedor-error {
+        min-height: 50vh;
+    }
+}
+
 /*====================================================
    RESPONSIVE
 ======================================================
