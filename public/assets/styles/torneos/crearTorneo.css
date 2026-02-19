@@ -1,4 +1,3 @@
-
 .section-carga {
     max-width: 650px; 
     margin: 3rem auto;
@@ -9,7 +8,6 @@
     display: flex;
     flex-direction: column;
 }
-
 
 .carga-form {
     display: flex;
@@ -98,6 +96,187 @@
     text-decoration: underline;
     font-weight: 600;
 }
+
+.btn-secundario {
+    background-color: var(--color-bg-muted);
+    border: 1px solid var(--color-primario);
+    color: var(--color-primario);
+    padding: 0.6rem 1rem;
+    border-radius: 0.5rem;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-weight: 600;
+}
+
+.contador-badge {
+    font-size: 0.8rem;
+    color: var(--color-letras-cuaternario);
+    margin-top: 0.5rem;
+}
+
+.opciones-fixture-row {
+    display: flex;
+    align-items: center; 
+    gap: 1.5rem; 
+    flex-wrap: wrap;
+    background-color: var(--color-bg-muted);
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px dashed var(--color-inputs);
+}
+
+.check-fixture-automatico {
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+    cursor: pointer;
+    user-select: none;
+}
+
+.check-fixture-automatico span {
+    font-size: 0.85rem;
+    font-weight: 600;
+    color: var(--color-letras-terceario);
+    transition: color 0.2s ease;
+}
+
+.check-fixture-automatico input[type="checkbox"] {
+    width: 1.1rem !important;
+    height: 1.1rem !important;
+    cursor: pointer;
+    margin: 0;
+    accent-color: var(--color-primario);
+}
+
+.check-fixture-automatico:hover span {
+    color: var(--color-primario);
+}
+
+
+/* Modal Estilos */
+.modal {
+    display: none; 
+    position: fixed;
+    z-index: 2000;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    backdrop-filter: blur(4px);
+}
+
+.modal-content {
+    background-color: var(--color-blanco);
+    padding: 0;
+    border-radius: 1rem;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: var(--sombra-media);
+    overflow: hidden;
+    animation: slideDown 0.3s ease-out;
+    margin: 2vh auto; 
+    max-height: 95vh; 
+    display: flex;
+    flex-direction: column;
+}
+
+.modal-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid #eee;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.btn-cerrar {
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: #999;
+}
+
+.modal-body {
+    padding: 1rem;
+    max-height: 60vh; 
+    overflow-y: auto; 
+}
+
+.equipo-check-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.75rem;
+    border-bottom: 1px solid #f5f5f5;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.equipo-check-item:hover {
+    background-color: var(--color-bg-muted);
+}
+
+.equipo-check-item input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    accent-color: var(--color-primario);
+}
+
+.modal-footer {
+    padding: 1rem;
+    border-top: 1px solid #eee;
+    text-align: right;
+}
+.buscador-equipos {
+    margin-bottom: 1rem;
+    position: sticky;
+    top: 0;
+    background-color: var(--color-blanco);
+    z-index: 10;
+    padding-bottom: 0.5rem;
+}
+
+.buscador-equipos input {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid #ddd;
+    border-radius: 0.5rem;
+    font-size: 0.9rem;
+    outline: none;
+}
+
+.buscador-equipos input:focus {
+    border-color: var(--color-primario);
+}
+.equipo-check-item .mini-escudo {
+    width: 35px; 
+    height: 35px;
+    object-fit: contain;
+    flex-shrink: 0; 
+    border-radius: 4px;
+}
+
+.lista-equipos-check {
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+.equipo-check-item {
+    display: flex;
+    align-items: center;
+    gap: 1.25rem; 
+    padding: 0.6rem 1rem;
+    border-radius: 8px;
+}
+
+.equipo-check-item span {
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--color-letras-primario);
+}
+
 
 /* Responsive */
 @media (max-width: 768px) {

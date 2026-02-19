@@ -14,9 +14,6 @@ final class CrearTablaFechas extends AbstractMigration
     ]);
 
     $table
-      ->addColumn('torneo_id', 'integer', [
-        'signed' => false
-      ])
       ->addColumn('numero', 'integer')
       ->addColumn('nombre', 'string', [
         'limit' => 255,
@@ -29,18 +26,6 @@ final class CrearTablaFechas extends AbstractMigration
         'null' => true,
         'update' => 'CURRENT_TIMESTAMP'
       ])
-      ->addIndex(['torneo_id', 'numero'], [
-        'unique' => true
-      ])
-      ->addForeignKey(
-        'torneo_id',
-        'torneos',
-        'id',
-        [
-          'delete' => 'CASCADE',
-          'update' => 'NO_ACTION'
-        ]
-      )
       ->create();
   }
 }
