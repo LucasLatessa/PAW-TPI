@@ -10,7 +10,6 @@ class Fecha extends Model
   private $table = 'fechas';
 
   private ?int $id = null;
-  private int $torneo_id;
   private int $numero;
   private string $nombre;
 
@@ -63,11 +62,6 @@ class Fecha extends Model
     return $this->id;
   }
 
-  public function getTorneoId(): int
-  {
-    return $this->torneo_id;
-  }
-
   public function getNumero(): int
   {
     return $this->numero;
@@ -82,11 +76,6 @@ class Fecha extends Model
   public function setId(?int $id): void
   {
     $this->id = $id;
-  }
-
-  public function setTorneoId(int $torneoId): void
-  {
-    $this->torneo_id = $torneoId;
   }
 
   public function setNumero(int $numero): void
