@@ -12,13 +12,13 @@
 
             <div class="meta">
                 {% if noticia.fecha_publicacion %}
-                    <time datetime="{{ noticia.fecha_publicacion.format('Y-m-d') }}">
-                        {{ noticia.fecha_publicacion.format('d M Y') }}
-                    </time>
+                  <time datetime="{{ noticia.fecha_publicacion|date('d/m/Y') }}">
+                      {{ noticia.fecha_publicacion|date('d/m/Y') }}
+                  </time>
                 {% endif %}
 
                 {% if noticia.autor %}
-                    <span class="autor">Por: {{ noticia.autor }}</span>
+                  <span class="autor">Por: {{ noticia.autor }}</span>
                 {% endif %}
 
                 <span class="visitas">

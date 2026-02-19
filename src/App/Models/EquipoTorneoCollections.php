@@ -92,7 +92,6 @@ class EquipoTorneoCollections extends Model
     // Retornar la instancia del nuevo equipo creado
     return $newEquipoTorneo;
   }
-
   public function getEstadisticas($idTorneo, $equipoId)
   {
     $stats = $this->queryBuilder->selectViejo($this->table, ['torneo_id' => $idTorneo, 'equipo_id' => $equipoId]);
@@ -119,22 +118,20 @@ class EquipoTorneoCollections extends Model
     // Combina las estadísticas actuales con las predeterminadas para asegurar que todas las claves estén presentes
     //return $stats
   }
-
   public function actualizarEstadisticas($localId, $visitanteId, $torneoId, $gl, $gv)
   {
     // Local
-    $statsLocal = $this->getEstadisticas($torneoId,$localId);
-    $dataLocal = $this->calcularStats($statsLocal,$gl,$gv);
+    $statsLocal = $this->getEstadisticas($torneoId, $localId);
+    $dataLocal = $this->calcularStats($statsLocal, $gl, $gv);
 
     $this->queryBuilder->update($this->table, $dataLocal, ['equipo_id' => $localId, "torneo_id" => $torneoId]);
 
     // Visitante
-    $statsVisitante = $this->getEstadisticas($torneoId,$visitanteId);
-    $dataVisitante = $this->calcularStats($statsVisitante,$gv,$gl);
+    $statsVisitante = $this->getEstadisticas($torneoId, $visitanteId);
+    $dataVisitante = $this->calcularStats($statsVisitante, $gv, $gl);
 
     $this->queryBuilder->update($this->table, $dataVisitante, ['equipo_id' => $visitanteId, "torneo_id" => $torneoId]);
   }
-
   private function calcularStats($statsActuales, $gf, $gc)
   {
     $pj = $statsActuales['partidos_jugados'] + 1;
@@ -163,5 +160,46 @@ class EquipoTorneoCollections extends Model
       'diferencia_goles'  => ($statsActuales['goles_favor'] + $gf) - ($statsActuales['goles_contra'] + $gc),
       'puntos' => $pts
     ];
+  }
+
+  // Obtengo la posicion de un equipo en un torneo
+  public function getPosicion($idTorneo, $idEquipo)
+  {
+    $equipo = $this->queryBuilder->selectViejo(
+      $this->table,
+      [
+        'torneo_id' => $idTorneo,
+        'equipo_id' => $idEquipo
+      ]
+    )[0];
+
+    $tabla = $this->queryBuilder->selectViejo(
+      $this->table,
+      ['torneo_id' => $idTorneo],
+      'puntos DESC, diferencia_goles DESC'
+    );
+
+    $posicion = 1;
+
+    // Con el equipo y la tabla, busco la posicion buscando puntos y DF
+    foreach ($tabla as $fila) {
+
+      if (
+        $fila['puntos'] > $equipo['puntos'] ||
+        (
+          $fila['puntos'] == $equipo['puntos'] &&
+          $fila['diferencia_goles'] > $equipo['diferencia_goles']
+        )
+      ) {
+        $posicion++;
+      }
+    }
+
+    return $posicion;
+  }
+
+  public function getCantidadEquipos($idTorneo)
+  {
+    return $this->queryBuilder->count($this->table, ['torneo_id' => $idTorneo]);
   }
 }
