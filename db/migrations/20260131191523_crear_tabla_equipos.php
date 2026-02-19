@@ -27,9 +27,9 @@ final class CrearTablaEquipos extends AbstractMigration
       ->addColumn('escudo', 'string', [
         'null' => true
       ])
-      ->addColumn('estadio', 'string', [
-        'limit' => 100,
-        'null' => true
+      ->addColumn('estadio_id', 'integer', [
+        'signed' => false, 
+        'null' => true, 
       ])
       ->addColumn('descripcion', 'text', [
         'null' => true
@@ -44,6 +44,11 @@ final class CrearTablaEquipos extends AbstractMigration
         'null' => true,
         'update' => 'CURRENT_TIMESTAMP'
       ])
+      ->addForeignKey(
+        'estadio_id',
+        'estadios',
+        'id',['delete'=> 'SET_NULL','update'=> 'CASCADE']
+      )
       ->create();
   }
 }
