@@ -26,6 +26,14 @@
                     >Noticias</a>
             </li>
             {# <li><a href="/reglamento">Reglamento</a></li> #}
+            <!-- LOGIN MOBILE -->
+            <li class="nav-login">
+                {% if hayLogin %}
+                    <a href="/login">Mi Perfil</a>
+                {% else %}
+                    <a href="/login">Iniciar sesión</a>
+                {% endif %}
+            </li>
         </ul>
     </nav>
 

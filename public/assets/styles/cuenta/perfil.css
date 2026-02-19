@@ -1,179 +1,229 @@
+/* ===================================================
+   PERFIL - MOBILE FIRST
+====================================================== */
 
-/* --- Layout General --- */
-body {
-    background-color: var(--color-secundario);
-    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
-    color: var(--color-letras-primario);
-}
+/* ===== HEADER PERFIL ===== */
 
-main {
-    /* Para que el footer no se pegue si hay poco contenido */
-    min-height: 80vh;
-}
-
-/* --- Header del Perfil (La franja azul) --- */
 .perfil-header {
-    background:  var(--color-primario);
-    color: #ffffff;
-    padding: 3rem 1rem 5rem 1rem; /* Dejamos espacio abajo para que la tarjeta "suba" */
-    text-align: center;
+  background: linear-gradient(
+    90deg,
+    var(--color-degradado-1),
+    var(--color-degradado-2)
+  );
+  color: var(--color-letras-secundario);
+  padding: 2.5rem 1rem 4rem 1rem;
+  text-align: center;
 }
 
 .perfil-header-contenedor {
-    max-width: 800px;
-    margin: 0 auto;
+  width: 100%;
+  margin: 0 auto;
 }
 
 .perfil-header-arriba h1 {
-    margin: 0 0 1.5rem 0;
-    font-size: 2rem;
-    font-weight: 700;
+  margin: 0 0 1rem 0;
+  font-size: 1.6rem;
+  font-weight: 700;
 }
 
 .perfil-header-abajo {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.8rem;
 }
+
 .perfil-info {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .nombre-usuario {
-    font-size: 1.2rem;
-    font-weight: 500;
+  font-size: 1.1rem;
+  font-weight: 500;
 }
 
-/* Boton de logout*/
+/* ===== BOTON LOGOUT ===== */
+
 .btn-logout {
-    display: block; 
-    width: fit-content; 
-    min-width: 150px; 
-    margin: 2rem auto 0 auto;
-    
-    padding: 0.6rem 1rem;
-    background-color: transparent;
-    border: 1px solid #ef4444;
-    color: #ef4444;
-    
-    text-align: center;
-    text-decoration: none;
-    border-radius: 8px;
-    font-weight: 600;
-    font-size: 0.9rem;
-    transition: all 0.2s ease;
+  display: block;
+  width: fit-content;
+  min-width: 140px;
+  margin: 1.5rem auto 0 auto;
+
+  padding: 0.6rem 1rem;
+  background-color: transparent;
+  border: 1px solid var(--color-error);
+  color: var(--color-error);
+
+  text-align: center;
+  text-decoration: none;
+  border-radius: 0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  transition: all 0.2s ease;
 }
 
-.btn-logout:hover {
-    background-color: #fee2e2; 
-    color: #991b1b; 
-    transform: translateY(-1px); 
-}
+/* ===== SECTION PERFIL ===== */
 
-/* Formulario  */
 .section-perfil {
-    max-width: 600px;
-    margin: -3rem auto 3rem auto;
-    background-color: var(--color-blanco);
-    padding: 2.5rem;
-    border-radius: 12px;
-    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-    position: relative; 
+  width: 90%;
+  margin: -2rem auto 2rem auto;
+  background-color: var(--color-bg-body);
+  padding: 1.5rem;
+  border-radius: 0.8rem;
+  box-shadow: var(--sombra-suave);
+  position: relative;
 }
+
+/* ===== FORMULARIO ===== */
 
 .perfil-form {
-    display: flex;
-    flex-direction: column;
-    gap: 1rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
 }
 
 .perfil-form label {
-    font-weight: 600;
-    font-size: 0.9rem;
-    color: var(--color-letras-primario);
-    margin-bottom: -0.5rem;
+  font-weight: 600;
+  font-size: 0.9rem;
+  color: var(--color-letras-primario);
+  margin-bottom: -0.3rem;
 }
 
 .perfil-form input {
-    padding: 0.75rem;
-    border: 1px solid #e5e7eb;
-    border-radius: 8px;
-    font-size: 1rem;
-    transition: border-color 0.2s;
+  padding: 0.75rem;
+  border: 1px solid var(--color-inputs);
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
 .perfil-form input:focus {
-    outline: none;
-    border-color: var(--color-primario);
-    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+  outline: none;
+  border-color: var(--color-primario);
+  box-shadow: 0 0 0 3px
+    color-mix(in srgb, var(--color-primario) 20%, transparent);
 }
 
-/* Boton de Actualizar */
+/* ===== BOTON ACTUALIZAR ===== */
+
 .perfil-form button[type="submit"] {
-    margin-top: 1rem;
-    padding: 0.85rem;
-    background-color: var(--color-primario);
-    color: var(--color-blanco);
-    border: 2px solid var(--color-primario);
-    border-radius: 8px;
-    font-weight: 600;
-    cursor: pointer;
-    font-size: 1rem;
-    transition: background-color 0.2s;
+  margin-top: 1rem;
+  padding: 0.85rem;
+  background-color: var(--color-primario);
+  color: var(--color-letras-secundario);
+  border: 2px solid var(--color-primario);
+  border-radius: 0.5rem;
+  font-weight: 600;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
 }
 
-.perfil-form button[type="submit"]:hover {
-    background-color: #3E8EBA;
-    color: white
-}
+/* ===== BOTONERA DE ACCIONES ===== */
 
-/* --- Botonera de Acciones */
 .perfil-botones {
-    margin-top: 2rem;
-    padding-top: 2rem;
-    border-top: 1px solid #e5e7eb;
-    
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-    gap: 1rem;
+  margin-top: 2rem;
+  padding-top: 2rem;
+  border-top: 1px solid var(--color-inputs);
+
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1rem;
 }
+
 .btn-accion {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    padding: 1rem;
-    background-color: var(--color-blanco);
-    color: var(--color-letras-primario);
-    border-radius: 10px;
-    text-decoration: none;
-    font-size: 0.95rem;
-    font-weight: 600;
-    text-align: center;
-    transition: all 0.3s ease;
-    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+
+  background-color: var(--color-blanco);
+  color: var(--color-letras-primario);
+  border-radius: 10px;
+  border: 1px solid var(--color-letras-cuaternario);
+
+  border-radius: 0.7rem;
+  text-decoration: none;
+  font-size: 0.95rem;
+  font-weight: 600;
+  text-align: center;
+
+  transition: all 0.3s ease;
+  box-shadow: var(--sombra-ultra-suave);
 }
 
-.btn-accion:hover {
+/* ===================================================
+   TABLET (>= 768px)
+====================================================== */
+
+@media (min-width: 768px) {
+  .perfil-header {
+    padding: 3rem 1rem 5rem 1rem;
+  }
+
+  .perfil-header-arriba h1 {
+    font-size: 1.8rem;
+  }
+
+  .section-perfil {
+    width: 80%;
+    padding: 2rem;
+  }
+
+  .perfil-botones {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* ===================================================
+   DESKTOP (>= 1024px)
+====================================================== */
+
+@media (min-width: 1024px) {
+  .btn-accion:hover {
     background-color: var(--color-primario);
-    color: var(--color-blanco);
-    border-color: var(--color-primario);
+    color: var(--color-letras-secundario);
     transform: translateY(-3px);
-    box-shadow: 0 4px 12px rgba(37, 99, 235, 0.2);
-}
+    box-shadow: var(--sombra-suave);
+  }
 
+  .btn-logout:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-error) 15%,
+      var(--color-blanco)
+    );
+    transform: translateY(-1px);
+  }
 
-/* --- Responsive --- */
-@media (max-width: 600px) {
-    .section-perfil {
-        margin: -2rem 1rem 2rem 1rem; 
-        padding: 1.5rem;
-    }
-    
-    .perfil-botones {
-        grid-template-columns: 1fr; 
-    }
+  .perfil-form button[type="submit"]:hover {
+    background-color: color-mix(
+      in srgb,
+      var(--color-primario) 85%,
+      var(--color-negro)
+    );
+  }
+
+  .perfil-header-contenedor {
+    max-width: 800px;
+  }
+
+  .perfil-header-arriba h1 {
+    font-size: 2rem;
+  }
+
+  .section-perfil {
+    max-width: 600px;
+    margin: -3rem auto 3rem auto;
+    padding: 2.5rem;
+    border-radius: 1rem;
+  }
+
+  .perfil-botones {
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+  }
 }

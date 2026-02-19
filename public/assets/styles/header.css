@@ -79,6 +79,10 @@
 
 /* ===== LOGIN ===== */
 
+.nav-login{
+    display: block;
+}
+
 .header-login{
     display: none;
 }
