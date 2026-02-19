@@ -194,15 +194,6 @@
     box-shadow: var(--sombra-suave);
 }
 
-@media (min-width: 1024px) {
-    .btn-programar {
-        grid-column: 1 / -1; 
-        grid-row-start: 6;   
-        margin: 3rem auto;
-        width: fit-content;
-        display: flex;
-    }
-}
 /* ===================================================
    RESPONSIVE
 ======================================================
@@ -284,5 +275,13 @@
     .partidos-torneo .fixture-completo:hover {
         font-size: 1.1rem;
         border-bottom: 1px solid var(--color-links);
+    }
+
+    .btn-programar {
+        grid-column: 1 / -1; 
+        grid-row-start: 6;   
+        margin: 3rem auto;
+        width: fit-content;
+        display: flex;
     }
 }

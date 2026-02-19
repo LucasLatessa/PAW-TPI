@@ -1,3 +1,23 @@
 Cosas que faltan por hacer:
 
-- 
+Lucas:
+  - Crear partidos automaticamente con fechas (si el usuario lo desea)
+    - Checkbox aleatorio
+    - Seleccion de equipos dentro de crear torneo
+  - Permitir crear partidos por parte del usuario (no automaticamente)
+    - Fecha no va a tener el atributo torneo_id
+    - Fecha va a tener de la 1 a la 20 (entidad independiente)
+  X Pagina de error
+
+Mateo:
+  - Estadio pasa a tabla (para API del Clima) (entidad independiente)
+    - Clima de los partidos
+    - Clima de tu ubicacion
+
+Josue:
+  - Home
+  - Estilos CSS para Login y demas
+  - Paginacion de equipos, partidos, noticias y torneos
+  - Actualizar tabla despues de cargar resultado del partido
+  - Update del partidos
+  - Formateo de fechas
