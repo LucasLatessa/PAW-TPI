@@ -174,18 +174,6 @@ body{
     box-shadow: var(--sombra-suave);
 }
 
-.btn-volver:hover {
-    transform: translateY(-3px);
-    filter: brightness(1.1);
-    box-shadow: var(--sombra-media);
-}
-
-@media (max-width: 480px) {
-    .contenedor-error {
-        min-height: 50vh;
-    }
-}
-
 /*====================================================
    RESPONSIVE
 ======================================================
@@ -203,6 +191,12 @@ body{
 @media (min-width: 1024px) {
     .header-main{
         align-items: flex-start;
+    }
+
+    .btn-volver:hover {
+        transform: translateY(-3px);
+        filter: brightness(1.1);
+        box-shadow: var(--sombra-media);
     }
 
     .btn-crear, .btn-programar {
