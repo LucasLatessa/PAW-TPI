@@ -54,11 +54,14 @@ class PartidoController extends Controlador
         $idPartido      = $request->getRequest("id_partido");
         $golesLocal     = $request->getRequest("goles_local");
         $golesVisitante = $request->getRequest("goles_visitante");
+
+        // Partido sin resultado
         if ($idPartido && $golesLocal !== null && $golesVisitante !== null) {
             $partidoCollection = new PartidoCollections();
             $partidoCollection->setQueryBuilder($this->getQb());
             $partidoCollection->cargarResultado($idPartido, $golesLocal, $golesVisitante);
         }
+        
         header("Location: /partidos/partido?id=$idPartido");
         exit;
     }

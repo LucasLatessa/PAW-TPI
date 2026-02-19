@@ -241,22 +241,31 @@ class PartidoCollections extends Model
     $partido = $this->queryBuilder->selectViejo('partidos', ["id" => $idPartido], null, $limit = 1);
     $partido = $partido[0];
 
+    // Si el partido esta finalizado, estamos en un UPDATE
+    $yaFinalizado = $partido['estado'] === 'finalizado';
+
     $data = [
       'goles_local'     => $gl,
       'goles_visitante' => $gv,
       'estado'          => 'finalizado',
     ];
 
-    //var_dump($partido);
-
-    $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
-
     //Actualizar tabla de posiciones
     $equipoTorneoCollection = new EquipoTorneoCollections();
     $equipoTorneoCollection->setQueryBuilder($this->queryBuilder);
 
-    //var_dump($partido['equipo_local_id']);
-    //var_dump($partido->equipo_local_id);
+    // Si el partido esta finalizado, tengo que restar los puntos y goles del resultado anterior para luego sumar los nuevos resultados
+    if ($yaFinalizado) {
+      $equipoTorneoCollection->revertirEstadisticas(
+        $partido['equipo_local_id'],
+        $partido['equipo_visitante_id'],
+        $partido['torneo_id'],
+        $partido['goles_local'],
+        $partido['goles_visitante']
+      );
+    }
+
+    $this->queryBuilder->update('partidos', $data, ['id' => $idPartido]);
 
     $equipoTorneoCollection->actualizarEstadisticas(
       $partido['equipo_local_id'],
