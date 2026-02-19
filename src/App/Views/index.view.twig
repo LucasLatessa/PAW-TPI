@@ -3,7 +3,74 @@
 {% block styles %}
 <link rel="stylesheet" href="/assets/styles/index.css" />
 <link rel="stylesheet" href="/assets/styles/componentes/noticia.css" />
+<link rel="stylesheet" href="/assets/styles/componentes/tabla-posiciones.css" />
+<link rel="stylesheet" href="/assets/styles/componentes/partido.css" />
 {% endblock %}
 
 {% block content %}
+    <section class="header-home">
+        <h1>Tu fútbol, tu ciudad,<br>todas las divisiones.</h1>
+        <p>Seguí los resultados, tablas y noticias del fútbol local.</p>
+
+        <a href="./partidos" class="boton-proximos-partidos">
+            Ver próximos partidos
+        </a>
+    </section>
+
+    <section class="home">
+
+        <!-- RESUMEN DE PARTIDOS -->
+        <section class="partidos-recientes" aria-labelledby="partidos-title">
+            <h2 id="partidos-title">Resumen de Partidos</h2>
+
+            <div class="partidos-lista">
+                {% for partido in partidos %}
+                    {% include 'componentes/partido.twig' with {
+                        partido: partido
+                    } %}
+                {% else %}
+                    <p>No hay partidos</p>
+                {% endfor %}
+            </div>
+
+            <a href="./partidos" class="link-mas">
+                Ver todos los partidos
+            </a>
+        </section>
+
+        <!-- TABLAS DE POSICIONES -->
+        <aside class="tablas-posiciones">
+            <h2>Primera Division - Tabla</h2>
+
+            {% include 'componentes/tabla-posiciones.twig' with {
+                equipos: tabla,
+                limit: "8",
+                variant: 'simple'
+            } %}
+
+            <a href="/torneos/torneo/tabla?id={{ torneo_id }}" class="link-mas">
+                Ver tabla completa
+            </a>
+        </aside>
+
+    </section>
+
+    
+    <!-- NOTICIAS -->
+    <section class="noticias-recientes">
+        <h2>Noticias Recientes</h2>
+
+        <div class="noticias-list">
+            {% for noticia in noticias %}
+                {% include 'componentes/noticia.twig' with {'noticia': noticia} only %}
+            {% else %}
+                <p>No hay noticias publicadas.</p>
+            {% endfor %}
+        </div>
+
+        <a href="./noticias" class="link-mas">
+            Ver todas las noticias
+        </a>
+    </section>
+
 {% endblock %}
