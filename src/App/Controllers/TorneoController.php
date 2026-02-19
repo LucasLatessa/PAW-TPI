@@ -1,8 +1,8 @@
 <?php
 namespace Paw\App\Controllers;
 
-use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\EquipoCollections;
+use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
@@ -81,8 +81,8 @@ class TorneoController extends Controlador
         $equipoModel->setQueryBuilder($this->model->queryBuilder);
         $todosLosEquipos = $equipoModel->getAllEquipos();
         echo $this->twig->render('torneos/crearTorneo.view.twig', [
-            'title' => $title,
-            'equipos' => $todosLosEquipos
+            'title'   => $title,
+            'equipos' => $todosLosEquipos,
         ]);
     }
 
@@ -97,20 +97,20 @@ class TorneoController extends Controlador
         $descripcion  = $request->getRequest('descripcion');
         $fechaInicio  = $request->getRequest('fechaInicio');
         $fechaFin     = $request->getRequest('fechaFin');
-        $equiposIds = $request->getRequest('equipos_ids') ?? [];
-        $crearFixture  = $request->getRequest('crear_fixture'); // llega 1 si se marco
+        $equiposIds   = $request->getRequest('equipos_ids') ?? [];
+        $crearFixture = $request->getRequest('crear_fixture'); // llega 1 si se marco
 
         $torneo = $this->model->create($nombreTorneo, $categoria, $temporada, $descripcion, $fechaInicio, $fechaFin);
-        
-        $torneoId = $torneo->getId(); 
 
-        if (!empty($equiposIds) && $torneoId) {
+        $torneoId = $torneo->getId();
+
+        if (! empty($equiposIds) && $torneoId) {
             $this->model->vincularEquiposAlTorneo($torneoId, $equiposIds);
             // generamos los partidos
             if ($crearFixture == "1") {
                 $modelPartido = new PartidoCollections();
                 $modelPartido->setQueryBuilder($this->getQb());
-                
+
                 $this->model->generarFixtureAutomatico($torneoId, $equiposIds, $modelPartido, $fechaInicio);
             }
         }
@@ -119,7 +119,10 @@ class TorneoController extends Controlador
     }
     public function formCargarEquipos()
     {
-        if (session_status() === PHP_SESSION_NONE) session_start();
+        if (session_status() === PHP_SESSION_NONE) {
+            session_start();
+        }
+
         global $request;
         $torneoId = $request->get('id');
 
@@ -128,9 +131,9 @@ class TorneoController extends Controlador
 
         // Obtenemos los equipos que YA pertenecen al torneo
         $equiposEnTorneo = $this->model->getAllEquipos($torneoId);
-        
+
         // creamos un array  con los IDs de los equipos ya cargados
-        $idsCargados = array_map(function($equipoTorneo) {
+        $idsCargados = array_map(function ($equipoTorneo) {
             return $equipoTorneo->getId();
         }, $equiposEnTorneo);
 
@@ -140,8 +143,8 @@ class TorneoController extends Controlador
         $todosLosEquipos = $equipoModel->getAllEquipos();
 
         // nos quedamos solo con los que NO están en idsCargados
-        $equiposDisponibles = array_filter($todosLosEquipos, function($equipo) use ($idsCargados) {
-            return !in_array($equipo->getId(), $idsCargados);
+        $equiposDisponibles = array_filter($todosLosEquipos, function ($equipo) use ($idsCargados) {
+            return ! in_array($equipo->getId(), $idsCargados);
         });
 
         // error en sesion
@@ -150,8 +153,8 @@ class TorneoController extends Controlador
         echo $this->twig->render('torneos/cargarEquipos.view.twig', [
             'title'   => 'Seleccionar Equipos - ' . $torneo->getNombre(),
             'torneo'  => $torneo,
-            'equipos' => $equiposDisponibles, 
-            'error'   => $error
+            'equipos' => $equiposDisponibles,
+            'error'   => $error,
         ]);
     }
 
@@ -164,8 +167,10 @@ class TorneoController extends Controlador
 
         if (empty($equiposIds)) {
             // Iniciamos sesion si no esta iniciada
-            if (session_status() === PHP_SESSION_NONE) session_start();
-            
+            if (session_status() === PHP_SESSION_NONE) {
+                session_start();
+            }
+
             // Guardamos el mensaje
             $_SESSION['flash_error'] = "Tenés que seleccionar al menos un equipo.";
 
@@ -182,35 +187,35 @@ class TorneoController extends Controlador
         }
     }
 
-  public function formCargarPartido()
-{
-    global $request;
-    $idTorneo = $request->get('id');
-    $title = 'Cargar Partido - LigaCF';
+    public function formCargarPartido()
+    {
+        global $request;
+        $idTorneo = $request->get('id');
+        $title    = 'Cargar Partido - LigaCF';
 
-    // Si TENEMOS ID, buscamos los equipos de ese torneo
-    if ($idTorneo) {
-        $torneo = $this->model->getTorneo($idTorneo);
-        
-        $modelEquipoTorneo = new EquipoTorneoCollections();
-        $modelEquipoTorneo->setQueryBuilder($this->getQb());
-        $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
-        
-        $listaTorneos = null;
-    } else {
-        // Si NO TENEMOS ID, buscamos todos los torneos para que elija
-        $torneo = null;
-        $equiposTorneo = null;
-        $listaTorneos = $this->model->getAllTorneos();
+        // Si TENEMOS ID, buscamos los equipos de ese torneo
+        if ($idTorneo) {
+            $torneo = $this->model->getTorneo($idTorneo);
+
+            $modelEquipoTorneo = new EquipoTorneoCollections();
+            $modelEquipoTorneo->setQueryBuilder($this->getQb());
+            $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
+
+            $listaTorneos = null;
+        } else {
+            // Si NO TENEMOS ID, buscamos todos los torneos para que elija
+            $torneo        = null;
+            $equiposTorneo = null;
+            $listaTorneos  = $this->model->getAllTorneos();
+        }
+
+        echo $this->twig->render('torneos/cargarPartido.view.twig', [
+            'title'         => $title,
+            'torneo'        => $torneo,
+            'equiposTorneo' => $equiposTorneo,
+            'listaTorneos'  => $listaTorneos, // Si esto no es null, mostrás un select en la vista
+        ]);
     }
-
-    echo $this->twig->render('torneos/cargarPartido.view.twig', [
-        'title'         => $title,
-        'torneo'        => $torneo,
-        'equiposTorneo' => $equiposTorneo,
-        'listaTorneos'  => $listaTorneos // Si esto no es null, mostrás un select en la vista
-    ]);
-}
 
     public function cargarPartido()
     {
@@ -234,32 +239,29 @@ class TorneoController extends Controlador
         exit();
     }
 
-
     // Fixture de ese torneo
     public function fixture()
     {
         global $request;
-
-        $title = 'Fixture - LigaCF';
-
         $torneo_id = $request->get('id');
         $fecha_id  = $request->get('fecha');
-        $torneo    = $this->model->getTorneo($torneo_id);
-        $fechas    = $this->model->getFixture($torneo_id);
 
-        if (! isset($fecha_id)) {
-            $fecha_id = 1; //Que tome la primera
+        $torneo = $this->model->getTorneo($torneo_id);
+
+        $fechas = $this->model->getFechasDeTorneo($torneo_id);
+        if (empty($fechas)) {
+            die("Este torneo no tiene partidos cargados.");
+        }
+        if (!isset($fecha_id)) {
+            $fecha_id = $fechas[0]->getId();
         }
 
-        //var_dump($fecha_id);
+        $fechaActual = $this->model->getFecha($fecha_id);
 
-        $fechaActual = $this->model->getFecha($torneo_id, $fecha_id);
-        $partidos    = $this->model->getPartidosFecha($torneo_id, $fecha_id);
-
-        //print_r($fechaActual);
+        $partidos = $this->model->getPartidosFecha($torneo_id, $fecha_id);
 
         echo $this->twig->render('torneos/fixture.view.twig', [
-            'title'       => $title,
+            'title'       => 'Fixture - ' . $torneo->getNombre(),
             'torneo'      => $torneo,
             'fechas'      => $fechas,
             'fechaActual' => $fechaActual,

@@ -174,20 +174,23 @@ class TorneoCollections extends Model
         return $partidoCollection->getUltimosPorTorneo($idTorneo, 3);
     }
 
-    public function getFixture(int $idTorneo)
+
+    public function getFechasDeTorneo($idTorneo)
     {
         $fechaCollection = new FechaCollections();
         $fechaCollection->setQueryBuilder($this->queryBuilder);
 
         return $fechaCollection->getByTorneo($idTorneo);
     }
-
-    public function getFecha(int $idTorneo, int $idFecha)
+    public function getFecha(int $idFecha): ?Fecha
     {
-        $fechaCollection = new FechaCollections();
-        $fechaCollection->setQueryBuilder($this->queryBuilder);
-
-        return $fechaCollection->getFecha($idTorneo, $idFecha);
+        $record = $this->queryBuilder->selectViejo($this->table, ['id' => $idFecha]);
+        if (!$record || empty($record)) {
+            return null;
+        }
+        $nuevaFecha = new Fecha();
+        $nuevaFecha->set($record[0]);
+        return $nuevaFecha;
     }
 
     public function getPartidosFecha($idTorneo, $idFecha)

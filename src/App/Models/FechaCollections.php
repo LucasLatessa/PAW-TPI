@@ -1,37 +1,42 @@
 <?php
-
 namespace Paw\App\Models;
 
 use Paw\Core\Model;
-use Paw\App\Models\Torneo;
 
 class FechaCollections extends Model
 {
-  protected $table = 'fechas';
+    protected $table = 'fechas';
 
-  //Busca las fechas dado el ID del torneo
-  public function getByTorneo(int $torneoId): array
-  {
-    $fechas = $this->queryBuilder->selectViejo(
-      $this->table,
-      ['torneo_id' => $torneoId],
-      'numero ASC'
-    );
+    public function getByTorneo(int $torneoId): array
+    {
+        $partidos = $this->queryBuilder->selectViejo('partidos', ['torneo_id' => $torneoId]);
 
-    $fechasCollection = [];
+        $idsFechas = array_unique(array_column($partidos, 'fecha_id'));
+        
+        sort($idsFechas);
 
-    foreach ($fechas as $fecha) {
-      $nuevaFecha = new Fecha();
-      $nuevaFecha->set($fecha);
-      $fechasCollection[] = $nuevaFecha;
+        $fechasCollection = [];
+        foreach ($idsFechas as $id) {
+            $fechaObjeto = $this->getFecha((int) $id);
+            if ($fechaObjeto) {
+                $fechasCollection[] = $fechaObjeto;
+            }
+        }
+        return $fechasCollection;
+    }
+  public function getFecha(int $id): ?Fecha
+    {
+        $fechaData = $this->queryBuilder->selectViejo($this->table, ['id' => $id]);
+
+        if (! $fechaData) {
+            return null;
+        }
+
+        $data = $fechaData[0];
+
+        $fecha = new Fecha();
+        $fecha->set($data);
+        return $fecha;
     }
 
-    return $fechasCollection;
-  }
-
-  public function getFecha($idTorneo, $idFecha)
-  {
-    $fecha = $this->queryBuilder->selectViejo($this->table, ['torneo_id' => $idTorneo, 'id' => $idFecha]);
-    return $fecha ? $fecha[0] : null;
-  }
 }

@@ -165,6 +165,7 @@ class QueryBuilder
 
         return $result;
     }
+    
     public function join($table, $on)
     {
         $this->query .= " INNER JOIN {$table} ON {$on}";
@@ -212,31 +213,22 @@ class QueryBuilder
 
   }
 
-  /*Select para obtener la tabla de posiciones*/
   public function selectTabla($table, $idTorneo = null)
   {
-    // Construir la consulta SQL con los parámetros de orden y dirección
     $query = "SELECT * FROM {$table} WHERE 1";
 
-    // Agregar filtro por id_torneo si se proporciona
     if ($idTorneo !== null) {
       $query .= " AND torneo_id = :idTorneo";
     }
-
-    // Agregar la cláusula ORDER BY por puntos ascendente
     $query .= " ORDER BY puntos DESC";
-
-    // Preparar y ejecutar la consulta
     $sentencia = $this->pdo->prepare($query);
 
-    // Vincular el parámetro id_torneo si se proporciona
     if ($idTorneo !== null) {
       $sentencia->bindParam(':idTorneo', $idTorneo, PDO::PARAM_INT);
     }
 
     $sentencia->execute();
 
-    // Devolver los resultados
     return $sentencia->fetchAll(PDO::FETCH_ASSOC);
   }
 
