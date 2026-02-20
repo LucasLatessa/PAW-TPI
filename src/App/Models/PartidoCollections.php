@@ -11,8 +11,10 @@ class PartidoCollections extends Model
 
   public function getAllPartidos($filters = [])
   {
-    //$partidos = $this->queryBuilder->selectViejo($this->table);
     $partidos = $this->aplicarFiltros($filters);
+    // echo "<pre>";
+    // print_r($partidos);
+    // echo "</pre>";
     $partidosCollection = [];
 
     $equipoCollection = new EquipoCollections();
@@ -41,24 +43,36 @@ class PartidoCollections extends Model
 
   private function aplicarFiltros($filters)
   {
-    $where = [];
+    $this->queryBuilder
+      ->select($this->table . ' p')
+      ->selectColumns('p.*');
 
-    // if (!empty($filters['categoria'])) {
-    //   $where['categoria'] = $filters['categoria'];
-    // }
+    $whereConditions = [];
+    $whereParams = [];
+
+    if (!empty($filters['categoria'])) {
+      $this->queryBuilder->join('torneos t', 'p.torneo_id = t.id');
+      $whereConditions[] = "t.categoria = :categoria";
+      $whereParams[':categoria'] = $filters['categoria'];
+    }
 
     if (!empty($filters['fecha'])) {
-      $where['fecha_partido'] = $filters['fecha'];
+      $whereConditions[] = "p.fecha_partido = :fecha";
+      $whereParams[':fecha'] = $filters['fecha'];
     }
 
     if (!empty($filters['estado'])) {
-      $where['estado'] = $filters['estado'];
+      $whereConditions[] = "p.estado = :estado";
+      $whereParams[':estado'] = $filters['estado'];
     }
 
-    return $this->queryBuilder->selectViejo(
-      $this->table,
-      $where
-    );
+    // Si hay filtros, unimos con AND
+    if (!empty($whereConditions)) {
+      $conditionString = implode(' AND ', $whereConditions);
+      $this->queryBuilder->where($conditionString, $whereParams);
+    }
+
+    return $this->queryBuilder->execute();
   }
 
   public function getPartido($idPartido)
@@ -210,7 +224,7 @@ class PartidoCollections extends Model
     if (empty($result)) return null;
 
     $p = $result[0];
-    var_dump($p);
+    //var_dump($p);
 
     return [
       'id' => $p['id'],

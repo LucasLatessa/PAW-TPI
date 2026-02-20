@@ -80,9 +80,16 @@ class QueryBuilder
         return $this; 
     }
 
-    public function where($condition)
+    public function where($condition, $params = [])
     {
+        // Concatenamos la condición
         $this->query .= " WHERE {$condition}";
+        
+        // Guardamos los parámetros para el execute()
+        foreach ($params as $key => $value) {
+            $this->params[$key] = $value;
+        }
+        
         return $this;
     }
 
@@ -146,6 +153,13 @@ class QueryBuilder
 
   public function getPdo(){
     return $this->pdo;
+  }
+
+  public function selectColumns($columns)
+  {
+      // Reemplaza el "SELECT *" genérico por las columnas que le pasemos
+      $this->query = str_replace("SELECT *", "SELECT {$columns}", $this->query);
+      return $this;
   }
   public function selectLoad($table, $params = [])
   {
