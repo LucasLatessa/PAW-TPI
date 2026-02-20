@@ -200,4 +200,16 @@ class TorneoCollections extends Model
 
         return $partidoCollection->getPartidosByFecha($idTorneo, $idFecha);
     }
+
+    public function getCategorias()
+    {
+        $rows = $this->queryBuilder->selectViejo(
+            $this->table,
+            columns: 'categoria'
+        );
+
+        return array_map(function ($row) {
+          return $row['categoria'];
+        }, $rows);
+    }
 }

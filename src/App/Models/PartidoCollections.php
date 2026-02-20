@@ -9,9 +9,10 @@ class PartidoCollections extends Model
 {
   public $table = 'partidos';
 
-  public function getAllPartidos()
+  public function getAllPartidos($filters = [])
   {
-    $partidos           = $this->queryBuilder->selectViejo($this->table);
+    //$partidos = $this->queryBuilder->selectViejo($this->table);
+    $partidos = $this->aplicarFiltros($filters);
     $partidosCollection = [];
 
     $equipoCollection = new EquipoCollections();
@@ -37,6 +38,29 @@ class PartidoCollections extends Model
     }
     return $partidosCollection;
   }
+
+  private function aplicarFiltros($filters)
+  {
+    $where = [];
+
+    // if (!empty($filters['categoria'])) {
+    //   $where['categoria'] = $filters['categoria'];
+    // }
+
+    if (!empty($filters['fecha'])) {
+      $where['fecha_partido'] = $filters['fecha'];
+    }
+
+    if (!empty($filters['estado'])) {
+      $where['estado'] = $filters['estado'];
+    }
+
+    return $this->queryBuilder->selectViejo(
+      $this->table,
+      $where
+    );
+  }
+
   public function getPartido($idPartido)
   {
     $partidoData = $this->queryBuilder->selectViejo($this->table, ['id' => $idPartido]);
