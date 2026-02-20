@@ -29,7 +29,7 @@ final class CrearTorneoEInsertarEquipos extends AbstractMigration
         $this->table($tablaTorneos)->insert($torneo)->save();
         $torneoId = intval($this->getAdapter()->getConnection()->lastInsertId());
 
-        var_dump($torneoId);
+        //var_dump($torneoId);
         // Obtener todos los equipos
         $equipos = $this->fetchAll('SELECT id FROM equipo');
 
