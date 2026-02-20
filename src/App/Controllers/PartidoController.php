@@ -3,6 +3,7 @@
 namespace Paw\App\Controllers;
 
 use Paw\App\Models\PartidoCollections;
+use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
 
 class PartidoController extends Controlador
@@ -15,15 +16,29 @@ class PartidoController extends Controlador
   {
     $hayLogin = $_SESSION['login'];
     $title = 'Partidos - LigaCF';
-    $partidos = $this->model->getAllPartidos();
 
+    global $request;
+
+    $filters = [
+      'categoria' => $request->getRequest('categoria'),
+      'fecha'     => $request->getRequest('fecha'),
+      'estado'    => $request->getRequest('estado'),
+    ];
+
+    $partidos = $this->model->getAllPartidos($filters);
+
+    $torneoModel = new TorneoCollections();
+    $torneoModel->setQueryBuilder($this->model->queryBuilder);
+    $categorias = $torneoModel->getCategorias();
 
     // echo "<pre>";
-    // print_r($partidos);
+    // print_r($categorias);
     // echo "</pre>";
     echo $this->twig->render('partidos/index.view.twig', [
       'title' => $title,
       'partidos' => $partidos,
+      'categorias' => $categorias,
+      'filters' => $filters
     ]);
   }
 

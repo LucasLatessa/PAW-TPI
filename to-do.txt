@@ -16,7 +16,7 @@ Mateo:
 
 Josue:
   X Home
-  - Estilos CSS para Login y demas
+  - Responsive en toda la pagina
   - Paginacion de equipos, partidos, noticias y torneos
   X Actualizar tabla despues de cargar resultado del partido
   X Update del partidos

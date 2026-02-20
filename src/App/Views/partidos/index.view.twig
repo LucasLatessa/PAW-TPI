@@ -12,7 +12,7 @@
 
     {# Filtros #}
     
-    {# <form method="GET" class="filtros-partidos">
+    <form method="GET" class="filtros-partidos">
 
       <label>
           Categoria
@@ -53,14 +53,6 @@
                   Programado
               </option>
 
-              <option value="en_juego"
-                  {% if filters.estado is defined and filters.estado == 'en_juego' %}
-                      selected
-                  {% endif %}
-              >
-                  En juego
-              </option>
-
               <option value="finalizado"
                   {% if filters.estado is defined and filters.estado == 'finalizado' %}
                       selected
@@ -72,7 +64,7 @@
       </label>
 
       <button type="submit">Filtrar</button>
-    </form> #}
+    </form>
 
     {# Lista de partidos #}
 
