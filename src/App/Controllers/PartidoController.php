@@ -19,7 +19,7 @@ class PartidoController extends Controlador
     
     // Paginacion
     $paginaActual = $request->getRequest('p') ?: 1;
-    $porPagina = 3; // Cantidad de partidos por pagina
+    $porPagina    = $request->get('per_page') ?? 1;// cantidad de partidos por pagina
 
     $filters = [
       'categoria' => $request->getRequest('categoria'),
@@ -41,7 +41,8 @@ class PartidoController extends Controlador
       'categorias' => $categorias,
       'filters' => $filters,
       'paginaActual' => $paginaActual,
-      'totalPaginas' => $totalPaginas
+      'totalPaginas' => $totalPaginas,
+      'porPagina'    => $porPagina
     ]);
 }
 
