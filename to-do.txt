@@ -1,9 +1,11 @@
 Cosas que faltan por hacer:
 
 Lucas:
-  XCrear partidos automaticamente con fechas (si el usuario lo desea)
+  X Crear partidos automaticamente con fechas (si el usuario lo desea)
   X Permitir crear partidos por parte del usuario (no automaticamente)
   X Pagina de error
+  - Paginacion de equipos, partidos, noticias y torneos
+  - Equipos favoritos
 
 Mateo:
   - Estadio pasa a tabla (para API del Clima) (entidad independiente)
@@ -13,13 +15,12 @@ Mateo:
 Josue:
   X Home
   X Responsive en toda la pagina
-  - Paginacion de equipos, partidos, noticias y torneos
   X Actualizar tabla despues de cargar resultado del partido
   X Update del partidos
   X Tabla y prox partido para Equipos
   x Formateo de fechas
   X Filtros partido
-  ? Select viejo y nuevo en QueryBuilder
+  X Select viejo y nuevo en QueryBuilder
   - Mensajes al usuario (Update, delete, etc.)
   - Solucionar error en show equipos (muestra cualquier proximo partido cuando le das click)
   - Finalizar torneos (estado de Activo a finalizado y mostrar campeon)
