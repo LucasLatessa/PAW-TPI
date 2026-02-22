@@ -17,7 +17,7 @@ class Usuario extends Model
 
   private $contraseña;
 
-  private $equipoFavorito;
+  private $equipoFavoritoId;
 
   /* ====== LOAD ====== */
   public function load($id)
@@ -78,9 +78,9 @@ class Usuario extends Model
     return $this->id;
   }
 
-  public function getEquipoFavorito()
+  public function getEquipoFavoritoId()
   {
-    return $this->equipoFavorito;
+    return $this->equipoFavoritoId;
   }
   #Setters
   public function setNombre($nombre)
@@ -107,8 +107,8 @@ class Usuario extends Model
   {
     $this->id = $id;
   }
-  public function setEquipoFavorito($equipoFavorito)
-  {
-    $this->equipoFavorito = $equipoFavorito;
-  }
+  public function setEquipoFavoritoId($equipoFavorito)
+{
+    $this->equipoFavoritoId = $equipoFavorito;
+}
 }
