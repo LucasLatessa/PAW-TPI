@@ -18,7 +18,7 @@ class PAWModalEquipos {
             this.modal.style.display = 'block';
         });
 
-        // Cerrar modal (botón X)
+        // Cerrar modal (boton X)
         this.btnCerrar.addEventListener('click', () => {
             this.modal.style.display = 'none';
         });
@@ -30,13 +30,13 @@ class PAWModalEquipos {
             }
         });
 
-        // Confirmar selección
+        // Confirmar seleccion
         this.btnConfirmar.addEventListener('click', () => {
             this.actualizarContador();
             this.modal.style.display = 'none';
         });
 
-        // Lógica del buscador
+        // Logica del buscador
         if (this.filtroInput) {
             this.filtroInput.addEventListener('input', (e) => this.filtrar(e));
         }

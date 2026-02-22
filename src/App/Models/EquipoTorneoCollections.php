@@ -11,7 +11,6 @@ class EquipoTorneoCollections extends Model
 
   public function getAllEquipos($idTorneo)
   {
-    // Obtener todos los equipos usando el método selectViejo de QueryBuilder
     $equipos = $this->queryBuilder
       ->select($this->table, ['torneo_id' => $idTorneo])
       ->execute();
@@ -19,22 +18,16 @@ class EquipoTorneoCollections extends Model
     $equipoCollection = new EquipoCollections();
     $equipoCollection->setQueryBuilder($this->queryBuilder);
 
-    // Crear una colección de objetos Equipo
+    // Crear una coleccion de objetos Equipo
     $equiposTorneoCollection = [];
     foreach ($equipos as $equipoData) {
-      $nuevoEquipo = new EquipoTorneo; // Suponiendo que tienes una clase Equipo
+      $nuevoEquipo = new EquipoTorneo;
       $nuevoEquipo->set($equipoData);
-
-      // echo "<pre>";
-      // print_r($nuevoEquipo);
-      // echo "</pre>";
-      // die();
 
       $equipo                    = $equipoCollection->getId($nuevoEquipo->getEquipoId());
       $nuevoEquipo->equipo       = $equipo;
       $equiposTorneoCollection[] = $nuevoEquipo;
     }
-    //var_dump($equiposTorneoCollection);
     return $equiposTorneoCollection;
   }
 
@@ -63,7 +56,6 @@ class EquipoTorneoCollections extends Model
           ->select($this->table, ['torneo_id' => $idTorneo, 'equipo_id' => $equipoId])
           ->execute();
 
-    // Asegúrate de que todas las claves necesarias estén presentes
     $defaultStats = [
       'partidosJugados'   => 0,
       'partidosGanados'   => 0,
@@ -75,15 +67,13 @@ class EquipoTorneoCollections extends Model
       'puntos'            => 0,
     ];
 
-    // Si no se encuentra el equipo, retorna las estadísticas por defecto
+    // Si no se encuentra el equipo, retorna las estadisticas por defecto
     if (empty($stats)) {
       return $defaultStats;
     } else {
       return $stats[0];
     }
 
-    // Combina las estadísticas actuales con las predeterminadas para asegurar que todas las claves estén presentes
-    //return $stats
   }
   public function actualizarEstadisticas($localId, $visitanteId, $torneoId, $gl, $gv)
   {

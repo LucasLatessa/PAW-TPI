@@ -151,7 +151,7 @@ class TorneoController extends Controlador
         $equipoModel->setQueryBuilder($this->model->queryBuilder);
         $todosLosEquipos = $equipoModel->getAllEquipos();
 
-        // nos quedamos solo con los que NO están en idsCargados
+        // nos quedamos solo con los que NO estan en idsCargados
         $equiposDisponibles = array_filter($todosLosEquipos, function ($equipo) use ($idsCargados) {
             return ! in_array($equipo->getId(), $idsCargados);
         });
@@ -222,7 +222,7 @@ class TorneoController extends Controlador
             'title'         => $title,
             'torneo'        => $torneo,
             'equiposTorneo' => $equiposTorneo,
-            'listaTorneos'  => $listaTorneos, // Si esto no es null, mostrás un select en la vista
+            'listaTorneos'  => $listaTorneos, // Si esto no es null, muestra un select en la vista
         ]);
     }
 

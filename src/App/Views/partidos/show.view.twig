@@ -62,7 +62,6 @@
         <!-- Resultado y estado -->
         <section class="partido-info">
             {% if hayLogin %}
-                {# Formulario rápido para el admin #}
                 <form action="/partidos/cargarResultado" method="POST" class="form-resultado-rapido">
                     <input type="hidden" name="id_partido" value="{{ partido.id }}">
                     <div class="inputs-goles">
