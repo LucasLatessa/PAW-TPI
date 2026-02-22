@@ -22,6 +22,19 @@
             {% endif %} #}
             
     </section>
+     <nav class="paginacion">
+        {% if totalPaginas > 0 %}
+            {% if paginaActual > 1 %}
+                <a href="/noticias?p={{ paginaActual - 1 }}" class="btn-pag"><</a>
+            {% endif %}
+
+            <span class="info-pag">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+            {% if paginaActual < totalPaginas %}
+                <a href="/noticias?p={{ paginaActual + 1 }}" class="btn-pag">></a>
+            {% endif %}
+        {% endif %}
+    </nav>
 
     <a class="btn-crear" href="./noticias/crear">Crear noticia</a>
 

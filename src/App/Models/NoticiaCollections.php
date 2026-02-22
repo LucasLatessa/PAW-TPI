@@ -27,6 +27,33 @@ class NoticiaCollections extends Model
 
     return $noticiasCollection;
   }
+  public function getNoticiasPaginadas($pagina = 1, $porPagina = 6)
+    {
+        $offset = ($pagina - 1) * $porPagina;
+
+        $noticias = $this->queryBuilder
+            ->select($this->table)
+            ->limit($porPagina)
+            ->offset($offset)
+            ->execute();
+
+        $noticiasCollection = [];
+        foreach ($noticias as $noticiaData) {
+            $nuevaNoticia = new Noticia;
+            $nuevaNoticia->set($noticiaData);
+            $noticiasCollection[] = $nuevaNoticia;
+        }
+
+        return $noticiasCollection;
+    }
+    public function getTotalNoticias()
+    {
+        $res = $this->queryBuilder
+            ->select($this->table)
+            ->execute();
+
+        return count($res);
+    }
 
   public function getUltimasNoticias($cantidad)
   {

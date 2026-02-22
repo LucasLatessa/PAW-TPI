@@ -7,8 +7,8 @@ Lucas:
     Paginacion de:
   X     equipos
   X     partidos
-  -     noticias
-  -     torneos
+  X     noticias
+  X     torneos
   X Equipos favoritos
 
 Mateo:

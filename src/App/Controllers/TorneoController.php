@@ -15,15 +15,23 @@ class TorneoController extends Controlador
     // Ver lista de torneos en la Liga
     public function torneos()
     {
+    
         $hayLogin = $_SESSION['login'];
-        $title    = 'Torneos - LigaCF';
-        $torneos  = $this->model->getAllTorneos();
-        $hayLogin = $_SESSION['login'];
+        $title    = 'Torneos - LigaCF';    
+
+        global $request;
+        $paginaActual = $request->get('p') ?? 1; // si no hay, es la 1
+        $porPagina    = 4; // Cantidad de torneos por pagina
+        $torneos  = $this->model->getTorneosPaginados($paginaActual, $porPagina);
+        $totalTorneos = $this->model->getTotalTorneos();
+        $totalPaginas = ceil($totalTorneos / $porPagina);
 
         //var_dump($equipos);
         echo $this->twig->render('torneos/index.view.twig', [
             'title'   => $title,
             'torneos' => $torneos,
+            'paginaActual' => $paginaActual,
+            'totalPaginas' => $totalPaginas,
         ]);
     }
 
