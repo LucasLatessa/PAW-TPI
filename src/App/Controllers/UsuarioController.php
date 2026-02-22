@@ -3,6 +3,7 @@
 namespace Paw\App\Controllers;
 use Paw\App\Models\Direccion;
 use Paw\App\Models\UsuariosCollections;
+use Paw\App\Models\EquipoCollections;
 use Paw\Core\Controlador;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -159,9 +160,14 @@ class UsuarioController extends Controlador{
         $emailUsuario = $_SESSION['username'];
         $usuario_info = $this->model->get($emailUsuario);
 
+        $equipoModel = new EquipoCollections(); 
+        $equipoModel->setQueryBuilder($this->getQb());
+        $listaEquipos = $equipoModel->getAllEquipos();
+
         echo $this->twig->render('cuenta/perfil.view.twig', [
             'title' =>  $title,
             'usuario_info'=> $usuario_info,
+            'equipos'      => $listaEquipos,
         ]);
     }
 
@@ -180,7 +186,7 @@ class UsuarioController extends Controlador{
             $id = $request->getRequest("id");
             $nombre = $request->getRequest("nombre");
             $apellido = $request->getRequest("apellido");
-            $equipoFavorito = $request->getRequest("equipoFavorito");
+            $equipoFavorito = $request->getRequest("equipoFavorito") ?: null; 
             $correo = $_SESSION['username'];
 
             $data = [
@@ -188,7 +194,7 @@ class UsuarioController extends Controlador{
                 'correo' => $correo,
                 'nombre' => $nombre,
                 'apellido' => $apellido,
-                'equipoFavorito' => $equipoFavorito,
+                'equipo_favorito_id' => $equipoFavorito,
             ];
 
             $this->model->updateUsuario($data);

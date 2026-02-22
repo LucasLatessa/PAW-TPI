@@ -18,14 +18,20 @@ final class CrearTablaUsuarios extends AbstractMigration
      * with the Table class.
      */
     public function change(): void
-    {
+{
     $usuario = $this->table('usuarios');
-        $usuario
+    $usuario
         ->addColumn('nombre', 'string', ['limit' => 60])
         ->addColumn('apellido', 'string', ['limit' => 60])
         ->addColumn('correo', 'string', ['limit' => 60])
         ->addColumn('contraseña', 'string')
-        ->addColumn('equipoFavorito', 'string')
+        
+        ->addColumn('equipo_favorito_id', 'integer', ['null' => true, 'signed' => false])
+        
+        ->addForeignKey('equipo_favorito_id', 'equipos', 'id', [
+            'delete'=> 'SET_NULL', // si borran el equipo, el usuario queda en null
+            'update'=> 'CASCADE'
+        ])
         ->create();
-    }
+}
 }
