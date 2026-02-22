@@ -17,7 +17,9 @@ class UsuariosCollections extends Model
 
     public function get($correo)
     {
-        $usuarioData = $this->queryBuilder->selectViejo($this->table, ['correo' => $correo]);
+        $usuarioData = $this->queryBuilder
+            ->select($this->table, ['correo' => $correo])
+            ->execute();
         if ($usuarioData) {
             // Creo instancia de Usuario
             $usuario = new Usuario();

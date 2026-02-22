@@ -79,7 +79,9 @@ class PartidoCollections extends Model
 
   public function getPartido($idPartido)
   {
-    $partidoData = $this->queryBuilder->selectViejo($this->table, ['id' => $idPartido]);
+    $partidoData  = $this->queryBuilder
+      ->select($this->table, ['id' => $idPartido])
+      ->execute();
 
     if (! $partidoData) {
       return null;
@@ -102,8 +104,8 @@ class PartidoCollections extends Model
     $equipoVisitante = $equipoCollection->getID($nuevoPartido->getEquipoVisitanteId());
     $nuevoPartido->setEquipoVisitante($equipoVisitante);
 
-    // tramos la fecha (fecha nro 1...)
-    $fechaData = $this->queryBuilder->selectViejo('fechas', ['id' => $nuevoPartido->getFechaId()]);
+    // Traemos la fecha (fecha nro 1...)
+    $fechaData = $this->queryBuilder->select($this->table, ['id' => $nuevoPartido->getFechaId()])->execute();
     $nuevoPartido->setFecha($fechaData[0]);
 
     // traemos el torneo
@@ -116,12 +118,11 @@ class PartidoCollections extends Model
   }
   public function getUltimosPorTorneo(int $torneoId, int $limit = 3)
   {
-    $partidos = $this->queryBuilder->selectViejo(
-      $this->table,
-      ['torneo_id' => $torneoId],
-      'fecha_partido DESC',
-      $limit
-    );
+    $partidos = $this->queryBuilder
+      ->select($this->table, ['torneo_id' => $torneoId])
+      ->order('fecha_partido DESC')
+      ->limit($limit)
+      ->execute();
 
     $partidosCollection = [];
 
@@ -152,11 +153,10 @@ class PartidoCollections extends Model
 
   public function getPartidosByFecha(int $torneoId, int $fechaId): array
   {
-    $partidos = $this->queryBuilder->selectViejo(
-      $this->table,
-      ['fecha_id' => $fechaId, "torneo_id" => $torneoId],
-      'hora_partido ASC'
-    );
+    $partidos = $this->queryBuilder
+      ->select($this->table, ['fecha_id' => $fechaId, "torneo_id" => $torneoId])
+      ->order('fecha_partido ASC')
+      ->execute();
 
     // echo "<pre>";
     // print_r($partidos);
@@ -277,9 +277,11 @@ class PartidoCollections extends Model
   }
   public function cargarResultado($idPartido, $gl, $gv)
   {
-
-    $partido = $this->queryBuilder->selectViejo('partidos', ["id" => $idPartido], null, $limit = 1);
-    $partido = $partido[0];
+    $partidos = $this->queryBuilder
+      ->select($this->table, ['id' => $idPartido])
+      ->limit(1)
+      ->execute();
+    $partido = $partidos[0];
 
     // Si el partido esta finalizado, estamos en un UPDATE
     $yaFinalizado = $partido['estado'] === 'finalizado';

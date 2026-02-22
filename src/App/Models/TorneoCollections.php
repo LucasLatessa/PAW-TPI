@@ -34,7 +34,9 @@ class TorneoCollections extends Model
 
     public function getAllTorneos()
     {
-        $torneos           = $this->queryBuilder->selectViejo($this->table);
+        $torneos = $this->queryBuilder
+          ->select($this->table)
+          ->execute();
         $torneosCollection = [];
         foreach ($torneos as $torneo) {
             $nuevoTorneo = new Torneo();
@@ -58,7 +60,9 @@ class TorneoCollections extends Model
     public function getTorneo($idTorneo)
     {
         // Buscamos la data en la tabla 'torneos'
-        $res = $this->queryBuilder->selectViejo($this->table, ['id' => $idTorneo]);
+        $res = $this->queryBuilder
+          ->select($this->table, ['id' => $idTorneo])
+          ->execute();
         // Si no hay nada, devolvemos null
         if (! $res) {
             return null;
@@ -89,10 +93,10 @@ class TorneoCollections extends Model
         try {
             foreach ($equiposIds as $equipoId) {
               // verificamos si la relacion ya existe para no duplicar
-              $existe = $this->queryBuilder->selectViejo('equipo_torneo', [
-                  'torneo_id' => $torneoId,
-                  'equipo_id' => $equipoId
-              ]);
+
+              $existe = $this->queryBuilder
+              ->select('equipo_torneo', ['torneo_id' => $torneoId, 'equipo_id' => $equipoId])
+              ->execute();
 
               // insertamos si no existe
               if (empty($existe)) {
@@ -194,7 +198,9 @@ class TorneoCollections extends Model
     }
     public function getFecha(int $idFecha): ?Fecha
     {
-        $record = $this->queryBuilder->selectViejo('fechas', ['id' => $idFecha]);
+        $record = $this->queryBuilder
+            ->select('fechas', ['id' => $idFecha])
+            ->execute();
         if (!$record || empty($record)) {
             return null;
         }
@@ -213,10 +219,10 @@ class TorneoCollections extends Model
 
     public function getCategorias()
     {
-        $rows = $this->queryBuilder->selectViejo(
-            $this->table,
-            columns: 'categoria'
-        );
+        $rows = $this->queryBuilder
+            ->select($this->table)
+            ->addSelect('categoria')
+            ->execute();
 
         return array_map(function ($row) {
           return $row['categoria'];

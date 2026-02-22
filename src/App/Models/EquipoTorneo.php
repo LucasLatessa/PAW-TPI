@@ -72,22 +72,22 @@ class EquipoTorneo extends Model
     $this->id = $id;
   }
 
-  public function getTorneo_id()
+  public function getTorneoId()
   {
     return $this->torneo_id;
   }
 
-  public function setTorneo_id($torneo_id)
+  public function setTorneoId($torneo_id)
   {
     $this->torneo_id = $torneo_id;
   }
 
-  public function getEquipo_id()
+  public function getEquipoId()
   {
     return $this->equipo_id;
   }
 
-  public function setEquipo_id($equipo_id)
+  public function setEquipoId($equipo_id)
   {
     $this->equipo_id = $equipo_id;
   }

@@ -18,43 +18,6 @@ class QueryBuilder
     $this->logger = $logger;
   }
 
-  // UNICAR A SELECT NUEVO
-  public function selectViejo($table, $params = [], $orderBy = null, $limit = null, $columns = '*')
-  {
-    $where = [];
-    $bindParams = [];
-
-    foreach ($params as $key => $value) {
-      $where[] = "$key = :$key";
-      $bindParams[":$key"] = $value;
-    }
-
-    $whereClause = '';
-    if (!empty($where)) {
-      $whereClause = 'WHERE ' . implode(' AND ', $where);
-    }
-
-    $query = "SELECT {$columns} FROM {$table} {$whereClause}";
-    // order by si existe
-    if ($orderBy) {
-      $query .= " ORDER BY {$orderBy}";
-    }
-
-    // limit si existe
-    if ($limit) {
-      $query .= " LIMIT " . (int)$limit;
-    }
-    $sentencia = $this->pdo->prepare($query);
-
-    foreach ($bindParams as $param => $value) {
-      $sentencia->bindValue($param, $value);
-    }
-
-    $sentencia->setFetchMode(PDO::FETCH_ASSOC);
-    $sentencia->execute();
-    return $sentencia->fetchAll();
-  }
-
   // -------- SELECT ---------
   public function select($table, $params = [], $conector = 'AND')
   {

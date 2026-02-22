@@ -9,7 +9,9 @@ class FechaCollections extends Model
 
     public function getByTorneo(int $torneoId): array
     {
-        $partidos = $this->queryBuilder->selectViejo('partidos', ['torneo_id' => $torneoId]);
+        $partidos = $this->queryBuilder
+            ->select('partidos', ['torneo_id' => $torneoId])
+            ->execute();
 
         $idsFechas = array_unique(array_column($partidos, 'fecha_id'));
         
@@ -26,7 +28,9 @@ class FechaCollections extends Model
     }
   public function getFecha(int $id): ?Fecha
     {
-        $fechaData = $this->queryBuilder->selectViejo($this->table, ['id' => $id]);
+        $fechaData = $this->queryBuilder
+              ->select($this->table, ['id' => $id])
+              ->execute();
 
         if (! $fechaData) {
             return null;

@@ -13,7 +13,7 @@ class NoticiaCollections extends Model
   public function getAllNoticias()
   {
     # obtener todas las noticias
-    $noticias = $this->queryBuilder->selectViejo($this->table);
+    $noticias = $this->queryBuilder->select($this->table)->execute();
 
     # crear una coleccion de objetos noticia
     $noticiasCollection = [];
@@ -31,7 +31,11 @@ class NoticiaCollections extends Model
   public function getUltimasNoticias($cantidad)
   {
     # obtener las ultimas noticias ordenadas por fecha descendente
-    $noticias = $this->queryBuilder->selectViejo($this->table, [], 'fecha_publicacion DESC', $cantidad);
+    $noticias = $this->queryBuilder
+      ->select($this->table)
+      ->order('fecha_publicacion DESC')
+      ->limit($cantidad)
+      ->execute();
 
     $noticiasCollection = [];
     foreach ($noticias as $noticiaData) {
@@ -78,18 +82,9 @@ class NoticiaCollections extends Model
     }
   }
 
-
-  // public function getID($id)
-  // {
-  //   $noticia = new Noticia();
-  //   $noticia->setQueryBuilder($this->queryBuilder);
-
-  //   # usamos el metodo load de la entidad noticia que acabamos de crear
-  //   return $noticia->load($id);
-  // }
   public function getID($idNoticia)
   {
-    $noticia = $this->queryBuilder->selectViejo($this->table, ["id" => $idNoticia]);
+    $noticia = $this->queryBuilder->select($this->table, ['id' => $idNoticia])->execute();
     return $noticia[0];
   }
 }
