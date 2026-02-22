@@ -76,7 +76,7 @@
     --color-links: rgb(97,174,218);
 
     /* ======================================================
-       TIPOGRAFÍA
+       TIPOGRAFIA
     ====================================================== */
 
     /* Fuentes */
@@ -90,7 +90,7 @@
 
 /* Media queries (Como trabaja tailwind)
 
-(Sin prefijo)	Estilos base (fuera de media query)	Aplica a todos, empezando por el móvil.
+(Sin prefijo)	Estilos base (fuera de media query)	Aplica a todos, empezando por el mpvil.
 
 @media (min-width: 640px) { ... }
 Aplica de tablets pequeñas hacia arriba.

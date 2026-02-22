@@ -24,7 +24,6 @@ class QueryBuilder
         $this->query  = "";
         $this->params = [];
 
-        // Si se pasan parámetros, funciona como el select común que querías
         if (! empty($params)) {
             $where = [];
             foreach ($params as $key => $value) {
@@ -33,7 +32,7 @@ class QueryBuilder
             }
             $whereClause = ' WHERE ' . implode(" $conector ", $where);
             $this->query = "SELECT * FROM {$table} {$whereClause}";
-            return $this; // Ejecuta directo si mandás array
+            return $this; // Ejecuta directo si mandas array
         }
 
         // Modo Fluido: Solo inicializa la base de la consulta
@@ -99,7 +98,7 @@ class QueryBuilder
 
         $result = $sentencia->fetchAll();
 
-        // Limpieza post-ejecución
+        // Limpieza post-ejecucion
         $this->query  = "";
         $this->params = [];
 
@@ -116,7 +115,6 @@ class QueryBuilder
     // Especifica las columnas que se desean tarde de la BD
     public function addSelect($columns)
     {
-        // Cambiamos el "SELECT *" inicial por las columnas específicas si se requiere
         $this->query = str_replace("SELECT *", "SELECT *, {$columns}", $this->query);
         return $this;
     }
@@ -141,7 +139,7 @@ class QueryBuilder
         $query     = "SELECT COUNT(*) AS total FROM {$table} WHERE {$where}";
         $sentencia = $this->pdo->prepare($query);
 
-        // Bind de parámetros
+        // Bind de parametros
         if (isset($params['torneo_id'])) {
             $sentencia->bindValue(':torneo_id', $params['torneo_id'], PDO::PARAM_INT);
         }
@@ -155,13 +153,12 @@ class QueryBuilder
     // -------- INSERT ---------
     public function insert($table, array $data)
     {
-        # Preparo las columnas y los marcadores de posición
+        # Preparo las columnas y los marcadores de posicion
         $columns      = implode(', ', array_keys($data));
         $placeholders = implode(', ', array_fill(0, count($data), '?'));
 
         # Creo la query
         $query = "INSERT INTO {$table} ({$columns}) VALUES ({$placeholders})";
-        // Para depuración, puedes eliminar esto en producción
 
         # Preparo la sentencia
         $sentencia = $this->pdo->prepare($query);
