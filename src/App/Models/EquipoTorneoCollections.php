@@ -251,6 +251,50 @@ class EquipoTorneoCollections extends Model
 
     return $posicion;
   }
+  public function getLastTorneo($idEquipo)
+  {
+    $torneos_disponobles = [ ];
+    $torneos = $this->queryBuilder
+          ->select($this->table)
+          ->where("(equipo_id = :id)")
+          ->setParam('id', $idEquipo)
+          ->execute();
+    
+    foreach ( $torneos as $torneo) {
+      $torneo_id = $torneo['torneo_id'];
+
+      $_torneo = $this->queryBuilder
+          ->select('torneos')
+          ->where("(id = :id AND  estado = 'activo')")
+          ->setParam('id', $torneo_id)
+          ->execute();
+   
+      if (!empty($_torneo)){
+        array_push($torneos_disponobles,$_torneo[0] );
+      }
+    }
+   function primeroCreado(array $torneos)
+{
+    if (empty($torneos)) {
+        return null;
+    }
+
+    $masViejo = $torneos[0];
+
+    foreach ($torneos as $torneo) {
+        if ($torneo['fecha_inicio'] < $masViejo['fecha_inicio']) {
+            $masViejo = $torneo;
+        }
+    }
+
+    return $masViejo;
+}
+    
+    $torneos_disponobles = primeroCreado($torneos_disponobles);
+
+    return $torneos_disponobles;
+  }
+
 
   public function getCantidadEquipos($idTorneo)
   {

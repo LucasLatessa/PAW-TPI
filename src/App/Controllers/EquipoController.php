@@ -6,6 +6,7 @@ use Paw\App\Models\Equipo;
 use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\PartidoCollections;
+use Paw\App\Models\EstadioCollections;
 use Paw\Core\Controlador;
 use Twig\Loader\FilesystemLoader;
 use Twig\Environment;
@@ -43,7 +44,8 @@ class EquipoController extends Controlador
     $partidoModel->setQueryBuilder($this->getQb());
     $tablaModel = new EquipoTorneoCollections();
     $tablaModel->setQueryBuilder($this->getQb());
-
+    $tablaModel->getLastTorneo($equipo_id);
+   
     // Buscamos los partidos de este equipo
     $ultimosPartidos = $partidoModel->getPartidosByEquipo($equipo_id);
 
@@ -91,8 +93,10 @@ class EquipoController extends Controlador
     
 
     if ($nombreArchivo !== false) {
-
-      $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $nombreEstadio, $descripcion, $nombreArchivo);
+      $estadioCollections = new EstadioCollections();
+      $estadioCollections->setQueryBuilder($this->getQb());
+      $estadio = $estadioCollections->create($nombreEstadio);
+      $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
 
       header('Location: /equipos');
       exit();

@@ -80,4 +80,5 @@ class Estadio extends Model
         $this->longitud = $longitud !== null ? (float) $longitud : null;
         return $this;
     }
+    
 }
