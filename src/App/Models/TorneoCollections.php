@@ -184,7 +184,7 @@ class TorneoCollections extends Model
     }
     public function getFecha(int $idFecha): ?Fecha
     {
-        $record = $this->queryBuilder->selectViejo($this->table, ['id' => $idFecha]);
+        $record = $this->queryBuilder->selectViejo('fechas', ['id' => $idFecha]);
         if (!$record || empty($record)) {
             return null;
         }
