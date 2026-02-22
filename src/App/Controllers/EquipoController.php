@@ -16,7 +16,7 @@ class EquipoController extends Controlador
     public function equipos()
     {
         global $request;
-        $paginaActual = $request->get('p') ?? 1; // si no hay, es la 1
+        $paginaActual = $request->get('p') ?? 1;         // si no hay, es la 1
         $porPagina    = $request->get('per_page') ?? 12; // cantidad de equipos por pagina
 
         $equipos      = $this->model->getEquiposPaginados($paginaActual, $porPagina);
@@ -99,30 +99,39 @@ class EquipoController extends Controlador
         $nombreEstadio             = $request->getRequest('estadio');
         $descripcion               = $request->getRequest('descripcion');
 
-        $nombreArchivo = $this->subirImagen($_FILES, 'escudos');
+        $errorMessage = null;
 
-        if ($nombreArchivo !== false) {
-            $estadioCollections = new EstadioCollections();
-            $estadioCollections->setQueryBuilder($this->getQb());
-            $estadio = $estadioCollections->create($nombreEstadio);
-            $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
-
-            header('Location: /equipos');
-            exit();
+        // validamos si el campo imagen existe y si tiene un error
+        if (! isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
+            $errorMessage = "Tenés que subir un escudo para el equipo.";
         } else {
-            $errorMessage = "La imagen excede el tamaño permitido (1MB) o hubo un error en la carga.";
-            $title        = "Cargar Equipo - Liga";
+            // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
+            $nombreArchivo = $this->subirImagen($_FILES, 'escudos');
 
-            echo $this->twig->render('equipo/crearEquipo.view.twig', [
-                'title'                   => $title,
-                'errorMessage'            => $errorMessage,
+            if ($nombreArchivo !== false) {
+                $estadioCollections = new EstadioCollections();
+                $estadioCollections->setQueryBuilder($this->getQb());
+                $estadio = $estadioCollections->create($nombreEstadio);
 
-                'equipo_ingresado'        => $nombreEquipo,
-                'institucional_ingresado' => $nombreInstitucionalEquipo,
-                'fecha_ingresada'         => $fechaCreacion,
-                'estadio_ingresado'       => $nombreEstadio,
-                'descripcion_ingresada'   => $descripcion,
-            ]);
+                $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
+
+                header('Location: /equipos');
+                exit();
+            } else {
+                $errorMessage = "El escudo excede el tamaño permitido (1MB) o el formato no es válido.";
+            }
         }
+
+        // si llegamos aca es porque hubo un error
+        $title = "Cargar Equipo - Liga";
+        echo $this->twig->render('equipos/crearEquipo.view.twig', [
+            'title'                   => $title,
+            'errorMessage'            => $errorMessage,
+            'equipo_ingresado'        => $nombreEquipo,
+            'institucional_ingresado' => $nombreInstitucionalEquipo,
+            'fecha_ingresada'         => $fechaCreacion,
+            'estadio_ingresado'       => $nombreEstadio,
+            'descripcion_ingresada'   => $descripcion,
+        ]);
     }
 }
