@@ -11,7 +11,7 @@ class TorneoCollections extends Model
     public function create($nombreTorneo, $categoria, $temporada, $descripcion, $fechaInicio, $fechaFin)
     {
         $newTorneo = new Torneo;
-        $data = [
+        $data      = [
             'nombre'       => $nombreTorneo,
             'categoria'    => $categoria,
             'temporada'    => $temporada,
@@ -25,8 +25,8 @@ class TorneoCollections extends Model
         $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
 
         $newTorneo->setQueryBuilder($this->queryBuilder);
-        
-        $data['id'] = $idInsertado; 
+
+        $data['id'] = $idInsertado;
         $newTorneo->set($data);
 
         return $newTorneo;
@@ -35,8 +35,8 @@ class TorneoCollections extends Model
     public function getAllTorneos()
     {
         $torneos = $this->queryBuilder
-          ->select($this->table)
-          ->execute();
+            ->select($this->table)
+            ->execute();
         $torneosCollection = [];
         foreach ($torneos as $torneo) {
             $nuevoTorneo = new Torneo();
@@ -45,6 +45,33 @@ class TorneoCollections extends Model
         }
         return $torneosCollection;
     }
+    public function getTorneosPaginados($pagina = 1, $porPagina = 12)
+    {
+        $offset = ($pagina - 1) * $porPagina;
+
+        $torneos = $this->queryBuilder
+            ->select($this->table)
+            ->limit($porPagina)
+            ->offset($offset)
+            ->execute();
+
+        $torneoCollection = [];
+        foreach ($torneos as $torneoData) {
+            $nuevoTorneo = new Torneo;
+            $nuevoTorneo->set($torneoData);
+            $torneoCollection[] = $nuevoTorneo;
+        }
+
+        return $torneoCollection;
+    }
+    public function getTotalTorneos()
+    {
+        $res = $this->queryBuilder
+            ->select($this->table)
+            ->execute();
+
+        return count($res);
+    }
 
     public function getPrimerTorneo()
     {
@@ -52,7 +79,7 @@ class TorneoCollections extends Model
             ->select($this->table)
             ->order('id ASC')
             ->limit(1)
-            ->execute();     
+            ->execute();
         return $torneos ? $torneos[0] : null;
         //return null;
     }
@@ -61,8 +88,8 @@ class TorneoCollections extends Model
     {
         // Buscamos la data en la tabla 'torneos'
         $res = $this->queryBuilder
-          ->select($this->table, ['id' => $idTorneo])
-          ->execute();
+            ->select($this->table, ['id' => $idTorneo])
+            ->execute();
         // Si no hay nada, devolvemos null
         if (! $res) {
             return null;
@@ -79,12 +106,12 @@ class TorneoCollections extends Model
     public function getTablaPosiciones($idTorneo)
     {
         $tabla = $this->queryBuilder
-          ->select('equipo_torneo')
-          ->join('equipos', 'equipo_torneo.equipo_id = equipos.id')
-          ->where("equipo_torneo.torneo_id = :idTorneo")
-          ->setParam('idTorneo', $idTorneo)
-          ->order('equipo_torneo.puntos DESC, equipo_torneo.diferencia_goles DESC, equipo_torneo.goles_favor DESC')
-          ->execute();
+            ->select('equipo_torneo')
+            ->join('equipos', 'equipo_torneo.equipo_id = equipos.id')
+            ->where("equipo_torneo.torneo_id = :idTorneo")
+            ->setParam('idTorneo', $idTorneo)
+            ->order('equipo_torneo.puntos DESC, equipo_torneo.diferencia_goles DESC, equipo_torneo.goles_favor DESC')
+            ->execute();
 
         return $tabla ? $tabla : null;
     }
@@ -92,32 +119,35 @@ class TorneoCollections extends Model
     {
         try {
             foreach ($equiposIds as $equipoId) {
-              // verificamos si la relacion ya existe para no duplicar
+                // verificamos si la relacion ya existe para no duplicar
 
-              $existe = $this->queryBuilder
-              ->select('equipo_torneo', ['torneo_id' => $torneoId, 'equipo_id' => $equipoId])
-              ->execute();
+                $existe = $this->queryBuilder
+                    ->select('equipo_torneo', ['torneo_id' => $torneoId, 'equipo_id' => $equipoId])
+                    ->execute();
 
-              // insertamos si no existe
-              if (empty($existe)) {
-                  $data = [
-                      'torneo_id' => $torneoId,
-                      'equipo_id' => $equipoId,
-                  ];
-                  $this->queryBuilder->insert('equipo_torneo', $data);
-              }
-          }
-          return true;
+                // insertamos si no existe
+                if (empty($existe)) {
+                    $data = [
+                        'torneo_id' => $torneoId,
+                        'equipo_id' => $equipoId,
+                    ];
+                    $this->queryBuilder->insert('equipo_torneo', $data);
+                }
+            }
+            return true;
 
-      } catch (\Exception $e) {
-          error_log("Error en vincular_equipos: " . $e->getMessage());
-          return false;
-      }
-  }
+        } catch (\Exception $e) {
+            error_log("Error en vincular_equipos: " . $e->getMessage());
+            return false;
+        }
+    }
     public function generarFixtureAutomatico($torneoId, $equiposIds, $modelPartido, $fechaInicio)
     {
         $cantidadEquipos = count($equiposIds);
-        if ($cantidadEquipos < 2) return;
+        if ($cantidadEquipos < 2) {
+            return;
+        }
+
         shuffle($equiposIds);
 
         // si es impar, agregamos un null (FECHA LIBRE)
@@ -125,14 +155,14 @@ class TorneoCollections extends Model
             $equiposIds[] = null;
             $cantidadEquipos++;
         }
-        $cantidadFechas = $cantidadEquipos - 1;
+        $cantidadFechas   = $cantidadEquipos - 1;
         $partidosPorFecha = $cantidadEquipos / 2;
 
         for ($i = 0; $i < $cantidadFechas; $i++) {
             $nroFechaTorneo = $i + 1;
 
             for ($j = 0; $j < $partidosPorFecha; $j++) {
-                $local = $equiposIds[$j];
+                $local     = $equiposIds[$j];
                 $visitante = $equiposIds[$cantidadEquipos - 1 - $j];
 
                 // Solo programamos si ninguno de los dos es el equipo LIBRE
@@ -140,9 +170,9 @@ class TorneoCollections extends Model
                     $modelPartidoCollections = new PartidoCollections();
                     $modelPartidoCollections->setQueryBuilder($this->queryBuilder);
                     $modelPartidoCollections->programarPartido(
-                        $torneoId, 
-                        $nroFechaTorneo, 
-                        $local, 
+                        $torneoId,
+                        $nroFechaTorneo,
+                        $local,
                         $visitante
                     );
                 }
@@ -188,7 +218,6 @@ class TorneoCollections extends Model
         return $partidoCollection->getUltimosPorTorneo($idTorneo, 3);
     }
 
-
     public function getFechasDeTorneo($idTorneo)
     {
         $fechaCollection = new FechaCollections();
@@ -201,7 +230,7 @@ class TorneoCollections extends Model
         $record = $this->queryBuilder
             ->select('fechas', ['id' => $idFecha])
             ->execute();
-        if (!$record || empty($record)) {
+        if (! $record || empty($record)) {
             return null;
         }
         $nuevaFecha = new Fecha();
@@ -225,7 +254,7 @@ class TorneoCollections extends Model
             ->execute();
 
         return array_map(function ($row) {
-          return $row['categoria'];
+            return $row['categoria'];
         }, $rows);
     }
 }

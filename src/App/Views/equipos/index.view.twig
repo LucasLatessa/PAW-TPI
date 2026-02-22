@@ -31,6 +31,7 @@
 
     </section>
     <nav class="paginacion">
+    {% if totalPaginas > 0 %}
       {% if paginaActual > 1 %}
         <a href="/equipos?p={{ paginaActual - 1 }}" class="btn-pag"><</a>
       {% endif %}
@@ -40,6 +41,7 @@
       {% if paginaActual < totalPaginas %}
         <a href="/equipos?p={{ paginaActual + 1 }}" class="btn-pag">></a>
       {% endif %}
+    {% endif %}
     </nav>
 
   {% if hayLogin %}

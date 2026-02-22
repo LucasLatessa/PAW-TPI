@@ -17,13 +17,22 @@ class NoticiaController extends Controlador
   // Ver lista de noticias en la Liga
   public function noticias()
   {
+    global $request;
     $hayLogin = $_SESSION['login'];
     $title = 'Noticias - LigaCF';
-    $noticias = $this->model->getAllNoticias();
+    // Paginacion
+    $paginaActual = $request->getRequest('p') ?: 1;
+    $porPagina = 3; // Cantidad de noticias por pagina
+
+    $noticias = $this->model->getNoticiasPaginadas($paginaActual, $porPagina);
+    $totalNoticias = $this->model->getTotalNoticias();
+    $totalPaginas = ceil($totalNoticias / $porPagina);
 
     echo $this->twig->render('noticias/index.view.twig', [
       'title' =>  $title,
       'noticias' => $noticias,
+      'paginaActual' => $paginaActual,
+      'totalPaginas' => $totalPaginas,
     ]);
   }
 

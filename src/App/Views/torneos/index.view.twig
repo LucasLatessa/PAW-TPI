@@ -34,10 +34,24 @@
               <p>No hay torneos publicados.</p>
             {% endfor %}
         </ul>
+
+    </section>
+         <nav class="paginacion">
+        {% if totalPaginas > 0 %}
+            {% if paginaActual > 1 %}
+                <a href="/torneos?p={{ paginaActual - 1 }}" class="btn-pag"><</a>
+            {% endif %}
+
+            <span class="info-pag">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+            {% if paginaActual < totalPaginas %}
+                <a href="/torneos?p={{ paginaActual + 1 }}" class="btn-pag">></a>
+            {% endif %}
+        {% endif %}
+    </nav>
+    
         {% if hayLogin %}
             <a class="btn-crear" href="/torneos/crearTorneo">Crear Torneo</a>
         {% endif %}
-
-    </section>
 
 {% endblock %}
