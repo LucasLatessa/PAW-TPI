@@ -12,12 +12,14 @@ class PartidoController extends Controlador
   public ?string $modelName = PartidoCollections::class;
   
   // Ver lista de partidos en la Liga
-  public function partidos()
-  {
-    $hayLogin = $_SESSION['login'];
-    $title = 'Partidos - LigaCF';
-
+ public function partidos()
+{
     global $request;
+    $hayLogin = $_SESSION['login'] ?? false;
+    
+    // Paginacion
+    $paginaActual = $request->getRequest('p') ?: 1;
+    $porPagina = 3; // Cantidad de partidos por pagina
 
     $filters = [
       'categoria' => $request->getRequest('categoria'),
@@ -25,23 +27,23 @@ class PartidoController extends Controlador
       'estado'    => $request->getRequest('estado'),
     ];
 
-    $partidos = $this->model->getAllPartidos($filters);
+    $partidos = $this->model->getPartidosPaginados($filters, $paginaActual, $porPagina);
+    $totalPartidos = $this->model->getTotalPartidos($filters);
+    $totalPaginas = ceil($totalPartidos / $porPagina);
 
     $torneoModel = new TorneoCollections();
     $torneoModel->setQueryBuilder($this->model->queryBuilder);
     $categorias = $torneoModel->getCategorias();
 
-    // echo "<pre>";
-    // print_r($partidos);
-    // echo "</pre>";
-    // die();
     echo $this->twig->render('partidos/index.view.twig', [
-      'title' => $title,
+      'title' => 'Partidos - LigaCF',
       'partidos' => $partidos,
       'categorias' => $categorias,
-      'filters' => $filters
+      'filters' => $filters,
+      'paginaActual' => $paginaActual,
+      'totalPaginas' => $totalPaginas
     ]);
-  }
+}
 
   // Muestra un partido
   public function show()

@@ -6,7 +6,7 @@ Lucas:
   X Pagina de error
     Paginacion de:
   X     equipos
-  -     partidos
+  X     partidos
   -     noticias
   -     torneos
   X Equipos favoritos
