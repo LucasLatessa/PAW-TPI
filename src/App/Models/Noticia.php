@@ -32,7 +32,12 @@ class Noticia extends Model
   public function load($id)
   {
     $params = ["id" => $id];
-    $record = current($this->queryBuilder->selectViejo($this->table, $params));
+    $record = current(
+      $this->queryBuilder
+        ->select($this->table)
+        ->where($params)
+        ->execute()
+    );
 
     if ($record !== false) {
       $this->set($record);
@@ -43,22 +48,12 @@ class Noticia extends Model
   }
 
   /* ====== SET ====== */
-  // public function set(array $values)
-  // {
-  //   foreach ($values as $field => $value) {
-  //     #Creo el methodo y si existe lo ejecuto
-  //     $method = "set" . ucfirst($field);
-  //     if (method_exists($this, $method)) {
-  //       $this->$method($value);
-  //     }
-  //   }
-  // }
   public function set(array $values)
   {
     foreach ($values as $field => $value) {
 
       $camelCase = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
-      $method = 'set' . $camelCase;
+      $method    = 'set' . $camelCase;
 
       if (method_exists($this, $method)) {
         $this->$method($value);

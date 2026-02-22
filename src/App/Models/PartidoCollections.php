@@ -41,28 +41,30 @@ class PartidoCollections extends Model
     return $partidosCollection;
   }
 
+  // Arreglar esta cagada
   private function aplicarFiltros($filters)
   {
     $this->queryBuilder
-      ->select($this->table . ' p')
-      ->selectColumns('p.*');
+      ->select($this->table)
+      ->addSelect('partidos.*');
 
     $whereConditions = [];
     $whereParams = [];
 
     if (!empty($filters['categoria'])) {
-      $this->queryBuilder->join('torneos t', 'p.torneo_id = t.id');
-      $whereConditions[] = "t.categoria = :categoria";
+
+      $this->queryBuilder->join('torneos', 'partidos.torneo_id = torneos.id');
+      $whereConditions[] = "torneos.categoria = :categoria";
       $whereParams[':categoria'] = $filters['categoria'];
     }
 
     if (!empty($filters['fecha'])) {
-      $whereConditions[] = "p.fecha_partido = :fecha";
+      $whereConditions[] = "partidos.fecha_partido = :fecha";
       $whereParams[':fecha'] = $filters['fecha'];
     }
 
     if (!empty($filters['estado'])) {
-      $whereConditions[] = "p.estado = :estado";
+      $whereConditions[] = "partidos.estado = :estado";
       $whereParams[':estado'] = $filters['estado'];
     }
 

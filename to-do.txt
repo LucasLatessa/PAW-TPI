@@ -22,3 +22,4 @@ Josue:
   ? Select viejo y nuevo en QueryBuilder
   - Mensajes al usuario (Update, delete, etc.)
   - Solucionar error en show equipos (muestra cualquier proximo partido cuando le das click)
+  - Finalizar torneos (estado de Activo a finalizado y mostrar campeon)

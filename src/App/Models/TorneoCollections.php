@@ -44,6 +44,17 @@ class TorneoCollections extends Model
         return $torneosCollection;
     }
 
+    public function getPrimerTorneo()
+    {
+        $torneos = $this->queryBuilder
+            ->select($this->table)
+            ->order('id ASC')
+            ->limit(1)
+            ->execute();     
+        return $torneos ? $torneos[0] : null;
+        //return null;
+    }
+
     public function getTorneo($idTorneo)
     {
         // Buscamos la data en la tabla 'torneos'
@@ -63,14 +74,14 @@ class TorneoCollections extends Model
     // La idea es que la Query sea casi automatica por el QueryBuilder
     public function getTablaPosiciones($idTorneo)
     {
-        $tabla = $this->queryBuilder->selectJoin(
-            'equipo_torneo et',
-            [
-                ['equipos e', 'e.id = et.equipo_id'],
-            ],
-            ['torneo_id' => $idTorneo],
-            'et.puntos DESC, et.diferencia_goles DESC, et.goles_favor DESC',
-        );
+        $tabla = $this->queryBuilder
+          ->select('equipo_torneo')
+          ->join('equipos', 'equipo_torneo.equipo_id = equipos.id')
+          ->where("equipo_torneo.torneo_id = :idTorneo")
+          ->setParam('idTorneo', $idTorneo)
+          ->order('equipo_torneo.puntos DESC, equipo_torneo.diferencia_goles DESC, equipo_torneo.goles_favor DESC')
+          ->execute();
+
         return $tabla ? $tabla : null;
     }
     public function vincularEquiposAlTorneo($torneoId, $equiposIds)
@@ -148,13 +159,12 @@ class TorneoCollections extends Model
     // Obtener los equipos vinculados a un torneo
     public function getAllEquipos($torneoId)
     {
-        $equipos = $this->queryBuilder->selectJoin(
-            'equipo_torneo et',
-            [
-                ['equipos e', 'e.id = et.equipo_id'],
-            ],
-            ['torneo_id' => $torneoId]
-        );
+        $equipos = $this->queryBuilder
+            ->select('equipo_torneo')
+            ->join('equipos', 'equipo_torneo.equipo_id = equipos.id')
+            ->where("equipo_torneo.torneo_id = :torneoId")
+            ->setParam('torneoId', $torneoId)
+            ->execute();
 
         $equiposCollection = [];
         foreach ($equipos as $equipoData) {
