@@ -30,47 +30,6 @@ class EquipoTorneoCollections extends Model
         return $equiposTorneoCollection;
     }
 
-    public function getTabla($idTorneo)
-    {
-        // Obtener todos los equipos usando el método selectViejo de QueryBuilder
-        $equipos = $this->queryBuilder->selectTabla($this->table, ["torneo_id" => $idTorneo]);
-
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
-
-        // Crear una colección de objetos Equipo
-        $equiposTorneoCollection = [];
-        foreach ($equipos as $equipoData) {
-            $nuevoEquipo = new EquipoTorneo; // Suponiendo que tienes una clase Equipo
-            $nuevoEquipo->set($equipoData);
-
-            $equipo                    = $equipoCollection->getXid($nuevoEquipo->getId_equipo());
-            $nuevoEquipo->equipo       = $equipo;
-            $equiposTorneoCollection[] = $nuevoEquipo;
-        }
-        //var_dump($equiposTorneoCollection);
-        return $equiposTorneoCollection;
-    }
-
-    /* Devuelve la ultima tabla creada + el nombre del torneo */
-    public function getUltimaTabla()
-    {
-        // buscar el ultimo torneo creado
-        $torneos = $this->queryBuilder->selectViejo('torneo', [], 'id DESC', 1);
-
-        // si no hay torneos, devolvemos array vacio
-        if (empty($torneos)) {
-            return [];
-        }
-
-        $ultimoTorneo = $torneos[0];
-        $tabla        = $this->getTabla($ultimoTorneo['id']);
-
-        return [
-            'nombre_torneo' => $ultimoTorneo['nombre'],
-            'tabla'         => $tabla,
-        ];
-    }
     public function create($idEquipo, $idTorneo)
     {
         $newEquipoTorneo = new EquipoTorneo;

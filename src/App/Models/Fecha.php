@@ -22,31 +22,34 @@ class Fecha extends Model
       }
     }
   }
-
-  /* ====== LOAD ====== */
-  public function load(int $id): ?self
+  
+    /* ====== LOAD ====== */
+  public function load($id)
   {
-    $params = ['id' => $id];
-    $record = current($this->queryBuilder->selectLoad($this->table, $params));
+    $params = ["id" => $id];
+    $record = current(
+      $this->queryBuilder
+        ->select($this->table)
+        ->where($params)
+        ->execute()
+    );
 
-    if (!$record) {
+    if ($record !== false) {
+      $this->set($record);
+      return $this;
+    } else {
       return null;
     }
-
-    $this->set($record);
-    return $this;
-  }
-
-  private function snakeToCamel(string $string): string
-  {
-    return str_replace(' ', '', ucwords(str_replace('_', ' ', $string)));
   }
 
   /* ====== SET ====== */
-  public function set(array $values): void
+  public function set(array $values)
   {
     foreach ($values as $field => $value) {
-      $method = 'set' . $this->snakeToCamel($field);
+
+      $camelCase = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
+      $method    = 'set' . $camelCase;
+
       if (method_exists($this, $method)) {
         $this->$method($value);
       }

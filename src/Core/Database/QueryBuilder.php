@@ -11,13 +11,14 @@ class QueryBuilder
   private $logger;
   private $query = "";
   private $params = [];
-  
+
   public function __construct(PDO $pdo, Logger $logger = null)
   {
     $this->pdo = $pdo;
     $this->logger = $logger;
   }
 
+  // UNICAR A SELECT NUEVO
   public function selectViejo($table, $params = [], $orderBy = null, $limit = null, $columns = '*')
   {
     $where = [];
@@ -53,219 +54,120 @@ class QueryBuilder
     $sentencia->execute();
     return $sentencia->fetchAll();
   }
-  /**
-     * Inicia una consulta SELECT
-     * Si no se pasan parámetros, entra en modo fluido
-     */
-    public function select($table, $params = [], $conector = 'AND')
-    {
-        // Limpiamos estados anteriores
-        $this->query = "";
-        $this->params = [];
 
-        // Si se pasan parámetros, funciona como el select común que querías
-        if (!empty($params)) {
-            $where = [];
-            foreach ($params as $key => $value) {
-                $where[] = "$key = :$key";
-                $this->params[":$key"] = $value;
-            }
-            $whereClause = ' WHERE ' . implode(" $conector ", $where);
-            $this->query = "SELECT * FROM {$table} {$whereClause}";
-            return $this; // Ejecuta directo si mandás array
-        }
+  // -------- SELECT ---------
+  public function select($table, $params = [], $conector = 'AND')
+  {
+    // Limpiamos estados anteriores
+    $this->query = "";
+    $this->params = [];
 
-        // Modo Fluido: Solo inicializa la base de la consulta
-        $this->query = "SELECT * FROM {$table}";
-        return $this; 
+    // Si se pasan parámetros, funciona como el select común que querías
+    if (!empty($params)) {
+      $where = [];
+      foreach ($params as $key => $value) {
+        $where[] = "$key = :$key";
+        $this->params[":$key"] = $value;
+      }
+      $whereClause = ' WHERE ' . implode(" $conector ", $where);
+      $this->query = "SELECT * FROM {$table} {$whereClause}";
+      return $this; // Ejecuta directo si mandás array
     }
 
-    public function where($condition, $params = [])
-    {
-        // Concatenamos la condición
-        $this->query .= " WHERE {$condition}";
-        
-        // Guardamos los parámetros para el execute()
-        foreach ($params as $key => $value) {
-            $this->params[$key] = $value;
-        }
-        
-        return $this;
+    // Modo Fluido: Solo inicializa la base de la consulta
+    $this->query = "SELECT * FROM {$table}";
+    return $this;
+  }
+
+  // -------- WHEHRE ---------
+  public function where($condition, $params = [])
+  {
+    // Concatenamos la condicion
+    $this->query .= " WHERE {$condition}";
+
+    // Guardamos los parametros para el execute()
+    foreach ($params as $key => $value) {
+      $this->params[$key] = $value;
     }
 
-    public function setParam($name, $value)
-    {
-        $this->params[":$name"] = $value;
-        return $this;
+    return $this;
+  }
+
+  // -------- SET PARAMS ---------
+  public function setParam($name, $value)
+  {
+    $this->params[":$name"] = $value;
+    return $this;
+  }
+
+  // -------- ORDER ---------
+  public function order($order)
+  {
+    if ($order) {
+      $this->query .= " ORDER BY {$order}";
+    }
+    return $this;
+  }
+
+  // -------- LIMIT ---------
+  public function limit($limit)
+  {
+    if ($limit) {
+      $this->query .= " LIMIT " . (int) $limit;
+    }
+    return $this;
+  }
+
+  // -------- EXECUTE ---------
+  public function execute()
+  {
+    $sentencia = $this->pdo->prepare($this->query);
+
+    foreach ($this->params as $param => $value) {
+      $sentencia->bindValue($param, $value);
     }
 
-    public function order($order)
-    {
-        if ($order) {
-            $this->query .= " ORDER BY {$order}";
-        }
-        return $this;
-    }
+    $sentencia->setFetchMode(PDO::FETCH_ASSOC);
+    $sentencia->execute();
 
-    public function limit($limit)
-    {
-        if ($limit) {
-            $this->query .= " LIMIT " . (int) $limit;
-        }
-        return $this;
-    }
+    $result = $sentencia->fetchAll();
 
-    /**
-     * Ejecuta la consulta construida
-     */
-    public function execute()
-    {
-        $sentencia = $this->pdo->prepare($this->query);
+    // Limpieza post-ejecución
+    $this->query = "";
+    $this->params = [];
 
-        foreach ($this->params as $param => $value) {
-            $sentencia->bindValue($param, $value);
-        }
+    return $result;
+  }
 
-        $sentencia->setFetchMode(PDO::FETCH_ASSOC);
-        $sentencia->execute();
-        
-        $result = $sentencia->fetchAll();
+  // -------- JOIN ---------
+  public function join($table, $on)
+  {
+    $this->query .= " INNER JOIN {$table} ON {$on}";
+    return $this;
+  }
 
-        // Limpieza post-ejecución
-        $this->query = "";
-        $this->params = [];
+  // Especifica las columnas que se desean tarde de la BD
+  public function addSelect($columns)
+  {
+    // Cambiamos el "SELECT *" inicial por las columnas específicas si se requiere
+    $this->query = str_replace("SELECT *", "SELECT *, {$columns}", $this->query);
+    return $this;
+  }
 
-        return $result;
-    }
-    
-    public function join($table, $on)
-    {
-        $this->query .= " INNER JOIN {$table} ON {$on}";
-        return $this;
-    }
-
-    public function addSelect($columns)
-    {
-        // Cambiamos el "SELECT *" inicial por las columnas específicas si se requiere
-        $this->query = str_replace("SELECT *", "SELECT *, {$columns}", $this->query);
-        return $this;
-    }
-
-  public function getPdo(){
+  // -------- GET PDO ---------
+  public function getPdo()
+  {
     return $this->pdo;
   }
 
-  public function selectColumns($columns)
-  {
-      // Reemplaza el "SELECT *" genérico por las columnas que le pasemos
-      $this->query = str_replace("SELECT *", "SELECT {$columns}", $this->query);
-      return $this;
-  }
-  public function selectLoad($table, $params = [])
-  {
-
-    $where = " 1 = 1 "; #Para que devuelva todo si no hay parametros
-    if (isset($params['id'])) {
-      $where = " id = :id ";
-    } else if ((isset($params['correo'])) and (isset($params['contraseña']))) {
-      $where = " correo = :correo AND contraseña = :contraseña ";
-    }
-    #Preparo la consulta
-    #$query = "select * from {$table} where {$where}"; no funciona
-    $query = "select * from {$table} where correo = '{$params['correo']}' and contraseña = '{$params['contraseña']}'";
-    $sentencia = $this->pdo->prepare($query);
-
-
-    #Si exxiste el id, se lo agrego al where
-    /*if (isset($params['id'])){
-            $sentencia->bindValue(":id", $params['id']);
-        }
-        else if((isset($params['correo'])) and (isset($params['contraseña']))){
-            
-            $sentencia->bindValue(":correo", $params['correo']);
-            $sentencia->bindValue(":contraseña", $params['contraseña']);
-        }*/
-    $sentencia->setFetchMode(PDO::FETCH_ASSOC); #Como me retorna todo el array de respuesta FETCH_ASSOC: trae nombre de las columnas
-    $sentencia->execute();
-
-    return $sentencia->fetchAll(); #Me devuelve todos los registros que coincidan
-
-  }
-
-  public function selectTabla($table, $idTorneo = null)
-  {
-    $query = "SELECT * FROM {$table} WHERE 1";
-
-    if ($idTorneo !== null) {
-      $query .= " AND torneo_id = :idTorneo";
-    }
-    $query .= " ORDER BY puntos DESC";
-    $sentencia = $this->pdo->prepare($query);
-
-    if ($idTorneo !== null) {
-      $sentencia->bindParam(':idTorneo', $idTorneo, PDO::PARAM_INT);
-    }
-
-    $sentencia->execute();
-
-    return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-  }
-
-  public function selectOrder2($table, $sortField, $direction, $precioMin = null, $precioMax = null)
-  {
-    // Validar el campo de ordenamiento
-    $camposPermitidos = ['id', 'nombre', 'precio']; // Agrega aquí los nombres de campo permitidos
-    if (!in_array($sortField, $camposPermitidos)) {
-      $sortField = 'id'; // Establecer un valor predeterminado si el campo no es válido
-    }
-
-    // Construir la consulta SQL base
-    $query = "SELECT * FROM {$table}";
-
-    // Agregar condiciones de filtrado por rango de precio si están presentes
-    $conditions = [];
-    if ($precioMin !== null) {
-      $conditions[] = "precio >= :precioMin";
-    }
-    if ($precioMax !== null) {
-      $conditions[] = "precio <= :precioMax";
-    }
-
-    // Agregar las condiciones al query si existen
-    if (!empty($conditions)) {
-      $query .= " WHERE " . implode(' AND ', $conditions);
-    }
-
-    // Agregar el ordenamiento
-    if ($sortField && $direction) {
-      $query .= " ORDER BY {$sortField} {$direction}";
-    }
-
-    // Preparar y ejecutar la consulta
-    $sentencia = $this->pdo->prepare($query);
-
-    // Vincular los parámetros de rango de precio si están presentes
-    if ($precioMin !== null) {
-      $sentencia->bindValue(':precioMin', $precioMin);
-    }
-    if ($precioMax !== null) {
-      $sentencia->bindValue(':precioMax', $precioMax);
-    }
-
-    $sentencia->execute();
-
-    // Devolver los resultados
-    return $sentencia->fetchAll(PDO::FETCH_ASSOC);
-  }
-
-
+  // -------- COUNT ---------
   public function count($table, $params = [])
   {
     $where = " 1 = 1 ";
     //var_dump($params);
 
     if (isset($params['torneo_id'])) {
-        $where .= " AND torneo_id = :torneo_id";
+      $where .= " AND torneo_id = :torneo_id";
     }
 
     // Crear la consulta
@@ -274,7 +176,7 @@ class QueryBuilder
 
     // Bind de parámetros
     if (isset($params['torneo_id'])) {
-    $sentencia->bindValue(':torneo_id', $params['torneo_id'], PDO::PARAM_INT);
+      $sentencia->bindValue(':torneo_id', $params['torneo_id'], PDO::PARAM_INT);
     }
 
     $sentencia->execute();
@@ -283,6 +185,7 @@ class QueryBuilder
     return $result['total'];
   }
 
+  // -------- INSERT ---------
   public function insert($table, array $data)
   {
     # Preparo las columnas y los marcadores de posición
@@ -300,45 +203,7 @@ class QueryBuilder
     $sentencia->execute(array_values($data));
   }
 
-  public function updateEquipoTorneo($table, $fields, $params = [])
-  {
-    // Inicializar arrays para fragmentos de la consulta y parámetros
-    $set = [];
-    $where = [];
-    $bindParams = [];
-
-    // Construir la parte SET de la consulta
-    foreach ($fields as $key => $value) {
-      $paramKey = ":set_$key";
-      $set[] = "$key = $paramKey";
-      $bindParams[$paramKey] = $value;
-    }
-
-    // Construir la parte WHERE de la consulta
-    foreach ($params as $key => $value) {
-      $paramKey = ":where_$key";
-      $where[] = "$key = $paramKey";
-      $bindParams[$paramKey] = $value;
-    }
-
-    // Unir las partes SET y WHERE
-    $setClause = implode(', ', $set);
-    $whereClause = implode(' AND ', $where);
-
-    // Construir la consulta completa
-    $query = "UPDATE $table SET $setClause WHERE $whereClause";
-    $sentencia = $this->pdo->prepare($query);
-
-    // Vincular los parámetros
-    foreach ($bindParams as $param => $value) {
-      // Asegurarse de que $value sea un valor escalar
-      $sentencia->bindValue($param, $value);
-    }
-
-    // Ejecutar la consulta
-    return $sentencia->execute();
-  }
-
+  // -------- UPDATE ---------
   public function update($table, $data, $where)
   {
     $setParts = [];
@@ -368,11 +233,13 @@ class QueryBuilder
 
     $sentencia->execute();
   }
+
+  // -------- DELETE ---------
   public function delete($table, $params = [])
   {
     $where = " 1 = 2 ";
 
-    #Manera mas seguro de evitar inyecciones SQL
+    # Manera mas seguro de evitar inyecciones SQL
     if (isset($params['id'])) {
       $where = " id = :id "; # :id -> parametrizado
     }
@@ -384,63 +251,5 @@ class QueryBuilder
     }
     $sentencia->setFetchMode(PDO::FETCH_ASSOC);
     $sentencia->execute();
-  }
-
-  public function selectNombreEquipo($table, $nombre)
-  {
-    $whereClause = 'WHERE nombre = :nombre';
-    $query = "SELECT * FROM {$table} {$whereClause}";
-
-    $sentencia = $this->pdo->prepare($query);
-    $sentencia->bindValue(':nombre', $nombre);
-
-    $sentencia->setFetchMode(PDO::FETCH_ASSOC);
-    $sentencia->execute();
-    return $sentencia->fetchAll();
-  }
-
-  public function selectJoin(string $table, array $joins = [], array $params = [], string $orderBy = null, int $limit = null)
-  {
-    $where = [];
-    $bindParams = [];
-
-    foreach ($params as $key => $value) {
-      $where[] = "$key = :$key";
-      $bindParams[":$key"] = $value;
-    }
-
-    $query = "SELECT * FROM {$table}";
-
-    // JOINs
-    foreach ($joins as $join) {
-      // [$tableJoin, $on]
-      $query .= " INNER JOIN {$join[0]} ON {$join[1]}";
-    }
-
-    // WHERE
-    if (!empty($where)) {
-      $query .= ' WHERE ' . implode(' AND ', $where);
-    }
-
-    // ORDER BY
-    if ($orderBy) {
-      $query .= " ORDER BY {$orderBy}";
-    }
-
-    // LIMIT
-    if ($limit) {
-      $query .= " LIMIT " . (int) $limit;
-    }
-
-    $stmt = $this->pdo->prepare($query);
-
-    foreach ($bindParams as $param => $value) {
-      $stmt->bindValue($param, $value);
-    }
-
-    $stmt->setFetchMode(PDO::FETCH_ASSOC);
-    $stmt->execute();
-
-    return $stmt->fetchAll();
   }
 }

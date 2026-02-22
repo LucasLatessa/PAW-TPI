@@ -32,8 +32,9 @@ class PartidoController extends Controlador
     $categorias = $torneoModel->getCategorias();
 
     // echo "<pre>";
-    // print_r($categorias);
+    // print_r($partidos);
     // echo "</pre>";
+    //die();
     echo $this->twig->render('partidos/index.view.twig', [
       'title' => $title,
       'partidos' => $partidos,

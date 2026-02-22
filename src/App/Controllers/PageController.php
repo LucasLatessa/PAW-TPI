@@ -28,11 +28,22 @@ class PageController extends Controlador
   {
     $title = 'Home - LigaCF';
 
-    $id_torneo = 1; //El primero (Primera Division)
+    $partidos = [];
+    $noticias = [];
+    $tabla    = [];
 
-    $tabla = $this->torneo->getTablaPosiciones($id_torneo); 
-    $noticias = $this->noticias->getUltimasNoticias(3);
-    $partidos = $this->torneo->getUltimosPartidos($id_torneo);
+    
+    $id_torneo = $this->torneo->getPrimerTorneo()['id'] ?? null; //El primero (Primera Division)
+    // echo "<pre>";
+    // print_r($id_torneo);
+    // echo "</pre>";
+    // die();
+
+    if ($id_torneo !== null){
+      $tabla = $this->torneo->getTablaPosiciones($id_torneo); 
+      $noticias = $this->noticias->getUltimasNoticias(3);
+      $partidos = $this->torneo->getUltimosPartidos($id_torneo);
+    }
 
     echo $this->twig->render('index.view.twig', [
       'title' =>  $title,

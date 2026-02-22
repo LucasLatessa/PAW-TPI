@@ -40,9 +40,7 @@ class EquipoController extends Controlador
         $tablaModel = new EquipoTorneoCollections();
         $tablaModel->setQueryBuilder($this->getQb());
         $torneo_id = $tablaModel->getLastTorneo($equipo_id);
-        echo "<pre>";
-        print_r($torneo_id);
-        echo "</pre>";
+
         $ultimosPartidos = [];
         $posicion        = null;
         $tabla           = null;
