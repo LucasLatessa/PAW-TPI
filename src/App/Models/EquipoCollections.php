@@ -36,8 +36,8 @@ class EquipoCollections extends Model
 
   public function getAllEquipos()
   {
-    // Obtener todos los equipos usando el método selectViejo de QueryBuilder
-    $equipos = $this->queryBuilder->selectViejo($this->table);
+    // Obtener todos los equipos usando el método select de QueryBuilder
+    $equipos = $this->queryBuilder->select($this->table)->execute();
 
 
     // Crear una coleccion de objetos Equipo
@@ -52,7 +52,7 @@ class EquipoCollections extends Model
   }
     public function getID(int $id): ?Equipo
     {
-        $record = $this->queryBuilder->selectViejo('equipos', ['id' => $id]);
+        $record = $this->queryBuilder->select('equipos', ['id' => $id])->execute();
         if (empty($record)) {
             return null;
         }
