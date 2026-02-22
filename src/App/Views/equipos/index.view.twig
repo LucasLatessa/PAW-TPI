@@ -30,6 +30,17 @@
     {% endif %}
 
     </section>
+    <nav class="paginacion">
+      {% if paginaActual > 1 %}
+        <a href="/equipos?p={{ paginaActual - 1 }}" class="btn-pag"><</a>
+      {% endif %}
+
+      <span class="info-pag">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+      {% if paginaActual < totalPaginas %}
+        <a href="/equipos?p={{ paginaActual + 1 }}" class="btn-pag">></a>
+      {% endif %}
+    </nav>
 
   {% if hayLogin %}
       <a class="btn-crear" href="./equipos/crearEquipo">Crear equipo</a>

@@ -4,8 +4,12 @@ Lucas:
   X Crear partidos automaticamente con fechas (si el usuario lo desea)
   X Permitir crear partidos por parte del usuario (no automaticamente)
   X Pagina de error
-  - Paginacion de equipos, partidos, noticias y torneos
-  - Equipos favoritos
+    Paginacion de:
+  X     equipos
+  -     partidos
+  -     noticias
+  -     torneos
+  X Equipos favoritos
 
 Mateo:
   - Estadio pasa a tabla (para API del Clima) (entidad independiente)
