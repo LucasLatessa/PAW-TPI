@@ -5,7 +5,7 @@ namespace Paw\App\Controllers;
 use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
-
+use Paw\Core\Utils\Weather;
 class PartidoController extends Controlador
 {
 
@@ -51,13 +51,16 @@ class PartidoController extends Controlador
 
     $partido_id = $request->get('id');
     $partido = $this->model->getPartido($partido_id);
-    
-    
-    //print_r($tabla);
+    $weatherModel = new Weather('-34.896', '-60.017');
+    $clima = $weatherModel->getCurrentWeather();
+    // echo "<pre>";
+    // print_r($clima);
+    // echo "</pre>";
 
     echo $this->twig->render('partidos/show.view.twig', [
       'title' =>  $title,
-      'partido' => $partido
+      'partido' => $partido,
+      'clima' => $clima
     ]);
   }
   

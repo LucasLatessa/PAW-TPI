@@ -10,7 +10,7 @@ class EquipoCollections extends Model
 {
   public $table = 'equipos';
   
-   public function create($nombreEquipo, $nombreEquipoInstitucional, $fechaCreacion, $nombreEstadio, $descripcion, $imagen)
+   public function create($nombreEquipo, $nombreEquipoInstitucional, $fechaCreacion, $estadio, $descripcion, $imagen)
    {
       $newEquipo = new Equipo; 
       $pathImagen = 'escudos/' . $imagen;
@@ -18,7 +18,7 @@ class EquipoCollections extends Model
          'nombre' => $nombreEquipo,
          'nombre_institucional' => $nombreEquipoInstitucional,
          'fecha_creacion' => $fechaCreacion,
-         'estadio' => $nombreEstadio,
+         'estadio_id' => $estadio,
          'descripcion' => $descripcion,
          'escudo' => $pathImagen
       ];
