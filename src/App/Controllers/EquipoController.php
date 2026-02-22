@@ -15,14 +15,19 @@ class EquipoController extends Controlador
     // Ver lista de equipos en la Liga
     public function equipos()
     {
-        $hayLogin = $_SESSION['login'];
-        $title    = 'Equipos - LigaCF';
-        $equipos  = $this->model->getAllEquipos();
+        global $request;
+        $paginaActual = $request->get('p') ?? 1; // si no hay, es la 1
+        $porPagina    = 6;
 
-        //var_dump($equipos);
+        $equipos      = $this->model->getEquiposPaginados($paginaActual, $porPagina);
+        $totalEquipos = $this->model->getTotalEquipos();
+        $totalPaginas = ceil($totalEquipos / $porPagina);
+
         echo $this->twig->render('equipos/index.view.twig', [
-            'title'   => $title,
-            'equipos' => $equipos, // Pasar la lista de equipos a la vista
+            'title'        => 'Equipos - LigaCF',
+            'equipos'      => $equipos,
+            'paginaActual' => $paginaActual,
+            'totalPaginas' => $totalPaginas,
         ]);
     }
 
