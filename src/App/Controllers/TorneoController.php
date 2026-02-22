@@ -21,7 +21,7 @@ class TorneoController extends Controlador
 
         global $request;
         $paginaActual = $request->get('p') ?? 1; // si no hay, es la 1
-        $porPagina    = 4; // Cantidad de torneos por pagina
+        $porPagina    = $request->get('per_page') ?? 4; // cantidad de torneos por pagina
         $torneos  = $this->model->getTorneosPaginados($paginaActual, $porPagina);
         $totalTorneos = $this->model->getTotalTorneos();
         $totalPaginas = ceil($totalTorneos / $porPagina);
@@ -32,6 +32,7 @@ class TorneoController extends Controlador
             'torneos' => $torneos,
             'paginaActual' => $paginaActual,
             'totalPaginas' => $totalPaginas,
+            'porPagina'    => $porPagina,
         ]);
     }
 

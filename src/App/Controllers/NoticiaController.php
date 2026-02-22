@@ -22,7 +22,7 @@ class NoticiaController extends Controlador
     $title = 'Noticias - LigaCF';
     // Paginacion
     $paginaActual = $request->getRequest('p') ?: 1;
-    $porPagina = 3; // Cantidad de noticias por pagina
+    $porPagina    = $request->get('per_page') ?? 2; // Cantidad de noticias por pagina
 
     $noticias = $this->model->getNoticiasPaginadas($paginaActual, $porPagina);
     $totalNoticias = $this->model->getTotalNoticias();
@@ -33,6 +33,7 @@ class NoticiaController extends Controlador
       'noticias' => $noticias,
       'paginaActual' => $paginaActual,
       'totalPaginas' => $totalPaginas,
+      'porPagina'    => $porPagina,
     ]);
   }
 

@@ -1,0 +1,66 @@
+
+/* ===== PAGINADOR ===== */
+#formPerPage {
+    display: flex;
+    justify-content: flex-end; 
+    align-items: center;
+    gap: 0.6rem;
+    margin: 1rem 5% 1.5rem 0; 
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: var(--color-letras-primario);
+}
+
+#formPerPage label {
+    cursor: pointer;
+}
+
+#formPerPage select {
+    padding: 0.4rem 0.6rem;
+    border: 1px solid var(--color-cuaternario);
+    border-radius: 0.5rem;
+    background-color: var(--color-blanco);
+    color: var(--color-letras-primario);
+    font-weight: 500;
+    cursor: pointer;
+    transition: border-color 0.2s ease;
+}
+
+#formPerPage select:focus {
+    outline: none;
+    border-color: var(--color-primario);
+}
+
+
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    padding: 1rem;
+}
+
+.btn-pag {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--color-blanco);
+    color: var(--color-primario);
+    border: 1px solid var(--color-primario);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-pag:hover {
+    background-color: var(--color-primario);
+    color: var(--color-letras-secundario);
+}
+
+.info-pag {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-letras-primario);
+}

@@ -17,7 +17,7 @@ class EquipoController extends Controlador
     {
         global $request;
         $paginaActual = $request->get('p') ?? 1; // si no hay, es la 1
-        $porPagina    = 6; // Cantidad de equipos por pagina
+        $porPagina    = $request->get('per_page') ?? 12; // cantidad de equipos por pagina
 
         $equipos      = $this->model->getEquiposPaginados($paginaActual, $porPagina);
         $totalEquipos = $this->model->getTotalEquipos();
@@ -28,6 +28,7 @@ class EquipoController extends Controlador
             'equipos'      => $equipos,
             'paginaActual' => $paginaActual,
             'totalPaginas' => $totalPaginas,
+            'porPagina'    => $porPagina,
         ]);
     }
 
