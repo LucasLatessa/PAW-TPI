@@ -80,7 +80,6 @@
     color: var(--color-letras-primario);
 }
 
-/* Ajuste para el botón crear que suele quedar colgado */
 .btn-crear {
     display: block;
     width: fit-content;

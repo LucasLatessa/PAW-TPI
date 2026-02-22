@@ -77,9 +77,20 @@
         {% else %}
             <p>No hay partidos para los filtros seleccionados.</p>
         {% endfor %}
-        
-
     </section>
+    <nav class="paginacion">
+    {% if totalPaginas > 0 %}
+        {% if paginaActual > 1 %}
+            <a href="/partidos?p={{ paginaActual - 1 }}&categoria={{ filters.categoria }}&fecha={{ filters.fecha }}&estado={{ filters.estado }}" class="btn-pag"><</a>
+        {% endif %}
+
+        <span class="info-pag">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+        {% if paginaActual < totalPaginas %}
+            <a href="/partidos?p={{ paginaActual + 1 }}&categoria={{ filters.categoria }}&fecha={{ filters.fecha }}&estado={{ filters.estado }}" class="btn-pag">></a>
+        {% endif %}
+    {% endif %}
+    </nav>
     {% if hayLogin %}
       <a class="btn-programar" href="/torneo/cargarPartido">Programar partido</a>
     {% endif %}
