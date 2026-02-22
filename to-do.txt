@@ -21,8 +21,8 @@ Josue:
   X Actualizar tabla despues de cargar resultado del partido
   X Update del partidos
   X Tabla y prox partido para Equipos
-  - Formateo de fechas
-  - Filtros partido
-  - Select viejo y nuevo en QueryBuilder
+  x Formateo de fechas
+  X Filtros partido
+  ? Select viejo y nuevo en QueryBuilder
   - Mensajes al usuario (Update, delete, etc.)
   - Solucionar error en show equipos (muestra cualquier proximo partido cuando le das click)
