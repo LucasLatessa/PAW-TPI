@@ -72,7 +72,7 @@ class QueryBuilder
             }
             $whereClause = ' WHERE ' . implode(" $conector ", $where);
             $this->query = "SELECT * FROM {$table} {$whereClause}";
-            return $this->execute(); // Ejecuta directo si mandás array
+            return $this; // Ejecuta directo si mandás array
         }
 
         // Modo Fluido: Solo inicializa la base de la consulta

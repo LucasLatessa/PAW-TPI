@@ -1,12 +1,8 @@
 Cosas que faltan por hacer:
 
 Lucas:
-  - Crear partidos automaticamente con fechas (si el usuario lo desea)
-    - Checkbox aleatorio
-    - Seleccion de equipos dentro de crear torneo
-  - Permitir crear partidos por parte del usuario (no automaticamente)
-    - Fecha no va a tener el atributo torneo_id
-    - Fecha va a tener de la 1 a la 20 (entidad independiente)
+  XCrear partidos automaticamente con fechas (si el usuario lo desea)
+  X Permitir crear partidos por parte del usuario (no automaticamente)
   X Pagina de error
 
 Mateo:
@@ -16,7 +12,7 @@ Mateo:
 
 Josue:
   X Home
-  - Responsive en toda la pagina
+  X Responsive en toda la pagina
   - Paginacion de equipos, partidos, noticias y torneos
   X Actualizar tabla despues de cargar resultado del partido
   X Update del partidos
