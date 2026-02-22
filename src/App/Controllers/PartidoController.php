@@ -34,7 +34,7 @@ class PartidoController extends Controlador
     // echo "<pre>";
     // print_r($partidos);
     // echo "</pre>";
-    //die();
+    // die();
     echo $this->twig->render('partidos/index.view.twig', [
       'title' => $title,
       'partidos' => $partidos,
