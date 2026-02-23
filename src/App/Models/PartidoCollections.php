@@ -147,8 +147,10 @@ class PartidoCollections extends Model
         $nuevoPartido->setEquipoVisitante($equipoVisitante);
 
         // Traemos la fecha (fecha nro 1...)
-        $fechaData = $this->queryBuilder->select($this->table, ['id' => $nuevoPartido->getFechaId()])->execute();
-        $nuevoPartido->setFecha($fechaData[0]);
+        $fechaData = $this->queryBuilder->select('fechas', ['id' => $nuevoPartido->getFechaId()])->execute();
+        if ($fechaData) {
+            $nuevoPartido->setFecha($fechaData[0]); 
+        }
 
         // traemos el torneo
         $torneoColl = new TorneoCollections();
