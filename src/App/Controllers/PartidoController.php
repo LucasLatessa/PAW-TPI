@@ -13,12 +13,14 @@ class PartidoController extends Controlador
   public ?string $modelName = PartidoCollections::class;
   
   // Ver lista de partidos en la Liga
-  public function partidos()
-  {
-    $hayLogin = $_SESSION['login'];
-    $title = 'Partidos - LigaCF';
-
+ public function partidos()
+{
     global $request;
+    $hayLogin = $_SESSION['login'] ?? false;
+    
+    // Paginacion
+    $paginaActual = $request->getRequest('p') ?: 1;
+    $porPagina    = $request->get('per_page') ?? 4;// cantidad de partidos por pagina
 
     $filters = [
       'categoria' => $request->getRequest('categoria'),
@@ -26,22 +28,24 @@ class PartidoController extends Controlador
       'estado'    => $request->getRequest('estado'),
     ];
 
-    $partidos = $this->model->getAllPartidos($filters);
+    $partidos = $this->model->getPartidosPaginados($filters, $paginaActual, $porPagina);
+    $totalPartidos = $this->model->getTotalPartidos($filters);
+    $totalPaginas = ceil($totalPartidos / $porPagina);
 
     $torneoModel = new TorneoCollections();
     $torneoModel->setQueryBuilder($this->model->queryBuilder);
     $categorias = $torneoModel->getCategorias();
 
-    // echo "<pre>";
-    // print_r($categorias);
-    // echo "</pre>";
     echo $this->twig->render('partidos/index.view.twig', [
-      'title' => $title,
+      'title' => 'Partidos - LigaCF',
       'partidos' => $partidos,
       'categorias' => $categorias,
-      'filters' => $filters
+      'filters' => $filters,
+      'paginaActual' => $paginaActual,
+      'totalPaginas' => $totalPaginas,
+      'porPagina'    => $porPagina
     ]);
-  }
+}
 
   // Muestra un partido
   public function show()
@@ -72,6 +76,28 @@ class PartidoController extends Controlador
       'clima' => $clima
     ]);
   }
+  public function definirHorario()
+{
+    global $request;
+
+    $idPartido = $request->get('id_partido');
+    $fecha = $request->get('fecha_partido');
+    $hora = $request->get('hora_partido');
+
+    // Validacion
+    if (!$idPartido || !$fecha || !$hora) {
+        header("Location: /partidos/partido?id={$idPartido}&error=faltan_datos");
+        return;
+    }
+
+    $resultado = $this->model->updateHorario($idPartido, $fecha, $hora);
+
+    if ($resultado) {
+        header("Location: /partidos/partido?id={$idPartido}");
+    } else {
+        header("Location: /partidos/partido?id={$idPartido}&error=db");
+    }
+}
   
     // Cargar resultado de un partido
     public function cargarResultado()

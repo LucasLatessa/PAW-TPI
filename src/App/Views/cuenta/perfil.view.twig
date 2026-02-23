@@ -30,7 +30,15 @@
       <input type="text" id="apellido" name="apellido" value="{{ usuario_info.apellido|default('') }}" required />
 
       <label for="equipoFavorito">Equipo Favorito</label>
-      <input type="text" id="equipoFavorito" name="equipoFavorito" value="{{ usuario_info.equipoFavorito|default('') }}" />
+      <select id="equipoFavorito" name="equipoFavorito">
+      <option value="">Seleccioná tu equipo</option>
+      {% for equipo in equipos %}
+          <option value="{{ equipo.id }}" 
+              {% if equipo.id == usuario_info.equipoFavoritoId %} selected {% endif %}>
+              {{ equipo.nombre }}
+          </option>
+      {% endfor %}
+</select>
 
       <button type="submit" value="Actualizar">Actualizar</button>
 

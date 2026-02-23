@@ -1,9 +1,8 @@
 <?php
-
 namespace Paw\App\Models;
 
-use Paw\Core\Model;
 use Paw\App\Models\Usuario;
+use Paw\Core\Model;
 
 class UsuariosCollections extends Model
 {
@@ -12,16 +11,17 @@ class UsuariosCollections extends Model
     public function getAll()
     {
 
-    
     }
 
     public function get($correo)
     {
-        $usuarioData = $this->queryBuilder->selectViejo($this->table, ['correo' => $correo]);
+        $usuarioData = $this->queryBuilder
+            ->select($this->table, ['correo' => $correo])
+            ->execute();
         if ($usuarioData) {
             // Creo instancia de Usuario
             $usuario = new Usuario();
-            $usuario->set($usuarioData[0]);// Cargar datos en el modelo Usuario
+            $usuario->set($usuarioData[0]); // Cargar datos en el modelo Usuario
             return $usuario;
         }
         return null;
@@ -32,9 +32,9 @@ class UsuariosCollections extends Model
         $newUsuario = new Usuario;
 
         $data = [
-            'nombre' => $nombre,
-            'apellido' => $apellido,
-            'correo' => $correo,
+            'nombre'     => $nombre,
+            'apellido'   => $apellido,
+            'correo'     => $correo,
             'contraseña' => $contraseña,
         ];
 
@@ -46,18 +46,14 @@ class UsuariosCollections extends Model
     }
 
     public function updateUsuario($params)
-{
-    // Sacamos el id
-    $id = $params['id'];
+    {
+        $id = $params['id'];
+        unset($params['id']);
 
-    // borramos de los params para que no intente hacer SET id = :id
-    unset($params['id']);
+        $where = ['id' => $id];
 
-    $where = [
-        'id' => $id
-    ];
-
-    $this->queryBuilder->update($this->table, $params, $where);
-}
+        // Devolvemos el resultado del QueryBuilder
+        return $this->queryBuilder->update($this->table, $params, $where);
+    }
 
 }

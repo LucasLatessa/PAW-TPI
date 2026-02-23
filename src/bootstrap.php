@@ -16,11 +16,14 @@ use Twig\Loader\FilesystemLoader;
 // Configuro Twig
 $loader = new FilesystemLoader(__DIR__ . '/App/Views'); // Ruta a vistas Twig
 $twig = new Environment($loader, [
-    'cache' => __DIR__ . '/App/cache',
+    'cache' => false
 ]);
 
-$dotenv = Dotenv::createUnsafeImmutable(__DIR__ . '/../');
-$dotenv->load();
+$dotenvPath = __DIR__ . '/../'; 
+if (file_exists($dotenvPath . '.env')) {
+    $dotenv = Dotenv::createUnsafeImmutable($dotenvPath);
+    $dotenv->load();
+}
 
 $config = new Config;
 
@@ -83,6 +86,7 @@ $router->post('/torneo/cargarPartido', "TorneoController@cargarPartido");
 $router->get('/partidos', 'PartidoController@partidos');
 $router->get('/partidos/partido', 'PartidoController@show');
 
+$router->post('/partidos/definirHorario', 'PartidoController@definirHorario');
 $router->post('/partidos/cargarResultado', "PartidoController@cargarResultado");
 /* ===== USUARIO ===== */
 $router->get('/login', 'UsuarioController@formLogin');

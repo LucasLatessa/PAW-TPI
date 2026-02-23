@@ -93,15 +93,30 @@
   margin-bottom: -0.3rem;
 }
 
-.perfil-form input {
+.perfil-form input,
+.perfil-form select {
   padding: 0.75rem;
   border: 1px solid var(--color-inputs);
   border-radius: 0.5rem;
   font-size: 1rem;
+  background-color: var(--color-blanco);
+  color: var(--color-letras-primario);
   transition: all 0.2s ease;
+  width: 100%;
 }
 
-.perfil-form input:focus {
+.perfil-form select {
+  cursor: pointer;
+  appearance: none;
+  -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='16' height='16' fill='%23666' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+  background-repeat: no-repeat;
+  background-position: calc(100% - 1rem) center;
+  padding-right: 2.5rem;
+}
+
+.perfil-form input:focus,
+.perfil-form select:focus {
   outline: none;
   border-color: var(--color-primario);
   box-shadow: 0 0 0 3px
@@ -143,10 +158,9 @@
 
   background-color: var(--color-blanco);
   color: var(--color-letras-primario);
-  border-radius: 10px;
+  border-radius: 0.7rem;
   border: 1px solid var(--color-letras-cuaternario);
 
-  border-radius: 0.7rem;
   text-decoration: none;
   font-size: 0.95rem;
   font-weight: 600;

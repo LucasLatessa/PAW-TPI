@@ -2,6 +2,7 @@
 
 {% block styles %}
 <link rel="stylesheet" href="/assets/styles/noticias/index.css" />
+<link rel="stylesheet" href="/assets/styles/paginador.css" />
 <link rel="stylesheet" href="/assets/styles/componentes/noticia.css" />
 {% endblock %}
 
@@ -9,7 +10,16 @@
     <header class="header-main">
         <h1>Noticias</h1>
     </header>
-
+    <form method="GET" action="/noticias" id="formPerPage">
+        <label for="per_page">Mostrar:</label>
+        <select name="per_page" id="per_page" onchange="this.form.submit()">
+            <option value="2"  {% if porPagina == 2 %} selected {% endif %}>2</option>
+            <option value="4"  {% if porPagina == 4 %} selected {% endif %}>4</option>
+            <option value="12" {% if porPagina == 12 %} selected {% endif %}>12</option>
+            <option value="20" {% if porPagina == 20 %} selected {% endif %}>20</option>
+        </select>
+        <input type="hidden" name="p" value="1">
+    </form>
     <section class="noticias">
             {% for noticia in noticias %}
                 {% include 'componentes/noticia.twig' with {'noticia': noticia} only %}
@@ -22,6 +32,19 @@
             {% endif %} #}
             
     </section>
+     <nav class="paginacion">
+        {% if totalPaginas > 0 %}
+            {% if paginaActual > 1 %}
+                <a href="/noticias?p={{ paginaActual - 1 }}&per_page={{ porPagina }}" class="btn-pag"><</a>
+            {% endif %}
+
+            <span class="info-pag">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+            {% if paginaActual < totalPaginas %}
+                <a href="/noticias?p={{ paginaActual + 1 }}&per_page={{ porPagina }}" class="btn-pag">></a>
+            {% endif %}
+        {% endif %}
+    </nav>
 
     <a class="btn-crear" href="./noticias/crear">Crear noticia</a>
 

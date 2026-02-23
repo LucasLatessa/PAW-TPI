@@ -1,13 +1,16 @@
 Cosas que faltan por hacer:
 
 Lucas:
-  - Crear partidos automaticamente con fechas (si el usuario lo desea)
-    - Checkbox aleatorio
-    - Seleccion de equipos dentro de crear torneo
-  - Permitir crear partidos por parte del usuario (no automaticamente)
-    - Fecha no va a tener el atributo torneo_id
-    - Fecha va a tener de la 1 a la 20 (entidad independiente)
+  X Setear fecha-hora en partidos creados automaticamente
+  X Crear partidos automaticamente con fechas (si el usuario lo desea)
+  X Permitir crear partidos por parte del usuario (no automaticamente)
   X Pagina de error
+    Paginacion de:
+  X     equipos
+  X     partidos
+  X     noticias
+  X     torneos
+  X Equipos favoritos
 
 Mateo:
   - Estadio pasa a tabla (para API del Clima) (entidad independiente)
@@ -16,13 +19,25 @@ Mateo:
 
 Josue:
   X Home
-  - Responsive en toda la pagina
-  - Paginacion de equipos, partidos, noticias y torneos
+  X Responsive en toda la pagina
   X Actualizar tabla despues de cargar resultado del partido
   X Update del partidos
   X Tabla y prox partido para Equipos
   x Formateo de fechas
   X Filtros partido
-  ? Select viejo y nuevo en QueryBuilder
+  X Select viejo y nuevo en QueryBuilder
   - Mensajes al usuario (Update, delete, etc.)
   - Solucionar error en show equipos (muestra cualquier proximo partido cuando le das click)
+  - Finalizar torneos (estado de Activo a finalizado y mostrar campeon)
+
+
+Testeo:
+  Crear:
+X   usuario (signUp, login, update)
+X    equipo
+    torneo (validar seleccionar equipos y fechas autogeneradas)
+    partido
+X    noticia
+  Cargar:
+    equipo en torneo (tanto al crear torneo como despues)
+    resultado en un partido

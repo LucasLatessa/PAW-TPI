@@ -6,10 +6,6 @@ Se resolvio un sitio para una liga de futbol que permite ver tablas, noticias  y
 Entorno de desarrollo: VSCode,
 Sistema Operativo: Windows 11
 
-Figma: https://www.figma.com/file/XKGX9Ru2A00yJzaIg28TDR/LMJR(Chiv)---TPI(PAW)?type=design&node-id=11%3A223&mode=design&t=Hns7pwIfRCSFOq5a-1
-
-Diagramas: https://drive.google.com/file/d/11eeG-HcdYVZ5bG-VZjLCpFYsAhSQwbeX/view?usp=sharing
-
 ## Instrucciones para configurar-instalacion
 
 1. Instalar todas las dependencias
@@ -23,16 +19,10 @@ composer install
 
 3. Copia el contenido que esta en .env.example en .env, modificiando username y password acorde a las configuraciones de su MySql
 
-4. LLevar a cabo los migrates con el siguiente comando
+4. LLevar a cabo los migrates y seeders ejecutando el siguiente script
 
 ```
-phinx migrate -e development
-```
-
-En el caso de no tener el phnix con su PATH
-
-```
-./vendor/bin/phinx migrate -e development
+./semilla.bat
 ```
 
 5. Levantar el proyecto
@@ -46,8 +36,9 @@ php -S localhost:8888 -t public
 ```
 ./ngrok http http://localhost:8888/
 ```
+## Desplegado en Railway
 
-7. "OPCIONAL" Migrates con semilla
+(Esperar 10 segundos para que levante)
 
-Ejecutar .bat
-./semilla.bat
+[Liga Chivilcoyana de Futbol](https://ligachivilcoyana.up.railway.app/)
+

@@ -15,15 +15,24 @@ class TorneoController extends Controlador
     // Ver lista de torneos en la Liga
     public function torneos()
     {
+    
         $hayLogin = $_SESSION['login'];
-        $title    = 'Torneos - LigaCF';
-        $torneos  = $this->model->getAllTorneos();
-        $hayLogin = $_SESSION['login'];
+        $title    = 'Torneos - LigaCF';    
+
+        global $request;
+        $paginaActual = $request->get('p') ?? 1; // si no hay, es la 1
+        $porPagina    = $request->get('per_page') ?? 4; // cantidad de torneos por pagina
+        $torneos  = $this->model->getTorneosPaginados($paginaActual, $porPagina);
+        $totalTorneos = $this->model->getTotalTorneos();
+        $totalPaginas = ceil($totalTorneos / $porPagina);
 
         //var_dump($equipos);
         echo $this->twig->render('torneos/index.view.twig', [
             'title'   => $title,
             'torneos' => $torneos,
+            'paginaActual' => $paginaActual,
+            'totalPaginas' => $totalPaginas,
+            'porPagina'    => $porPagina,
         ]);
     }
 
@@ -142,7 +151,7 @@ class TorneoController extends Controlador
         $equipoModel->setQueryBuilder($this->model->queryBuilder);
         $todosLosEquipos = $equipoModel->getAllEquipos();
 
-        // nos quedamos solo con los que NO están en idsCargados
+        // nos quedamos solo con los que NO estan en idsCargados
         $equiposDisponibles = array_filter($todosLosEquipos, function ($equipo) use ($idsCargados) {
             return ! in_array($equipo->getId(), $idsCargados);
         });
@@ -213,7 +222,7 @@ class TorneoController extends Controlador
             'title'         => $title,
             'torneo'        => $torneo,
             'equiposTorneo' => $equiposTorneo,
-            'listaTorneos'  => $listaTorneos, // Si esto no es null, mostrás un select en la vista
+            'listaTorneos'  => $listaTorneos, // Si esto no es null, muestra un select en la vista
         ]);
     }
 

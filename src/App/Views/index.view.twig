@@ -41,17 +41,19 @@
 
         <!-- TABLAS DE POSICIONES -->
         <aside class="tablas-posiciones">
-            <h2>Primera Division - Tabla</h2>
+            {% if tabla %}
+              <h2>Primera Division - Tabla</h2>
 
-            {% include 'componentes/tabla-posiciones.twig' with {
-                equipos: tabla,
-                limit: "8",
-                variant: 'simple'
-            } %}
+              {% include 'componentes/tabla-posiciones.twig' with {
+                  equipos: tabla,
+                  limit: "8",
+                  variant: 'simple'
+              } %}
 
-            <a href="/torneos/torneo/tabla?id={{ torneo_id }}" class="link-mas">
-                Ver tabla completa
-            </a>
+              <a href="/torneos/torneo/tabla?id={{ torneo_id }}" class="link-mas">
+                  Ver tabla completa
+              </a>
+            {% endif %}
         </aside>
 
     </section>

@@ -5,8 +5,11 @@ require __DIR__ . '/vendor/autoload.php';
 use Dotenv\Dotenv;
 
 #Levanto variables de entorno
-$dotenv = Dotenv::createUnsafeImmutable(__DIR__);
-$dotenv->load();
+$dotenvPath = __DIR__; 
+if (file_exists($dotenvPath . '/.env')) {
+    $dotenv = Dotenv::createUnsafeImmutable($dotenvPath);
+    $dotenv->load();
+}
 
 echo getenv("DB_ADAPTER");
 

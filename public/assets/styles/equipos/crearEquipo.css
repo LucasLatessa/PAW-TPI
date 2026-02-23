@@ -47,36 +47,27 @@
 }
 
 /* --- Area del Escudo */
-#imagen-drop {
-    display: flex;
-    flex-direction: column;
-    gap: 0.5rem;
-    padding: 1.5rem;
-    border: 2px dashed var(--color-inputs);
-    border-radius: 8px;
-    background-color: var(--color-bg-muted);
+#imagen-drop-input {
+    width: 100%;
+    height: 80px; 
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    background-color: #f9f9f9;
     cursor: pointer;
     text-align: center;
-    color: var(--color-letras-terceario);
-    font-family: var(--fuente-secundaria);
-    transition: all 0.3s ease;
 }
 
-#imagen-drop:hover {
-    border-color: var(--color-primario);
-    background-color: var(--color-blanco);
-    color: var(--color-primario);
+#imagen-drop-input::-webkit-file-upload-button {
+    padding: 8px 16px;
+    cursor: pointer;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+    background-color: #eee;
+    vertical-align: middle;
 }
 
-#imagen-drop-input {
-    font-size: 0.85rem;
-    border: none;
-    background: transparent;
-    padding: 0;
-    margin: 0.5rem 0 0 0;
-}
-
-/* --- Botón Enviar (Celeste) --- */
+/* --- Boton Enviar --- */
 .carga-form button {
     margin-top: 1rem;
     padding: 1rem;

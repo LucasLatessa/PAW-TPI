@@ -1,87 +1,97 @@
 <?php
-
 namespace Paw\App\Controllers;
 
-use Paw\App\Models\Equipo;
 use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\EquipoTorneoCollections;
-use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\EstadioCollections;
+use Paw\App\Models\PartidoCollections;
 use Paw\Core\Controlador;
-use Twig\Loader\FilesystemLoader;
-use Twig\Environment;
 
 class EquipoController extends Controlador
 {
 
-  public ?string $modelName = EquipoCollections::class;
+    public ?string $modelName = EquipoCollections::class;
 
-  // Ver lista de equipos en la Liga
-  public function equipos()
-  {
-    $hayLogin = $_SESSION['login'];
-    $title = 'Equipos - LigaCF';
-    $equipos = $this->model->getAllEquipos();
+    // Ver lista de equipos en la Liga
+    public function equipos()
+    {
+        global $request;
+        $paginaActual = $request->get('p') ?? 1;         // si no hay, es la 1
+        $porPagina    = $request->get('per_page') ?? 12; // cantidad de equipos por pagina
 
-    //var_dump($equipos);
-    echo $this->twig->render('equipos/index.view.twig', [
-      'title' => $title,
-      'equipos' => $equipos, // Pasar la lista de equipos a la vista
-    ]);
-  }
+        $equipos      = $this->model->getEquiposPaginados($paginaActual, $porPagina);
+        $totalEquipos = $this->model->getTotalEquipos();
+        $totalPaginas = ceil($totalEquipos / $porPagina);
 
-  // Muestra un equipo del torneo
-  public function show()
-{
-    global $request;
-    
-    $equipo_id = $request->get('id');
-    $torneo_id = 1; //Primera
-    $equipo = $this->model->getID($equipo_id);
+        echo $this->twig->render('equipos/index.view.twig', [
+            'title'        => 'Equipos - LigaCF',
+            'equipos'      => $equipos,
+            'paginaActual' => $paginaActual,
+            'totalPaginas' => $totalPaginas,
+            'porPagina'    => $porPagina,
+        ]);
+    }
 
-    // Modelos tabla y partido
-    $partidoModel = new PartidoCollections();
-    $partidoModel->setQueryBuilder($this->getQb());
-    $tablaModel = new EquipoTorneoCollections();
-    $tablaModel->setQueryBuilder($this->getQb());
-    $tablaModel->getLastTorneo($equipo_id);
-   
-    // Buscamos los partidos de este equipo
-    $ultimosPartidos = $partidoModel->getPartidosByEquipo($equipo_id);
+    // Muestra un equipo del torneo
+    public function show()
+    {
+        global $request;
 
-    //Posicion actual en primera
-    $posicion = $tablaModel->getPosicion($torneo_id, $equipo_id);
+        $equipo_id = $request->get('id');
+        $equipo    = $this->model->getID($equipo_id);
 
-    //Tabla de posiciones en ese torneo
-    $tabla = $tablaModel->getEstadisticas($torneo_id, $equipo_id);
+        // Modelos tabla y partido
+        $partidoModel = new PartidoCollections();
+        $partidoModel->setQueryBuilder($this->getQb());
+        $tablaModel = new EquipoTorneoCollections();
+        $tablaModel->setQueryBuilder($this->getQb());
+        $torneo_id = $tablaModel->getLastTorneo($equipo_id);
 
-    //Total de equipos en ese torneo
-    $totalEquipos = $tablaModel->getCantidadEquipos($torneo_id);
+        $ultimosPartidos = [];
+        $posicion        = null;
+        $tabla           = null;
+        $totalEquipos    = 0;
+        $proxPartido     = null;
+        if ($torneo_id) {
 
-    //Proximo partido (si existe)
-    $proxPartido = $partidoModel->getProximoPartido($torneo_id,$equipo_id);
-    //var_dump($proxPartido);
+            // Buscamos los partidos de este equipo
+            $ultimosPartidos = $partidoModel->getPartidosByEquipo($equipo_id);
 
-    echo $this->twig->render('equipos/show.view.twig', [
-      'title'   => $equipo->getNombre() . ' - LigaCF',
-      'equipo'  => $equipo,
-      'ultimosPartidos' => $ultimosPartidos,
-      'tabla' => $tabla,
-      'posicion' => $posicion,
-      'totalEquipos' => $totalEquipos,
-      'proxPartido' => $proxPartido,
-    ]);
-}
-  public function formCrearEquipo(){
-    $title = 'Crear equipo - LigaCF';
-    echo $this->twig->render('equipos/crearEquipo.view.twig', [
-        'title' =>  $title,
-    ]);
-  }
-  
-  public function crearEquipo()
-  {
-    global $request;
+            //Posicion actual en primera
+            $posicion = $tablaModel->getPosicion($torneo_id, $equipo_id);
+
+            //Tabla de posiciones en ese torneo
+            $tabla = $tablaModel->getEstadisticas($torneo_id, $equipo_id);
+
+            //Total de equipos en ese torneo
+            $totalEquipos = $tablaModel->getCantidadEquipos($torneo_id);
+
+            //Proximo partido (si existe)
+            $proxPartido = $partidoModel->getProximoPartido($torneo_id, $equipo_id);
+
+        }
+
+        echo $this->twig->render('equipos/show.view.twig', [
+            'title'           => $equipo->getNombre() . ' - LigaCF',
+            'equipo'          => $equipo,
+            'ultimosPartidos' => $ultimosPartidos,
+            'tabla'           => $tabla,
+            'posicion'        => $posicion,
+            'totalEquipos'    => $totalEquipos,
+            'proxPartido'     => $proxPartido,
+        ]);
+    }
+    public function formCrearEquipo()
+    {
+        $title = 'Crear equipo - LigaCF';
+        echo $this->twig->render('equipos/crearEquipo.view.twig', [
+            'title' => $title,
+        ]);
+    }
+
+    public function crearEquipo()
+    {
+        global $request;
 
     $nombreEquipo = $request->getRequest('equipo');
     $latitud = $request->getRequest('estadio_lat');
@@ -91,8 +101,14 @@ class EquipoController extends Controlador
     $nombreEstadio = $request->getRequest('estadio');
     $descripcion = $request->getRequest('descripcion');
 
-    $nombreArchivo = $this->subirImagen($_FILES, 'escudos');
-    
+        $errorMessage = null;
+
+        // validamos si el campo imagen existe y si tiene un error
+        if (! isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
+            $errorMessage = "Tenés que subir un escudo para el equipo.";
+        } else {
+            // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
+            $nombreArchivo = $this->subirImagen($_FILES, 'escudos');
 
     if ($nombreArchivo !== false) {
       $estadioCollections = new EstadioCollections();
@@ -100,22 +116,23 @@ class EquipoController extends Controlador
       $estadio = $estadioCollections->create($nombreEstadio, $latitud, $longitud);
       $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
 
-      header('Location: /equipos');
-      exit();
-    } else {
-      $errorMessage = "La imagen excede el tamaño permitido (1MB) o hubo un error en la carga.";
-      $title = "Cargar Equipo - Liga";
+                header('Location: /equipos');
+                exit();
+            } else {
+                $errorMessage = "El escudo excede el tamaño permitido (1MB) o el formato no es válido.";
+            }
+        }
 
-      echo $this->twig->render('equipo/crearEquipo.view.twig', [
-        'title' => $title,
-        'errorMessage' => $errorMessage,
-
-        'equipo_ingresado' => $nombreEquipo,
-        'institucional_ingresado' => $nombreInstitucionalEquipo,
-        'fecha_ingresada' => $fechaCreacion,
-        'estadio_ingresado' => $nombreEstadio,
-        'descripcion_ingresada' => $descripcion
-      ]);
+        // si llegamos aca es porque hubo un error
+        $title = "Cargar Equipo - Liga";
+        echo $this->twig->render('equipos/crearEquipo.view.twig', [
+            'title'                   => $title,
+            'errorMessage'            => $errorMessage,
+            'equipo_ingresado'        => $nombreEquipo,
+            'institucional_ingresado' => $nombreInstitucionalEquipo,
+            'fecha_ingresada'         => $fechaCreacion,
+            'estadio_ingresado'       => $nombreEstadio,
+            'descripcion_ingresada'   => $descripcion,
+        ]);
     }
-  }
 }

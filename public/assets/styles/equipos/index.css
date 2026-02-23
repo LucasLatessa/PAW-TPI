@@ -45,7 +45,58 @@
     color: var(--color-letras-primario);
 }
 
+/* ===== PAGINADOR ===== */
 
+.paginacion {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin: 2rem 0;
+    padding: 1rem;
+}
+
+.btn-pag {
+    display: inline-block;
+    padding: 0.6rem 1.2rem;
+    background-color: var(--color-blanco);
+    color: var(--color-primario);
+    border: 1px solid var(--color-primario);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 0.9rem;
+    transition: all 0.3s ease;
+}
+
+.btn-pag:hover {
+    background-color: var(--color-primario);
+    color: var(--color-letras-secundario);
+}
+
+.info-pag {
+    font-size: 1rem;
+    font-weight: 600;
+    color: var(--color-letras-primario);
+}
+
+.btn-crear {
+    display: block;
+    width: fit-content;
+    margin: 1rem auto 3rem auto;
+    padding: 0.8rem 1.5rem;
+    background-color: var(--color-primario);
+    color: var(--color-letras-secundario);
+    border-radius: 0.5rem;
+    text-decoration: none;
+    font-weight: bold;
+    box-shadow: var(--sombra-suave);
+    transition: transform 0.2s ease;
+}
+
+.btn-crear:hover {
+    transform: scale(1.05);
+}
 
 /* ===================================================
    RESPONSIVE

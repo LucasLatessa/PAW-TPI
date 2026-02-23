@@ -33,7 +33,7 @@ class PAW {
       return elemento;
    }
 
-   //función para agregar stylesheet de css al head mediante un path
+   //funcion para agregar stylesheet de css al head mediante un path
    static agregarStyle(path) {
         let css = document.createElement("link");
         css.rel = "stylesheet";

@@ -2,13 +2,23 @@
 
 {% block styles %}
 <link rel="stylesheet" href="/assets/styles/equipos/index.css" />
+<link rel="stylesheet" href="/assets/styles/paginador.css" />
 {% endblock %}
 
 {% block content %}
   <header class="header-main">
     <h1>Equipos</h1>
   </header>
-
+      <form method="GET" action="/equipos" id="formPerPage">
+          <label for="per_page">Mostrar:</label>
+          <select name="per_page" id="per_page" onchange="this.form.submit()">
+              <option value="1"  {% if porPagina == 1 %} selected {% endif %}>1</option>
+              <option value="4"  {% if porPagina == 4 %} selected {% endif %}>4</option>
+              <option value="12" {% if porPagina == 12 %} selected {% endif %}>12</option>
+              <option value="20" {% if porPagina == 20 %} selected {% endif %}>20</option>
+          </select>
+          <input type="hidden" name="p" value="1">
+      </form>
   <section class="equipos-container">
     {% if equipos|length > 0 %}
       {% for equipo in equipos %}
@@ -30,6 +40,19 @@
     {% endif %}
 
     </section>
+    <nav class="paginacion">
+        {% if totalPaginas > 0 %}
+            {% if paginaActual > 1 %}
+                <a href="/equipos?p={{ paginaActual - 1 }}&per_page={{ porPagina }}" class="btn-pag"><</a>
+            {% endif %}
+
+            <span class="info-pag">Página {{ paginaActual }} de {{ totalPaginas }}</span>
+
+            {% if paginaActual < totalPaginas %}
+                <a href="/equipos?p={{ paginaActual + 1 }}&per_page={{ porPagina }}" class="btn-pag">></a>
+            {% endif %}
+        {% endif %}
+    </nav>
 
   {% if hayLogin %}
       <a class="btn-crear" href="./equipos/crearEquipo">Crear equipo</a>

@@ -11,11 +11,11 @@ class NoticiasSeeder extends AbstractSeed
   {
     $noticias = [
       [
-        'titulo' => 'Arranca el Torneo Apertura 2025',
+        'titulo' => 'Arranca el Torneo Apertura 2026',
         'descripcion' => 'Este fin de semana comienza el Torneo Apertura con grandes expectativas.',
-        'contenido' => 'El Torneo Apertura 2025 dará inicio este sábado con partidos en todas las categorías...',
+        'contenido' => 'El Torneo Apertura 2026 dará inicio este sábado con partidos en todas las categorías...',
         'imagen' => 'noticia.jpg',
-        'fecha_publicacion' => '2025-03-01',
+        'fecha_publicacion' => '2026-02-01',
         'autor' => 'Liga Chivilcoyana',
       ],
       [
@@ -23,7 +23,7 @@ class NoticiasSeeder extends AbstractSeed
         'descripcion' => 'El Rojo arrancó el torneo con una sólida victoria como local.',
         'contenido' => 'Independiente mostró un gran nivel colectivo y se impuso 2 a 0...',
         'imagen' => 'noticia2.jpg',
-        'fecha_publicacion' => '2025-03-03',
+        'fecha_publicacion' => '2026-02-03',
         'autor' => 'Redacción LCF',
       ],
       [
@@ -31,7 +31,7 @@ class NoticiasSeeder extends AbstractSeed
         'descripcion' => 'El Lobo confirmó su nuevo DT de cara a la temporada.',
         'contenido' => 'En conferencia de prensa, Gimnasia presentó oficialmente a su nuevo entrenador...',
         'imagen' => 'noticia3.jpg',
-        'fecha_publicacion' => '2025-02-27',
+        'fecha_publicacion' => '2026-01-27',
         'autor' => 'Prensa Gimnasia',
       ],
     ];

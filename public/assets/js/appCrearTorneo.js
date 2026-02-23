@@ -10,8 +10,6 @@ class appCrearTorneo {
                 }
             );
 
-            // cargamos css aca
-            // PAW.agregarStyle("/assets/styles/modal-equipos.css");
         });
     }
 }

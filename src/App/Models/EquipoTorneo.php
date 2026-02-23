@@ -1,163 +1,184 @@
 <?php
 
 namespace Paw\App\Models;
+
 use Paw\Core\Model;
 
-class EquipoTorneo extends Model{
+class EquipoTorneo extends Model
+{
 
-    #Asocio el model con la tabla
-    private $table = 'equipo_torneo';
+  #Asocio el model con la tabla
+  private $table = 'equipo_torneo';
 
-    # Defino las propiedades del modelo
-    private $id;
+  # Defino las propiedades del modelo
+  private $id;
 
-    private $torneo_id;
+  private $torneo_id;
 
-    private $equipo_id;
-    private $partidosJugados;
-    private $partidosGanados;
-    private $partidosEmpatados;
-    private $partidosPerdidos;
-    private $golesAFavor;
-    private $golesContra;
-    private $puntos;
+  private $equipo_id;
+  private $partidosJugados;
+  private $partidosGanados;
+  private $partidosEmpatados;
+  private $partidosPerdidos;
+  private $golesAFavor;
+  private $golesContra;
+  private $puntos;
 
-    private $diferencia;
+  private $diferencia;
 
-    public $equipo;
+  public $equipo;
 
-    # Getters y setters para cada propiedad
-    public function getId() {
-        return $this->id;
+  /* ====== LOAD ====== */
+  public function load($id)
+  {
+    $params = ["id" => $id];
+    $record = current(
+      $this->queryBuilder
+        ->select($this->table)
+        ->where($params)
+        ->execute()
+    );
+
+    if ($record !== false) {
+      $this->set($record);
+      return $this;
+    } else {
+      return null;
     }
+  }
 
-    public function setId($id)
-    {
-        $this->id = $id;
+  /* ====== SET ====== */
+  public function set(array $values)
+  {
+    foreach ($values as $field => $value) {
+
+      $camelCase = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
+      $method    = 'set' . $camelCase;
+
+      if (method_exists($this, $method)) {
+        $this->$method($value);
+      }
     }
+  }
 
-    public function getTorneo_id() {
-        return $this->torneo_id;
-    }
+  # Getters y setters para cada propiedad
+  public function getId()
+  {
+    return $this->id;
+  }
 
-    public function setTorneo_id($torneo_id) {
-        $this->torneo_id = $torneo_id;
-    }
+  public function setId($id)
+  {
+    $this->id = $id;
+  }
 
-    public function getEquipo_id() {
-        return $this->equipo_id;
-    }
+  public function getTorneoId()
+  {
+    return $this->torneo_id;
+  }
 
-    public function setEquipo_id($equipo_id) {
-        $this->equipo_id = $equipo_id;
-    }
+  public function setTorneoId($torneo_id)
+  {
+    $this->torneo_id = $torneo_id;
+  }
 
-    public function getPartidosJugados()
-    {
-        return $this->partidosJugados;
-    }
+  public function getEquipoId()
+  {
+    return $this->equipo_id;
+  }
 
-    public function setPartidosJugados($partidosJugados){
-        $this->partidosJugados = $partidosJugados;
-    }
+  public function setEquipoId($equipo_id)
+  {
+    $this->equipo_id = $equipo_id;
+  }
 
-    public function getPartidosGanados()
-    {
-        return $this->partidosGanados;
-    }
+  public function getPartidosJugados()
+  {
+    return $this->partidosJugados;
+  }
 
-    public function setPartidosGanados($partidosGanados){
-        $this->partidosGanados = $partidosGanados;
-    }
+  public function setPartidosJugados($partidosJugados)
+  {
+    $this->partidosJugados = $partidosJugados;
+  }
 
-    public function getPartidosEmpatados()
-    {
-        return $this->partidosEmpatados;
-    }
+  public function getPartidosGanados()
+  {
+    return $this->partidosGanados;
+  }
 
-    public function setPartidosEmpatados($partidosEmpatados){
-        $this->partidosEmpatados = $partidosEmpatados;
-    }
+  public function setPartidosGanados($partidosGanados)
+  {
+    $this->partidosGanados = $partidosGanados;
+  }
 
-    public function getPartidosPerdidos()
-    {
-        return $this->partidosPerdidos;
-    }
+  public function getPartidosEmpatados()
+  {
+    return $this->partidosEmpatados;
+  }
 
-    public function setPartidosPerdidos($partidosPerdidos){
-        $this->partidosPerdidos = $partidosPerdidos;
-    }
+  public function setPartidosEmpatados($partidosEmpatados)
+  {
+    $this->partidosEmpatados = $partidosEmpatados;
+  }
 
-    public function getGolesAFavor()
-    {
-        return $this->golesAFavor;
-    }
+  public function getPartidosPerdidos()
+  {
+    return $this->partidosPerdidos;
+  }
 
-    public function setGolesAFavor($golesAFavor){
-        $this->golesAFavor = $golesAFavor;
-    }
+  public function setPartidosPerdidos($partidosPerdidos)
+  {
+    $this->partidosPerdidos = $partidosPerdidos;
+  }
 
-    public function getGolesContra()
-    {
-        return $this->golesContra;
-    }
+  public function getGolesAFavor()
+  {
+    return $this->golesAFavor;
+  }
 
-    public function setGolesContra($golesContra){
-        $this->golesContra = $golesContra;
-    }
+  public function setGolesAFavor($golesAFavor)
+  {
+    $this->golesAFavor = $golesAFavor;
+  }
 
-    public function getPuntos()
-    {
-        return $this->puntos;
-    }
+  public function getGolesContra()
+  {
+    return $this->golesContra;
+  }
 
-    public function setPuntos($puntos){
-        $this->puntos = $puntos;
-    }
-    
-    public function getEquipo()
-    {
-        return $this->equipo;
-    }
+  public function setGolesContra($golesContra)
+  {
+    $this->golesContra = $golesContra;
+  }
 
-    public function setEquipo($equipo)
-    {
-        $this->equipo = $equipo;
-    }
+  public function getPuntos()
+  {
+    return $this->puntos;
+  }
 
-    public function getDiferencia()
-    {
-        return $this->diferencia;
-    }
+  public function setPuntos($puntos)
+  {
+    $this->puntos = $puntos;
+  }
 
-    public function setDiferencia()
-    {
-        $this->diferencia = $this->golesAFavor - $this->golesContra;
-    }
+  public function getEquipo()
+  {
+    return $this->equipo;
+  }
 
-    #Para aplicar todos los seters junto con sus validaciones
-    public function set(array $values)
-    {
-        foreach ($values as $field => $value) {
-            #Creo el methodo y si existe lo ejecuto
-            $method = "set" . ucfirst($field);
-            if (method_exists($this, $method)) {
-                $this->$method($value);
-            }
-        }
-    }
+  public function setEquipo($equipo)
+  {
+    $this->equipo = $equipo;
+  }
 
-    public function load($id){
-        $params = ["id" => $id];
-        $record = current($this->queryBuilder->selectViejo($this->table, $params));
-    
-        if ($record !== false) {
-            $this->set($record);
-            return $this;
-        } else {
-            return null;
-        }
-    }
+  public function getDiferencia()
+  {
+    return $this->diferencia;
+  }
 
-
+  public function setDiferencia()
+  {
+    $this->diferencia = $this->golesAFavor - $this->golesContra;
+  }
 }

@@ -6,6 +6,7 @@ class PAWModalEquipos {
         this.btnConfirmar = document.getElementById('btn-confirmar-equipos');
         this.contador = document.getElementById('equipos-seleccionados-contador');
         this.filtroInput = document.getElementById('filtro-equipos');
+        this.checkTodos = document.getElementById('check-seleccionar-todos');
         
         if (this.modal && this.btnAbrir) {
             this.init();
@@ -17,8 +18,9 @@ class PAWModalEquipos {
         this.btnAbrir.addEventListener('click', () => {
             this.modal.style.display = 'block';
         });
+        
 
-        // Cerrar modal (botón X)
+        // Cerrar modal (boton X)
         this.btnCerrar.addEventListener('click', () => {
             this.modal.style.display = 'none';
         });
@@ -30,16 +32,31 @@ class PAWModalEquipos {
             }
         });
 
-        // Confirmar selección
+        // Confirmar seleccion
         this.btnConfirmar.addEventListener('click', () => {
             this.actualizarContador();
             this.modal.style.display = 'none';
         });
 
-        // Lógica del buscador
+        // Logica del buscador
         if (this.filtroInput) {
             this.filtroInput.addEventListener('input', (e) => this.filtrar(e));
         }
+        if (this.checkTodos) {
+            this.checkTodos.addEventListener('change', (e) => this.toggleTodos(e.target.checked));
+        }
+    }
+    toggleTodos(estado) {
+        // Buscamos por filtros
+        const itemsVisibles = document.querySelectorAll('.equipo-check-item:not([style*="display: none"])');
+        
+        itemsVisibles.forEach(item => {
+            const cb = item.querySelector('.equipo-checkbox');
+            if (cb) {
+                cb.checked = estado;
+            }
+        });
+        this.actualizarContador();
     }
 
     actualizarContador() {

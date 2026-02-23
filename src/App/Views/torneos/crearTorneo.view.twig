@@ -1,7 +1,7 @@
 {% extends 'layouts/app.view.twig' %}
 
 {% block styles %}
-<link rel="stylesheet" href="/assets/styles/torneos/creartorneo.css">
+<link rel="stylesheet" href="/assets/styles/torneos/crearTorneo.css">
 {% endblock %}
 
 {% block content %}
@@ -34,12 +34,10 @@
                 </div>
                 <div class="form-group">
                     <div class="opciones-fixture-row">
-                        {# Botón de siempre #}
                         <button type="button" id="btn-abrir-modal" class="btn-secundario">
                             <ion-icon name="add-circle-outline"></ion-icon> Seleccionar Equipos
                         </button>
 
-                        {# Nuevo Checkbox #}
                         <label class="check-fixture-automatico">
                             <input type="checkbox" name="crear_fixture" value="1">
                             <span>Fixture automático</span>
@@ -73,6 +71,9 @@
                             <div class="buscador-equipos">
                                 <input type="text" id="filtro-equipos" placeholder="Buscar equipo...">
                             </div>
+                            <label>
+                                <input type="checkbox" id="check-seleccionar-todos"> Seleccionar todos los visibles
+                            </label>
                             <div class="lista-equipos-check">
                                 {% for equipo in equipos %}
                                 <label class="equipo-check-item">
