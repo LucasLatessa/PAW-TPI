@@ -3,8 +3,11 @@
     <a href="/partidos/partido?id={{ partido.id }}">
 
         <header class="partido-header">
-            <time datetime="{{ (partido.fechaPartido ~ ' ' ~ partido.hhoraPartidoo)|date('Y-m-d H:i') }}">
-                {{ (partido.fechaPartido ~ ' ' ~ partido.horaPartido)|date('d M | H:i')|lower }}
+            <time datetime="{{ (partido.fechaPartido ~ ' ' ~ partido.horaPartidoo)|date('Y-m-d H:i') }}">
+                {{ (partido.fechaPartido and partido.horaPartido) 
+                    ? (partido.fechaPartido ~ ' ' ~ partido.horaPartido)|date('d/m/Y H:i') ~ ' Hs.' 
+                    : 'Fecha a conf.' 
+                }}
             </time>
 
             <span class="barra-estado {{ partido.estado }}">

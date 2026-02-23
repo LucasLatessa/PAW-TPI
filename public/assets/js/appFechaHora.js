@@ -1,12 +1,12 @@
-class appCrearTorneo {
+class appFechaHora {
     constructor() {
         document.addEventListener("DOMContentLoaded", () => {
             // Cargamos el script del componente modal
             PAW.cargarScript(
-                "PAWModalEquipos", 
-                "/assets/js/components/paw-modal-equipos.js", 
+                "PAWModalFH", 
+                "/assets/js/components/paw-modal-f-h.js", 
                 () => {
-                    new PAWModalEquipos();
+                    new PAWModalFH();
                 }
             );
 
@@ -14,4 +14,4 @@ class appCrearTorneo {
     }
 }
 
-let appTorneo = new appCrearTorneo();
+let appFH = new appFechaHora();
