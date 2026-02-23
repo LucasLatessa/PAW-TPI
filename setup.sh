@@ -11,7 +11,6 @@ echo "--- Cargando Datos (Seeds) ---"
 ./vendor/bin/phinx seed:run -s NoticiasSeeder -e development
 ./vendor/bin/phinx seed:run -s FechasSeeder -e development
 ./vendor/bin/phinx seed:run -s TorneosSeeder -e development
-./vendor/bin/phinx seed:run -s PartidosSeeder -e development
 
 echo "--- Iniciando Servidor ---"
 php -S 0.0.0.0:$PORT -t public
