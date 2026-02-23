@@ -8,13 +8,13 @@ class EstadioCollections extends Model
 {
     protected $table = 'estadios';
 
-    public function create($nombreEstadio)
+    public function create($nombreEstadio, $latitud, $longitud)
    {
       $newEstadio = new Estadio; 
       $data = [
-         'nombre' => $nombreEstadio
-         //'latitud' => null,
-         //'longitud' => null
+         'nombre' => $nombreEstadio,
+         'latitud' => $latitud,
+         'longitud' => $longitud
       ];
 
       // Asignar el QueryBuilder y establecer los datos del equipo
@@ -31,4 +31,17 @@ class EstadioCollections extends Model
       // Retornar la instancia del nuevo equipo creado
       return $newEstadio;
    }
+
+   public function getID(int $id): ?Estadio
+    {
+        $record = $this->queryBuilder->selectViejo('estadios', ['id' => $id]);
+        if (empty($record)) {
+            return null;
+        }
+
+        $estadio = new Estadio();
+        $estadio->set($record[0]);
+
+        return $estadio;
+    }
 }

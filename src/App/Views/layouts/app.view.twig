@@ -36,15 +36,69 @@
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
-            const btnMenu = document.getElementById('btnMenu');
-            const menu = document.getElementById('menu');
+          const btnMenu = document.getElementById('btnMenu');
+          const menu = document.getElementById('menu');
 
-            if (btnMenu && menu) {
-                btnMenu.addEventListener('click', () => {
-                    menu.classList.toggle('active');
-                });
-            }
+          if (btnMenu && menu) {
+            btnMenu.addEventListener('click', () => {
+              menu.classList.toggle('active');
+            });
+          }
+
+          const btnUbicacion = document.getElementById('btnUbicacion');
+          const ubicacionInfo = document.getElementById('ubicacionInfo');
+          
+          if (!btnUbicacion || !ubicacionInfo) return;
+          
+          const latGuardada = localStorage.getItem('user_lat');
+          const lngGuardada = localStorage.getItem('user_lng');
+          
+          if (latGuardada && lngGuardada) {
+            ubicacionInfo.innerHTML = `
+               <strong>Tu ubicación</strong><br>
+              Lat: ${latGuardada}<br>
+              Lng: ${lngGuardada}
+            `;
+            ubicacionInfo.style.display = 'block';
+            btnUbicacion.style.display = 'none';
+          }
+
+          if (!navigator.geolocation) {
+            btnUbicacion.disabled = true;
+            btnUbicacion.title = 'Tu navegador no soporta geolocalización';
+            return;
+          }
+
+          btnUbicacion.addEventListener('click', () => {
+            navigator.geolocation.getCurrentPosition(
+              (pos) => {
+                const lat = pos.coords.latitude;
+                const lng = pos.coords.longitude;
+
+                localStorage.setItem('user_lat', String(lat));
+                localStorage.setItem('user_lng', String(lng));
+
+                ubicacionInfo.innerHTML = `
+                  <strong>Tu ubicación</strong><br>
+                  Lat: ${lat}<br>
+                  Lng: ${lng}
+                `;
+                ubicacionInfo.style.display = 'block';
+                btnUbicacion.style.display = 'none';
+
+                console.log('Ubicación guardada:', lat, lng);
+              },
+              (err) => {
+                console.error(err);
+                alert('No se pudo obtener la ubicación (permiso denegado o no disponible).');
+              },
+              { enableHighAccuracy: true, timeout: 10000 }
+            );
+          });
         });
+
+
+        
     </script>
 
     {% block scripts %}{% endblock %}

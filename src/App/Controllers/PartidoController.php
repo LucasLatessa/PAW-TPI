@@ -4,6 +4,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\TorneoCollections;
+use Paw\App\Models\Estadio;
 use Paw\Core\Controlador;
 use Paw\Core\Utils\Weather;
 class PartidoController extends Controlador
@@ -51,11 +52,19 @@ class PartidoController extends Controlador
 
     $partido_id = $request->get('id');
     $partido = $this->model->getPartido($partido_id);
-    $weatherModel = new Weather('-34.896', '-60.017');
-    $clima = $weatherModel->getCurrentWeather();
-    // echo "<pre>";
-    // print_r($clima);
-    // echo "</pre>";
+    $estadioLatitud = $partido->getEstadio()->getLatitud();
+    $estadioLongitud = $partido->getEstadio()->getLongitud();
+
+    if ( $estadioLatitud && $estadioLongitud){
+      $weatherModel = new Weather($estadioLatitud, $estadioLongitud);
+      $clima = $weatherModel->getCurrentWeather();
+    } else{
+      $clima = 'No se encontro el clima';
+    }
+
+    echo "<pre>";
+    print_r($clima);
+    echo "</pre>";
 
     echo $this->twig->render('partidos/show.view.twig', [
       'title' =>  $title,

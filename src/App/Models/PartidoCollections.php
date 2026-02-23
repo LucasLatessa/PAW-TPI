@@ -100,9 +100,16 @@ class PartidoCollections extends Model
     $equipoVisitante = $equipoCollection->getID($nuevoPartido->getEquipoVisitanteId());
     $nuevoPartido->setEquipoVisitante($equipoVisitante);
 
-    // tramos la fecha (fecha nro 1...)
+    // traemos la fecha (fecha nro 1...)
     $fechaData = $this->queryBuilder->selectViejo('fechas', ['id' => $nuevoPartido->getFechaId()]);
     $nuevoPartido->setFecha($fechaData[0]);
+
+    
+    $estadioCollection = new EstadioCollections();
+    $estadioCollection->setQueryBuilder($this->queryBuilder);
+    // traemos el estadio
+    $estadio = $estadioCollection->getID($nuevoPartido->getCancha());
+    $nuevoPartido->setEstadio($estadio);
 
     // traemos el torneo
     $torneoColl = new TorneoCollections();

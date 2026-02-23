@@ -22,7 +22,8 @@ class Partido extends Model
     private ?int $goles_local        = null;
     private ?int $goles_visitante    = null;
     private string $estado;
-    private ?string $cancha          = null;
+    private int $cancha;
+    private ?Estadio $estadio        = null;
 
     /* ====== CONSTRUCTOR ====== */
     public function __construct(array $data = [])
@@ -82,6 +83,8 @@ class Partido extends Model
     public function getEstado(): string { return $this->estado; }
     public function getCancha(): ?string { return $this->cancha; }
 
+    public function getEstadio(): ?Estadio { return $this->estadio; }
+
     /* ====== SETTERS ====== */
 
     public function setId(?int $id): void { $this->id = $id; }
@@ -107,5 +110,6 @@ class Partido extends Model
     public function setGolesLocal(?int $goles_local): void { $this->goles_local = $goles_local; }
     public function setGolesVisitante(?int $goles_visitante): void { $this->goles_visitante = $goles_visitante; }
     public function setEstado(string $estado): void { $this->estado = $estado; }
-    public function setCancha(?string $cancha): void { $this->cancha = $cancha; }
+    public function setCancha(int $cancha): void { $this->cancha = $cancha; }
+    public function setEstadio(?Estadio $estadio): void { $this->estadio = $estadio; }
 }

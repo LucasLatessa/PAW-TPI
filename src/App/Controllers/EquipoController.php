@@ -84,6 +84,8 @@ class EquipoController extends Controlador
     global $request;
 
     $nombreEquipo = $request->getRequest('equipo');
+    $latitud = $request->getRequest('estadio_lat');
+    $longitud = $request->getRequest('estadio_lng');
     $nombreInstitucionalEquipo = $request->getRequest('institucional');
     $fechaCreacion = $request->getRequest('fecha');
     $nombreEstadio = $request->getRequest('estadio');
@@ -95,7 +97,7 @@ class EquipoController extends Controlador
     if ($nombreArchivo !== false) {
       $estadioCollections = new EstadioCollections();
       $estadioCollections->setQueryBuilder($this->getQb());
-      $estadio = $estadioCollections->create($nombreEstadio);
+      $estadio = $estadioCollections->create($nombreEstadio, $latitud, $longitud);
       $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
 
       header('Location: /equipos');

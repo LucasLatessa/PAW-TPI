@@ -95,6 +95,13 @@
     color: var(--color-letras-secundario);
 }
 
+/* ===== BOTÓN / INFO DE UBICACIÓN ===== */
+#btnUbicacion,
+#ubicacionInfo{
+  position: relative;
+  z-index: 6;
+}
+
 /* ===================================================
    RESPONSIVE
 ======================================================
