@@ -36,3 +36,9 @@ php -S localhost:8888 -t public
 ```
 ./ngrok http http://localhost:8888/
 ```
+## Desplegado en Railway
+
+(Esperar 10 segundos para que levante)
+
+[Liga Chivilcoyana de Futbol](https://ligachivilcoyana.up.railway.app/)
+
