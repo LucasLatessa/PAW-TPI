@@ -19,16 +19,10 @@ composer install
 
 3. Copia el contenido que esta en .env.example en .env, modificiando username y password acorde a las configuraciones de su MySql
 
-4. LLevar a cabo los migrates con el siguiente comando
+4. LLevar a cabo los migrates y seeders ejecutando el siguiente script
 
 ```
-phinx migrate -e development
-```
-
-En el caso de no tener el phnix con su PATH
-
-```
-./vendor/bin/phinx migrate -e development
+./semilla.bat
 ```
 
 5. Levantar el proyecto
@@ -42,8 +36,3 @@ php -S localhost:8888 -t public
 ```
 ./ngrok http http://localhost:8888/
 ```
-
-7. "OPCIONAL" Migrates con semilla
-
-Ejecutar .bat
-./semilla.bat
