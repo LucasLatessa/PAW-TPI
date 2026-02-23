@@ -15,18 +15,10 @@ class TorneosSeeder extends AbstractSeed
       [
         'nombre' => 'Primera División',
         'categoria' => 'Primera',
-        'temporada' => '2025',
+        'temporada' => '2026',
         'descripcion' => 'Torneo oficial de la Liga Chivilcoyana de Fútbol',
         'estado' => 'activo',
-        'fecha_inicio' => '2025-02-01',
-      ],
-      [
-        'nombre' => 'Segunda División',
-        'categoria' => 'Segunda',
-        'temporada' => '2025',
-        'descripcion' => 'Torneo oficial de la Liga Chivilcoyana de Fútbol',
-        'estado' => 'activo',
-        'fecha_inicio' => '2025-02-02',
+        'fecha_inicio' => '2026-02-01',
       ],
     ];
 
@@ -61,19 +53,6 @@ class TorneosSeeder extends AbstractSeed
         'puntos' => 0,
       ]);
 
-      // SEGUNDA DIVISIÓN
-      $this->insertarSiNoExiste($tablaPivote, [
-        'torneo_id' => $torneoIds[1],
-        'equipo_id' => $equipo['id'],
-        'partidos_jugados' => 0,
-        'ganados' => 0,
-        'empatados' => 0,
-        'perdidos' => 0,
-        'goles_favor' => 0,
-        'goles_contra' => 0,
-        'diferencia_goles' => 0,
-        'puntos' => 0,
-      ]);
     }
   }
 

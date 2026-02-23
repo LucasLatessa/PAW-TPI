@@ -70,7 +70,7 @@ class EquiposSeeder extends AbstractSeed
         'nombre_institucional' => 'Club Social y Deportivo Huracan',
         'escudo' => 'Huracan.webp',
         'fecha_creacion' => '1900-01-01',
-        'estadio' => 8,
+        'estadio_id' => 8,
         'descripcion' => 'Descripcion',
       ],
       [
