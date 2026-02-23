@@ -86,6 +86,7 @@ $router->post('/torneo/cargarPartido', "TorneoController@cargarPartido");
 $router->get('/partidos', 'PartidoController@partidos');
 $router->get('/partidos/partido', 'PartidoController@show');
 
+$router->post('/partidos/definirHorario', 'PartidoController@definirHorario');
 $router->post('/partidos/cargarResultado', "PartidoController@cargarResultado");
 /* ===== USUARIO ===== */
 $router->get('/login', 'UsuarioController@formLogin');

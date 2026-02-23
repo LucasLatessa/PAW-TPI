@@ -62,7 +62,7 @@ class PartidoCollections extends Model
 
         foreach ($partidosData as $data) {
             $nuevoPartido = new Partido();
-            $nuevoPartido->set($data); 
+            $nuevoPartido->set($data);
 
             $equipoLocal = $equipoCollection->getID($nuevoPartido->getEquipoLocalId());
             $nuevoPartido->setEquipoLocal($equipoLocal);
@@ -118,6 +118,17 @@ class PartidoCollections extends Model
 
         return $this->queryBuilder;
     }
+    public function updateHorario($id, $fecha, $hora)
+    {
+        $data = [
+            'fecha_partido' => $fecha,
+            'hora_partido'  => $hora,
+        ];
+        $where = [
+            'id' => $id,
+        ];
+        return $this->queryBuilder->update($this->table, $data, $where);
+    }
 
     public function getPartido($idPartido)
     {
@@ -149,7 +160,7 @@ class PartidoCollections extends Model
         // Traemos la fecha (fecha nro 1...)
         $fechaData = $this->queryBuilder->select('fechas', ['id' => $nuevoPartido->getFechaId()])->execute();
         if ($fechaData) {
-            $nuevoPartido->setFecha($fechaData[0]); 
+            $nuevoPartido->setFecha($fechaData[0]);
         }
 
         // traemos el torneo

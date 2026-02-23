@@ -195,7 +195,7 @@ class QueryBuilder
             $sentencia->bindValue($param, $value);
         }
 
-        $sentencia->execute();
+        return $sentencia->execute(); 
     }
 
     // -------- DELETE ---------

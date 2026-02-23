@@ -1,6 +1,7 @@
 Cosas que faltan por hacer:
 
 Lucas:
+  X Setear fecha-hora en partidos creados automaticamente
   X Crear partidos automaticamente con fechas (si el usuario lo desea)
   X Permitir crear partidos por parte del usuario (no automaticamente)
   X Pagina de error
@@ -40,6 +41,3 @@ X    noticia
   Cargar:
     equipo en torneo (tanto al crear torneo como despues)
     resultado en un partido
-
-    
-    

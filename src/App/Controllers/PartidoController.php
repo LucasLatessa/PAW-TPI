@@ -19,7 +19,7 @@ class PartidoController extends Controlador
     
     // Paginacion
     $paginaActual = $request->getRequest('p') ?: 1;
-    $porPagina    = $request->get('per_page') ?? 1;// cantidad de partidos por pagina
+    $porPagina    = $request->get('per_page') ?? 4;// cantidad de partidos por pagina
 
     $filters = [
       'categoria' => $request->getRequest('categoria'),
@@ -67,6 +67,28 @@ class PartidoController extends Controlador
       'clima' => $clima
     ]);
   }
+  public function definirHorario()
+{
+    global $request;
+
+    $idPartido = $request->get('id_partido');
+    $fecha = $request->get('fecha_partido');
+    $hora = $request->get('hora_partido');
+
+    // Validacion
+    if (!$idPartido || !$fecha || !$hora) {
+        header("Location: /partidos/partido?id={$idPartido}&error=faltan_datos");
+        return;
+    }
+
+    $resultado = $this->model->updateHorario($idPartido, $fecha, $hora);
+
+    if ($resultado) {
+        header("Location: /partidos/partido?id={$idPartido}");
+    } else {
+        header("Location: /partidos/partido?id={$idPartido}&error=db");
+    }
+}
   
     // Cargar resultado de un partido
     public function cargarResultado()
