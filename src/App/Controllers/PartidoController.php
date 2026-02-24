@@ -56,8 +56,9 @@ class PartidoController extends Controlador
 
     $partido_id = $request->get('id');
     $partido = $this->model->getPartido($partido_id);
-    $estadioLatitud = $partido->getEstadio()->getLatitud();
-    $estadioLongitud = $partido->getEstadio()->getLongitud();
+    $estadio = $partido->getEstadio();
+    $estadioLatitud =  $estadio->getLatitud();
+    $estadioLongitud =  $estadio->getLongitud();
 
     if ( $estadioLatitud && $estadioLongitud){
       $weatherModel = new Weather($estadioLatitud, $estadioLongitud);
@@ -65,15 +66,12 @@ class PartidoController extends Controlador
     } else{
       $clima = 'No se encontro el clima';
     }
-
-    echo "<pre>";
-    print_r($clima);
-    echo "</pre>";
-
+    
     echo $this->twig->render('partidos/show.view.twig', [
       'title' =>  $title,
       'partido' => $partido,
-      'clima' => $clima
+      'clima' => $clima,
+      'estadio' => $estadio
     ]);
   }
   public function definirHorario()

@@ -68,7 +68,8 @@ class TorneosSeeder extends AbstractSeed
                         'estado'              => 'programado',
                         'fecha_id'            => $fecha + 1,
                         'fecha_partido'       =>'2026-03-01',
-                        'hora_partido'       => '15:00:00',
+                        'hora_partido'        => '15:00:00',
+                        'cancha'              => $local
                     ];
                 }
             }

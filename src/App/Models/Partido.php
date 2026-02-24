@@ -23,7 +23,7 @@ class Partido extends Model
     private ?int $goles_local        = null;
     private ?int $goles_visitante    = null;
     private string $estado;
-    private int $cancha;
+    private ?int $cancha;
     private ?Estadio $estadio        = null;
 
   /* ====== CONSTRUCTOR ====== */
@@ -57,7 +57,6 @@ class Partido extends Model
   public function set(array $values)
   {
     foreach ($values as $field => $value) {
-
       $camelCase = str_replace(' ', '', ucwords(str_replace('_', ' ', $field)));
       $method    = 'set' . $camelCase;
 
@@ -124,7 +123,7 @@ class Partido extends Model
   }
 
     public function getEstado(): string { return $this->estado; }
-    public function getCancha(): ?string { return $this->cancha; }
+    public function getCancha(): ?int { return $this->cancha; }
 
     public function getEstadio(): ?Estadio { return $this->estadio; }
 
@@ -182,6 +181,6 @@ class Partido extends Model
     public function setGolesLocal(?int $goles_local): void { $this->goles_local = $goles_local; }
     public function setGolesVisitante(?int $goles_visitante): void { $this->goles_visitante = $goles_visitante; }
     public function setEstado(string $estado): void { $this->estado = $estado; }
-    public function setCancha(int $cancha): void { $this->cancha = $cancha; }
+    public function setCancha(?int $cancha): void { $this->cancha = $cancha; }
     public function setEstadio(?Estadio $estadio): void { $this->estadio = $estadio; }
 }

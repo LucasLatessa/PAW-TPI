@@ -32,16 +32,17 @@ class EstadioCollections extends Model
       return $newEstadio;
    }
 
-   public function getID(int $id): ?Estadio
-    {
-        $record = $this->queryBuilder->selectViejo('estadios', ['id' => $id]);
-        if (empty($record)) {
-            return null;
-        }
+   public function getByID(int $id): ?Estadio
+    { 
+      $record = $this->queryBuilder->select('estadios', ['id' => $id])->execute();
 
-        $estadio = new Estadio();
-        $estadio->set($record[0]);
+      if (empty($record)) {
+          return null;
+      }
 
-        return $estadio;
+      $estadio = new Estadio();
+      $estadio->set($record[0]);
+
+      return $estadio;
     }
 }

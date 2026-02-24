@@ -217,7 +217,7 @@ class TorneoController extends Controlador
             $equiposTorneo = null;
             $listaTorneos  = $this->model->getAllTorneos();
         }
-
+        
         echo $this->twig->render('torneos/cargarPartido.view.twig', [
             'title'         => $title,
             'torneo'        => $torneo,
@@ -237,12 +237,17 @@ class TorneoController extends Controlador
         $fecha       = $request->getRequest("fecha");
         $hora        = $request->getRequest("hora");
 
+        $equipoCollections =  new EquipoCollections();
+        $equipoCollections->setQueryBuilder($this->model->queryBuilder);
+        $equipo = $equipoCollections->getID($idLocal);
+        $estadio_id = $equipo->getEstadioId();
+
         //die(var_dump($idTorneo, $fechaTorneo, $idLocal, $idVisitante, $fecha, $hora));
         //Creacion del partido
         $modelPartidoCollections = new PartidoCollections();
         $modelPartidoCollections->setQueryBuilder($this->getQb());
 
-        $partido = $modelPartidoCollections->programarPartido($idTorneo, $fechaTorneo, $idLocal, $idVisitante, $fecha, $hora);
+        $partido = $modelPartidoCollections->programarPartido($idTorneo, $fechaTorneo, $idLocal, $idVisitante,$estadio_id, $fecha, $hora);
 
         header('Location: /torneos/torneo?id=' . $idTorneo);
         exit();

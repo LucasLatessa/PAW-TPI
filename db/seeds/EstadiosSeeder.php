@@ -9,20 +9,20 @@ class EstadiosSeeder extends AbstractSeed
     public function run(): void
     {
         $estadios = [
-            ['nombre' => 'Estadio Raul Orlando Lungarzo', 'latitud' =>null, 'longitud' => null],
-            ['nombre' => 'Estadio José María Paz', 'latitud' =>null, 'longitud' => null],
-            ['nombre' => 'Estadio X', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Alsina', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Ceramica', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Ciclon', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Colon', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Huracan', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Moquehua', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Once Tigres', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Pellegrini', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Alberti', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Varela', 'latitud' => null, 'longitud' => null],
-            ['nombre' => 'Estadio Villarino', 'latitud' => null, 'longitud' => null],
+            ['nombre' => 'Estadio Raul Orlando Lungarzo', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio José María Paz', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio X', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Alsina', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Ceramica', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Ciclon', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Colon', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Huracan', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Moquehua', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Once Tigres', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Pellegrini', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Alberti', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Varela', 'latitud' => -34.9639, 'longitud' => -60.0333],
+            ['nombre' => 'Estadio Villarino', 'latitud' => -34.9639, 'longitud' => -60.0333],
         ];
 
         $this->table('estadios')->insert($estadios)->saveData();

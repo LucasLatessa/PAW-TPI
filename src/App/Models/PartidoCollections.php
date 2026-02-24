@@ -160,7 +160,7 @@ class PartidoCollections extends Model
         $estadioCollection = new EstadioCollections();
         $estadioCollection->setQueryBuilder($this->queryBuilder);
         // traemos el estadio
-        $estadio = $estadioCollection->getID($nuevoPartido->getCancha());
+        $estadio = $estadioCollection->getByID($nuevoPartido->getCancha());
         $nuevoPartido->setEstadio($estadio);
         // Traemos la fecha (fecha nro 1...)
         $fechaData = $this->queryBuilder->select('fechas', ['id' => $nuevoPartido->getFechaId()])->execute();
@@ -312,7 +312,7 @@ class PartidoCollections extends Model
             ],
         ];
     }
-    public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $fecha = null, $hora = null)
+    public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $estadio_id, $fecha = null, $hora = null )
     {
         $newPartido = new Partido();
 
@@ -323,6 +323,7 @@ class PartidoCollections extends Model
             'equipo_visitante_id' => $visitante,
             'fecha_partido'       => $fecha,
             'hora_partido'        => $hora,
+            'cancha'              => $estadio_id
         ];
 
         // insertar en la base de datos

@@ -76,8 +76,9 @@ class EquipoCollections extends Model
         return count($res);
     }
     public function getID(int $id): ?Equipo
-    {
+    { 
         $record = $this->queryBuilder->select('equipos', ['id' => $id])->execute();
+
         if (empty($record)) {
             return null;
         }
