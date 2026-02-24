@@ -31,14 +31,8 @@
 
     <label for="institucional">Nombre institucional del equipo</label>
     <input id="institucional" name="institucional" value="{{ institucional_ingresado }}" required>
-
-    <label for="imagen-drop-input" id="imagen-drop">
-        <span id="drop-text">Hacé clic o arrastrá la imagen aquí (Máx 1MB)</span>
-        <small id="file-name"> - Formatos aceptados: JPG, PNG</small>
-    </label>
-    <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .png">
-
-    
+    <label for="fecha">Fecha de Creación</label>
+    <input type="date" id="fecha" name="fecha" value="{{fecha_ingresada}}" required>
     {% if errorMessage is defined %}
         <p class="error-message">{{ errorMessage }}</p>
     {% endif %}

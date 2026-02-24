@@ -41,58 +41,55 @@
     {% block scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', () => {
-    const btnUbicacion = document.getElementById('btnUbicacion');
     const ubicacionInfo = document.getElementById('ubicacionInfo');
-    
-    if (!btnUbicacion || !ubicacionInfo) return;
+    if (!ubicacionInfo) return;
 
-    // funcion para pedir el clima al backend
-    const getClima = async (lat, lng) => {
-        try {
-            const res = await fetch(`/api/weather?lat=${lat}&lng=${lng}`);
-            const data = await res.json();
-            if (data.main) {
-                const icon_code = data.weather[0].icon;
-                const description = data.weather[0].description;
-                const temp = Math.round(data.main.temp); 
+   const getClima = async (lat, lng) => {
+    try {
+        const res = await fetch(`/api/weather?lat=${lat}&lng=${lng}`);
+        const data = await res.json();
+        console.log("clima ajax", data);
 
-                ubicacionInfo.innerHTML += `
-    <div class="clima-info-ajax" style="display: flex; align-items: center; gap: 10px; margin-top: 10px; border-top: 1px solid #eee; padding-top: 10px;">
-       
-        <div>
-            <p style="margin: 0; font-weight: bold; color: #333;">${temp}°C</p>
-            <p style="margin: 0; font-size: 0.85rem; text-transform: capitalize; color: #666;">${description}</p>
-        </div>
-    </div>
-`;
-            }
-        } catch (e) {
-            console.error("error al traer el clima", e);
-        }
-    };
+        if (data.main) {
+            const icon = data.weather[0].icon;
+            const desc = data.weather[0].description;
+            const temp = Math.round(data.main.temp);
+            const cityName = data.name; // Nombre de la ciudad que devuelve la API
 
-    // si ya tenemos las coords, pedimos clima de una
-    const lat = localStorage.getItem('user_lat');
-    const lng = localStorage.getItem('user_lng');
-    if (lat && lng) {
-        ubicacionInfo.style.display = 'block';
-        btnUbicacion.style.display = 'none';
-        getClima(lat, lng);
-    }
+            ubicacionInfo.innerHTML = `
+                <div class="clima-info-ajax" style="display: flex; flex-direction: column; gap: 4px; padding: 8px;">
+                    <div style="display: flex; align-items: center; gap: 5px; color: var(--color-primario); font-weight: bold; font-size: 0.85rem;">
+                        <ion-icon name="location-sharp"></ion-icon>
+                        <span>${cityName}</span>
+                    </div>
 
-    btnUbicacion.addEventListener('click', () => {
-        if (!navigator.geolocation) return alert("no tenes gps");
-        
-        navigator.geolocation.getCurrentPosition((pos) => {
-            const { latitude, longitude } = pos.coords;
-            localStorage.setItem('user_lat', latitude);
-            localStorage.setItem('user_lng', longitude);
-            
-            btnUbicacion.style.display = 'none';
+                    <div style="display: flex; align-items: center; gap: 10px;">
+                            <p style="margin: 0; font-weight: 800; color: #333; font-size: 1.1rem;">${temp}°C</p>
+                            <p style="margin: 0; font-size: 0.75rem; text-transform: capitalize; color: #666; line-height: 1;">${desc}</p>
+                    </div>
+                </div>
+            `;
             ubicacionInfo.style.display = 'block';
-            getClima(latitude, longitude);
-        });
-    });
+        }
+    } catch (e) {
+        console.error("error al traer clima", e);
+    }
+};
+
+    // ni bien entra, pedimos ubicacion
+    if (navigator.geolocation) {
+        navigator.geolocation.getCurrentPosition(
+            (pos) => {
+                const { latitude, longitude } = pos.coords;
+                // opcional: guardamos para no pedirle al server cada vez que refresca
+                localStorage.setItem('user_lat', latitude);
+                localStorage.setItem('user_lng', longitude);
+                getClima(latitude, longitude);
+            },
+            (err) => console.warn("usuario nego ubicacion", err),
+            { enableHighAccuracy: true, timeout: 10000 }
+        );
+    }
 });
 </script>
 {% endblock %}

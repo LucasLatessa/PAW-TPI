@@ -35,8 +35,8 @@ Testeo:
   Crear:
 X   usuario (signUp, login, update)
 X    equipo
-    torneo (validar seleccionar equipos y fechas autogeneradas)
-    partido
+X    torneo (validar seleccionar equipos y fechas autogeneradas)
+X    partido
 X    noticia
   Cargar:
     equipo en torneo (tanto al crear torneo como despues)

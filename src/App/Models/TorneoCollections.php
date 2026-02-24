@@ -168,12 +168,17 @@ class TorneoCollections extends Model
                 // Solo programamos si ninguno de los dos es el equipo LIBRE
                 if ($local !== null && $visitante !== null) {
                     $modelPartidoCollections = new PartidoCollections();
+                    $equipoCollections =  new EquipoCollections();
+                    $equipoCollections->setQueryBuilder($this->queryBuilder);
+                    $equipo = $equipoCollections->getID($local);
+                    $estadio_id = $equipo->getEstadioId();
                     $modelPartidoCollections->setQueryBuilder($this->queryBuilder);
                     $modelPartidoCollections->programarPartido(
                         $torneoId,
                         $nroFechaTorneo,
                         $local,
-                        $visitante
+                        $visitante,
+                        $estadio_id
                     );
                 }
             }

@@ -32,6 +32,7 @@
                     {% endif %}
                 </div>
             </li>
+
             <li>
                 <span class="card-icon">
                     <ion-icon name="location-outline" class="material-icons"></ion-icon>
@@ -39,7 +40,6 @@
                 <div>
                     <h4>Estadio</h4>
                     <p>{{ estadio.nombre ?? 'A definir' }}</p>
-                    <p>{{ clima.visibility }}</p>
                 </div>
             </li>
             <li>
@@ -53,6 +53,7 @@
             </li>
         </ul>
     </section>
+    {% if partido.fechaPartido and partido.horaPartido %}
     <section class="informacion-clima">
         <h2>Clima del partido</h2>
         <ul class="datos-informacion-partido">
@@ -99,6 +100,7 @@
             {% endif %}
         </ul>
     </section>
+    {% endif %}
 
     <article class="partido">
 
