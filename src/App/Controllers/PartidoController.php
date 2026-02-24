@@ -62,7 +62,7 @@ class PartidoController extends Controlador
 
     if ( $estadioLatitud && $estadioLongitud){
       $weatherModel = new Weather($estadioLatitud, $estadioLongitud);
-      $clima = $weatherModel->getCurrentWeather();
+      $clima = $weatherModel->getForecastWeather(30);
     } else{
       $clima = 'No se encontro el clima';
     }
