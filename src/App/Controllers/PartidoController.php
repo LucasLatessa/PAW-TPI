@@ -56,40 +56,41 @@ class PartidoController extends Controlador
     $partido = $this->model->getPartido($partido_id);
     
     // Asumo que esto devuelve algo tipo "2026-02-25" o un objeto DateTime
-    $fechaPartido = $partido->getFecha(); 
-    $fechaBuscada = ($fechaPartido instanceof \DateTime) ? $fechaPartido->format('Y-m-d') : date('Y-m-d', strtotime($fechaPartido));
+    $fechaPartido = $partido->getFechaPartido(); 
+    $horaPartido = $partido->getHoraPartido(); 
+    
+    $timestamp = strtotime($fechaPartido . " " . $horaPartido);
 
     $estadio = $partido->getEstadio();
-    $climaPartido = null;
+    $masCercano = null;
+    $menorDiferencia = null;
 
     if ($estadio->getLatitud() && $estadio->getLongitud()) {
         $weatherModel = new Weather($estadio->getLatitud(), $estadio->getLongitud());
         $pronostico = $weatherModel->getForecastWeather(30);
-            echo "<pre>";
-            print_r($pronostico);
-            echo "</pre>";
-            die();
 
         if (isset($pronostico['list'])) {
             foreach ($pronostico['list'] as $dia) {
-                // Convertimos el timestamp del pronostico a fecha y comparamos
-                $fechaPronostico = date('Y-m-d', $dia['dt']);
-                
-                if ($fechaPronostico === $fechaBuscada) {
-                    $climaPartido = $dia;
-                    break; // Cortamos el bucle cuando lo encontramos
+                if (!isset($dia['dt'])) {
+                    continue;
+                }
+
+                $diferencia = abs($dia['dt'] - $timestamp);
+
+                if ($menorDiferencia === null || $diferencia < $menorDiferencia) {
+                    $menorDiferencia = $diferencia;
+                    $masCercano = $dia;
                 }
             }
         }
     }
 
 
-
     // Si no lo encontro (fuera de los 30 dias o error) climaPartido sera null
     echo $this->twig->render('partidos/show.view.twig', [
         'title'   => 'Partido - LigaCF',
         'partido' => $partido,
-        'clima'   => $climaPartido, // Mandamos solo el dia especifico o null
+        'weather'   => $masCercano,
         'estadio' => $estadio
     ]);
 }
