@@ -53,6 +53,52 @@
             </li>
         </ul>
     </section>
+    <section class="informacion-clima">
+        <h2>Clima del partido</h2>
+        <ul class="datos-informacion-partido">
+            {% if clima %}
+                <li>
+                    <span class="card-icon">
+                        <img src="https://openweathermap.org/img/wn/{{ clima.weather.0.icon }}@4x.png" 
+                            alt="Clima" 
+                            style="width: 72px; height: 72px; object-fit: contain;">
+                    </span>
+                    <div>
+                        <h4>Estado</h4>
+                        <p>{{ clima.weather.0.description|capitalize }}</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="card-icon">
+                        <ion-icon name="thermometer-outline" class="material-icons"></ion-icon>
+                    </span>
+                    <div>
+                        <h4>Temperatura</h4>
+                        <p>{{ clima.temp.day|round(1) }}°C</p>
+                    </div>
+                </li>
+                <li>
+                    <span class="card-icon">
+                        <ion-icon name="water-outline" class="material-icons"></ion-icon>
+                    </span>
+                    <div>
+                        <h4>Humedad</h4>
+                        <p>{{ clima.humidity }}%</p>
+                    </div>
+                </li>
+            {% else %}
+                <li>
+                    <span class="card-icon">
+                        <ion-icon name="help-circle-outline" class="material-icons"></ion-icon>
+                    </span>
+                    <div>
+                        <h4>Aviso</h4>
+                        <p>No disponible</p>
+                    </div>
+                </li>
+            {% endif %}
+        </ul>
+    </section>
 
     <article class="partido">
 

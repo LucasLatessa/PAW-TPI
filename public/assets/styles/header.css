@@ -9,6 +9,31 @@
     position: relative;
 }
 
+#btnUbicacion {
+    background-color: var(--color-primario); /* el verde o azul de tu liga */
+    color: white;
+    border: none;
+    padding: 0.5rem 0.8rem;
+    border-radius: 20px;
+    font-size: 0.75rem;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    text-transform: uppercase;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+}
+
+#btnUbicacion:hover {
+    filter: brightness(1.1);
+    transform: translateY(-1px);
+}
+
+#btnUbicacion:active {
+    transform: translateY(0);
+}
 /* ===== LOGO ===== */
 
 .header-titulo{

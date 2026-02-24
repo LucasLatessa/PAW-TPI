@@ -1,5 +1,5 @@
 /* ===== INFORMACION PARTIDO ===== */
-.informacion-partido{
+.informacion-partido, .informacion-clima{
     display: flex;
     flex-direction: column;
 
@@ -14,7 +14,7 @@
     margin: 1rem;
 }
 
-.informacion-partido h2{
+.informacion-partido h2,  .informacion-clima h2{
     font-size: 1.5rem;
     font-weight: bolder;
 }
@@ -27,14 +27,14 @@
     justify-content: space-evenly;
 }
 
-.informacion-partido li {
+.informacion-partido li,.informacion-clima li {
     display: flex;
     flex-direction: row;
     align-items: center;
     gap: 1rem;
 }
 
-.informacion-partido li h4{
+.informacion-partido li h4, .informacion-clima li h4 {
     text-transform: uppercase;
     font-size: 0.9rem;
     font-weight: bold;
@@ -42,10 +42,11 @@
     padding-bottom: 0.3rem;
 }
 
-.informacion-torneo li p {
+.informacion-torneo li p,.informacion-clima li p {
     font-size: 1rem;
     font-weight: bolder;
 }
+
 
 /* ===== PARTIDO ===== */
 .partido {
@@ -329,7 +330,20 @@
 ====================================================== */
 
 @media (min-width: 1024px) {
+    .informacion-partido,
+    .informacion-clima,
+    article.partido {
+      width: 90%;
+      max-width: 1200px;
+      margin-left: auto;
+      margin-right: auto;
+    }
 
+    .informacion-partido, .informacion-clima {
+        flex-direction: column;
+        justify-content: space-around;
+        align-items: center;
+    }
     .informacion-partido,
     article.partido {
       width: 90%;

@@ -20,6 +20,25 @@ class Weather
             'verify' => false,
         ]);
     }
+    public function getAjaxWeather() {
+        global $request;
+        
+        $lat = $request->get('lat');
+        $lng = $request->get('lng');
+
+        if (!$lat || !$lng) {
+            header('Content-Type: application/json');
+            echo json_encode(['error' => 'coordenadas faltantes']);
+            return;
+        }
+
+        $weatherService = new Weather($lat, $lng);
+        $data = $weatherService->getCurrentWeather();
+
+        header('Content-Type: application/json');
+        echo json_encode($data);
+        exit; // cortamos aca para que no renderice todo el sitio
+    }
 
     public function getCurrentWeather(): array
     {

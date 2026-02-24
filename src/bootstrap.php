@@ -98,3 +98,6 @@ $router->get('/cuenta/perfil', 'UsuarioController@perfil');
 $router->post('/login', 'UsuarioController@login');
 $router->post('/cuenta/registrarse', 'UsuarioController@signUp');
 $router->post('/cuenta/perfil', 'UsuarioController@updateperfil');
+
+
+$router->get('/api/weather', 'WeatherController@getAjaxWeather');

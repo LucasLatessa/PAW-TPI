@@ -55,7 +55,6 @@ class PartidoController extends Controlador
     $title = 'Partido - LigaCF';
     $partido = $this->model->getPartido($partido_id);
     
-    // Asumo que esto devuelve algo tipo "2026-02-25" o un objeto DateTime
     $fechaPartido = $partido->getFechaPartido(); 
     $horaPartido = $partido->getHoraPartido(); 
     
@@ -84,13 +83,11 @@ class PartidoController extends Controlador
             }
         }
     }
-
-
     // Si no lo encontro (fuera de los 30 dias o error) climaPartido sera null
     echo $this->twig->render('partidos/show.view.twig', [
         'title'   => 'Partido - LigaCF',
         'partido' => $partido,
-        'weather'   => $masCercano,
+        'clima'   => $masCercano,
         'estadio' => $estadio
     ]);
 }
