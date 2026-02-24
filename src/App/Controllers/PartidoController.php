@@ -47,33 +47,55 @@ class PartidoController extends Controlador
     ]);
 }
 
-  // Muestra un partido
+
   public function show()
-  {
+{
     global $request;
-
-    $title = 'Partido - LigaCF';
-
     $partido_id = $request->get('id');
+    $title = 'Partido - LigaCF';
     $partido = $this->model->getPartido($partido_id);
-    $estadio = $partido->getEstadio();
-    $estadioLatitud =  $estadio->getLatitud();
-    $estadioLongitud =  $estadio->getLongitud();
-
-    if ( $estadioLatitud && $estadioLongitud){
-      $weatherModel = new Weather($estadioLatitud, $estadioLongitud);
-      $clima = $weatherModel->getForecastWeather(30);
-    } else{
-      $clima = 'No se encontro el clima';
-    }
     
+    // Asumo que esto devuelve algo tipo "2026-02-25" o un objeto DateTime
+    $fechaPartido = $partido->getFecha(); 
+    $fechaBuscada = ($fechaPartido instanceof \DateTime) ? $fechaPartido->format('Y-m-d') : date('Y-m-d', strtotime($fechaPartido));
+
+    $estadio = $partido->getEstadio();
+    $climaPartido = null;
+
+    if ($estadio->getLatitud() && $estadio->getLongitud()) {
+        $weatherModel = new Weather($estadio->getLatitud(), $estadio->getLongitud());
+        $pronostico = $weatherModel->getForecastWeather(30);
+            echo "<pre>";
+            print_r($pronostico);
+            echo "</pre>";
+            die();
+
+        if (isset($pronostico['list'])) {
+            foreach ($pronostico['list'] as $dia) {
+                // Convertimos el timestamp del pronostico a fecha y comparamos
+                $fechaPronostico = date('Y-m-d', $dia['dt']);
+                
+                if ($fechaPronostico === $fechaBuscada) {
+                    $climaPartido = $dia;
+                    break; // Cortamos el bucle cuando lo encontramos
+                }
+            }
+        }
+    }
+
+
+
+    // Si no lo encontro (fuera de los 30 dias o error) climaPartido sera null
     echo $this->twig->render('partidos/show.view.twig', [
-      'title' =>  $title,
-      'partido' => $partido,
-      'clima' => $clima,
-      'estadio' => $estadio
+        'title'   => 'Partido - LigaCF',
+        'partido' => $partido,
+        'clima'   => $climaPartido, // Mandamos solo el dia especifico o null
+        'estadio' => $estadio
     ]);
-  }
+}
+
+
+
   public function definirHorario()
 {
     global $request;
