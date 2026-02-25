@@ -39,5 +39,5 @@ X    torneo (validar seleccionar equipos y fechas autogeneradas)
 X    partido
 X    noticia
   Cargar:
-    equipo en torneo (tanto al crear torneo como despues)
-    resultado en un partido
+X    equipo en torneo (tanto al crear torneo como despues)
+X    resultado en un partido
