@@ -59,7 +59,7 @@
         <ul class="datos-informacion-partido">
             {% if clima %}
                 <li>
-                    <span class="card-icon">
+                    <span class="card-icon weather">
                         <img src="https://openweathermap.org/img/wn/{{ clima.weather.0.icon }}@4x.png" 
                             alt="Clima" 
                             style="width: 72px; height: 72px; object-fit: contain;">
@@ -70,7 +70,7 @@
                     </div>
                 </li>
                 <li>
-                    <span class="card-icon">
+                    <span class="card-icon weather">
                         <ion-icon name="thermometer-outline" class="material-icons"></ion-icon>
                     </span>
                     <div>
@@ -79,7 +79,7 @@
                     </div>
                 </li>
                 <li>
-                    <span class="card-icon">
+                    <span class="card-icon weather">
                         <ion-icon name="water-outline" class="material-icons"></ion-icon>
                     </span>
                     <div>
@@ -89,7 +89,7 @@
                 </li>
             {% else %}
                 <li>
-                    <span class="card-icon">
+                    <span class="card-icon weather">
                         <ion-icon name="help-circle-outline" class="material-icons"></ion-icon>
                     </span>
                     <div>

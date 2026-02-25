@@ -13,9 +13,9 @@ Lucas:
   X Equipos favoritos
 
 Mateo:
-  - Estadio pasa a tabla (para API del Clima) (entidad independiente)
-    - Clima de los partidos
-    - Clima de tu ubicacion
+  X Estadio pasa a tabla (para API del Clima) (entidad independiente)
+    x Clima de los partidos
+    x Clima de tu ubicacion
 
 Josue:
   X Home
