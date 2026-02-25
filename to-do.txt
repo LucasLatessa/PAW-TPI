@@ -41,3 +41,13 @@ X    noticia
   Cargar:
 X    equipo en torneo (tanto al crear torneo como despues)
 X    resultado en un partido
+
+Actualizacion post-reunion de Santi:
+- Boton filtrar (acomodar alineacion)
+- Update/Delete de Noticia, Equipo, Torneo y Partido
+- Feedback de create, delete
+- Cargar resultado no debe permitir numeros negativos
+- Crear noticia que guarde campos cuando da error
+- Podado de Load en todas las clases
+- APIKEY Consumida por nosotros y no app de terceros
+- Collections tienen que pasarse el querybuilder por constructor
