@@ -44,7 +44,7 @@ class NoticiasSeeder extends AbstractSeed
       if (!empty($noticia['imagen'])) {
 
         $rutaOrigen = __DIR__ . '/assets/' . $noticia['imagen'];
-        $rutaDestinoRelativa = '/' . $noticia['imagen'];
+        $rutaDestinoRelativa = $noticia['imagen'];
         $rutaDestinoFisica = __DIR__ . '/../../public/' . $rutaDestinoRelativa;
 
         if (file_exists($rutaOrigen)) {

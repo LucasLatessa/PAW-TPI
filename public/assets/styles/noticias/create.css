@@ -108,6 +108,13 @@
     border: 1px solid var(--color-error);
 }
 
+.imagen-actual{
+  display: flex;
+  gap: 1rem;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
 
 /* Responsive */
 @media (max-width: 768px) {

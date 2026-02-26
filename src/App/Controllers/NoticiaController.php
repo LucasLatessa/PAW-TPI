@@ -39,7 +39,18 @@ class NoticiaController extends Controlador
         global $request;
 
         $noticia_id = $request->get('id');
-        $noticia    = $this->model->getID($noticia_id);
+
+        try{
+            $noticia = $this->model->getID($noticia_id);
+        } catch (\Exception $e) {
+            http_response_code(404);
+            $title = "Pagina no encontrada";
+            echo $this->twig->render('not-found.view.twig', [
+              'title' => $title,
+            ]);
+            return;
+        };
+
         $this->model->incrementarVisitas($noticia_id);
 
         $title = $noticia['titulo'] . ' - LigaCF';
@@ -50,19 +61,108 @@ class NoticiaController extends Controlador
         ]);
     }
 
-    // Mostrar formulario para crear una noticia
-    public function formCrearnoticia()
+    public function formNoticia()
     {
-        global $request;
+      global $request;
 
-        $title = 'Crear noticia - LigaCF';
+      $id = $request->get('id');
+      $noticia = null;
 
-        echo $this->twig->render('noticias/create.view.twig', [
-            'title' => $title,
-        ]);
+      // Si hay ID, estoy en un update, sino en un create
+      if ($id) {
+          $noticia = $this->model->getID($id);
+          $title = 'Editar noticia - LigaCF';
+          $action = '/noticias/editar?id=' . $id;
+      } else {
+          $title = 'Crear noticia - LigaCF';
+          $action = '/noticias/crear';
+      }
+
+      echo $this->twig->render('noticias/form.view.twig', [
+          'title'   => $title,
+          'noticia' => $noticia,
+          'action'  => $action,
+          'isEdit'  => $id ? true : false
+      ]);
     }
 
-    // Crear noticia
+    public function updateNoticia(){
+        global $request;
+
+        $id          = $request->get('id');
+        $titulo      = $request->getRequest('titulo');
+        $descripcion = $request->getRequest('descripcion');
+        $fecha       = $request->getRequest('fecha');
+        $autor       = $request->getRequest('autor');
+        $contenido   = $request->getRequest('contenido');
+
+        $errorMessage = null;
+
+        // Traigo la imagen actual por defecto
+        $nombreImagen = $this->model->getImagen($id); 
+
+        /* si el metodo es POST pero el titulo esta vacio, es porque PHP descarto el POST por exceso de tamaño*/
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($titulo) && empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0) {
+            $errorMessage = "La imagen excede el tamaño máximo permitido.";
+        }
+
+        // Si el usuario subió una nueva imagen
+        if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] !== UPLOAD_ERR_NO_FILE) {
+
+            $nuevaImagen = $this->subirImagen($_FILES, 'noticias');
+
+            if ($nuevaImagen !== false) {
+                $nombreImagen = $nuevaImagen;
+
+                // Borrar imagen vieja
+                $imagen = $this->model->getImagen($id);
+                if ($imagen) {
+                    $rutaImagen = __DIR__ . '/../../../public/assets/noticias/' . $imagen;
+
+                    if (file_exists($rutaImagen)) {
+                        unlink($rutaImagen);
+                    }
+                }
+            } else {
+                $errorMessage = "La imagen excede el tamaño permitido (máx 1MB) o el formato no es válido.";
+            }
+        }
+
+        // Creamos objeto con datos actualizados
+        $noticiaActualizada = new Noticia();
+        $noticiaActualizada->set([
+            'id'                 => $id,
+            'titulo'             => $titulo,
+            'descripcion'        => $descripcion,
+            'fecha_publicacion'  => $fecha,
+            'autor'              => $autor,
+            'contenido'          => $contenido,
+            'imagen'             => $nombreImagen,
+        ]);
+
+        // Si no hubo error → actualizamos
+        if (!$errorMessage) {
+
+            $this->model->update($noticiaActualizada, $this->getQb());
+
+            header('Location: /noticias/noticia?id=' . $id);
+            exit();
+        }
+
+        // Error en la carga
+        $title = 'Editar noticia - LigaCF';
+
+        echo $this->twig->render('noticias/form.view.twig', [
+            'title'        => $title,
+            'errorMessage' => $errorMessage,
+            'noticia'      => $noticiaActualizada,
+            'isEdit'       => true,
+            'action'       => '/noticias/editar?id=' . $id
+        ]);
+
+    }
+
+    // Crear noticia (POST)
     public function crearNoticia()
     {
         global $request;
@@ -87,16 +187,17 @@ class NoticiaController extends Controlador
             // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
             $nombreImagen = $this->subirImagen($_FILES, 'noticias');
 
+            $noticiaACrear = new Noticia();
+            $noticiaACrear->set([
+                'titulo'             => $titulo,
+                'descripcion'        => $descripcion,
+                'fecha_publicacion'  => $fecha,
+                'autor'              => $autor,
+                'contenido'          => $contenido,
+                'imagen'             => $nombreImagen,
+            ]);
+
             if ($nombreImagen !== false) {
-                $noticiaACrear = new Noticia();
-                $noticiaACrear->set([
-                    'titulo'             => $titulo,
-                    'descripcion'        => $descripcion,
-                    'fecha_publicacion'  => $fecha,
-                    'autor'              => $autor,
-                    'contenido'          => $contenido,
-                    'imagen'             => $nombreImagen,
-                ]);
                 $noticia= $this->model->create($noticiaACrear, $this->getQb());
                 header('Location: /noticias/noticia?id=' . $noticia->getId());
                 exit();
@@ -110,11 +211,37 @@ class NoticiaController extends Controlador
         echo $this->twig->render('noticias/create.view.twig', [
             'title'                 => $title,
             'errorMessage'          => $errorMessage,
-            'titulo_ingresado'      => $titulo,
-            'descripcion_ingresada' => $descripcion,
-            'fecha_ingresada'       => $fecha,
-            'contenido_ingresado'   => $contenido,
-            'autor_ingresado'       => $autor,
+            'noticia'               => $noticiaACrear,
+            'isEdit'                => false,
+            'action'                => '/noticias/crear'
         ]);
     }
+
+    public function deleteNoticia()
+    {
+        global $request;
+
+        $id = $request->get('id');
+
+        if (!$id) {
+          die('ID inválido');
+        }
+
+        // Borrar imagen del servidor si existe
+        $imagen = $this->model->getImagen($id);
+        if ($imagen) {
+            $rutaImagen = __DIR__ . '/../../../public/assets/noticias/' . $imagen;
+
+            if (file_exists($rutaImagen)) {
+                unlink($rutaImagen);
+            }
+        }
+
+        // Borrar de la base de datos
+        //$this->model->delete($id, $this->getQb());
+
+        header('Location: /noticias');
+        exit();
+    }
+
 }

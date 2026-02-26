@@ -94,6 +94,26 @@ class NoticiaCollections extends Model
 
     return $noticia;
   }
+
+  public function update(Noticia $noticia, $qb)
+  {
+    $data = [
+      'titulo' => $noticia->getTitulo(),
+      'descripcion' => $noticia->getDescripcion(),
+      'fecha_publicacion' => $noticia->getFechaPublicacion(),
+      'imagen' => $noticia->getImagen(),
+      'contenido' => $noticia->getContenido(),
+      'autor' => $noticia->getAutor()
+    ];
+    $qb->update($this->table, $data, ['id' => $noticia->getId()]);
+    
+    return $noticia;
+  }
+
+  public function delete($id, $qb){
+    $qb->delete($this->table, ['id' => $id]);
+  }
+
   public function incrementarVisitas($idNoticia)
   {
     $noticia = $this->getID($idNoticia);
@@ -107,5 +127,11 @@ class NoticiaCollections extends Model
   {
     $noticia = $this->queryBuilder->select($this->table, ['id' => $idNoticia])->execute();
     return $noticia[0];
+  }
+
+  public function getImagen($idNoticia)
+  {
+    $noticia = $this->getID($idNoticia);
+    return $noticia['imagen'];
   }
 }

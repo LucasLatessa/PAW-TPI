@@ -44,6 +44,17 @@
             </a>
         </footer>
 
+        {% if hayLogin %}
+          <a class="btn-crear" href="./editar?id={{ noticia.id }}">Editar noticia</a>
+          <form action="/noticias/borrar?id={{ noticia.id }}" method="POST" 
+              onsubmit="return confirm('¿Seguro que querés borrar esta noticia?');">
+            <button type="submit" class="btn-delete">
+                Borrar noticia
+            </button>
+        </form>
+        {% endif %}
     </article>
+    
+
 
 {% endblock %}

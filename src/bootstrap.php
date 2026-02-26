@@ -53,6 +53,7 @@ $router->setLoggeable($log); #Agrego el log
 
 
 $router->get('/', 'PageController@index'); #Clase y metodo que procesa la peticion
+
 /* ===== EQUIPOS ===== */
 
 $router->get('/equipos', 'EquipoController@equipos');
@@ -62,13 +63,18 @@ $router->get('/equipos/crearEquipo', 'EquipoController@formCrearEquipo');
 $router->post('/equipos/crearEquipo', 'EquipoController@crearEquipo');
 
 /* ===== NOTICIAS ===== */
+
 $router->get('/noticias', 'NoticiaController@noticias');
 $router->get('/noticias/noticia', 'NoticiaController@show');
-$router->get('/noticias/crear', 'NoticiaController@formCrearnoticia');
+$router->get('/noticias/crear', 'NoticiaController@formnoticia');
+$router->get('/noticias/editar', 'NoticiaController@formNoticia');
 /* Post */
 $router->post('/noticias/crear', 'NoticiaController@crearNoticia');
+$router->post('/noticias/editar', 'NoticiaController@updateNoticia');
+$router->post('/noticias/borrar', 'NoticiaController@deleteNoticia');
 
 /* ===== TORNEOS ===== */
+
 $router->get('/torneos', 'TorneoController@torneos');
 $router->get('/torneos/torneo', 'TorneoController@show');
 $router->get('/torneos/torneo/tabla', 'TorneoController@tabla');
@@ -83,12 +89,15 @@ $router->post('/torneo/cargarEquipos', "TorneoController@cargarEquipos");
 $router->post('/torneo/cargarPartido', "TorneoController@cargarPartido");
 
 /* ===== PARTIDOS ===== */
+
 $router->get('/partidos', 'PartidoController@partidos');
 $router->get('/partidos/partido', 'PartidoController@show');
 
 $router->post('/partidos/definirHorario', 'PartidoController@definirHorario');
 $router->post('/partidos/cargarResultado', "PartidoController@cargarResultado");
+
 /* ===== USUARIO ===== */
+
 $router->get('/login', 'UsuarioController@formLogin');
 $router->get('/cuenta/registrarse', 'UsuarioController@formSignUp');
 $router->get('/cuenta/logout', 'UsuarioController@logout');
