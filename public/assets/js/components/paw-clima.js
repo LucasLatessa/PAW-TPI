@@ -3,16 +3,29 @@ class PAWClima {
         this.ubicacionInfo = document.getElementById('ubicacionInfo');
         if (!this.ubicacionInfo) return;
 
+        this.cacheKey = 'clima_data';
+        this.cacheTimeKey = 'clima_timestamp';
+        this.ttl = 10 * 60 * 1000; // 10 minutos
+
         this.init();
     }
 
     init() {
-        // ni bien se instancia, pedimos ubicacion
+        const cachedData = localStorage.getItem(this.cacheKey);
+        const cachedTimestamp = localStorage.getItem(this.cacheTimeKey);
+        const ahora = Date.now();
+
+        // si tenemos datos en cache y no expiraron, los usamos
+        if (cachedData && cachedTimestamp && (ahora - cachedTimestamp < this.ttl)) {
+            this.render(JSON.parse(cachedData));
+            return;
+        }
+
+        // si no hay cache o expiro, pedimos ubicación y fetch
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(
                 (pos) => {
                     const { latitude, longitude } = pos.coords;
-                    // guardamos en localStorage para tenerlo a mano
                     localStorage.setItem('user_lat', latitude);
                     localStorage.setItem('user_lng', longitude);
                     
@@ -21,7 +34,7 @@ class PAWClima {
                 (err) => {
                     console.warn("El usuario nego la ubicacion o hubo un error", err);
                 },
-                { enableHighAccuracy: true, timeout: 10000 }
+                { enableHighAccuracy: false, timeout: 5000 }
             );
         }
     }
@@ -31,13 +44,15 @@ class PAWClima {
             const res = await fetch(`/api/weather?lat=${lat}&lng=${lng}`);
             const data = await res.json();
 
-            if (data.main) {
+            if (data.main) {// GUARDAMOS
+                localStorage.setItem(this.cacheKey, JSON.stringify(data));
+                localStorage.setItem(this.cacheTimeKey, Date.now());
+                
                 this.render(data);
             }
         } catch (e) {
             console.error("Error al traer clima via AJAX", e);
-        }
-    }
+        }}
 
     render(data) {
         const icon = data.weather[0].icon;
@@ -45,7 +60,6 @@ class PAWClima {
         const temp = Math.round(data.main.temp);
         const cityName = data.name;
 
-        // Limpiamos y renderizamos con la estructura de clases de CSS
         this.ubicacionInfo.innerHTML = `
                 <div class="clima-info-ajax" style="display: flex; flex-direction: column; gap: 4px; padding: 8px;">
                     <div style="display: flex; align-items: center; gap: 5px; color: var(--color-primario); font-weight: bold; font-size: 0.85rem;">
@@ -60,7 +74,6 @@ class PAWClima {
                 </div>
             `;
         
-        // Lo hacemos visible
         this.ubicacionInfo.style.display = 'flex';
     }
 }
