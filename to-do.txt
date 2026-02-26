@@ -43,7 +43,7 @@ X    equipo en torneo (tanto al crear torneo como despues)
 X    resultado en un partido
 
 Actualizacion post-reunion de Santi:
-- Boton filtrar (acomodar alineacion)
+X Boton filtrar (acomodar alineacion)
 - Update/Delete de Noticia, Equipo, Torneo y Partido
   x Noticia
   - Partido
@@ -51,7 +51,7 @@ Actualizacion post-reunion de Santi:
   - Equipo
 X Feedback de create, delete (LISTO REDIRIGIMOS AL RECIEN CREADO)
 X Cargar resultado no debe permitir numeros negativos
-- Crear noticia que guarde campos cuando da error
-- Podado de Load en todas las clases
+X Crear noticia que guarde campos cuando da error
+X Podado de Load en todas las clases
 - APIKEY Consumida por nosotros y no app de terceros
-- Collections tienen que pasarse el querybuilder por constructor
+X Collections tienen que pasarse el querybuilder por constructor

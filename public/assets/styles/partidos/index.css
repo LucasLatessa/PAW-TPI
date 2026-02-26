@@ -114,13 +114,14 @@
 @media (min-width: 1024px) {
 
     .filtros-partidos {
-        grid-template-columns: 1fr 1fr 1fr 0.5fr;
-        padding: 0 4rem;
+        grid-template-columns: 0.8fr 1fr 1fr 1fr;
+        /* padding: 0 4rem; */
     }
 
     .filtros-partidos button {
         width: 50%;
         margin: 0 auto;
+        order: -1;
         transition: background 0.3s ease-in-out, color 0.3s ease-in-out;
     }
 
