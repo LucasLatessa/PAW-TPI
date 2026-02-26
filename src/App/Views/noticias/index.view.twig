@@ -46,7 +46,8 @@
         {% endif %}
     </nav>
 
-    <a class="btn-crear" href="./noticias/crear">Crear noticia</a>
-
+    {% if hayLogin %}
+      <a class="btn-crear" href="./noticias/crear">Crear noticia</a>
+    {% endif %}
 
 {% endblock %}
