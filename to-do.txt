@@ -55,3 +55,10 @@ X Crear noticia que guarde campos cuando da error
 X Podado de Load en todas las clases
 - APIKEY Consumida por nosotros y no app de terceros
 X Collections tienen que pasarse el querybuilder por constructor
+
+Flujo:
+ 1° Crear usuario
+ 2° login
+ 3° Crear equipo
+ 4° Crear torneo (crear partido aleatorio)
+ 5° Crear noticia
