@@ -11,9 +11,9 @@ class EquipoCollections extends Model
 
     public function create($nombreEquipo, $nombreEquipoInstitucional, $fechaCreacion, $estadio, $descripcion, $imagen)
     {
-        $newEquipo  = new Equipo;
+        $newEquipo = new Equipo;
         $pathImagen = 'escudos/' . $imagen;
-        $data       = [
+        $data = [
             'nombre'               => $nombreEquipo,
             'nombre_institucional' => $nombreEquipoInstitucional,
             'fecha_creacion'       => $fechaCreacion,
@@ -22,14 +22,15 @@ class EquipoCollections extends Model
             'escudo'               => $pathImagen,
         ];
 
-        // Asignar el QueryBuilder y establecer los datos del equipo
-        $newEquipo->setQueryBuilder($this->queryBuilder);
-        $newEquipo->set($data);
-
-        // Insertar los datos en la base de datos
         $this->queryBuilder->insert($this->table, $data);
+        
+        $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
 
-        // Retornar la instancia del nuevo equipo creado
+        $newEquipo->setQueryBuilder($this->queryBuilder);
+        
+        $data['id'] = $idInsertado;
+        $newEquipo->set($data); 
+
         return $newEquipo;
     }
 

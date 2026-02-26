@@ -110,17 +110,17 @@ class EquipoController extends Controlador
             // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
             $nombreArchivo = $this->subirImagen($_FILES, 'escudos');
 
-    if ($nombreArchivo !== false) {
-      $estadioCollections = new EstadioCollections();
-      $estadioCollections->setQueryBuilder($this->getQb());
-      $estadio = $estadioCollections->create($nombreEstadio, $latitud, $longitud);
-      $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
-
-                header('Location: /equipos');
-                exit();
-            } else {
-                $errorMessage = "El escudo excede el tamaño permitido (1MB) o el formato no es válido.";
-            }
+        if ($nombreArchivo !== false) {
+            $estadioCollections = new EstadioCollections();
+            $estadioCollections->setQueryBuilder($this->getQb());
+            $estadio = $estadioCollections->create($nombreEstadio, $latitud, $longitud);
+            $nuevoEquipo = $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
+            $idRecienCreado = is_object($nuevoEquipo) ? $nuevoEquipo->getId() : $nuevoEquipo;
+            header("Location: /equipos/equipo?id=" . $idRecienCreado);
+            exit();
+        } else {
+            $errorMessage = "El escudo excede el tamaño permitido (1MB) o el formato no es válido.";
+        }
         }
 
         // si llegamos aca es porque hubo un error

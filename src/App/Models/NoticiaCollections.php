@@ -90,12 +90,15 @@ class NoticiaCollections extends Model
 
     ];
 
-    # asignar el querybuilder y establecer los datos
-    $nuevaNoticia->setQueryBuilder($this->queryBuilder);
-    $nuevaNoticia->set($data);
-
     # insertar los datos en la base de datos
     $this->queryBuilder->insert($this->table, $data);
+
+    # asignar el querybuilder y establecer los datos
+    $nuevaNoticia->setQueryBuilder($this->queryBuilder);
+    $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
+    $data['id'] = $idInsertado;
+    $nuevaNoticia->set($data);
+
 
     # retornar la instancia de la nueva noticia creada
     return $nuevaNoticia;

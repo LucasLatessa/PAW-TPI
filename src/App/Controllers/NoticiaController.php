@@ -74,16 +74,22 @@ class NoticiaController extends Controlador
 
         $errorMessage = null;
 
+        /* si el metodo es POST pero el titulo esta vacio, es porque PHP descarto el POST por exceso de tamaño*/
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($titulo) && empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0) {
+            $errorMessage = "La imagen excede el tamaño máximo permitido.";
+        }
         // validamos si el campo imagen existe y si tiene un error
-        if (! isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
-            $errorMessage = "Tenés que subir una imagen de portada para la noticia.";
-        } else {
+        elseif (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
+        $errorMessage = "Tenés que subir una imagen de portada para la noticia.";
+        }
+        else {
             // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
             $nombreImagen = $this->subirImagen($_FILES, 'noticias');
 
             if ($nombreImagen !== false) {
-                $this->model->create($titulo, $descripcion, $contenido, $autor, $fecha, $nombreImagen);
-                header('Location: /noticias');
+                $noticia= $this->model->create($titulo, $descripcion, $contenido, $autor, $fecha, $nombreImagen);
+                $idRecienCreado = is_object($noticia) ? $noticia->getId() : $noticia;
+                header('Location: /noticias/noticia?id=' . $idRecienCreado);
                 exit();
             } else {
                 $errorMessage = "La imagen es demasiado pesada (máx 1MB) o el formato no es válido.";
