@@ -17,11 +17,9 @@ class PageController extends Controlador
     {
         parent::__construct();
 
-        $this->torneo = new TorneoCollections();
-        $this->torneo->setQueryBuilder($this->getQb());
+        $this->torneo = new TorneoCollections($this->getQb());
 
-        $this->noticias = new NoticiaCollections();
-        $this->noticias->setQueryBuilder($this->getQb());
+        $this->noticias = new NoticiaCollections($this->getQb());
     }
 
   public function index()

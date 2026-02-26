@@ -4,7 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Model;
 
-class Torneo extends Model
+class Torneo
 {
 
   private $table   = 'torneos';
@@ -26,25 +26,6 @@ class Torneo extends Model
       if (property_exists($this, $key)) {
         $this->$key = $value;
       }
-    }
-  }
-
-  /* ====== LOAD ====== */
-  public function load($id)
-  {
-    $params = ["id" => $id];
-    $record = current(
-      $this->queryBuilder
-        ->select($this->table)
-        ->where($params)
-        ->execute()
-    );
-
-    if ($record !== false) {
-      $this->set($record);
-      return $this;
-    } else {
-      return null;
     }
   }
 

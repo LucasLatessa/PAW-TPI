@@ -2,6 +2,7 @@
 namespace Paw\App\Models;
 
 use Paw\App\Models\Partido;
+use Paw\Core\Database\QueryBuilder;
 use Paw\Core\Model;
 
 class PartidoCollections extends Model
@@ -17,8 +18,7 @@ class PartidoCollections extends Model
         // echo "</pre>";
         $partidosCollection = [];
 
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+        $equipoCollection = new EquipoCollections($this->queryBuilder);
 
         foreach ($partidos as $partido) {
             $nuevoPartido = new Partido();
@@ -57,8 +57,7 @@ class PartidoCollections extends Model
     {
         $partidosCollection = [];
 
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+        $equipoCollection = new EquipoCollections($this->queryBuilder);
 
         foreach ($partidosData as $data) {
             $nuevoPartido = new Partido();
@@ -146,8 +145,7 @@ class PartidoCollections extends Model
         $nuevoPartido->set($data);
 
         // traemos los equipos
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+        $equipoCollection = new EquipoCollections($this->queryBuilder);
 
         // Local
         $equipoLocal = $equipoCollection->getID($nuevoPartido->getEquipoLocalId());
@@ -157,8 +155,7 @@ class PartidoCollections extends Model
         $equipoVisitante = $equipoCollection->getID($nuevoPartido->getEquipoVisitanteId());
         $nuevoPartido->setEquipoVisitante($equipoVisitante);
     
-        $estadioCollection = new EstadioCollections();
-        $estadioCollection->setQueryBuilder($this->queryBuilder);
+        $estadioCollection = new EstadioCollections($this->queryBuilder);
         // traemos el estadio
         $estadio = $estadioCollection->getByID($nuevoPartido->getCancha());
         $nuevoPartido->setEstadio($estadio);
@@ -169,8 +166,7 @@ class PartidoCollections extends Model
         }
 
         // traemos el torneo
-        $torneoColl = new TorneoCollections();
-        $torneoColl->setQueryBuilder($this->queryBuilder);
+        $torneoColl = new TorneoCollections($this->queryBuilder);
         $torneo = $torneoColl->getTorneo($nuevoPartido->getTorneoId());
         $nuevoPartido->setTorneo($torneo);
 
@@ -186,8 +182,7 @@ class PartidoCollections extends Model
 
         $partidosCollection = [];
 
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+        $equipoCollection = new EquipoCollections($this->queryBuilder);
 
         foreach ($partidos as $partido) {
             $nuevoPartido = new Partido();
@@ -226,8 +221,7 @@ class PartidoCollections extends Model
         //var_dump($fechaId);
         $partidosCollection = [];
 
-        $equipoCollection = new EquipoCollections();
-        $equipoCollection->setQueryBuilder($this->queryBuilder);
+        $equipoCollection = new EquipoCollections($this->queryBuilder);
 
         foreach ($partidos as $partido) {
             $nuevoPartido = new Partido();
@@ -312,32 +306,27 @@ class PartidoCollections extends Model
             ],
         ];
     }
-    public function programarPartido($idTorneo, $fechaTorneo, $local, $visitante, $estadio_id, $fecha = null, $hora = null )
+
+    public function programarPartido(Partido $partido)
     {
-        $newPartido = new Partido();
-
         $data = [
-            'torneo_id'           => $idTorneo,
-            'fecha_id'            => $fechaTorneo,
-            'equipo_local_id'     => $local,
-            'equipo_visitante_id' => $visitante,
-            'fecha_partido'       => $fecha,
-            'hora_partido'        => $hora,
-            'cancha'              => $estadio_id
-        ];
+            'torneo_id'           => $partido->getTorneoId(),
+            'fecha_id'            => $partido->getFechaId(),
+            'equipo_local_id'     => $partido->getEquipoLocalId(),
+            'equipo_visitante_id' => $partido->getEquipoVisitanteId(),
+            'fecha_partido'       => $partido->getFechaPartido(),
+            'hora_partido'        => $partido->getHoraPartido(),
+            'cancha'              => $partido->getCancha()
+         ];
 
-        // insertar en la base de datos
         $this->queryBuilder->insert($this->table, $data);
 
-        $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
+        $id = $this->queryBuilder->getPdo()->lastInsertId();
+        $partido->set(['id' => $id]); 
 
-        $newPartido->setQueryBuilder($this->queryBuilder);
-
-        $data['id'] = $idInsertado;
-        $newPartido->set($data);
-
-        return $newPartido;
+        return $partido;
     }
+
     public function cargarResultado($idPartido, $gl, $gv)
     {
         $partidos = $this->queryBuilder
@@ -356,8 +345,7 @@ class PartidoCollections extends Model
         ];
 
         //Actualizar tabla de posiciones
-        $equipoTorneoCollection = new EquipoTorneoCollections();
-        $equipoTorneoCollection->setQueryBuilder($this->queryBuilder);
+        $equipoTorneoCollection = new EquipoTorneoCollections($this->queryBuilder);
 
         // Si el partido esta finalizado, tengo que restar los puntos y goles del resultado anterior para luego sumar los nuevos resultados
         if ($yaFinalizado) {

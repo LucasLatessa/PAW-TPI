@@ -75,7 +75,7 @@ class UsuarioController extends Controlador
                 'contraseña' => $contraHash,
             ]);
 
-            $this->model->create($usuarioACrear, $this->getQb());
+            $this->model->create($usuarioACrear);
 
             header('Location: /login');
             exit();
@@ -182,8 +182,7 @@ class UsuarioController extends Controlador
         $emailUsuario = $_SESSION['username'];
         $usuario_info = $this->model->get($emailUsuario);
 
-        $equipoModel = new EquipoCollections();
-        $equipoModel->setQueryBuilder($this->getQb());
+        $equipoModel = new EquipoCollections($this->getQb());
         $listaEquipos = $equipoModel->getAllEquipos();
 
         echo $this->twig->render('cuenta/perfil.view.twig', [

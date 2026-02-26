@@ -3,6 +3,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\EquipoTorneoCollections;
+use Paw\App\Models\Partido;
 use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
@@ -86,8 +87,7 @@ class TorneoController extends Controlador
     {
         $title = 'Crear torneo - LigaCF';
         // traemos TODOS los equipos de la liga
-        $equipoModel = new EquipoCollections();
-        $equipoModel->setQueryBuilder($this->model->queryBuilder);
+        $equipoModel = new EquipoCollections($this->model->queryBuilder);
         $todosLosEquipos = $equipoModel->getAllEquipos();
         echo $this->twig->render('torneos/crearTorneo.view.twig', [
             'title'   => $title,
@@ -116,7 +116,7 @@ class TorneoController extends Controlador
             'fecha_inicio' => $fechaInicio,
             'fecha_fin'    => $fechaFin,
         ]);
-        $nuevoTorneo = $this->model->create($torneoACrear, $this->getQb());
+        $nuevoTorneo = $this->model->create($torneoACrear);
         $torneoId = $nuevoTorneo->getId();
 
 
@@ -126,9 +126,6 @@ class TorneoController extends Controlador
             $this->model->vincularEquiposAlTorneo($torneoId, $equiposIds);
             // generamos los partidos
             if ($crearFixture == "1") {
-                $modelPartido = new PartidoCollections();
-                $modelPartido->setQueryBuilder($this->getQb());
-
                 $this->model->generarFixtureAutomatico($torneoId, $equiposIds);
             }
         }
@@ -156,8 +153,7 @@ class TorneoController extends Controlador
         }, $equiposEnTorneo);
 
         // traemos TODOS los equipos de la liga
-        $equipoModel = new EquipoCollections();
-        $equipoModel->setQueryBuilder($this->model->queryBuilder);
+        $equipoModel = new EquipoCollections($this->model->queryBuilder);
         $todosLosEquipos = $equipoModel->getAllEquipos();
 
         // nos quedamos solo con los que NO estan en idsCargados
@@ -215,8 +211,7 @@ class TorneoController extends Controlador
         if ($idTorneo) {
             $torneo = $this->model->getTorneo($idTorneo);
 
-            $modelEquipoTorneo = new EquipoTorneoCollections();
-            $modelEquipoTorneo->setQueryBuilder($this->getQb());
+            $modelEquipoTorneo = new EquipoTorneoCollections($this->getQb());
             $equiposTorneo = $modelEquipoTorneo->getAllEquipos($idTorneo);
 
             $listaTorneos = null;
@@ -246,19 +241,28 @@ class TorneoController extends Controlador
         $fecha       = $request->getRequest("fecha");
         $hora        = $request->getRequest("hora");
 
-        $equipoCollections =  new EquipoCollections();
-        $equipoCollections->setQueryBuilder($this->model->queryBuilder);
+        $equipoCollections =  new EquipoCollections($this->model->queryBuilder);
         $equipo = $equipoCollections->getID($idLocal);
         $estadio_id = $equipo->getEstadioId();
 
         //die(var_dump($idTorneo, $fechaTorneo, $idLocal, $idVisitante, $fecha, $hora));
         //Creacion del partido
-        $modelPartidoCollections = new PartidoCollections();
-        $modelPartidoCollections->setQueryBuilder($this->getQb());
+        $modelPartidoCollections = new PartidoCollections($this->getQb());
+        $newPartido = new Partido();
+        $newPartido ->set([
+                    'torneo_id'           => $idTorneo,
+                    'fecha_id'            => $fechaTorneo,
+                    'equipo_local_id'     => $idLocal,
+                    'equipo_visitante_id' => $idVisitante,
+                    'fecha_partido'       => $fecha,
+                    'hora_partido'        => $hora,
+                    'cancha'              => $estadio_id
+                ]);
 
-        $partido = $modelPartidoCollections->programarPartido($idTorneo, $fechaTorneo, $idLocal, $idVisitante,$estadio_id, $fecha, $hora);
+        $partido = $modelPartidoCollections->programarPartido($newPartido);
+        $idPartido = $partido->getId();
 
-        header('Location: /torneos/torneo?id=' . $idTorneo);
+        header('Location: /partidos/partido?id=' . $idPartido);
         exit();
     }
 

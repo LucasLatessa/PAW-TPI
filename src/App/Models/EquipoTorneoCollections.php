@@ -15,8 +15,7 @@ class EquipoTorneoCollections extends Model
       ->select($this->table, ['torneo_id' => $idTorneo])
       ->execute();
 
-    $equipoCollection = new EquipoCollections();
-    $equipoCollection->setQueryBuilder($this->queryBuilder);
+    $equipoCollection = new EquipoCollections($this->queryBuilder);
 
     // Crear una coleccion de objetos Equipo
     $equiposTorneoCollection = [];
@@ -41,7 +40,6 @@ class EquipoTorneoCollections extends Model
     ];
 
     // Asignar el QueryBuilder y establecer los datos del equipo
-    $newEquipoTorneo->setQueryBuilder($this->queryBuilder);
     $newEquipoTorneo->set($data);
 
     // Insertar los datos en la base de datos

@@ -7,7 +7,7 @@ class TorneoCollections extends Model
 {
     public $table = 'torneos';
 
-    public function create(Torneo $torneo, $qb)
+    public function create(Torneo $torneo)
     {
         $data      = [
             'nombre'       => $torneo->getNombre(),
@@ -18,9 +18,9 @@ class TorneoCollections extends Model
             'fecha_fin'    => $torneo->getFechaFin(),
         ];
 
-        $qb->insert($this->table, $data);
+        $this->queryBuilder->insert($this->table, $data);
 
-        $id = $qb->getPdo()->lastInsertId();
+        $id = $this->queryBuilder->getPdo()->lastInsertId();
         $torneo->set(['id' => $id]);
 
         return $torneo;
@@ -161,12 +161,10 @@ class TorneoCollections extends Model
 
                 // Solo programamos si ninguno de los dos es el equipo LIBRE
                 if ($local !== null && $visitante !== null) {
-                    $modelPartidoCollections = new PartidoCollections();
-                    $equipoCollections =  new EquipoCollections();
-                    $equipoCollections->setQueryBuilder($this->queryBuilder);
+                    $modelPartidoCollections = new PartidoCollections($this->queryBuilder);
+                    $equipoCollections =  new EquipoCollections($this->queryBuilder);
                     $equipo = $equipoCollections->getID($local);
                     $estadio_id = $equipo->getEstadioId();
-                    $modelPartidoCollections->setQueryBuilder($this->queryBuilder);
                     $modelPartidoCollections->programarPartido(
                         $torneoId,
                         $nroFechaTorneo,
@@ -211,16 +209,14 @@ class TorneoCollections extends Model
 
     public function getUltimosPartidos($idTorneo)
     {
-        $partidoCollection = new PartidoCollections();
-        $partidoCollection->setQueryBuilder($this->queryBuilder);
+        $partidoCollection = new PartidoCollections($this->queryBuilder);
 
         return $partidoCollection->getUltimosPorTorneo($idTorneo, 3);
     }
 
     public function getFechasDeTorneo($idTorneo)
     {
-        $fechaCollection = new FechaCollections();
-        $fechaCollection->setQueryBuilder($this->queryBuilder);
+        $fechaCollection = new FechaCollections($this->queryBuilder);
 
         return $fechaCollection->getByTorneo($idTorneo);
     }
@@ -239,8 +235,7 @@ class TorneoCollections extends Model
 
     public function getPartidosFecha($idTorneo, $idFecha)
     {
-        $partidoCollection = new PartidoCollections();
-        $partidoCollection->setQueryBuilder($this->queryBuilder);
+        $partidoCollection = new PartidoCollections($this->queryBuilder);
 
         return $partidoCollection->getPartidosByFecha($idTorneo, $idFecha);
     }

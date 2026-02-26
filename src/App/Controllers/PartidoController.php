@@ -31,8 +31,7 @@ class PartidoController extends Controlador
         $totalPartidos = $this->model->getTotalPartidos($filters);
         $totalPaginas  = ceil($totalPartidos / $porPagina);
 
-        $torneoModel = new TorneoCollections();
-        $torneoModel->setQueryBuilder($this->model->queryBuilder);
+        $torneoModel = new TorneoCollections($this->model->queryBuilder);
         $categorias = $torneoModel->getCategorias();
 
         echo $this->twig->render('partidos/index.view.twig', [
@@ -131,8 +130,7 @@ class PartidoController extends Controlador
         $golesValidos   = $datos && is_numeric($golesLocal) && $golesLocal >= 0 && is_numeric($golesVisitante) && $golesVisitante >= 0;
 
         if ($idPartido && $golesValidos) {
-            $partidoCollection = new PartidoCollections();
-            $partidoCollection->setQueryBuilder($this->getQb());
+            $partidoCollection = new PartidoCollections($this->getQb());
             $partidoCollection->cargarResultado($idPartido, (int) $golesLocal, (int) $golesVisitante);
             header("Location: /partidos/partido?id=$idPartido");
         } else {

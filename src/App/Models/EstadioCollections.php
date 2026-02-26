@@ -8,7 +8,7 @@ class EstadioCollections extends Model
 {
     protected $table = 'estadios';
 
-    public function create(Estadio $estadio, $qb)
+    public function create(Estadio $estadio)
    {
     $data = [
         'nombre' => $estadio ->getNombre(),
@@ -16,8 +16,8 @@ class EstadioCollections extends Model
         'longitud' => $estadio->getLongitud(),
     ];
 
-    $qb->insert($this->table, $data);
-    $id = $qb->getPdo()->lastInsertId();
+    $this->queryBuilder->insert($this->table, $data);
+    $id = $this->queryBuilder->getPdo()->lastInsertId();
     $estadio->set(['id' => $id]); 
 
     return $estadio;

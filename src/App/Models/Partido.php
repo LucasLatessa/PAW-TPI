@@ -4,7 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Model;
 
-class Partido extends Model
+class Partido
 {
   private $table   = 'partidos';
   private ?int $id = null;
@@ -31,25 +31,6 @@ class Partido extends Model
   {
     if (!empty($data)) {
       $this->set($data);
-    }
-  }
-
-  /* ====== LOAD ====== */
-  public function load($id)
-  {
-    $params = ["id" => $id];
-    $record = current(
-      $this->queryBuilder
-        ->select($this->table)
-        ->where($params)
-        ->execute()
-    );
-
-    if ($record !== false) {
-      $this->set($record);
-      return $this;
-    } else {
-      return null;
     }
   }
 

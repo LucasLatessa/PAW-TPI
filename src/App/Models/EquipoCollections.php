@@ -9,7 +9,7 @@ class EquipoCollections extends Model
 {
     public $table = 'equipos';
 
-public function create(Equipo $equipo, $qb)
+public function create(Equipo $equipo)
 {
     $data = [
         'nombre'               => $equipo->getNombre(), 
@@ -20,9 +20,9 @@ public function create(Equipo $equipo, $qb)
         'escudo'               => $equipo->getEscudo(),
     ];
 
-    $qb->insert($this->table, $data);
+    $this->queryBuilder->insert($this->table, $data);
     
-    $id = $qb->getPdo()->lastInsertId();
+    $id = $this->queryBuilder->getPdo()->lastInsertId();
     $equipo->set(['id' => $id]); 
 
     return $equipo;

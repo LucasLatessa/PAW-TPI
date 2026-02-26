@@ -43,10 +43,8 @@ class EquipoController extends Controlador
         $equipo    = $this->model->getID($equipo_id);
 
         // Modelos tabla y partido
-        $partidoModel = new PartidoCollections();
-        $partidoModel->setQueryBuilder($this->getQb());
-        $tablaModel = new EquipoTorneoCollections();
-        $tablaModel->setQueryBuilder($this->getQb());
+        $partidoModel = new PartidoCollections($this->getQb());
+        $tablaModel = new EquipoTorneoCollections($this->getQb());
         $torneo_id = $tablaModel->getLastTorneo($equipo_id);
 
         $ultimosPartidos = [];
@@ -118,15 +116,14 @@ class EquipoController extends Controlador
 
             if ($nombreArchivo !== false) {
                 //creamos estadio
-                $estadioCollections = new EstadioCollections();
+                $estadioCollections = new EstadioCollections($this->getQb());
                 $estadioACrear = new Estadio();
                 $estadioACrear->set([
                     'nombre'   => $nombreEstadio,
                     'latitud'  => $latitud,
                     'longitud' => $longitud
                 ]);
-                $estadioCollections->setQueryBuilder($this->getQb());
-                $estadio = $estadioCollections->create($estadioACrear, $this->getQb());
+                $estadio = $estadioCollections->create($estadioACrear);
 
                 // creamos objeto estadio y luego lo pasamos al create
                 $equipoACrear = new Equipo();
@@ -138,7 +135,7 @@ class EquipoController extends Controlador
                     'descripcion'          => $descripcion,
                     'escudo'               => 'escudos/' . $nombreArchivo,
                 ]);
-                $nuevoEquipo = $this->model->create($equipoACrear, $this->getQb());
+                $nuevoEquipo = $this->model->create($equipoACrear);
                 header("Location: /equipos/equipo?id=" . $nuevoEquipo->getId());
                 exit();
             } else {

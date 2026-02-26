@@ -4,7 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Model;
 
-class EquipoTorneo extends Model
+class EquipoTorneo
 {
 
   #Asocio el model con la tabla
@@ -27,25 +27,6 @@ class EquipoTorneo extends Model
   private $diferencia;
 
   public $equipo;
-
-  /* ====== LOAD ====== */
-  public function load($id)
-  {
-    $params = ["id" => $id];
-    $record = current(
-      $this->queryBuilder
-        ->select($this->table)
-        ->where($params)
-        ->execute()
-    );
-
-    if ($record !== false) {
-      $this->set($record);
-      return $this;
-    } else {
-      return null;
-    }
-  }
 
   /* ====== SET ====== */
   public function set(array $values)

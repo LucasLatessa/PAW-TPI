@@ -12,6 +12,11 @@ class Model
 
     public $queryBuilder;
 
+    public function __construct(QueryBuilder $qb)
+    {
+        $this->queryBuilder = $qb;
+    }
+
     public function setQueryBuilder(QueryBuilder $qb)
     {
         $this->queryBuilder = $qb;

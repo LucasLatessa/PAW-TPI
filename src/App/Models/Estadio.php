@@ -4,7 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Model;
 
-class Estadio extends Model
+class Estadio
 {
   private $table = 'estadios';
 
@@ -20,26 +20,7 @@ class Estadio extends Model
       $this->set($data);
     }
   }
-
-  /* ====== LOAD ====== */
-  public function load($id)
-  {
-    $params = ["id" => $id];
-    $record = current(
-      $this->queryBuilder
-        ->select($this->table)
-        ->where($params)
-        ->execute()
-    );
-
-    if ($record !== false) {
-      $this->set($record);
-      return $this;
-    } else {
-      return null;
-    }
-  }
-
+  
   /* ====== SET ====== */
   public function set(array $values)
   {

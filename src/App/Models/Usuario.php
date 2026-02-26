@@ -5,7 +5,7 @@ namespace Paw\App\Models;
 use Paw\Core\Exceptions\EmailException;
 use Paw\Core\Model;
 
-class Usuario extends Model
+class Usuario
 {
   public $table = 'usuarios';
   private $id;
@@ -18,25 +18,6 @@ class Usuario extends Model
   private $contraseña;
 
   private $equipoFavoritoId;
-
-  /* ====== LOAD ====== */
-  public function load($id)
-  {
-    $params = ["id" => $id];
-    $record = current(
-      $this->queryBuilder
-        ->select($this->table)
-        ->where($params)
-        ->execute()
-    );
-
-    if ($record !== false) {
-      $this->set($record);
-      return $this;
-    } else {
-      return null;
-    }
-  }
 
   /* ====== SET ====== */
   public function set(array $values)

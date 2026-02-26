@@ -198,7 +198,7 @@ class NoticiaController extends Controlador
             ]);
 
             if ($nombreImagen !== false) {
-                $noticia= $this->model->create($noticiaACrear, $this->getQb());
+                $noticia= $this->model->create($noticiaACrear);
                 header('Location: /noticias/noticia?id=' . $noticia->getId());
                 exit();
             } else {
@@ -238,7 +238,7 @@ class NoticiaController extends Controlador
         }
 
         // Borrar de la base de datos
-        //$this->model->delete($id, $this->getQb());
+        $this->model->delete($id, $this->getQb());
 
         header('Location: /noticias');
         exit();

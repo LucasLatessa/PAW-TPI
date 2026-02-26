@@ -4,7 +4,7 @@ namespace Paw\App\Models;
 
 use Paw\Core\Model;
 
-class Fecha extends Model
+class Fecha
 {
 
   private $table = 'fechas';
@@ -23,25 +23,6 @@ class Fecha extends Model
     }
   }
   
-    /* ====== LOAD ====== */
-  public function load($id)
-  {
-    $params = ["id" => $id];
-    $record = current(
-      $this->queryBuilder
-        ->select($this->table)
-        ->where($params)
-        ->execute()
-    );
-
-    if ($record !== false) {
-      $this->set($record);
-      return $this;
-    } else {
-      return null;
-    }
-  }
-
   /* ====== SET ====== */
   public function set(array $values)
   {

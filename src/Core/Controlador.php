@@ -101,8 +101,7 @@ class Controlador
 
         if (!is_null($this->modelName)) {
             
-            $model = new $this->modelName;
-            $model->setQueryBuilder($qb);
+            $model = new $this->modelName($qb);
             $this->setModel($model);
         }
     }

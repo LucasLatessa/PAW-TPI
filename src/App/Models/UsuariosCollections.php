@@ -27,7 +27,7 @@ class UsuariosCollections extends Model
         return null;
     }
 
-    public function create(Usuario $usuario, $qb)
+    public function create(Usuario $usuario)
     {
         $data = [
             'nombre'     => $usuario->getNombre(),
@@ -36,9 +36,9 @@ class UsuariosCollections extends Model
             'contraseña' => $usuario->getContraseña(),
         ];
 
-        $qb->insert($this->table, $data);
+        $this->queryBuilder->insert($this->table, $data);
 
-        $id = $qb->getPdo()->lastInsertId();
+        $id = $this->queryBuilder->getPdo()->lastInsertId();
         $usuario->set(['id' => $id]);
 
         return $usuario;

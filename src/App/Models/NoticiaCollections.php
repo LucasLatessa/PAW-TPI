@@ -20,7 +20,6 @@ class NoticiaCollections extends Model
     foreach ($noticias as $noticiaData) {
       $nuevaNoticia = new Noticia();
       # pasamos el querybuilder por si se usa el load despues
-      $nuevaNoticia->setQueryBuilder($this->queryBuilder);
       $nuevaNoticia->set($noticiaData);
       $noticiasCollection[] = $nuevaNoticia;
     }
@@ -67,7 +66,6 @@ class NoticiaCollections extends Model
     $noticiasCollection = [];
     foreach ($noticias as $noticiaData) {
       $nuevaNoticia = new Noticia();
-      $nuevaNoticia->setQueryBuilder($this->queryBuilder);
       $nuevaNoticia->set($noticiaData);
       $noticiasCollection[] = $nuevaNoticia;
     }
@@ -76,7 +74,7 @@ class NoticiaCollections extends Model
   }
 
 
-  public function create(Noticia $noticia, $qb)
+  public function create(Noticia $noticia)
   {
     $data = [
       'titulo' => $noticia->getTitulo(),
@@ -87,9 +85,9 @@ class NoticiaCollections extends Model
       'autor' => $noticia->getAutor()
 
     ];
-    $qb->insert($this->table, $data);
+    $this->queryBuilder->insert($this->table, $data);
     
-    $id = $qb->getPdo()->lastInsertId();
+    $id = $this->queryBuilder->getPdo()->lastInsertId();
     $noticia->set(['id' => $id]); 
 
     return $noticia;
