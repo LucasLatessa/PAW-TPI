@@ -6,7 +6,7 @@ use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\TorneoCollections;
 use Paw\Core\Controlador;
-
+use Paw\App\Models\Torneo;
 class TorneoController extends Controlador
 {
 
@@ -106,13 +106,22 @@ class TorneoController extends Controlador
         $descripcion  = $request->getRequest('descripcion');
         $fechaInicio  = $request->getRequest('fechaInicio');
         $fechaFin     = $request->getRequest('fechaFin');
-        $equiposIds   = $request->getRequest('equipos_ids') ?? [];
+
+        $torneoACrear = new Torneo();
+        $torneoACrear->set([
+            'nombre'       => $nombreTorneo,
+            'categoria'    => $categoria,
+            'temporada'    => $temporada,
+            'descripcion'  => $descripcion,
+            'fecha_inicio' => $fechaInicio,
+            'fecha_fin'    => $fechaFin,
+        ]);
+        $nuevoTorneo = $this->model->create($torneoACrear, $this->getQb());
+        $torneoId = $nuevoTorneo->getId();
+
+
+        $equiposIds = $request->getRequest('equipos_ids') ?? [];
         $crearFixture = $request->getRequest('crear_fixture'); // llega 1 si se marco
-
-        $torneo = $this->model->create($nombreTorneo, $categoria, $temporada, $descripcion, $fechaInicio, $fechaFin);
-
-        $torneoId = $torneo->getId();
-
         if (! empty($equiposIds) && $torneoId) {
             $this->model->vincularEquiposAlTorneo($torneoId, $equiposIds);
             // generamos los partidos

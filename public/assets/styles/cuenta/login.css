@@ -76,11 +76,15 @@
     box-shadow: var(--sombra-suave);
 }
 
-/* ===== ERROR ===== */
-.error {
-    text-align: center;
-    font-size: 0.75rem;
+.error-message {
+    font-family: var(--fuente-secundaria);
     color: var(--color-error);
+    background-color: rgba(220, 38, 38, 0.05);
+    padding: 0.75rem;
+    border-radius: 6px;
+    font-size: 0.85rem;
+    text-align: center;
+    border: 1px solid var(--color-error);
     margin-bottom: 1rem;
 }
 

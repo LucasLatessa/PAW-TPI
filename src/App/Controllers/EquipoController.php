@@ -3,6 +3,7 @@ namespace Paw\App\Controllers;
 
 use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\Equipo;
+use Paw\App\Models\Estadio;
 use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\EstadioCollections;
 use Paw\App\Models\PartidoCollections;
@@ -109,7 +110,7 @@ class EquipoController extends Controlador
             $errorMessage = "La imagen excede el tamaño máximo permitido.";
         }
         // validamos si el campo imagen existe y si tiene un error
-        if (! isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
+        elseif (! isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
             $errorMessage = "Tenés que subir un escudo para el equipo.";
         } else {
             // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
@@ -118,8 +119,14 @@ class EquipoController extends Controlador
             if ($nombreArchivo !== false) {
                 //creamos estadio
                 $estadioCollections = new EstadioCollections();
+                $estadioACrear = new Estadio();
+                $estadioACrear->set([
+                    'nombre'   => $nombreEstadio,
+                    'latitud'  => $latitud,
+                    'longitud' => $longitud
+                ]);
                 $estadioCollections->setQueryBuilder($this->getQb());
-                $estadio = $estadioCollections->create($nombreEstadio, $latitud, $longitud);
+                $estadio = $estadioCollections->create($estadioACrear, $this->getQb());
 
                 // creamos objeto estadio y luego lo pasamos al create
                 $equipoACrear = new Equipo();

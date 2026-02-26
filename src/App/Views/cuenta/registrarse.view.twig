@@ -34,7 +34,7 @@
         <input type="text" name="palabraClave" id="palabraClave" required>
 
         {% if errorMessage %}
-            <p class="alerta-error">
+            <p class="error-message">
                 {{ errorMessage }}
             </p>
         {% endif %}
@@ -44,7 +44,7 @@
 
     <footer class="auth-footer">
         <p>¿Ya tienes una cuenta?
-            <a href="/cuenta/login">Inicie sesion aquí</a>
+            <a href="/login">Inicie sesion aquí</a>
         </p>
     </footer>
 

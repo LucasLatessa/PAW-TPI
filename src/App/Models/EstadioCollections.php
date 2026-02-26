@@ -8,28 +8,19 @@ class EstadioCollections extends Model
 {
     protected $table = 'estadios';
 
-    public function create($nombreEstadio, $latitud, $longitud)
+    public function create(Estadio $estadio, $qb)
    {
-      $newEstadio = new Estadio; 
-      $data = [
-         'nombre' => $nombreEstadio,
-         'latitud' => $latitud,
-         'longitud' => $longitud
-      ];
+    $data = [
+        'nombre' => $estadio ->getNombre(),
+        'latitud' => $estadio->getLatitud(),
+        'longitud' => $estadio->getLongitud(),
+    ];
 
-      // Asignar el QueryBuilder y establecer los datos del equipo
-      $newEstadio->setQueryBuilder($this->queryBuilder);
-      $newEstadio->set($data);
+    $qb->insert($this->table, $data);
+    $id = $qb->getPdo()->lastInsertId();
+    $estadio->set(['id' => $id]); 
 
-      // Insertar los datos en la base de datos
-      $this->queryBuilder->insert($this->table, $data);
-      $estadioId = $this->queryBuilder->getPdo()->lastInsertId();
-
-      $data['id'] = $estadioId;
-      $newEstadio->set($data);
-
-      // Retornar la instancia del nuevo equipo creado
-      return $newEstadio;
+    return $estadio;
    }
 
    public function getByID(int $id): ?Estadio

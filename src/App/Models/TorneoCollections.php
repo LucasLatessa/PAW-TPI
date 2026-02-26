@@ -3,33 +3,27 @@ namespace Paw\App\Models;
 
 use Paw\App\Models\Torneo;
 use Paw\Core\Model;
-
 class TorneoCollections extends Model
 {
     public $table = 'torneos';
 
-    public function create($nombreTorneo, $categoria, $temporada, $descripcion, $fechaInicio, $fechaFin)
+    public function create(Torneo $torneo, $qb)
     {
-        $newTorneo = new Torneo;
         $data      = [
-            'nombre'       => $nombreTorneo,
-            'categoria'    => $categoria,
-            'temporada'    => $temporada,
-            'descripcion'  => $descripcion,
-            'fecha_inicio' => $fechaInicio,
-            'fecha_fin'    => $fechaFin,
+            'nombre'       => $torneo->getNombre(),
+            'categoria'    => $torneo->getCategoria(),
+            'temporada'    => $torneo->getTemporada(),
+            'descripcion'  => $torneo->getDescripcion(),
+            'fecha_inicio' => $torneo->getFechaInicio(),
+            'fecha_fin'    => $torneo->getFechaFin(),
         ];
 
-        $this->queryBuilder->insert($this->table, $data);
+        $qb->insert($this->table, $data);
 
-        $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
+        $id = $qb->getPdo()->lastInsertId();
+        $torneo->set(['id' => $id]);
 
-        $newTorneo->setQueryBuilder($this->queryBuilder);
-
-        $data['id'] = $idInsertado;
-        $newTorneo->set($data);
-
-        return $newTorneo;
+        return $torneo;
     }
 
     public function getAllTorneos()

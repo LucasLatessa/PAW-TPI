@@ -27,22 +27,21 @@ class UsuariosCollections extends Model
         return null;
     }
 
-    public function create($nombre, $apellido, $correo, $contraseña)
+    public function create(Usuario $usuario, $qb)
     {
-        $newUsuario = new Usuario;
-
         $data = [
-            'nombre'     => $nombre,
-            'apellido'   => $apellido,
-            'correo'     => $correo,
-            'contraseña' => $contraseña,
+            'nombre'     => $usuario->getNombre(),
+            'apellido'   => $usuario->getApellido(),
+            'correo'     => $usuario->getCorreo(),
+            'contraseña' => $usuario->getContraseña(),
         ];
 
-        $newUsuario->setQueryBuilder($this->queryBuilder);
-        $newUsuario->set($data);
+        $qb->insert($this->table, $data);
 
-        $this->queryBuilder->insert($this->table, $data);
-        return $newUsuario;
+        $id = $qb->getPdo()->lastInsertId();
+        $usuario->set(['id' => $id]);
+
+        return $usuario;
     }
 
     public function updateUsuario($params)
