@@ -119,6 +119,11 @@
         <!-- Resultado y estado -->
         <section class="partido-info">
             {% if hayLogin %}
+            {% if errorMessage %}
+                <p class="error-message" >
+                    {{ errorMessage }}
+                </p>
+            {% endif %}
                 <form action="/partidos/cargarResultado" method="POST" class="form-resultado-rapido">
                     <input type="hidden" name="id_partido" value="{{ partido.id }}">
                     <div class="inputs-goles">

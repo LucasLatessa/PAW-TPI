@@ -1,122 +1,122 @@
 <?php
-
 namespace Paw\App\Controllers;
 
 use Paw\App\Models\PartidoCollections;
 use Paw\App\Models\TorneoCollections;
-use Paw\App\Models\Estadio;
 use Paw\Core\Controlador;
 use Paw\Core\Utils\Weather;
+
 class PartidoController extends Controlador
 {
 
-  public ?string $modelName = PartidoCollections::class;
-  
-  // Ver lista de partidos en la Liga
- public function partidos()
-{
-    global $request;
-    $hayLogin = $_SESSION['login'] ?? false;
-    
-    // Paginacion
-    $paginaActual = $request->getRequest('p') ?: 1;
-    $porPagina    = $request->get('per_page') ?? 4;// cantidad de partidos por pagina
+    public ?string $modelName = PartidoCollections::class;
 
-    $filters = [
-      'categoria' => $request->getRequest('categoria'),
-      'fecha'     => $request->getRequest('fecha'),
-      'estado'    => $request->getRequest('estado'),
-    ];
+    // Ver lista de partidos en la Liga
+    public function partidos()
+    {
+        global $request;
+        $hayLogin = $_SESSION['login'] ?? false;
 
-    $partidos = $this->model->getPartidosPaginados($filters, $paginaActual, $porPagina);
-    $totalPartidos = $this->model->getTotalPartidos($filters);
-    $totalPaginas = ceil($totalPartidos / $porPagina);
+        // Paginacion
+        $paginaActual = $request->getRequest('p') ?: 1;
+        $porPagina    = $request->get('per_page') ?? 4; // cantidad de partidos por pagina
 
-    $torneoModel = new TorneoCollections();
-    $torneoModel->setQueryBuilder($this->model->queryBuilder);
-    $categorias = $torneoModel->getCategorias();
+        $filters = [
+            'categoria' => $request->getRequest('categoria'),
+            'fecha'     => $request->getRequest('fecha'),
+            'estado'    => $request->getRequest('estado'),
+        ];
 
-    echo $this->twig->render('partidos/index.view.twig', [
-      'title' => 'Partidos - LigaCF',
-      'partidos' => $partidos,
-      'categorias' => $categorias,
-      'filters' => $filters,
-      'paginaActual' => $paginaActual,
-      'totalPaginas' => $totalPaginas,
-      'porPagina'    => $porPagina
-    ]);
-}
+        $partidos      = $this->model->getPartidosPaginados($filters, $paginaActual, $porPagina);
+        $totalPartidos = $this->model->getTotalPartidos($filters);
+        $totalPaginas  = ceil($totalPartidos / $porPagina);
 
+        $torneoModel = new TorneoCollections();
+        $torneoModel->setQueryBuilder($this->model->queryBuilder);
+        $categorias = $torneoModel->getCategorias();
 
-  public function show()
-{
-    global $request;
-    $partido_id = $request->get('id');
-    $title = 'Partido - LigaCF';
-    $partido = $this->model->getPartido($partido_id);
-    
-    $fechaPartido = $partido->getFechaPartido(); 
-    $horaPartido = $partido->getHoraPartido(); 
-    
-    $timestamp = strtotime($fechaPartido . " " . $horaPartido);
+        echo $this->twig->render('partidos/index.view.twig', [
+            'title'        => 'Partidos - LigaCF',
+            'partidos'     => $partidos,
+            'categorias'   => $categorias,
+            'filters'      => $filters,
+            'paginaActual' => $paginaActual,
+            'totalPaginas' => $totalPaginas,
+            'porPagina'    => $porPagina,
+        ]);
+    }
 
-    $estadio = $partido->getEstadio();
-    $masCercano = null;
-    $menorDiferencia = null;
+    public function show()
+    {
+        global $request;
+        
+        $partido_id = $request->get('id');
+        $title      = 'Partido - LigaCF';
+        $partido    = $this->model->getPartido($partido_id);
+        $errorMessage = $_SESSION['error'] ?? null;
+        unset($_SESSION['error']);
 
-    if ($estadio->getLatitud() && $estadio->getLongitud()) {
-        $weatherModel = new Weather($estadio->getLatitud(), $estadio->getLongitud());
-        $pronostico = $weatherModel->getForecastWeather(30);
+        $fechaPartido = $partido->getFechaPartido();
+        $horaPartido  = $partido->getHoraPartido();
 
-        if (isset($pronostico['list'])) {
-            foreach ($pronostico['list'] as $dia) {
-                if (!isset($dia['dt'])) {
-                    continue;
-                }
+        $timestamp = strtotime($fechaPartido . " " . $horaPartido);
 
-                $diferencia = abs($dia['dt'] - $timestamp);
+        $estadio         = $partido->getEstadio();
+        $masCercano      = null;
+        $menorDiferencia = null;
 
-                if ($menorDiferencia === null || $diferencia < $menorDiferencia) {
-                    $menorDiferencia = $diferencia;
-                    $masCercano = $dia;
+        if ($estadio->getLatitud() && $estadio->getLongitud()) {
+            $weatherModel = new Weather($estadio->getLatitud(), $estadio->getLongitud());
+            $pronostico   = $weatherModel->getForecastWeather(30);
+
+            if (isset($pronostico['list'])) {
+                foreach ($pronostico['list'] as $dia) {
+                    if (! isset($dia['dt'])) {
+                        continue;
+                    }
+
+                    $diferencia = abs($dia['dt'] - $timestamp);
+
+                    if ($menorDiferencia === null || $diferencia < $menorDiferencia) {
+                        $menorDiferencia = $diferencia;
+                        $masCercano      = $dia;
+                    }
                 }
             }
         }
-    }
-    // Si no lo encontro (fuera de los 30 dias o error) climaPartido sera null
-    echo $this->twig->render('partidos/show.view.twig', [
-        'title'   => 'Partido - LigaCF',
-        'partido' => $partido,
-        'clima'   => $masCercano,
-        'estadio' => $estadio
-    ]);
-}
-
-
-
-  public function definirHorario()
-{
-    global $request;
-
-    $idPartido = $request->get('id_partido');
-    $fecha = $request->get('fecha_partido');
-    $hora = $request->get('hora_partido');
-
-    // Validacion
-    if (!$idPartido || !$fecha || !$hora) {
-        header("Location: /partidos/partido?id={$idPartido}&error=faltan_datos");
-        return;
+        // Si no lo encontro (fuera de los 30 dias o error) climaPartido sera null
+        echo $this->twig->render('partidos/show.view.twig', [
+            'title'   => 'Partido - LigaCF',
+            'partido' => $partido,
+            'clima'   => $masCercano,
+            'estadio' => $estadio,
+            'errorMessage' => $errorMessage,
+        ]);
     }
 
-    $resultado = $this->model->updateHorario($idPartido, $fecha, $hora);
+    public function definirHorario()
+    {
+        global $request;
 
-    if ($resultado) {
-        header("Location: /partidos/partido?id={$idPartido}");
-    } else {
-        header("Location: /partidos/partido?id={$idPartido}&error=db");
+        $idPartido = $request->get('id_partido');
+        $fecha     = $request->get('fecha_partido');
+        $hora      = $request->get('hora_partido');
+
+        // Validacion
+        if (! $idPartido || ! $fecha || ! $hora) {
+            header("Location: /partidos/partido?id={$idPartido}&error=faltan_datos");
+            return;
+        }
+
+        $resultado = $this->model->updateHorario($idPartido, $fecha, $hora);
+
+        if ($resultado) {
+            header("Location: /partidos/partido?id={$idPartido}");
+        } else {
+            header("Location: /partidos/partido?id={$idPartido}&error=db");
+        }
     }
-}
-  
+
     // Cargar resultado de un partido
     public function cargarResultado()
     {
@@ -126,15 +126,21 @@ class PartidoController extends Controlador
         $golesLocal     = $request->getRequest("goles_local");
         $golesVisitante = $request->getRequest("goles_visitante");
 
-        // Partido sin resultado
-        if ($idPartido && $golesLocal !== null && $golesVisitante !== null) {
+        // validamos que no sean nulos, que sean numericos y que no sean negativos
+        $datos = ($golesLocal !== null && $golesVisitante !== null);
+        $golesValidos   = $datos && is_numeric($golesLocal) && $golesLocal >= 0 && is_numeric($golesVisitante) && $golesVisitante >= 0;
+
+        if ($idPartido && $golesValidos) {
             $partidoCollection = new PartidoCollections();
             $partidoCollection->setQueryBuilder($this->getQb());
-            $partidoCollection->cargarResultado($idPartido, $golesLocal, $golesVisitante);
+            $partidoCollection->cargarResultado($idPartido, (int) $golesLocal, (int) $golesVisitante);
+            header("Location: /partidos/partido?id=$idPartido");
+        } else {
+            $error = "Los goles no pueden ser negativos.";
+            $_SESSION['error'] = $error;
+            header("Location: /partidos/partido?id=$idPartido");
+            exit;
         }
-        
-        header("Location: /partidos/partido?id=$idPartido");
         exit;
     }
-  
 }
