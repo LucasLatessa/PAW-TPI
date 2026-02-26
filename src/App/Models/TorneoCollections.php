@@ -141,7 +141,7 @@ class TorneoCollections extends Model
             return false;
         }
     }
-    public function generarFixtureAutomatico($torneoId, $equiposIds, $modelPartido, $fechaInicio)
+    public function generarFixtureAutomatico($torneoId, $equiposIds)
     {
         $cantidadEquipos = count($equiposIds);
         if ($cantidadEquipos < 2) {

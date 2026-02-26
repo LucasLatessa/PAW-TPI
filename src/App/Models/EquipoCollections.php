@@ -9,30 +9,24 @@ class EquipoCollections extends Model
 {
     public $table = 'equipos';
 
-    public function create($nombreEquipo, $nombreEquipoInstitucional, $fechaCreacion, $estadio, $descripcion, $imagen)
-    {
-        $newEquipo = new Equipo;
-        $pathImagen = 'escudos/' . $imagen;
-        $data = [
-            'nombre'               => $nombreEquipo,
-            'nombre_institucional' => $nombreEquipoInstitucional,
-            'fecha_creacion'       => $fechaCreacion,
-            'estadio_id'           => $estadio,
-            'descripcion'          => $descripcion,
-            'escudo'               => $pathImagen,
-        ];
+public function create(Equipo $equipo, $qb)
+{
+    $data = [
+        'nombre'               => $equipo->getNombre(), 
+        'nombre_institucional' => $equipo->getNombreInstitucional(),
+        'fecha_creacion'       => $equipo->getFechaCreacion(),
+        'estadio_id'           => $equipo->getEstadioId(),
+        'descripcion'          => $equipo->getDescripcion(),
+        'escudo'               => $equipo->getEscudo(),
+    ];
 
-        $this->queryBuilder->insert($this->table, $data);
-        
-        $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
+    $qb->insert($this->table, $data);
+    
+    $id = $qb->getPdo()->lastInsertId();
+    $equipo->set(['id' => $id]); 
 
-        $newEquipo->setQueryBuilder($this->queryBuilder);
-        
-        $data['id'] = $idInsertado;
-        $newEquipo->set($data); 
-
-        return $newEquipo;
-    }
+    return $equipo;
+}
 
     public function getAllEquipos()
     {

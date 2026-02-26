@@ -120,7 +120,7 @@ class TorneoController extends Controlador
                 $modelPartido = new PartidoCollections();
                 $modelPartido->setQueryBuilder($this->getQb());
 
-                $this->model->generarFixtureAutomatico($torneoId, $equiposIds, $modelPartido, $fechaInicio);
+                $this->model->generarFixtureAutomatico($torneoId, $equiposIds);
             }
         }
         header('Location: /torneos');

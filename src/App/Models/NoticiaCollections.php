@@ -76,32 +76,23 @@ class NoticiaCollections extends Model
   }
 
 
-  public function create($titulo, $descripcion, $contenido, $autor, $fecha, $imagen)
+  public function create(Noticia $noticia, $qb)
   {
-    $nuevaNoticia = new Noticia();
-
     $data = [
-      'titulo' => $titulo,
-      'descripcion' => $descripcion,
-      'fecha_publicacion' => $fecha,
-      'imagen' => $imagen,
-      'contenido' => $contenido,
-      'autor' => $autor
+      'titulo' => $noticia->getTitulo(),
+      'descripcion' => $noticia->getDescripcion(),
+      'fecha_publicacion' => $noticia->getFechaPublicacion(),
+      'imagen' => $noticia->getImagen(),
+      'contenido' => $noticia->getContenido(),
+      'autor' => $noticia->getAutor()
 
     ];
+    $qb->insert($this->table, $data);
+    
+    $id = $qb->getPdo()->lastInsertId();
+    $noticia->set(['id' => $id]); 
 
-    # insertar los datos en la base de datos
-    $this->queryBuilder->insert($this->table, $data);
-
-    # asignar el querybuilder y establecer los datos
-    $nuevaNoticia->setQueryBuilder($this->queryBuilder);
-    $idInsertado = $this->queryBuilder->getPdo()->lastInsertId();
-    $data['id'] = $idInsertado;
-    $nuevaNoticia->set($data);
-
-
-    # retornar la instancia de la nueva noticia creada
-    return $nuevaNoticia;
+    return $noticia;
   }
   public function incrementarVisitas($idNoticia)
   {

@@ -2,6 +2,7 @@
 namespace Paw\App\Controllers;
 
 use Paw\App\Models\EquipoCollections;
+use Paw\App\Models\Equipo;
 use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\EstadioCollections;
 use Paw\App\Models\PartidoCollections;
@@ -93,16 +94,20 @@ class EquipoController extends Controlador
     {
         global $request;
 
-    $nombreEquipo = $request->getRequest('equipo');
-    $latitud = $request->getRequest('estadio_lat');
-    $longitud = $request->getRequest('estadio_lng');
-    $nombreInstitucionalEquipo = $request->getRequest('institucional');
-    $fechaCreacion = $request->getRequest('fecha');
-    $nombreEstadio = $request->getRequest('estadio');
-    $descripcion = $request->getRequest('descripcion');
+        $nombreEquipo              = $request->getRequest('equipo');
+        $latitud                   = $request->getRequest('estadio_lat');
+        $longitud                  = $request->getRequest('estadio_lng');
+        $nombreInstitucionalEquipo = $request->getRequest('institucional');
+        $fechaCreacion             = $request->getRequest('fecha');
+        $nombreEstadio             = $request->getRequest('estadio');
+        $descripcion               = $request->getRequest('descripcion');
 
         $errorMessage = null;
 
+        /* si el metodo es POST pero el nombre esta vacio, es porque PHP descarto el POST por exceso de tamaño*/
+        if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($nombreEquipo) && empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0) {
+            $errorMessage = "La imagen excede el tamaño máximo permitido.";
+        }
         // validamos si el campo imagen existe y si tiene un error
         if (! isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
             $errorMessage = "Tenés que subir un escudo para el equipo.";
@@ -110,17 +115,28 @@ class EquipoController extends Controlador
             // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
             $nombreArchivo = $this->subirImagen($_FILES, 'escudos');
 
-        if ($nombreArchivo !== false) {
-            $estadioCollections = new EstadioCollections();
-            $estadioCollections->setQueryBuilder($this->getQb());
-            $estadio = $estadioCollections->create($nombreEstadio, $latitud, $longitud);
-            $nuevoEquipo = $this->model->create($nombreEquipo, $nombreInstitucionalEquipo, $fechaCreacion, $estadio->getId(), $descripcion, $nombreArchivo);
-            $idRecienCreado = is_object($nuevoEquipo) ? $nuevoEquipo->getId() : $nuevoEquipo;
-            header("Location: /equipos/equipo?id=" . $idRecienCreado);
-            exit();
-        } else {
-            $errorMessage = "El escudo excede el tamaño permitido (1MB) o el formato no es válido.";
-        }
+            if ($nombreArchivo !== false) {
+                //creamos estadio
+                $estadioCollections = new EstadioCollections();
+                $estadioCollections->setQueryBuilder($this->getQb());
+                $estadio = $estadioCollections->create($nombreEstadio, $latitud, $longitud);
+
+                // creamos objeto estadio y luego lo pasamos al create
+                $equipoACrear = new Equipo();
+                $equipoACrear->set([
+                    'nombre'               => $nombreEquipo,
+                    'nombre_institucional' => $nombreInstitucionalEquipo,
+                    'fecha_creacion'       => $fechaCreacion,
+                    'estadio_id'           => $estadio->getId(),
+                    'descripcion'          => $descripcion,
+                    'escudo'               => 'escudos/' . $nombreArchivo,
+                ]);
+                $nuevoEquipo = $this->model->create($equipoACrear, $this->getQb());
+                header("Location: /equipos/equipo?id=" . $nuevoEquipo->getId());
+                exit();
+            } else {
+                $errorMessage = "El escudo excede el tamaño permitido (máx 1MB) o el formato no es válido.";
+            }
         }
 
         // si llegamos aca es porque hubo un error

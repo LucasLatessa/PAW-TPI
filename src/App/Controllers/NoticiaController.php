@@ -2,6 +2,7 @@
 namespace Paw\App\Controllers;
 
 use Paw\App\Models\NoticiaCollections;
+use Paw\App\Models\Noticia;
 use Paw\Core\Controlador;
 
 class NoticiaController extends Controlador
@@ -87,12 +88,20 @@ class NoticiaController extends Controlador
             $nombreImagen = $this->subirImagen($_FILES, 'noticias');
 
             if ($nombreImagen !== false) {
-                $noticia= $this->model->create($titulo, $descripcion, $contenido, $autor, $fecha, $nombreImagen);
-                $idRecienCreado = is_object($noticia) ? $noticia->getId() : $noticia;
-                header('Location: /noticias/noticia?id=' . $idRecienCreado);
+                $noticiaACrear = new Noticia();
+                $noticiaACrear->set([
+                    'titulo'             => $titulo,
+                    'descripcion'        => $descripcion,
+                    'fecha_publicacion'  => $fecha,
+                    'autor'              => $autor,
+                    'contenido'          => $contenido,
+                    'imagen'             => $nombreImagen,
+                ]);
+                $noticia= $this->model->create($noticiaACrear, $this->getQb());
+                header('Location: /noticias/noticia?id=' . $noticia->getId());
                 exit();
             } else {
-                $errorMessage = "La imagen es demasiado pesada (máx 1MB) o el formato no es válido.";
+                $errorMessage = "La imagen excede el tamaño permitido (máx 1MB) o el formato no es válido.";
             }
         }
 
