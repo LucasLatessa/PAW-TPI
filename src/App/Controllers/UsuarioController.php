@@ -7,7 +7,7 @@ use Paw\Core\Controlador;
 use Paw\App\Models\Usuario;
 
 
-require __DIR__ . '\..\..\Core\Utils\googleauth.php';
+require __DIR__ . '/../../Core/Utils/googleauth.php';
 class UsuarioController extends Controlador
 {
     public ?string $modelName = UsuariosCollections::class;
