@@ -208,7 +208,7 @@ class NoticiaController extends Controlador
 
         // si llegamos aca es porque hubo un error
         $title = 'Crear noticia - LigaCF';
-        echo $this->twig->render('noticias/create.view.twig', [
+        echo $this->twig->render('noticias/form.view.twig', [
             'title'                 => $title,
             'errorMessage'          => $errorMessage,
             'noticia'               => $noticiaACrear,
