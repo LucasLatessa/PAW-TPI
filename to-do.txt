@@ -46,9 +46,9 @@ Actualizacion post-reunion de Santi:
 X Boton filtrar (acomodar alineacion)
 - Update/Delete de Noticia, Equipo, Torneo y Partido
   x Noticia
-  - Partido
-  - Torneo
-  - Equipo
+  ? Partido
+  ? Torneo
+  X Equipo
 X Feedback de create, delete (LISTO REDIRIGIMOS AL RECIEN CREADO)
 X Cargar resultado no debe permitir numeros negativos
 X Crear noticia que guarde campos cuando da error

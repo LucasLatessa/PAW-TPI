@@ -284,6 +284,10 @@ class PartidoCollections extends Model
         $p = $result[0];
         //var_dump($p);
 
+        //return $this->getPartido($p['id']);
+
+        var_dump($p);
+
         return [
             'id'              => $p['id'],
             'fechaPartido'    => $p['fecha_partido'],
@@ -291,13 +295,11 @@ class PartidoCollections extends Model
             'estado'          => $p['estado'],
             'golesLocal'      => $p['goles_local'],
             'golesVisitante'  => $p['goles_visitante'],
+            'estadio'         => $p['estadio'] ?? '',
 
             'equipoLocal'     => [
                 'nombre'  => $p['nombre_local'],
                 'escudo'  => $p['escudo_local'],
-                'estadio' => [
-                    'nombre' => $p['cancha'] ?? '',
-                ],
             ],
 
             'equipoVisitante' => [
