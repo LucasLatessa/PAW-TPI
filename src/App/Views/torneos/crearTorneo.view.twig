@@ -78,7 +78,7 @@
                                 {% for equipo in equipos %}
                                 <label class="equipo-check-item">
                                     <input type="checkbox" name="equipos_ids[]" value="{{ equipo.id }}" class="equipo-checkbox">
-                                    <img src="/assets/{{ equipo.escudo }}" alt="" class="mini-escudo">
+                                    <img src="/assets/escudos/{{ equipo.escudo }}" alt="" class="mini-escudo">
                                     <span>{{ equipo.nombre }}</span>
                                 </label>
                                 {% endfor %}
