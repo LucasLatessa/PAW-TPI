@@ -6,6 +6,8 @@ use Paw\App\Models\UsuariosCollections;
 use Paw\Core\Controlador;
 use Paw\App\Models\Usuario;
 
+
+require __DIR__ . '\..\..\Core\Utils\googleauth.php';
 class UsuarioController extends Controlador
 {
     public ?string $modelName = UsuariosCollections::class;
@@ -46,12 +48,11 @@ class UsuarioController extends Controlador
         $palabraclave    = $request->getRequest("palabraClave");
 
         $errorMessage = null;
-
         // validamos contraseñas y palabra clave
         if ($password !== $passwordConfirm) {
             $errorMessage = "Las contraseñas no coinciden.";
-        } elseif (getenv('PALABRA_CLAVE') !== $palabraclave) {
-            $errorMessage = "La palabra clave es incorrecta.";
+        } elseif (!isValidTotpCode(getenv('PALABRA_CLAVE'), $palabraclave)) {
+            $errorMessage = "El codigo es incorrecto.";
         }
         // si hubo error cortamos
         if ($errorMessage) {

@@ -3,6 +3,7 @@
 function isValidTotpCode(string $secretBase32, string $code): bool
 {
     $secret = base32DecodeStrict($secretBase32);
+    
     if ($secret === null || $secret === '') {
         return false;
     }
