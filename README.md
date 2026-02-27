@@ -6,6 +6,10 @@ Se resolvio un sitio para una liga de futbol que permite ver tablas, noticias  y
 Entorno de desarrollo: VSCode,
 Sistema Operativo: Windows 11
 
+[Diapositivas para presentacion](https://docs.google.com/presentation/d/1PJ39ZpEpGsB2Bji7BejKdi9HvvbKmN3w1GiZ0Lir1Ho/edit?usp=sharing)
+[Diagramas](https://drive.google.com/file/d/11eeG-HcdYVZ5bG-VZjLCpFYsAhSQwbeX/view?usp=sharing)
+
+
 ## Instrucciones para configurar-instalacion
 
 1. Instalar todas las dependencias
