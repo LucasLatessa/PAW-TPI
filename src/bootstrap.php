@@ -58,9 +58,11 @@ $router->get('/', 'PageController@index'); #Clase y metodo que procesa la petici
 
 $router->get('/equipos', 'EquipoController@equipos');
 $router->get('/equipos/equipo', 'EquipoController@show'); 
-$router->get('/equipos/crearEquipo', 'EquipoController@formCrearEquipo');
+$router->get('/equipos/crearEquipo', 'EquipoController@formEquipo');
+$router->get('/equipos/editar', 'EquipoController@formEquipo');
 /* Post */
 $router->post('/equipos/crearEquipo', 'EquipoController@crearEquipo');
+$router->post('/equipos/editar', 'EquipoController@updateEquipo');
 
 /* ===== NOTICIAS ===== */
 
@@ -79,11 +81,13 @@ $router->get('/torneos', 'TorneoController@torneos');
 $router->get('/torneos/torneo', 'TorneoController@show');
 $router->get('/torneos/torneo/tabla', 'TorneoController@tabla');
 $router->get('/torneos/torneo/fixture', 'TorneoController@fixture');
-$router->get('/torneos/crearTorneo', 'TorneoController@formCrearTorneo');
+$router->get('/torneos/crearTorneo', 'TorneoController@formTorneo');
+$router->get('/torneo/editar', 'TorneoController@formTorneo');
 $router->get('/torneo/cargarEquipos', "TorneoController@formCargarEquipos");
 $router->get('/torneo/cargarPartido', "TorneoController@formCargarPartido");
 /* Post */
 $router->post('/torneos/crearTorneo', 'TorneoController@crearTorneo');
+$router->post('/torneo/editar', 'TorneoController@updateTorneo');
 $router->post('/torneo/cargarEquipos', "TorneoController@cargarEquipos");
 
 $router->post('/torneo/cargarPartido', "TorneoController@cargarPartido");

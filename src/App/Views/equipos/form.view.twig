@@ -20,40 +20,48 @@
 
 {% block content %}
 <header class="header-main">
-  <h1>Crear Equipo</h1>
+  <h1>{{ isEdit ? 'Editar Equipo' : 'Crear Equipo' }}</h1>
 </header>
 
 <section class="section-carga">
   <form method="POST" enctype="multipart/form-data" class="carga-form" action="">
 
     <label for="equipo">Nombre del equipo</label>
-    <input id="equipo" name="equipo" value="{{ equipo_ingresado }}" required>
+    <input id="equipo" name="equipo" value="{{ equipo.nombre ?? '' }}" required>
 
     <label for="institucional">Nombre institucional del equipo</label>
-    <input id="institucional" name="institucional" value="{{ institucional_ingresado }}" required>
+    <input id="institucional" name="institucional" value="{{ equipo.nombreInstitucional ?? '' }}" required>
     <label for="fecha">Fecha de Fundación</label>
-    <input type="date" id="fecha" name="fecha" value="{{fecha_ingresada}}" required>
+    <input type="date" id="fecha" name="fecha" value="{{ equipo.fechaCreacion ?? '' }}"  required>
     {% if errorMessage is defined %}
         <p class="error-message">{{ errorMessage }}</p>
     {% endif %}
 
     <label for="estadio">Nombre estadio</label>
-    <input id="estadio" name="estadio" value="{{ estadio_ingresado }}" required>
+    <input id="estadio" name="estadio" value="{{ estadio.nombre ?? '' }}"  required>
 
     {# === NUEVO: Ubicación del estadio (lat/lng) === #}
     <label>Ubicación del estadio</label>
     <div id="map"></div>
     <p class="map-help">Hacé click en el mapa para marcar la ubicación (podés arrastrar el pin).</p>
 
-    <input type="hidden" id="estadio_lat" name="estadio_lat" value="{{ estadio_lat|default('') }}">
-    <input type="hidden" id="estadio_lng" name="estadio_lng" value="{{ estadio_lng|default('') }}">
+    <input type="hidden" id="estadio_lat" name="estadio_lat" value="{{ estadio.latitud|default('') }}">
+    <input type="hidden" id="estadio_lng" name="estadio_lng" value="{{ estadio.longitud|default('') }}">
     {# Opcional: guardar dirección en texto #}
     <input type="hidden" id="estadio_direccion" name="estadio_direccion" value="{{ estadio_direccion|default('') }}">
     {# === FIN NUEVO === #}
 
     <label for="descripcion">Descripcion</label>
-    <textarea id="descripcion" name="descripcion" rows="4" required>{{ descripcion_ingresada }}</textarea>
+    <textarea id="descripcion" name="descripcion" rows="4" required>{{ equipo.descripcion ?? '' }}</textarea>
 
+    {% if isEdit and equipo.escudo %}
+    <div class="imagen-actual">
+        <p>Escudo actual:</p>
+        <img src="/assets/escudos/{{ equipo.escudo }}" 
+            alt="Imagen actual" 
+            style="max-width: 200px;">
+    </div>
+    {% endif %}
     <label for="imagen" id="imagen-drop">
       Escudo (Imagen tamaño maximo 1MB)
       <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .png">
