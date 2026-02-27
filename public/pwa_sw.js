@@ -10,28 +10,37 @@ const APP_SHELL = [
   "/assets/icono.ico"
 ];
 
-self.addEventListener("install", () => {
+self.addEventListener("install", (event) => {
+  event.waitUntil(
+    caches.open(CACHE_VERSION).then((cache) => cache.addAll(APP_SHELL))
+  );
   self.skipWaiting();
 });
 
-self.addEventListener("activate", () => {
+self.addEventListener("activate", (event) => {
+  event.waitUntil(
+    caches.keys().then((keys) =>
+      Promise.all(
+        keys
+          .filter((key) => key !== CACHE_VERSION)
+          .map((key) => caches.delete(key))
+      )
+    )
+  );
   self.clients.claim();
 });
 
 self.addEventListener("fetch", (event) => {
   if (event.request.method !== "GET") return;
 
-  event.respondWith(
-    caches.match(event.request).then((cached) => {
-      if (cached) return cached;
+  const accept = event.request.headers.get("accept") || "";
 
-      return fetch(event.request)
-        .then((response) => {
-          const clone = response.clone();
-          caches.open(CACHE_VERSION).then((cache) => cache.put(event.request, clone));
-          return response;
-        })
-        .catch(() => caches.match("/"));
-    })
+  if (accept.includes("text/html") || accept.includes("application/json")) {
+    event.respondWith(fetch(event.request));
+    return;
+  }
+
+  event.respondWith(
+    caches.match(event.request).then((cached) => cached || fetch(event.request))
   );
 });
