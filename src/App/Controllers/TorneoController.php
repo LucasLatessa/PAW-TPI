@@ -129,7 +129,7 @@ class TorneoController extends Controlador
                 $this->model->generarFixtureAutomatico($torneoId, $equiposIds);
             }
         }
-        header('Location: /torneos');
+        header('Location: /torneos/torneo?id=' . $torneoId);
         exit();
     }
     public function formCargarEquipos()
