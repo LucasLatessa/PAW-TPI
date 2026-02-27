@@ -33,9 +33,6 @@
     <input id="institucional" name="institucional" value="{{ equipo.nombreInstitucional ?? '' }}" required>
     <label for="fecha">Fecha de Fundación</label>
     <input type="date" id="fecha" name="fecha" value="{{ equipo.fechaCreacion ?? '' }}"  required>
-    {% if errorMessage is defined %}
-        <p class="error-message">{{ errorMessage }}</p>
-    {% endif %}
 
     <label for="estadio">Nombre estadio</label>
     <input id="estadio" name="estadio" value="{{ estadio.nombre ?? '' }}"  required>

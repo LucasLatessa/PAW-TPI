@@ -1,6 +1,7 @@
 <?php
 namespace Paw\App\Controllers;
 
+use Paw\App\Models\Equipo;
 use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\EquipoTorneoCollections;
 use Paw\App\Models\Partido;
@@ -337,6 +338,8 @@ class TorneoController extends Controlador
             'hora_partido'        => $hora,
             'cancha'              => $estadio_id,
         ]);
+        //var_dump($newPartido);
+        //die();
 
         $partido   = $modelPartidoCollections->programarPartido($newPartido);
         $idPartido = $partido->getId();

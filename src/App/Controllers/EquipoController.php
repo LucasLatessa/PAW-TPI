@@ -273,7 +273,7 @@ class EquipoController extends Controlador
 
         // si llegamos aca es porque hubo un error
         $title = "Cargar Equipo - Liga";
-        echo $this->twig->render('equipos/crearEquipo.view.twig', [
+        echo $this->twig->render('equipos/form.view.twig', [
             'title'                   => $title,
             'errorMessage'            => $errorMessage,
             'equipo_ingresado'        => $nombreEquipo,

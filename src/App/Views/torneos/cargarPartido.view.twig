@@ -47,7 +47,7 @@
                         <select name="id-equipo-local" id="id-equipo-local" required>
                             <option value="" disabled selected>Seleccionar local</option>
                             {% for equipo in equiposTorneo %}
-                                <option value="{{ equipo.id }}">{{ equipo.equipo.nombre }}</option>
+                                <option value="{{ equipo.equipo.id }}">{{ equipo.equipo.nombre }}</option>
                             {% endfor %}
                         </select>
                     </div>
@@ -57,7 +57,7 @@
                         <select name="id-equipo-visitante" id="id-equipo-visitante" required>
                             <option value="" disabled selected>Seleccionar visitante</option>
                             {% for equipo in equiposTorneo %}
-                                <option value="{{ equipo.id }}">{{ equipo.equipo.nombre }}</option>
+                                <option value="{{ equipo.equipo.id }}">{{ equipo.equipo.nombre }}</option>
                             {% endfor %}
                         </select>
                     </div>
