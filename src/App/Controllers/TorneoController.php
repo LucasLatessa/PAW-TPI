@@ -83,16 +83,64 @@ class TorneoController extends Controlador
         ]);
     }
 
-    public function formCrearTorneo()
+    public function formTorneo()
     {
-        $title = 'Crear torneo - LigaCF';
-        // traemos TODOS los equipos de la liga
-        $equipoModel = new EquipoCollections($this->model->queryBuilder);
-        $todosLosEquipos = $equipoModel->getAllEquipos();
-        echo $this->twig->render('torneos/crearTorneo.view.twig', [
+        global $request;
+
+        $id = $request->get('id');
+        $torneo = null;
+        $todosLosEquipos = null;
+
+        // Si hay ID, estoy en un update, sino en un create
+        if ($id) {
+            $torneo = $this->model->getTorneo($id);
+            $title = 'Editar torneo - LigaCF';
+            $action = '/torneo/editar?id=' . $id;
+        } else {
+            $title = 'Crear torneo - LigaCF';
+            $action = '/torneos/crearTorneo';
+            // traemos TODOS los equipos de la liga
+            $equipoModel = new EquipoCollections($this->model->queryBuilder);
+            $todosLosEquipos = $equipoModel->getAllEquipos();
+        }
+
+        echo $this->twig->render('torneos/form.view.twig', [
             'title'   => $title,
             'equipos' => $todosLosEquipos,
+            'torneo'  => $torneo,
+            'action'  => $action,
+            'isEdit'  => $id ? true : false
         ]);
+    }
+
+    public function updateTorneo()
+    {
+        global $request;
+
+        $id          = $request->get('id');
+
+        // obtener datos del torneo
+        $nombreTorneo = $request->getRequest('nombre_torneo');
+        $categoria    = $request->getRequest('categoria');
+        $temporada    = $request->getRequest('temporada');
+        $descripcion  = $request->getRequest('descripcion');
+        $fechaInicio  = $request->getRequest('fechaInicio');
+        $fechaFin     = $request->getRequest('fechaFin');
+
+        $torneoAActualizar = new Torneo();
+        $torneoAActualizar->set([
+            'id'           => $id,
+            'nombre'       => $nombreTorneo,
+            'categoria'    => $categoria,
+            'temporada'    => $temporada,
+            'descripcion'  => $descripcion,
+            'fecha_inicio' => $fechaInicio,
+            'fecha_fin'    => $fechaFin,
+        ]);
+        $this->model->update($torneoAActualizar, $this->getQb());
+
+        header('Location: /torneos/torneo?id=' . $id);
+        exit();
     }
 
     public function crearTorneo()

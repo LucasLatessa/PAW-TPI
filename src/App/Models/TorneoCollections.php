@@ -26,6 +26,22 @@ class TorneoCollections extends Model
         return $torneo;
     }
 
+    public function update(Torneo $torneo, $qb)
+    {
+        $data = [
+            'nombre'       => $torneo->getNombre(),
+            'categoria'    => $torneo->getCategoria(),
+            'temporada'    => $torneo->getTemporada(),
+            'descripcion'  => $torneo->getDescripcion(),
+            'fecha_inicio' => $torneo->getFechaInicio(),
+            'fecha_fin'    => $torneo->getFechaFin(),
+        ];
+
+        $qb->update($this->table, $data, ['id' => $torneo->getId()]);
+
+        return $torneo;
+    }
+
     public function getAllTorneos()
     {
         $torneos = $this->queryBuilder

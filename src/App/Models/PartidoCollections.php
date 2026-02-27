@@ -286,7 +286,7 @@ class PartidoCollections extends Model
 
         //return $this->getPartido($p['id']);
 
-        var_dump($p);
+        //var_dump($p);
 
         return [
             'id'              => $p['id'],

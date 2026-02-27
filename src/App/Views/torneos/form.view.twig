@@ -6,32 +6,34 @@
 
 {% block content %}
     <header class="header-main">
-        <h1>Crear Torneo</h1>
+        <h1>{{ isEdit ? 'Editar Torneo' : 'Crear Torneo' }}</h1>
     </header>
     <main class="section-carga">
         {% if hayLogin %}
-            <form method="POST" action="/torneos/crearTorneo" class="carga-form">
+            <form method="POST" action="{{ action }}" class="carga-form">
                 
                 <div class="form-group">
                     <label for="nombre-torneo">Nombre del Torneo</label>
-                    <input type="text" id="nombre-torneo" name="nombre_torneo" placeholder="Ej: Apertura 2026" required>
+                    <input type="text" id="nombre-torneo" name="nombre_torneo" placeholder="Ej: Apertura 2026" value="{{ torneo.nombre ?? '' }}"required>
                 </div>
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="categoria">Categoría</label>
-                        <input type="text" id="categoria" name="categoria" placeholder="Ej: Senior" required>
+                        <input type="text" id="categoria" name="categoria" placeholder="Ej: Senior" value="{{ torneo.categoria ?? '' }}" required>
                     </div>
                     <div class="form-group">
                         <label for="temporada">Temporada</label>
-                        <input type="text" id="temporada" name="temporada" placeholder="Ej: 2026" required>
+                        <input type="text" id="temporada" name="temporada" placeholder="Ej: 2026" value="{{ torneo.temporada ?? '' }}" required>
                     </div>
                 </div>
                 
                 <div class="form-group">
                     <label for="descripcion">Descripción</label>
-                    <textarea id="descripcion" name="descripcion" placeholder="Contanos un poco sobre el torneo..."></textarea>
+                    <textarea id="descripcion" name="descripcion" placeholder="Contanos un poco sobre el torneo...">{{ torneo.descripcion ?? '' }}</textarea>
                 </div>
+
+                {% if not isEdit %}
                 <div class="form-group">
                     <div class="opciones-fixture-row">
                         <button type="button" id="btn-abrir-modal" class="btn-secundario">
@@ -48,19 +50,21 @@
                         0 equipos seleccionados
                     </div>
                 </div>
+                {% endif %}
 
                 <div class="form-row">
                     <div class="form-group">
                         <label for="fechaInicio">Fecha Inicio</label>
-                        <input type="date" id="fechaInicio" name="fechaInicio" required>
+                        <input type="date" id="fechaInicio" name="fechaInicio" value="{{ torneo.fechaInicio ?? '' }}" required>
                     </div>
                     <div class="form-group">
                         <label for="fechaFin">Fecha Fin</label>
-                        <input type="date" id="fechaFin" name="fechaFin" required>
+                        <input type="date" id="fechaFin" name="fechaFin" value="{{ torneo.fechaFin ?? '' }}" required>
                     </div>
                 </div>
+                
 
-                <button type="submit" class="btn-enviar">Crear Torneo</button>
+                <button type="submit" class="btn-enviar">{{ isEdit ? 'Editar Torneo' : 'Crear Torneo' }}</button>
                 <div id="modal-equipos" class="modal">
                     <div class="modal-content">
                         <header class="modal-header">
