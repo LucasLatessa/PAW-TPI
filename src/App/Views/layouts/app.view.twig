@@ -6,6 +6,12 @@
     <title>{% block title %}{{ title }}{% endblock %}</title>
     
     <link rel="icon" href="/assets/icono.ico" type="image/x-icon">
+    <link rel="manifest" href="/manifest.json">
+    <meta name="theme-color" content="#0a0a0a">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="PAW">
+    <link rel="apple-touch-icon" href="/assets/logo_positivo.png">
 
     {# CSS base #}
     <link rel="stylesheet" href="/assets/styles/global.css" />
@@ -34,6 +40,12 @@
             const menu = document.getElementById('menu');
             if (btnMenu && menu) {
                 btnMenu.addEventListener('click', () => menu.classList.toggle('active'));
+            }
+
+            if ('serviceWorker' in navigator) {
+                window.addEventListener('load', () => {
+                    navigator.serviceWorker.register('/pwa_sw.js').catch(() => {});
+                });
             }
         });
     </script>
