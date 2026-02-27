@@ -9,24 +9,39 @@ class EquipoCollections extends Model
 {
     public $table = 'equipos';
 
-public function create(Equipo $equipo)
-{
-    $data = [
-        'nombre'               => $equipo->getNombre(), 
+    public function create(Equipo $equipo)
+    {
+        $data = [
+            'nombre'               => $equipo->getNombre(), 
+            'nombre_institucional' => $equipo->getNombreInstitucional(),
+            'fecha_creacion'       => $equipo->getFechaCreacion(),
+            'estadio_id'           => $equipo->getEstadioId(),
+            'descripcion'          => $equipo->getDescripcion(),
+            'escudo'               => $equipo->getEscudo(),
+        ];
+
+        $this->queryBuilder->insert($this->table, $data);
+        
+        $id = $this->queryBuilder->getPdo()->lastInsertId();
+        $equipo->set(['id' => $id]); 
+
+        return $equipo;
+    }
+
+    public function update(Equipo $equipo, $qb)
+    {
+      $data = [
+        'nombre' => $equipo->getNombre(),
         'nombre_institucional' => $equipo->getNombreInstitucional(),
-        'fecha_creacion'       => $equipo->getFechaCreacion(),
-        'estadio_id'           => $equipo->getEstadioId(),
-        'descripcion'          => $equipo->getDescripcion(),
-        'escudo'               => $equipo->getEscudo(),
-    ];
-
-    $this->queryBuilder->insert($this->table, $data);
-    
-    $id = $this->queryBuilder->getPdo()->lastInsertId();
-    $equipo->set(['id' => $id]); 
-
-    return $equipo;
-}
+        'fecha_creacion' => $equipo->getFechaCreacion(),
+        'estadio_id' => $equipo->getEstadioId(),
+        'descripcion' => $equipo->getDescripcion(),
+        'escudo' => $equipo->getEscudo()
+      ];
+      $qb->update($this->table, $data, ['id' => $equipo->getId()]);
+      
+      return $equipo;
+    }
 
     public function getAllEquipos()
     {
@@ -96,5 +111,18 @@ public function create(Equipo $equipo)
         }
 
         return $equipo;
+    }
+
+    public function getEscudo($idEquipo)
+    {
+      $equipo = $this->getID($idEquipo);
+      return $equipo->getEscudo();
+    }
+
+    public function getEstadio($idEquipo)
+    {
+      $equipo = $this->getID($idEquipo);
+      
+      return $equipo->getEstadio()->getId();
     }
 }

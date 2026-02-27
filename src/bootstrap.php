@@ -58,9 +58,11 @@ $router->get('/', 'PageController@index'); #Clase y metodo que procesa la petici
 
 $router->get('/equipos', 'EquipoController@equipos');
 $router->get('/equipos/equipo', 'EquipoController@show'); 
-$router->get('/equipos/crearEquipo', 'EquipoController@formCrearEquipo');
+$router->get('/equipos/crearEquipo', 'EquipoController@formEquipo');
+$router->get('/equipos/editar', 'EquipoController@formEquipo');
 /* Post */
 $router->post('/equipos/crearEquipo', 'EquipoController@crearEquipo');
+$router->post('/equipos/editar', 'EquipoController@updateEquipo');
 
 /* ===== NOTICIAS ===== */
 

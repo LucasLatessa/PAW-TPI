@@ -53,6 +53,8 @@ X Feedback de create, delete (LISTO REDIRIGIMOS AL RECIEN CREADO)
 X Cargar resultado no debe permitir numeros negativos
 X Crear noticia que guarde campos cuando da error
 X Podado de Load en todas las clases
+- Nombre de estadio en proximo partido
+- Solucionar error en show equipos (muestra cualquier proximo partido cuando le das click)
 - APIKEY Consumida por nosotros y no app de terceros
 X Collections tienen que pasarse el querybuilder por constructor
 

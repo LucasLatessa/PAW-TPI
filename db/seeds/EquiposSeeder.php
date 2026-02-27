@@ -126,8 +126,8 @@ class EquiposSeeder extends AbstractSeed
     foreach ($equipos as $equipo) {
 
       // Copiar escudo
-      $rutaOrigen = __DIR__ . '/assets/escudos/' . $equipo['escudo'];
-      $rutaDestinoRelativa = 'escudos/' . $equipo['escudo'];
+      $rutaOrigen = __DIR__ . '/assets/' . $equipo['escudo'];
+      $rutaDestinoRelativa = $equipo['escudo'];
       $rutaDestinoFisica = __DIR__ . '/../../public/' . $rutaDestinoRelativa;
 
       if (file_exists($rutaOrigen)) {

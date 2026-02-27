@@ -36,4 +36,8 @@ class EstadioCollections extends Model
 
       return $estadio;
     }
+
+    public function delete($id, $qb){
+      $qb->delete($this->table, ['id' => $id]);
+    }
 }
