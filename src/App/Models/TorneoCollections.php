@@ -152,6 +152,9 @@ class TorneoCollections extends Model
         $cantidadFechas   = $cantidadEquipos - 1;
         $partidosPorFecha = $cantidadEquipos / 2;
 
+        $modelPartidoCollections = new PartidoCollections($this->queryBuilder);
+        $equipoCollections = new EquipoCollections($this->queryBuilder);
+
         for ($i = 0; $i < $cantidadFechas; $i++) {
             $nroFechaTorneo = $i + 1;
 
@@ -161,17 +164,20 @@ class TorneoCollections extends Model
 
                 // Solo programamos si ninguno de los dos es el equipo LIBRE
                 if ($local !== null && $visitante !== null) {
-                    $modelPartidoCollections = new PartidoCollections($this->queryBuilder);
-                    $equipoCollections =  new EquipoCollections($this->queryBuilder);
-                    $equipo = $equipoCollections->getID($local);
-                    $estadio_id = $equipo->getEstadioId();
-                    $modelPartidoCollections->programarPartido(
-                        $torneoId,
-                        $nroFechaTorneo,
-                        $local,
-                        $visitante,
-                        $estadio_id
-                    );
+                    $equipoLocal = $equipoCollections->getID($local);
+                    $estadioId = $equipoLocal->getEstadioId();
+
+                    $nuevoPartido = new Partido();
+                    $nuevoPartido->set([
+                        'torneo_id'           => $torneoId,
+                        'fecha_id'            => $nroFechaTorneo,
+                        'equipo_local_id'     => $local,
+                        'equipo_visitante_id' => $visitante,
+                        'cancha'              => $estadioId,
+                        // fecha_partido y hora_partido quedan en null hasta que se definan
+                    ]);
+
+                    $modelPartidoCollections->programarPartido($nuevoPartido);
                 }
             }
             // Rotacion (fijamos el primero, rotamos el resto)

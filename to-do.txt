@@ -33,14 +33,14 @@ Josue:
 
 Testeo:
   Crear:
-X   usuario (signUp, login, update)
-X    equipo
-X    torneo (validar seleccionar equipos y fechas autogeneradas)
-X    partido
-X    noticia
+    usuario (signUp, login, update)
+    equipo
+    torneo (validar seleccionar equipos y fechas autogeneradas)
+    partido
+    noticia
   Cargar:
-X    equipo en torneo (tanto al crear torneo como despues)
-X    resultado en un partido
+    equipo en torneo (tanto al crear torneo como despues)
+    resultado en un partido
 
 Actualizacion post-reunion de Santi:
 X Boton filtrar (acomodar alineacion)
