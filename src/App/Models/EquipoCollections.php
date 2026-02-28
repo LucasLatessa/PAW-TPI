@@ -12,7 +12,7 @@ class EquipoCollections extends Model
     public function create(Equipo $equipo)
     {
         $data = [
-            'nombre'               => $equipo->getNombre(), 
+            'nombre'               => $equipo->getNombre(),
             'nombre_institucional' => $equipo->getNombreInstitucional(),
             'fecha_creacion'       => $equipo->getFechaCreacion(),
             'estadio_id'           => $equipo->getEstadioId(),
@@ -21,26 +21,26 @@ class EquipoCollections extends Model
         ];
 
         $this->queryBuilder->insert($this->table, $data);
-        
+
         $id = $this->queryBuilder->getPdo()->lastInsertId();
-        $equipo->set(['id' => $id]); 
+        $equipo->set(['id' => $id]);
 
         return $equipo;
     }
 
     public function update(Equipo $equipo, $qb)
     {
-      $data = [
-        'nombre' => $equipo->getNombre(),
-        'nombre_institucional' => $equipo->getNombreInstitucional(),
-        'fecha_creacion' => $equipo->getFechaCreacion(),
-        'estadio_id' => $equipo->getEstadioId(),
-        'descripcion' => $equipo->getDescripcion(),
-        'escudo' => $equipo->getEscudo()
-      ];
-      $qb->update($this->table, $data, ['id' => $equipo->getId()]);
-      
-      return $equipo;
+        $data = [
+            'nombre'               => $equipo->getNombre(),
+            'nombre_institucional' => $equipo->getNombreInstitucional(),
+            'fecha_creacion'       => $equipo->getFechaCreacion(),
+            'estadio_id'           => $equipo->getEstadioId(),
+            'descripcion'          => $equipo->getDescripcion(),
+            'escudo'               => $equipo->getEscudo(),
+        ];
+        $qb->update($this->table, $data, ['id' => $equipo->getId()]);
+
+        return $equipo;
     }
 
     public function getAllEquipos()
@@ -60,6 +60,14 @@ class EquipoCollections extends Model
     }
     public function getEquiposPaginados($pagina = 1, $porPagina = 12)
     {
+        if (! is_int($pagina) || $pagina < 1) {
+            throw new \InvalidArgumentException("Error de Paginacion: La pagina debe ser un entero mayor a 0.");
+        }
+
+        if (! is_int($porPagina) || $porPagina < 1 || $porPagina > 100) {
+            throw new \InvalidArgumentException("Error de Paginacion: Cantidad por pagina invalida (1-100).");
+        }
+
         $offset = ($pagina - 1) * $porPagina;
 
         $equipos = $this->queryBuilder
@@ -67,6 +75,10 @@ class EquipoCollections extends Model
             ->limit($porPagina)
             ->offset($offset)
             ->execute();
+
+        if (empty($equipos)) {
+            return [];
+        }
 
         $equiposCollection = [];
         foreach ($equipos as $equipoData) {
@@ -86,7 +98,7 @@ class EquipoCollections extends Model
         return count($res);
     }
     public function getID(int $id): ?Equipo
-    { 
+    {
         $record = $this->queryBuilder->select('equipos', ['id' => $id])->execute();
 
         if (empty($record)) {
@@ -115,14 +127,14 @@ class EquipoCollections extends Model
 
     public function getEscudo($idEquipo)
     {
-      $equipo = $this->getID($idEquipo);
-      return $equipo->getEscudo();
+        $equipo = $this->getID($idEquipo);
+        return $equipo->getEscudo();
     }
 
     public function getEstadio($idEquipo)
     {
-      $equipo = $this->getID($idEquipo);
-      
-      return $equipo->getEstadio()->getId();
+        $equipo = $this->getID($idEquipo);
+
+        return $equipo->getEstadio()->getId();
     }
 }

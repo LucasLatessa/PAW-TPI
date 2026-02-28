@@ -57,6 +57,14 @@ class TorneoCollections extends Model
     }
     public function getTorneosPaginados($pagina = 1, $porPagina = 12)
     {
+        if (! is_int($pagina) || $pagina < 1) {
+            throw new \InvalidArgumentException("Error de Paginacion: La pagina debe ser un entero mayor a 0.");
+        }
+
+        if (! is_int($porPagina) || $porPagina < 1 || $porPagina > 100) {
+            throw new \InvalidArgumentException("Error de Paginacion: Cantidad por pagina invalida (1-100).");
+        }
+
         $offset = ($pagina - 1) * $porPagina;
 
         $torneos = $this->queryBuilder
@@ -64,6 +72,9 @@ class TorneoCollections extends Model
             ->limit($porPagina)
             ->offset($offset)
             ->execute();
+        if (empty($torneos)) {
+            return [];
+        }
 
         $torneoCollection = [];
         foreach ($torneos as $torneoData) {
@@ -71,6 +82,7 @@ class TorneoCollections extends Model
             $nuevoTorneo->set($torneoData);
             $torneoCollection[] = $nuevoTorneo;
         }
+        
 
         return $torneoCollection;
     }

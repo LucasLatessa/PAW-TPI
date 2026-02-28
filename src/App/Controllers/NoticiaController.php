@@ -1,8 +1,8 @@
 <?php
 namespace Paw\App\Controllers;
 
-use Paw\App\Models\NoticiaCollections;
 use Paw\App\Models\Noticia;
+use Paw\App\Models\NoticiaCollections;
 use Paw\Core\Controlador;
 
 class NoticiaController extends Controlador
@@ -17,20 +17,26 @@ class NoticiaController extends Controlador
         $hayLogin = $_SESSION['login'];
         $title    = 'Noticias - LigaCF';
         // Paginacion
-        $paginaActual = $request->getRequest('p') ?: 1;
-        $porPagina    = $request->get('per_page') ?? 2; // Cantidad de noticias por pagina
+        $paginaActual = (int) ($request->get('p') ?? 1);        // si no hay, es la 1
+        $porPagina    = (int) ($request->get('per_page') ?? 2); // cantidad de noticias por pagina
 
-        $noticias      = $this->model->getNoticiasPaginadas($paginaActual, $porPagina);
-        $totalNoticias = $this->model->getTotalNoticias();
-        $totalPaginas  = ceil($totalNoticias / $porPagina);
+        try {
+            $noticias      = $this->model->getNoticiasPaginadas($paginaActual, $porPagina);
+            $totalNoticias = $this->model->getTotalNoticias();
+            $totalPaginas  = ceil($totalNoticias / $porPagina);
 
-        echo $this->twig->render('noticias/index.view.twig', [
-            'title'        => $title,
-            'noticias'     => $noticias,
-            'paginaActual' => $paginaActual,
-            'totalPaginas' => $totalPaginas,
-            'porPagina'    => $porPagina,
-        ]);
+            echo $this->twig->render('noticias/index.view.twig', [
+                'title'        => $title,
+                'noticias'     => $noticias,
+                'paginaActual' => $paginaActual,
+                'totalPaginas' => $totalPaginas,
+                'porPagina'    => $porPagina,
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            header("Location: /noticias");
+            exit;
+        }
+        
     }
 
     // Muestra una noticia
@@ -40,16 +46,16 @@ class NoticiaController extends Controlador
 
         $noticia_id = $request->get('id');
 
-        try{
+        try {
             $noticia = $this->model->getID($noticia_id);
         } catch (\Exception $e) {
             http_response_code(404);
             $title = "Pagina no encontrada";
             echo $this->twig->render('not-found.view.twig', [
-              'title' => $title,
+                'title' => $title,
             ]);
             return;
-        };
+        }
 
         $this->model->incrementarVisitas($noticia_id);
 
@@ -63,30 +69,31 @@ class NoticiaController extends Controlador
 
     public function formNoticia()
     {
-      global $request;
+        global $request;
 
-      $id = $request->get('id');
-      $noticia = null;
+        $id      = $request->get('id');
+        $noticia = null;
 
-      // Si hay ID, estoy en un update, sino en un create
-      if ($id) {
-          $noticia = $this->model->getID($id);
-          $title = 'Editar noticia - LigaCF';
-          $action = '/noticias/editar?id=' . $id;
-      } else {
-          $title = 'Crear noticia - LigaCF';
-          $action = '/noticias/crear';
-      }
+        // Si hay ID, estoy en un update, sino en un create
+        if ($id) {
+            $noticia = $this->model->getID($id);
+            $title   = 'Editar noticia - LigaCF';
+            $action  = '/noticias/editar?id=' . $id;
+        } else {
+            $title  = 'Crear noticia - LigaCF';
+            $action = '/noticias/crear';
+        }
 
-      echo $this->twig->render('noticias/form.view.twig', [
-          'title'   => $title,
-          'noticia' => $noticia,
-          'action'  => $action,
-          'isEdit'  => $id ? true : false
-      ]);
+        echo $this->twig->render('noticias/form.view.twig', [
+            'title'   => $title,
+            'noticia' => $noticia,
+            'action'  => $action,
+            'isEdit'  => $id ? true : false,
+        ]);
     }
 
-    public function updateNoticia(){
+    public function updateNoticia()
+    {
         global $request;
 
         $id          = $request->get('id');
@@ -99,7 +106,7 @@ class NoticiaController extends Controlador
         $errorMessage = null;
 
         // Traigo la imagen actual por defecto
-        $nombreImagen = $this->model->getImagen($id); 
+        $nombreImagen = $this->model->getImagen($id);
 
         /* si el metodo es POST pero el titulo esta vacio, es porque PHP descarto el POST por exceso de tamaño*/
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($titulo) && empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0) {
@@ -131,17 +138,17 @@ class NoticiaController extends Controlador
         // Creamos objeto con datos actualizados
         $noticiaActualizada = new Noticia();
         $noticiaActualizada->set([
-            'id'                 => $id,
-            'titulo'             => $titulo,
-            'descripcion'        => $descripcion,
-            'fecha_publicacion'  => $fecha,
-            'autor'              => $autor,
-            'contenido'          => $contenido,
-            'imagen'             => $nombreImagen,
+            'id'                => $id,
+            'titulo'            => $titulo,
+            'descripcion'       => $descripcion,
+            'fecha_publicacion' => $fecha,
+            'autor'             => $autor,
+            'contenido'         => $contenido,
+            'imagen'            => $nombreImagen,
         ]);
 
         // Si no hubo error → actualizamos
-        if (!$errorMessage) {
+        if (! $errorMessage) {
 
             $this->model->update($noticiaActualizada, $this->getQb());
 
@@ -157,7 +164,7 @@ class NoticiaController extends Controlador
             'errorMessage' => $errorMessage,
             'noticia'      => $noticiaActualizada,
             'isEdit'       => true,
-            'action'       => '/noticias/editar?id=' . $id
+            'action'       => '/noticias/editar?id=' . $id,
         ]);
 
     }
@@ -180,25 +187,24 @@ class NoticiaController extends Controlador
             $errorMessage = "La imagen excede el tamaño máximo permitido.";
         }
         // validamos si el campo imagen existe y si tiene un error
-        elseif (!isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
-        $errorMessage = "Tenés que subir una imagen de portada para la noticia.";
-        }
-        else {
+        elseif (! isset($_FILES['imagen']) || $_FILES['imagen']['error'] === UPLOAD_ERR_NO_FILE) {
+            $errorMessage = "Tenés que subir una imagen de portada para la noticia.";
+        } else {
             // si hay archivo, intentamos subirlo(aca valida el tamaño de 1MB)
             $nombreImagen = $this->subirImagen($_FILES, 'noticias');
 
             $noticiaACrear = new Noticia();
             $noticiaACrear->set([
-                'titulo'             => $titulo,
-                'descripcion'        => $descripcion,
-                'fecha_publicacion'  => $fecha,
-                'autor'              => $autor,
-                'contenido'          => $contenido,
-                'imagen'             => $nombreImagen,
+                'titulo'            => $titulo,
+                'descripcion'       => $descripcion,
+                'fecha_publicacion' => $fecha,
+                'autor'             => $autor,
+                'contenido'         => $contenido,
+                'imagen'            => $nombreImagen,
             ]);
 
             if ($nombreImagen !== false) {
-                $noticia= $this->model->create($noticiaACrear);
+                $noticia = $this->model->create($noticiaACrear);
                 header('Location: /noticias/noticia?id=' . $noticia->getId());
                 exit();
             } else {
@@ -209,11 +215,11 @@ class NoticiaController extends Controlador
         // si llegamos aca es porque hubo un error
         $title = 'Crear noticia - LigaCF';
         echo $this->twig->render('noticias/form.view.twig', [
-            'title'                 => $title,
-            'errorMessage'          => $errorMessage,
-            'noticia'               => $noticiaACrear,
-            'isEdit'                => false,
-            'action'                => '/noticias/crear'
+            'title'        => $title,
+            'errorMessage' => $errorMessage,
+            'noticia'      => $noticiaACrear,
+            'isEdit'       => false,
+            'action'       => '/noticias/crear',
         ]);
     }
 
@@ -223,8 +229,8 @@ class NoticiaController extends Controlador
 
         $id = $request->get('id');
 
-        if (!$id) {
-          die('ID inválido');
+        if (! $id) {
+            die('ID inválido');
         }
 
         // Borrar imagen del servidor si existe

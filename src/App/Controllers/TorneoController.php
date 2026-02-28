@@ -23,20 +23,27 @@ class TorneoController extends Controlador
         $title    = 'Torneos - LigaCF';
 
         global $request;
-        $paginaActual = $request->get('p') ?? 1;        // si no hay, es la 1
-        $porPagina    = $request->get('per_page') ?? 4; // cantidad de torneos por pagina
-        $torneos      = $this->model->getTorneosPaginados($paginaActual, $porPagina);
-        $totalTorneos = $this->model->getTotalTorneos();
-        $totalPaginas = ceil($totalTorneos / $porPagina);
+        $paginaActual = (int) ($request->get('p') ?? 1);         // si no hay, es la 1
+        $porPagina    = (int) ($request->get('per_page') ?? 4); // cantidad de equipos por pagina
+        try {
+            $torneos      = $this->model->getTorneosPaginados($paginaActual, $porPagina);
+            $totalTorneos = $this->model->getTotalTorneos();
+            $totalPaginas = ceil($totalTorneos / $porPagina);
 
-        //var_dump($equipos);
-        echo $this->twig->render('torneos/index.view.twig', [
-            'title'        => $title,
-            'torneos'      => $torneos,
-            'paginaActual' => $paginaActual,
-            'totalPaginas' => $totalPaginas,
-            'porPagina'    => $porPagina,
-        ]);
+            //var_dump($equipos);
+            echo $this->twig->render('torneos/index.view.twig', [
+                'title'        => $title,
+                'torneos'      => $torneos,
+                'paginaActual' => $paginaActual,
+                'totalPaginas' => $totalPaginas,
+                'porPagina'    => $porPagina,
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            header("Location: /torneos");
+            exit;
+        }
+
+
     }
 
     // Muestra un torneo de la liga

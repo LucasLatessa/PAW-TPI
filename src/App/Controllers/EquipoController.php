@@ -1,10 +1,10 @@
 <?php
 namespace Paw\App\Controllers;
 
-use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\Equipo;
-use Paw\App\Models\Estadio;
+use Paw\App\Models\EquipoCollections;
 use Paw\App\Models\EquipoTorneoCollections;
+use Paw\App\Models\Estadio;
 use Paw\App\Models\EstadioCollections;
 use Paw\App\Models\PartidoCollections;
 use Paw\Core\Controlador;
@@ -18,20 +18,26 @@ class EquipoController extends Controlador
     public function equipos()
     {
         global $request;
-        $paginaActual = $request->get('p') ?? 1;         // si no hay, es la 1
-        $porPagina    = $request->get('per_page') ?? 12; // cantidad de equipos por pagina
+        $paginaActual = (int) ($request->get('p') ?? 1);         // si no hay, es la 1
+        $porPagina    = (int) ($request->get('per_page') ?? 12); // cantidad de equipos por pagina
 
-        $equipos      = $this->model->getEquiposPaginados($paginaActual, $porPagina);
-        $totalEquipos = $this->model->getTotalEquipos();
-        $totalPaginas = ceil($totalEquipos / $porPagina);
+        try {
+            $equipos      = $this->model->getEquiposPaginados($paginaActual, $porPagina);
+            $totalEquipos = $this->model->getTotalEquipos();
+            $totalPaginas = ceil($totalEquipos / $porPagina);
 
-        echo $this->twig->render('equipos/index.view.twig', [
-            'title'        => 'Equipos - LigaCF',
-            'equipos'      => $equipos,
-            'paginaActual' => $paginaActual,
-            'totalPaginas' => $totalPaginas,
-            'porPagina'    => $porPagina,
-        ]);
+            echo $this->twig->render('equipos/index.view.twig', [
+                'title'        => 'Equipos - LigaCF',
+                'equipos'      => $equipos,
+                'paginaActual' => $paginaActual,
+                'totalPaginas' => $totalPaginas,
+                'porPagina'    => $porPagina,
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            header("Location: /equipos");
+            exit;
+        }
+
     }
 
     // Muestra un equipo del torneo
@@ -41,21 +47,21 @@ class EquipoController extends Controlador
 
         $equipo_id = $request->get('id');
 
-        try{
-            $equipo    = $this->model->getID($equipo_id);
+        try {
+            $equipo = $this->model->getID($equipo_id);
         } catch (\Exception $e) {
             http_response_code(404);
             $title = "Pagina no encontrada";
             echo $this->twig->render('not-found.view.twig', [
-              'title' => $title,
+                'title' => $title,
             ]);
             return;
         };
 
         // Modelos tabla y partido
         $partidoModel = new PartidoCollections($this->getQb());
-        $tablaModel = new EquipoTorneoCollections($this->getQb());
-        $torneo_id = $tablaModel->getLastTorneo($equipo_id);
+        $tablaModel   = new EquipoTorneoCollections($this->getQb());
+        $torneo_id    = $tablaModel->getLastTorneo($equipo_id);
 
         $ultimosPartidos = [];
         $posicion        = null;
@@ -93,30 +99,30 @@ class EquipoController extends Controlador
     }
     public function formEquipo()
     {
-      global $request;
+        global $request;
 
-      $id = $request->get('id');
-      $equipo = null;
-      $estadio = null;
+        $id      = $request->get('id');
+        $equipo  = null;
+        $estadio = null;
 
-      // Si hay ID, estoy en un update, sino en un create
-      if ($id) {
-          $equipo = $this->model->getID($id);
-          $estadio = (new EstadioCollections($this->getQb()))->getByID($equipo->getEstadioId());
-          $title = 'Editar Equipo - LigaCF';
-          $action = '/equipos/editar?id=' . $id;
-      } else {
-          $title = 'Crear Equipo - LigaCF';
-          $action = '/equipos/crearEquipo';
-      }
+        // Si hay ID, estoy en un update, sino en un create
+        if ($id) {
+            $equipo  = $this->model->getID($id);
+            $estadio = (new EstadioCollections($this->getQb()))->getByID($equipo->getEstadioId());
+            $title   = 'Editar Equipo - LigaCF';
+            $action  = '/equipos/editar?id=' . $id;
+        } else {
+            $title  = 'Crear Equipo - LigaCF';
+            $action = '/equipos/crearEquipo';
+        }
 
-      echo $this->twig->render('equipos/form.view.twig', [
-        'title' => $title,
-        'equipo' => $equipo,
-        'estadio' => $estadio,
-        'action'  => $action,
-        'isEdit'  => $id ? true : false
-      ]);
+        echo $this->twig->render('equipos/form.view.twig', [
+            'title'   => $title,
+            'equipo'  => $equipo,
+            'estadio' => $estadio,
+            'action'  => $action,
+            'isEdit'  => $id ? true : false,
+        ]);
     }
 
     public function updateEquipo()
@@ -135,7 +141,7 @@ class EquipoController extends Controlador
         $errorMessage = null;
 
         // Traigo el escudo actual por defecto
-        $nombreImagen = $this->model->getEscudo($id); 
+        $nombreImagen = $this->model->getEscudo($id);
 
         /* si el metodo es POST pero el nombre esta vacio, es porque PHP descarto el POST por exceso de tamaño*/
         if ($_SERVER['REQUEST_METHOD'] === 'POST' && empty($nombreEquipo) && empty($_FILES) && $_SERVER['CONTENT_LENGTH'] > 0) {
@@ -144,75 +150,74 @@ class EquipoController extends Controlador
 
         // Si el usuario subió un escudo nuevo
         if (isset($_FILES['imagen']) && $_FILES['imagen']['error'] !== UPLOAD_ERR_NO_FILE) {
-          $nuevaImagen = $this->subirImagen($_FILES, 'escudos');
+            $nuevaImagen = $this->subirImagen($_FILES, 'escudos');
 
-          if ($nuevaImagen !== false) {
-              $nombreImagen = $nuevaImagen;
+            if ($nuevaImagen !== false) {
+                $nombreImagen = $nuevaImagen;
 
-              // Borrar imagen vieja
-              $imagen = $this->model->getEscudo($id);
-              if ($imagen) {
-                  $rutaImagen = __DIR__ . '/../../../public/assets/escudos/' . $imagen;
+                // Borrar imagen vieja
+                $imagen = $this->model->getEscudo($id);
+                if ($imagen) {
+                    $rutaImagen = __DIR__ . '/../../../public/assets/escudos/' . $imagen;
 
-                  if (file_exists($rutaImagen)) {
-                      unlink($rutaImagen);
-                  }
-              }
-          } else {
-              $errorMessage = "La imagen excede el tamaño permitido (máx 1MB) o el formato no es válido.";
-          }
+                    if (file_exists($rutaImagen)) {
+                        unlink($rutaImagen);
+                    }
+                }
+            } else {
+                $errorMessage = "La imagen excede el tamaño permitido (máx 1MB) o el formato no es válido.";
+            }
 
-          // Actualizar estadio
-          $estadioCollections = new EstadioCollections($this->getQb());
-          $estadioACrear = new Estadio();
-          $estadioACrear->set([
-              'nombre'   => $nombreEstadio,
-              'latitud'  => $latitud,
-              'longitud' => $longitud
-          ]);
+            // Actualizar estadio
+            $estadioCollections = new EstadioCollections($this->getQb());
+            $estadioACrear      = new Estadio();
+            $estadioACrear->set([
+                'nombre'   => $nombreEstadio,
+                'latitud'  => $latitud,
+                'longitud' => $longitud,
+            ]);
 
-          // Creamos objeto con datos actualizados
-          $equipoAActualizar = new Equipo();
-          $equipoAActualizar->set([
-              'id'                   => $id,
-              'nombre'               => $nombreEquipo,
-              'nombre_institucional' => $nombreInstitucionalEquipo,
-              'fecha_creacion'       => $fechaCreacion,
-              'estadio_id'           => null, // Lo actualizamos despues porque necesitamos crear el estadio nuevo
-              'descripcion'          => $descripcion,
-              'escudo'               => $nombreImagen,
-          ]);
+            // Creamos objeto con datos actualizados
+            $equipoAActualizar = new Equipo();
+            $equipoAActualizar->set([
+                'id'                   => $id,
+                'nombre'               => $nombreEquipo,
+                'nombre_institucional' => $nombreInstitucionalEquipo,
+                'fecha_creacion'       => $fechaCreacion,
+                'estadio_id'           => null, // Lo actualizamos despues porque necesitamos crear el estadio nuevo
+                'descripcion'          => $descripcion,
+                'escudo'               => $nombreImagen,
+            ]);
 
-          // Si no hubo error → actualizamos
-          if (!$errorMessage) {
+            // Si no hubo error → actualizamos
+            if (! $errorMessage) {
 
-              $estadioCollections->delete($this->model->getEstadio($id), $this->getQb()); // Borro el estadio viejo
-              //var_dump($this->model->getEstadio($id));
-              
-              //Creo el estadio nuevo y se lo asigno al equipo
-              $estadio = $estadioCollections->create($estadioACrear);
-              $equipoAActualizar->set(['estadio_id' => $estadio->getId()]);
+                $estadioCollections->delete($this->model->getEstadio($id), $this->getQb()); // Borro el estadio viejo
+                                                                                            //var_dump($this->model->getEstadio($id));
 
-              $this->model->update($equipoAActualizar, $this->getQb());
+                //Creo el estadio nuevo y se lo asigno al equipo
+                $estadio = $estadioCollections->create($estadioACrear);
+                $equipoAActualizar->set(['estadio_id' => $estadio->getId()]);
 
-              header('Location: /equipos/equipo?id=' . $id);
-              exit();
+                $this->model->update($equipoAActualizar, $this->getQb());
 
-          }
+                header('Location: /equipos/equipo?id=' . $id);
+                exit();
 
-          // Error en la carga
-          $title = 'Editar equipo - LigaCF';
-          //var_dump($estadioACrear);
+            }
 
-          echo $this->twig->render('equipos/form.view.twig', [
-              'title'        => $title,
-              'errorMessage' => $errorMessage,
-              'equipo'       => $equipoAActualizar,
-              'estadio'      => $estadioACrear,
-              'isEdit'       => true,
-              'action'       => '/equipos/editar?id=' . $id
-          ]);
+            // Error en la carga
+            $title = 'Editar equipo - LigaCF';
+            //var_dump($estadioACrear);
 
+            echo $this->twig->render('equipos/form.view.twig', [
+                'title'        => $title,
+                'errorMessage' => $errorMessage,
+                'equipo'       => $equipoAActualizar,
+                'estadio'      => $estadioACrear,
+                'isEdit'       => true,
+                'action'       => '/equipos/editar?id=' . $id,
+            ]);
 
         }
     }
@@ -245,11 +250,11 @@ class EquipoController extends Controlador
             if ($nombreArchivo !== false) {
                 //creamos estadio
                 $estadioCollections = new EstadioCollections($this->getQb());
-                $estadioACrear = new Estadio();
+                $estadioACrear      = new Estadio();
                 $estadioACrear->set([
                     'nombre'   => $nombreEstadio,
                     'latitud'  => $latitud,
-                    'longitud' => $longitud
+                    'longitud' => $longitud,
                 ]);
                 $estadio = $estadioCollections->create($estadioACrear);
 

@@ -117,10 +117,26 @@ class Controlador
     if ($files['imagen']['size'] > $tamanoMaximo) {
         return false;
     }
+    // validacion mime 
+    $tmpPath = $files['imagen']['tmp_name'];
+    // permitimos estos tipos MIME
+    $tiposPermitidos = [
+        'image/jpeg' => 'jpeg',
+        'image/png'  => 'png',
+        'image/webp' => 'webp',
+        'image/svg+xml' => 'svg'
+    ];
+
+    // finfo para leer el contenido real del archivo
+    $finfo = new \finfo(FILEINFO_MIME_TYPE);
+    $mimeType = $finfo->file($tmpPath);
+
+    if (!array_key_exists($mimeType, $tiposPermitidos)) {
+        return false;
+    }
 
     // Generar nombre unico
-    $info = pathinfo($files['imagen']['name']);
-    $ext = $info['extension'];
+    $ext = $tiposPermitidos[$mimeType];
     $nombreArchivo = uniqid('img_') . '.' . $ext;
 
     $rutaBase = __DIR__ . '/../../public/assets/'; 

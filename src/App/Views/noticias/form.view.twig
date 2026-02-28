@@ -51,9 +51,9 @@
                     <span id="drop-text">
                         {{ isEdit ? 'Subir nueva imagen (opcional)' : 'Hacé clic o arrastrá la imagen aquí (Máx 1MB)' }}
                     </span>
-                    <small id="file-name"> - Formatos aceptados: JPG, PNG</small>
+                    <small id="file-name"> - Formatos aceptados: JPG, PNG, SVG, WEBP</small>
                 </label>
-                <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .png" {{ isEdit ? '' : 'required' }}>
+                <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .jpeg, .png, .svg, .webp" {{ isEdit ? '' : 'required' }}>
             </div>
 
             {% if errorMessage is defined %}
