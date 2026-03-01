@@ -18,8 +18,8 @@ class PartidoController extends Controlador
         $hayLogin = $_SESSION['login'] ?? false;
 
         // Paginacion
-        $paginaActual = $request->getRequest('p') ?: 1;
-        $porPagina    = $request->get('per_page') ?? 4; // cantidad de partidos por pagina
+        $paginaActual = (int) ($request->get('p') ?? 1);         // si no hay, es la 1
+        $porPagina    = (int) ($request->get('per_page') ?? 4); // cantidad de partidos por pagina
 
         $filters = [
             'categoria' => $request->getRequest('categoria'),
@@ -27,22 +27,29 @@ class PartidoController extends Controlador
             'estado'    => $request->getRequest('estado'),
         ];
 
-        $partidos      = $this->model->getPartidosPaginados($filters, $paginaActual, $porPagina);
-        $totalPartidos = $this->model->getTotalPartidos($filters);
-        $totalPaginas  = ceil($totalPartidos / $porPagina);
+        try {
+            $partidos      = $this->model->getPartidosPaginados($filters, $paginaActual, $porPagina);
+            $totalPartidos = $this->model->getTotalPartidos($filters);
+            $totalPaginas  = ceil($totalPartidos / $porPagina);
 
-        $torneoModel = new TorneoCollections($this->model->queryBuilder);
-        $categorias = $torneoModel->getCategorias();
+            $torneoModel = new TorneoCollections($this->model->queryBuilder);
+            $categorias = $torneoModel->getCategorias();
 
-        echo $this->twig->render('partidos/index.view.twig', [
-            'title'        => 'Partidos - LigaCF',
-            'partidos'     => $partidos,
-            'categorias'   => $categorias,
-            'filters'      => $filters,
-            'paginaActual' => $paginaActual,
-            'totalPaginas' => $totalPaginas,
-            'porPagina'    => $porPagina,
-        ]);
+            echo $this->twig->render('partidos/index.view.twig', [
+                'title'        => 'Partidos - LigaCF',
+                'partidos'     => $partidos,
+                'categorias'   => $categorias,
+                'filters'      => $filters,
+                'paginaActual' => $paginaActual,
+                'totalPaginas' => $totalPaginas,
+                'porPagina'    => $porPagina,
+            ]);
+        } catch (\InvalidArgumentException $e) {
+            header("Location: /partidos");
+            exit;
+        }
+
+       
     }
 
     public function show()

@@ -61,7 +61,10 @@
     {% endif %}
     <label for="imagen" id="imagen-drop">
       Escudo (Imagen tamaño maximo 1MB)
-      <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .png">
+      <label for="imagen-drop-input" id="imagen-drop">
+        Escudo (Máx 1MB) - Formatos aceptados: JPG, PNG, SVG, WEBP
+        <input type="file" id="imagen-drop-input" name="imagen" accept=".jpg, .jpeg, .png, .svg, .webp" {{ isEdit ? '' : 'required' }}>
+    </label>
     </label>
 
     {% if errorMessage is defined %}
