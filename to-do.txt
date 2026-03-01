@@ -64,3 +64,5 @@ Flujo:
  3° Crear equipo
  4° Crear torneo (crear partido aleatorio)
  5° Crear noticia
+
+ XDEBUG
