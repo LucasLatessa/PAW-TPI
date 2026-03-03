@@ -1,40 +1,47 @@
 <?php
-
 namespace Paw\Core\Database;
 
-use PDO;
-use PDOException;
 use Paw\Core\Config;
 use Paw\Core\Traits\Loggable;
+use PDO;
+use PDOException;
 
 class ConnectionBuilder
 {
     use Loggable;
 
-    #Recibe todas las variables de configuracion que yo requiera y armo el PDO
     public function make(Config $config): PDO
     {
-        try {
-            $adapter = $config->get('DB_ADAPTER');
-            $hostname = $config->get('DB_HOSTNAME');
-            $dbname = $config->get('DB_DBNAME');
-            $port = $config->get('DB_PORT');
-            $charset = $config->get('DB_CHARSET');
+        $max_intentos = 3;
+        $intento      = 0;
 
-            return new PDO(
-                "{$adapter}:host={$hostname};dbname={$dbname};port={$port};charset={$charset}",
-                $config->get('DB_USERNAME'),
-                $config->get('DB_PASSWORD'),
-                [
-                    'options' => [
-                        PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION
+        while ($intento < $max_intentos) {
+            try {
+                $adapter  = $config->get('DB_ADAPTER');
+                $hostname = $config->get('DB_HOSTNAME');
+                $dbname   = $config->get('DB_DBNAME');
+                $port     = $config->get('DB_PORT');
+                $charset  = $config->get('DB_CHARSET');
+
+                return new PDO(
+                    "{$adapter}:host={$hostname};dbname={$dbname};port={$port};charset={$charset}",
+                    $config->get('DB_USERNAME'),
+                    $config->get('DB_PASSWORD'),
+                    [
+                        'options' => [
+                            PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION,
+                        ],
                     ]
-                ]
-            );
-        } catch (PDOException $e) {
-            $this->logger->error('Internal Server Error', ["Error" => $e]);
-            die("Error interno - Consulte al administrador");
+                );
+            } catch (PDOException $e) {
+                $intento++;
+                if ($intento >= $max_intentos) {
+                    $this->logger->error('fallo definitivo tras 3 intentos', ["error" => $e]);
+                    throw $e;
+                }
+                // esperamos 2 segundos antes de reintentar
+                sleep(2);
+            }
         }
-
     }
 }
